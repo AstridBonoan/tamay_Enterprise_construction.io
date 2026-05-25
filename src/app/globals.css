@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+:root {
+  --tamay-primary: #35558f;
+  --tamay-primary-dark: #2a446f;
+  --tamay-accent: #c9a227;
+  --tamay-accent-hover: #b8921f;
+  --background: #ffffff;
+  --foreground: #333333;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-tamay-primary: var(--tamay-primary);
+  --color-tamay-primary-dark: var(--tamay-primary-dark);
+  --color-tamay-accent: var(--tamay-accent);
+  --color-tamay-accent-hover: var(--tamay-accent-hover);
+  --font-heading: var(--font-cinzel);
+  --font-body: var(--font-source-sans);
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-source-sans), "Source Sans Pro", Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.font-heading {
+  font-family: var(--font-cinzel), "Cinzel", Georgia, serif;
+}
+
+/* GoDaddy-style section dividers */
+.section-divider {
+  border: 0;
+  border-top: 1px solid #e5e5e5;
+  margin: 0 auto;
+  max-width: 120px;
+}

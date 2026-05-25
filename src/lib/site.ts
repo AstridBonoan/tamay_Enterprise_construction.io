@@ -1,0 +1,55 @@
+export const SITE = {
+  name: "Tamay Enterprises",
+  legalName: "Tamay Enterprises Inc",
+  tagline: "One Company. Three Powerful Divisions.",
+  phone: "203-220-6678",
+  phoneTel: "tel:2032206678",
+  email: "info@tamayenterprises.com",
+  address: "54 Graham Manor Road, West Haven, CT, USA",
+  license: "NHC.0018326",
+  whatsapp: "https://wa.me/12032206678",
+  estimateUrl: "http://estimator.tamayenterprises.com",
+  financingUrl: "https://your.acornfinance.com/apply?d=93753",
+  hiringUrl: "/careers-partnerships",
+  social: {
+    facebook: "https://www.facebook.com/Tamay.Constructions",
+    instagram: "https://www.instagram.com/tamay.enterprises/",
+    tiktok: "https://www.tiktok.com/@tamayconstruction1",
+    youtube: "https://www.youtube.com/@tamayconstructions8766",
+  },
+} as const;
+
+export const NAV_LINKS = [
+  { href: "/", label: "HOME" },
+  { href: "/construction", label: "CONSTRUCTION" },
+  { href: "/real-estate", label: "REAL ESTATE" },
+  { href: "/logistics", label: "LOGISTICS" },
+  { href: "/home-preventive-services", label: "HOME PREVENTIVE SERVICES" },
+  { href: "/reviews", label: "REVIEWS" },
+  { href: "/gallery", label: "GALLERY" },
+  { href: "/online-appointments", label: "ONLINE APPOINTMENTS" },
+  { href: "/careers-partnerships", label: "CAREERS & PARTNERSHIPS" },
+  { href: "/assembly-installation", label: "ASSSEMBLY & INSTALLATION" },
+] as const;
+
+export const FOOTER_LINKS = [
+  { href: "/home-preventive-services", label: "HOME PREVENTIVE SERVICES" },
+  { href: "/online-appointments", label: "ONLINE APPOINTMENTS" },
+  { href: "/careers-partnerships", label: "CAREERS & PARTNERSHIPS" },
+  { href: "/assembly-installation", label: "ASSSEMBLY & INSTALLATION" },
+] as const;
+
+export const SERVICE_AREAS = [
+  "Orange",
+  "Milford",
+  "New Haven",
+  "Woodbridge",
+  "Bethany",
+  "Fairfield",
+  "Trumbull",
+  "Hamden",
+  "East Haven",
+  "Branford",
+  "Shelton",
+  "Stratford",
+] as const;
