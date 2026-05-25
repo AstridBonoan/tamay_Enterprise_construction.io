@@ -13,14 +13,15 @@ export default function HomePage() {
     <>
       <HeroVideoBanner
         tagline={SITE.tagline}
-        title="CONSTRUCTION, REAL ESTATE & LOGISTICS Services in West Haven, CT"
-        subtitle="Tamay Enterprises is a West Haven, CT–based multi-service company providing construction and home renovation services, real estate solutions, and local logistics support. We help homeowners, property owners, businesses, and investors simplify their needs by working with one trusted team across multiple service areas, serving West Haven and nearby Connecticut communities."
+        title="CONSTRUCTION, REAL ESTATE & LOGISTICS"
+        titleLine2="Services in West Haven, CT"
+        subtitle="Tamay Enterprises is a West Haven, CT–based multi-service company providing construction and home renovation services, real estate solutions, and local logistics support."
         cta={{ label: "Explore Our Services", href: "#our-services" }}
       />
 
-      <section id="our-services" className="py-10 sm:py-14 bg-gray-50">
+      <section id="our-services" className="py-12 sm:py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">
-          <SectionHeading eyebrow="OUR SERVICES" title="Our Services" />
+          <SectionHeading title="Our Services" />
         </div>
       </section>
 
