@@ -14,8 +14,8 @@ export const SITE = {
   social: {
     facebook: "https://www.facebook.com/Tamay.Constructions",
     instagram: "https://www.instagram.com/tamay.enterprises/",
-    tiktok: "https://www.tiktok.com/@tamayconstruction1",
-    youtube: "https://www.youtube.com/@tamayconstructions8766",
+    tiktok: "https://www.tiktok.com/@tamay.enterprises",
+    youtube: "https://www.youtube.com/@Tamayenterprises1",
   },
 } as const;
 
@@ -48,7 +48,7 @@ export const FOOTER_LINKS = [
   { href: "/home-preventive-services", label: "HOME PREVENTIVE SERVICES" },
   { href: "/online-appointments", label: "ONLINE APPOINTMENTS" },
   { href: "/careers-partnerships", label: "CAREERS & PARTNERSHIPS" },
-  { href: "/assembly-installation", label: "ASSSEMBLY & INSTALLATION" },
+  { href: "/assembly-installation", label: "ASSEMBLY & INSTALLATION" },
 ] as const;
 
 export const SERVICE_AREAS = [
