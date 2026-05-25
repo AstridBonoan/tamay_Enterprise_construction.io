@@ -52,8 +52,10 @@ export default function RootLayout({
   return (
     <html lang="en-US" className={`${cinzel.variable} ${sourceSans.variable}`}>
       <body className="min-h-screen flex flex-col antialiased text-base">
-        <HiringBanner />
-        <SiteHeader />
+        <div className="relative">
+          <HiringBanner />
+          <SiteHeader />
+        </div>
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <EstimateWidget />

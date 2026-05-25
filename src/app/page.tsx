@@ -18,8 +18,6 @@ export default function HomePage() {
         cta={{ label: "Explore Our Services", href: "#our-services" }}
       />
 
-      <HomeImageShowcase />
-
       <section id="our-services" className="py-10 sm:py-14 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">
           <SectionHeading eyebrow="OUR SERVICES" title="Our Services" />
@@ -90,6 +88,8 @@ export default function HomePage() {
           />
         </div>
       </section>
+
+      <HomeImageShowcase />
 
       <section className="py-12 bg-gray-50 text-center">
         <p className="font-heading text-xl text-tamay-primary mb-2">Build now. Pay over time.</p>
