@@ -14,6 +14,39 @@ export const REVIEW_VIDEO_PROJECTS: ReviewVideoProject[] = [
     videos: ["JGxUJl-r2Nk"],
     description: "Commercial Convenience Store - Bridgeport.",
   },
-  // Add YouTube IDs to `videos` for each testimonial (e.g. videos: ["VIDEO_ID"]):
-  // { id: "chris-yoon", videos: [], title: "Chris Yoon", description: "Chris Yoon — client testimonial." },
+  {
+    id: "ada-commercial-bathrooms-ny",
+    videos: ["af5JYQe6ltY"],
+    description: "New York ADA Commercial Bathrooms.",
+  },
+  {
+    id: "coop-department-remodeling",
+    videos: ["_eEQVb19zHA"],
+    description: "Co-op Department Remodeling",
+  },
+  {
+    id: "wilton-bathroom-remodeling",
+    videos: ["xhyHDnt_G8g"],
+    description: "Wilton Bathroom Remodeling",
+  },
+  {
+    id: "west-haven-department-remodeling",
+    videos: ["XTKenyMkdks"],
+    description: "West Haven Department Remodeling",
+  },
+  {
+    id: "hamden-lights-installation",
+    videos: ["2NTfW0PZAIo"],
+    description: "Hamden lights Installation",
+  },
+  {
+    id: "hamden-ceiling-restoration",
+    videos: ["NLQKQ6vYPeI"],
+    description: "Hamden Ceiling Restoration",
+  },
+  {
+    id: "bridgeport-basement-remodeling",
+    videos: ["08Ks5xBkHNY"],
+    description: "Bridgeport Basement Remodeling",
+  },
 ];
