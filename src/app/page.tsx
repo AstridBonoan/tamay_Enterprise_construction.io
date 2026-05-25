@@ -1,11 +1,10 @@
 import { HeroVideoBanner } from "@/components/ui/HeroVideoBanner";
 import { HomeImageShowcase } from "@/components/home/HomeImageShowcase";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { DivisionCard } from "@/components/ui/DivisionCard";
+import { OurServicesSection } from "@/components/home/OurServicesSection";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { ContactBlock } from "@/components/ui/ContactBlock";
 import { Button } from "@/components/ui/Button";
-import { IMAGES } from "@/lib/images";
 import { SITE, SERVICE_AREAS } from "@/lib/site";
 
 export default function HomePage() {
@@ -19,55 +18,7 @@ export default function HomePage() {
         cta={{ label: "Explore Our Services", href: "#our-services" }}
       />
 
-      <section
-        id="our-services"
-        className="bg-gray-50 py-5 sm:py-6 lg:py-8"
-      >
-        <h2 className="font-heading text-center text-xl sm:text-2xl lg:text-[1.75rem] text-tamay-primary font-semibold mb-3 sm:mb-5 px-4 shrink-0">
-          Our Services
-        </h2>
-        <DivisionCard
-          compact
-          image={IMAGES.divisions.construction}
-          eyebrow="RELIABLE. EXPERIENCED. FULLY INSURED"
-          title="Construction & Home Renovation"
-          tagline="We Design, Supply, Build & Maintain"
-          description="High-quality home renovations, remodeling, and additions for homeowners in West Haven and surrounding Connecticut towns."
-          bullets={[
-            "* Flexible Financing Options",
-            "* 7-Year Warranty on eligible renovations",
-            "* Complimentary Kitchen + Bathroom Tune-Up (with qualifying projects)",
-          ]}
-          discoverHref="/construction"
-          ctaLabel="Talk to a Project Advisor"
-          ctaHref="/construction#contact"
-        />
-      </section>
-
-      <DivisionCard
-        image={IMAGES.divisions.realEstate}
-        eyebrow="YOUR TRUSTED PARTNER IN REAL ESTATE"
-        title="Real Estate Services & Property Solutions"
-        tagline="Experience. Network. Results."
-        description="Our real estate services are designed to support buyers, sellers, and property owners with clarity and confidence. We focus on practical guidance, smooth coordination, and informed decision-making to help clients protect and grow their real estate investments throughout West Haven and nearby Connecticut markets."
-        bullets={["Helping first-time homeowners and investors buy, sell, and grow with confidence"]}
-        discoverHref="/real-estate"
-        ctaLabel="Talk to a Real Estate Advisor"
-        ctaHref="/real-estate#contact"
-        reverse
-      />
-
-      <DivisionCard
-        image={IMAGES.divisions.logistics}
-        eyebrow="DELIVERING MORE THAN MILES -- WE DELIVER TRUST."
-        title="Local & Regional Logistics Services"
-        tagline="Proudly serving Connecticut and nearby regions."
-        description="Our logistics division provides reliable local and regional delivery services for businesses and individuals. Based in West Haven, CT, we focus on efficiency, communication, and dependable execution to support day-to-day operations and time-sensitive needs across surrounding communities."
-        bullets={["Fleet of ProMaster vans and a hands-on team ready to serve you"]}
-        discoverHref="/logistics"
-        ctaLabel="Talk to Dispatch"
-        ctaHref="/logistics#contact"
-      />
+      <OurServicesSection />
 
       <section className="py-16 bg-tamay-primary text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
