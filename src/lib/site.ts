@@ -24,7 +24,6 @@ export const HERO_VIDEO = {
   headline: "Building Better Spaces, One Project at a Time",
   message:
     "Watch our team at work — delivering expert construction, renovation, and home improvement with care, precision, and results you can trust.",
-  cta: { label: "Explore Our Services", href: "#our-services" },
 } as const;
 
 export const ABOUT = {

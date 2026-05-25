@@ -49,8 +49,6 @@ export function HeroVideoBanner({
     play();
   }, [videoSrc]);
 
-  const heroCta = cta ?? HERO_VIDEO.cta;
-
   return (
     <section className="relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex items-center justify-center overflow-hidden">
       <div
@@ -92,13 +90,7 @@ export function HeroVideoBanner({
           <p className="text-sm sm:text-base md:text-lg text-white/95 leading-relaxed max-w-2xl mx-auto mb-6 sm:mb-8 drop-shadow-sm">
             {HERO_VIDEO.message}
           </p>
-          <Link
-            href={heroCta.href}
-            className="inline-block bg-tamay-primary hover:bg-tamay-primary-dark text-white font-bold px-8 py-3.5 text-sm tracking-wide transition-colors shadow-lg"
-          >
-            {heroCta.label}
-          </Link>
-          <p className="mt-6 sm:mt-8">
+          <p>
             <a
               href={SITE.phoneTel}
               className="text-sm sm:text-base font-semibold text-white/90 hover:text-white tracking-wide drop-shadow-sm"
