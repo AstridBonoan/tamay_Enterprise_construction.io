@@ -4,11 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { SITE } from "@/lib/site";
+import { ESTIMATE, SITE } from "@/lib/site";
 import { IMAGES } from "@/lib/images";
 
 const STORAGE_KEY = "tamay-estimate-dismissed";
 
+/** Shows once per browser session on first visit; stays hidden after the user closes it. */
 export function EstimateWidget() {
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -82,11 +83,10 @@ export function EstimateWidget() {
             id="estimate-modal-title"
             className="font-heading text-[15px] sm:text-base font-semibold text-tamay-primary mb-3 uppercase tracking-wider leading-snug"
           >
-            Need Help with a Small Home Project?
+            {ESTIMATE.title}
           </h3>
           <p className="text-sm text-gray-600 mb-5 leading-relaxed">
-            TV mounting, faucet replacements, vanity installs, painting, drywall patches, lighting,
-            and more — get a quick estimate for your project today.
+            {ESTIMATE.description}
           </p>
           <Link
             href={SITE.estimateUrl}
@@ -94,7 +94,7 @@ export function EstimateWidget() {
             rel="noopener noreferrer"
             className="block w-full text-center bg-tamay-primary hover:bg-tamay-primary-dark text-white font-bold py-3.5 px-4 text-sm tracking-widest uppercase transition-colors rounded-sm"
           >
-            Estimate My Project
+            {ESTIMATE.ctaLabel}
           </Link>
         </div>
       </div>

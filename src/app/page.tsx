@@ -1,7 +1,9 @@
 import { HeroVideoBanner } from "@/components/ui/HeroVideoBanner";
 import { AboutUsSection } from "@/components/about/AboutUsSection";
 import { ServicesSectionTitle } from "@/components/home/ServicesSectionTitle";
+import { EstimatePromoSection } from "@/components/home/EstimatePromoSection";
 import { HomeImageShowcase } from "@/components/home/HomeImageShowcase";
+import { HomeLocationMap } from "@/components/home/HomeLocationMap";
 import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { DivisionCard } from "@/components/ui/DivisionCard";
@@ -80,6 +82,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <EstimatePromoSection />
+
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <SectionHeading
@@ -129,6 +133,8 @@ export default function HomePage() {
           />
         </div>
       </section>
+
+      <HomeLocationMap />
     </>
   );
 }
