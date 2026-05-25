@@ -19,27 +19,30 @@ export default function HomePage() {
         cta={{ label: "Explore Our Services", href: "#our-services" }}
       />
 
-      <section id="our-services" className="py-12 sm:py-16 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4">
-          <SectionHeading title="Our Services" />
-        </div>
+      <section
+        id="our-services"
+        className="bg-gray-50 py-5 sm:py-6 lg:py-8"
+      >
+        <h2 className="font-heading text-center text-xl sm:text-2xl lg:text-[1.75rem] text-tamay-primary font-semibold mb-3 sm:mb-5 px-4 shrink-0">
+          Our Services
+        </h2>
+        <DivisionCard
+          compact
+          image={IMAGES.divisions.construction}
+          eyebrow="RELIABLE. EXPERIENCED. FULLY INSURED"
+          title="Construction & Home Renovation"
+          tagline="We Design, Supply, Build & Maintain"
+          description="High-quality home renovations, remodeling, and additions for homeowners in West Haven and surrounding Connecticut towns."
+          bullets={[
+            "* Flexible Financing Options",
+            "* 7-Year Warranty on eligible renovations",
+            "* Complimentary Kitchen + Bathroom Tune-Up (with qualifying projects)",
+          ]}
+          discoverHref="/construction"
+          ctaLabel="Talk to a Project Advisor"
+          ctaHref="/construction#contact"
+        />
       </section>
-
-      <DivisionCard
-        image={IMAGES.divisions.construction}
-        eyebrow="RELIABLE. EXPERIENCED. FULLY INSURED"
-        title="Construction & Home Renovation"
-        tagline="We Design, Supply, Build & Maintain"
-        description="Our construction division delivers high-quality home renovations, remodeling, additions, and long-term property improvement services. We work closely with homeowners and property owners in West Haven and surrounding Connecticut towns to improve comfort, functionality, and long-term value through well-planned and professionally executed projects."
-        bullets={[
-          "* Flexible Financing Options",
-          "* 7-Year Warranty on eligible renovations",
-          "* Complimentary Kitchen + Bathroom Tune-Up (with qualifying projects)",
-        ]}
-        discoverHref="/construction"
-        ctaLabel="Talk to a Project Advisor"
-        ctaHref="/construction#contact"
-      />
 
       <DivisionCard
         image={IMAGES.divisions.realEstate}
