@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { NAV_LINKS, SITE } from "@/lib/site";
 import { IMAGES } from "@/lib/images";
@@ -16,12 +16,14 @@ type MobileSidebarProps = {
 export function MobileSidebar({ open, onClose }: MobileSidebarProps) {
   const pathname = usePathname();
   const pathnameRef = useRef(pathname);
-  const mounted = useRef(false);
+  const [mounted, setMounted] = useState(false);
 
-  // Close only when navigating — NOT when `open` flips to true
   useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true;
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!open) {
       pathnameRef.current = pathname;
       return;
     }
@@ -29,17 +31,17 @@ export function MobileSidebar({ open, onClose }: MobileSidebarProps) {
       pathnameRef.current = pathname;
       onClose();
     }
-  }, [pathname, onClose]);
+  }, [pathname, onClose, open]);
 
   useEffect(() => {
     if (!open) return;
+    const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = prev;
     };
   }, [open]);
 
-  // Escape key closes menu
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -49,26 +51,22 @@ export function MobileSidebar({ open, onClose }: MobileSidebarProps) {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, onClose]);
 
+  if (!mounted || !open) return null;
+
   const panel = (
-    <>
+    <div className="lg:hidden">
       <div
         role="presentation"
-        aria-hidden={!open}
+        className="fixed inset-0 z-[200] bg-black/50 backdrop-blur-[2px]"
         onClick={onClose}
-        className={`fixed inset-0 z-[100] bg-black/50 backdrop-blur-[2px] transition-opacity duration-300 ease-out lg:hidden ${
-          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
       />
 
       <aside
         id="mobile-nav-drawer"
-        aria-hidden={!open}
-        inert={!open ? true : undefined}
-        className={`fixed top-0 left-0 z-[110] h-dvh w-[min(88vw,320px)] max-w-full bg-white shadow-2xl flex flex-col lg:hidden transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-          open
-            ? "translate-x-0 pointer-events-auto visible"
-            : "-translate-x-full pointer-events-none invisible"
-        }`}
+        className="fixed top-0 left-0 z-[210] h-dvh w-[min(88vw,320px)] max-w-full bg-white shadow-2xl flex flex-col translate-x-0"
+        style={{
+          animation: "slideInLeft 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards",
+        }}
       >
         <div className="flex items-center justify-between border-b border-gray-100 px-4 py-4 bg-tamay-primary shrink-0">
           <Link href="/" onClick={onClose} className="shrink-0">
@@ -118,7 +116,7 @@ export function MobileSidebar({ open, onClose }: MobileSidebarProps) {
           </ul>
         </nav>
 
-        <div className="border-t border-gray-100 p-5 space-y-3 bg-gray-50 shrink-0">
+        <div className="border-t border-gray-100 p-5 space-y-3 bg-gray-50 shrink-0 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
           <a
             href={SITE.phoneTel}
             className="flex items-center gap-2 text-tamay-primary font-bold text-lg"
@@ -132,7 +130,7 @@ export function MobileSidebar({ open, onClose }: MobileSidebarProps) {
             href={SITE.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="block w-full text-center bg-tamay-accent hover:bg-tamay-accent-hover text-white font-bold py-3 text-sm transition-colors"
+            className="block w-full text-center bg-tamay-primary hover:bg-tamay-primary-dark text-white font-bold py-3 text-sm transition-colors"
           >
             WhatsApp
           </a>
@@ -145,10 +143,8 @@ export function MobileSidebar({ open, onClose }: MobileSidebarProps) {
           </Link>
         </div>
       </aside>
-    </>
+    </div>
   );
-
-  if (typeof document === "undefined") return null;
 
   return createPortal(panel, document.body);
 }

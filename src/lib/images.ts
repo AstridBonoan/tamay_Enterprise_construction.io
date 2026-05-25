@@ -13,7 +13,8 @@ export const IMAGES = {
   heroHome: home("HomePageImage1.webp"),
   heroVideo: home("HomePageVideo.mp4"),
   heroConstruction: `${BASE}/blob-8582a7d.png/:/cr=t:19.7%25,l:0%25,w:100%25,h:60.61%25/rs=w:1200,h:600,cg:true`,
-  estimatePopup: home("HomePageImage4.webp"),
+  estimatePopup: home("estimate-popup.png"),
+  estimatePopupFallback: home("HomePageImage4.webp"),
   homepage: {
     image1: home("HomePageImage1.webp"),
     image2: home("HomePageImage2.webp"),

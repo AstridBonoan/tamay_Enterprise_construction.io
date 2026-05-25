@@ -8,7 +8,7 @@ export function CookieBanner() {
   if (accepted) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-gray-300 shadow-lg p-4 md:p-6 md:max-w-lg md:left-4 md:bottom-4 md:rounded md:border">
+    <div className="fixed bottom-0 left-0 right-0 z-[80] bg-white border-t border-gray-300 shadow-lg p-4 md:p-6 md:max-w-lg md:left-4 md:bottom-4 md:rounded md:border">
       <h4 className="font-heading font-semibold text-tamay-primary mb-2">
         This website uses cookies.
       </h4>
