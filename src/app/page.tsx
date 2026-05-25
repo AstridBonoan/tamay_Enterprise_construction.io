@@ -1,4 +1,5 @@
 import { HeroVideoBanner } from "@/components/ui/HeroVideoBanner";
+import { ServicesSectionTitle } from "@/components/home/ServicesSectionTitle";
 import { HomeImageShowcase } from "@/components/home/HomeImageShowcase";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { DivisionCard } from "@/components/ui/DivisionCard";
@@ -19,32 +20,27 @@ export default function HomePage() {
         cta={{ label: "Explore Our Services", href: "#our-services" }}
       />
 
-      <section
-        id="our-services"
-        className="bg-gray-50 py-5 sm:py-6 lg:py-8"
-      >
-        <h2 className="font-heading text-center text-3xl sm:text-4xl lg:text-5xl text-tamay-primary font-semibold uppercase tracking-wide mb-4 sm:mb-6 px-4 shrink-0">
-          Our Services
-        </h2>
-        <DivisionCard
-          compact
-          image={IMAGES.divisions.construction}
-          eyebrow="RELIABLE. EXPERIENCED. FULLY INSURED"
-          title="Construction & Home Renovation"
-          tagline="We Design, Supply, Build & Maintain"
-          description="High-quality home renovations, remodeling, and additions for homeowners in West Haven and surrounding Connecticut towns."
-          bullets={[
-            "* Flexible Financing Options",
-            "* 7-Year Warranty on eligible renovations",
-            "* Complimentary Kitchen + Bathroom Tune-Up (with qualifying projects)",
-          ]}
-          discoverHref="/construction"
-          ctaLabel="Talk to a Project Advisor"
-          ctaHref="/construction#contact"
-        />
-      </section>
+      <ServicesSectionTitle />
 
       <DivisionCard
+        fullScreen
+        image={IMAGES.divisions.construction}
+        eyebrow="RELIABLE. EXPERIENCED. FULLY INSURED"
+        title="Construction & Home Renovation"
+        tagline="We Design, Supply, Build & Maintain"
+        description="Our construction division delivers high-quality home renovations, remodeling, additions, and long-term property improvement services for homeowners and property owners in West Haven and surrounding Connecticut towns."
+        bullets={[
+          "* Flexible Financing Options",
+          "* 7-Year Warranty on eligible renovations",
+          "* Complimentary Kitchen + Bathroom Tune-Up (with qualifying projects)",
+        ]}
+        discoverHref="/construction"
+        ctaLabel="Talk to a Project Advisor"
+        ctaHref="/construction#contact"
+      />
+
+      <DivisionCard
+        fullScreen
         image={IMAGES.divisions.realEstate}
         eyebrow="YOUR TRUSTED PARTNER IN REAL ESTATE"
         title="Real Estate Services & Property Solutions"
@@ -58,6 +54,7 @@ export default function HomePage() {
       />
 
       <DivisionCard
+        fullScreen
         image={IMAGES.divisions.logistics}
         eyebrow="DELIVERING MORE THAN MILES -- WE DELIVER TRUST."
         title="Local & Regional Logistics Services"
