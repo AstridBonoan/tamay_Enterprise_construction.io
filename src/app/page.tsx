@@ -2,6 +2,7 @@ import { HeroVideoBanner } from "@/components/ui/HeroVideoBanner";
 import { AboutUsSection } from "@/components/about/AboutUsSection";
 import { ServicesSectionTitle } from "@/components/home/ServicesSectionTitle";
 import { HomeImageShowcase } from "@/components/home/HomeImageShowcase";
+import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { DivisionCard } from "@/components/ui/DivisionCard";
 import { ContactForm } from "@/components/ui/ContactForm";
@@ -89,6 +90,8 @@ export default function HomePage() {
       </section>
 
       <HomeImageShowcase />
+
+      <ReviewsSection />
 
       <section className="py-12 bg-gray-50 text-center">
         <p className="font-heading text-xl text-tamay-primary mb-2">Build now. Pay over time.</p>
