@@ -245,13 +245,18 @@ export function initTamayGallery(
   }
 
   gallery.querySelectorAll<HTMLElement>(".tamay-project").forEach((p) => {
+    const mount = p.querySelector<HTMLElement>(".tamay-project-mount");
+    if (!mount) return;
+
+    mount.replaceChildren();
+
     const ids = (p.dataset.videos || "")
       .split(",")
       .map((x) => x.trim())
       .filter(Boolean);
+    if (ids.length === 0) return;
 
     const desc = p.dataset.desc || "";
-    const title = p.dataset.title || "";
     const grid = document.createElement("div");
     grid.className = "tamay-videos";
 
@@ -286,20 +291,13 @@ export function initTamayGallery(
       grid.appendChild(slot);
     });
 
-    if (title) {
-      const h = document.createElement("h2");
-      h.className = "font-heading text-xl text-tamay-primary font-semibold mb-4 text-center";
-      h.textContent = title;
-      p.appendChild(h);
-    }
-
-    p.appendChild(grid);
+    mount.appendChild(grid);
 
     if (desc) {
       const d = document.createElement("div");
       d.className = "tamay-desc";
       d.textContent = desc;
-      p.appendChild(d);
+      mount.appendChild(d);
     }
   });
 
