@@ -2,6 +2,7 @@ import { HeroVideoBanner } from "@/components/ui/HeroVideoBanner";
 import { AboutUsSection } from "@/components/about/AboutUsSection";
 import { ServicesSectionTitle } from "@/components/home/ServicesSectionTitle";
 import { EstimatePromoSection } from "@/components/home/EstimatePromoSection";
+import { FinancingBanner } from "@/components/home/FinancingBanner";
 import { HomeImageShowcase } from "@/components/home/HomeImageShowcase";
 import { HomeLocationMap } from "@/components/home/HomeLocationMap";
 import { ReviewsSection } from "@/components/home/ReviewsSection";
@@ -9,7 +10,6 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { DivisionCard } from "@/components/ui/DivisionCard";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { ContactBlock } from "@/components/ui/ContactBlock";
-import { Button } from "@/components/ui/Button";
 import { IMAGES } from "@/lib/images";
 import { SITE, SERVICE_AREAS } from "@/lib/site";
 
@@ -97,13 +97,7 @@ export default function HomePage() {
 
       <ReviewsSection />
 
-      <section className="py-12 bg-gray-50 text-center">
-        <p className="font-heading text-xl text-tamay-primary mb-2">Build now. Pay over time.</p>
-        <p className="text-gray-600 mb-6">Financing available across all projects</p>
-        <Button href={SITE.financingUrl} variant="accent" external>
-          Check Financing Options
-        </Button>
-      </section>
+      <FinancingBanner />
 
       <section id="contact" className="py-16">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12">
