@@ -13,7 +13,7 @@ import { SITE, SERVICE_AREAS } from "@/lib/site";
 export default function HomePage() {
   return (
     <>
-      <HeroVideoBanner minimal tagline={SITE.tagline} />
+      <HeroVideoBanner withMessage tagline={SITE.tagline} />
 
       <AboutUsSection />
 

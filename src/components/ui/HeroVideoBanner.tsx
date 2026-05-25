@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { assetUrl } from "@/lib/assetUrl";
-import { SITE } from "@/lib/site";
+import { HERO_VIDEO, SITE } from "@/lib/site";
 
 type HeroVideoBannerProps = {
-  /** Minimal overlay: phone + tagline only (homepage / about hero) */
-  minimal?: boolean;
+  /** Video hero with headline + message overlay (homepage) */
+  withMessage?: boolean;
   tagline?: string;
   title?: string;
   titleLine2?: string;
@@ -17,7 +17,7 @@ type HeroVideoBannerProps = {
 };
 
 export function HeroVideoBanner({
-  minimal = false,
+  withMessage = false,
   tagline,
   title,
   titleLine2,
@@ -49,6 +49,8 @@ export function HeroVideoBanner({
     play();
   }, [videoSrc]);
 
+  const heroCta = cta ?? HERO_VIDEO.cta;
+
   return (
     <section className="relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex items-center justify-center overflow-hidden">
       <div
@@ -73,20 +75,39 @@ export function HeroVideoBanner({
 
       <div
         className={`absolute inset-0 ${
-          minimal ? "bg-black/35" : "bg-gradient-to-t from-black/75 via-black/40 to-black/30"
+          withMessage
+            ? "bg-gradient-to-t from-black/70 via-black/45 to-black/35"
+            : "bg-gradient-to-t from-black/75 via-black/40 to-black/30"
         }`}
       />
 
-      {minimal ? (
-        <div className="relative z-10 text-center text-white px-4">
-          <a
-            href={SITE.phoneTel}
-            className="block text-lg sm:text-xl font-semibold tracking-wide text-white/95 hover:text-white mb-3 drop-shadow-md"
+      {withMessage ? (
+        <div className="relative z-10 w-full max-w-3xl mx-auto px-4 sm:px-6 text-center text-white">
+          <p className="text-xs sm:text-sm font-semibold tracking-[0.15em] uppercase mb-3 sm:mb-4 text-tamay-accent drop-shadow-sm">
+            {HERO_VIDEO.eyebrow}
+          </p>
+          <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-bold leading-tight mb-4 sm:mb-5 text-balance drop-shadow-md">
+            {HERO_VIDEO.headline}
+          </h1>
+          <p className="text-sm sm:text-base md:text-lg text-white/95 leading-relaxed max-w-2xl mx-auto mb-6 sm:mb-8 drop-shadow-sm">
+            {HERO_VIDEO.message}
+          </p>
+          <Link
+            href={heroCta.href}
+            className="inline-block bg-tamay-primary hover:bg-tamay-primary-dark text-white font-bold px-8 py-3.5 text-sm tracking-wide transition-colors shadow-lg"
           >
-            {SITE.phone}
-          </a>
-          <p className="text-sm sm:text-base font-semibold tracking-[0.2em] uppercase text-white/90 drop-shadow-md">
-            {tagline ?? SITE.tagline}
+            {heroCta.label}
+          </Link>
+          <p className="mt-6 sm:mt-8">
+            <a
+              href={SITE.phoneTel}
+              className="text-sm sm:text-base font-semibold text-white/90 hover:text-white tracking-wide drop-shadow-sm"
+            >
+              {SITE.phone}
+            </a>
+            <span className="block mt-1 text-xs sm:text-sm text-white/75 tracking-[0.12em] uppercase">
+              {tagline ?? SITE.tagline}
+            </span>
           </p>
         </div>
       ) : (

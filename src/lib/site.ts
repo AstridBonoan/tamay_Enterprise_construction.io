@@ -19,6 +19,14 @@ export const SITE = {
   },
 } as const;
 
+export const HERO_VIDEO = {
+  eyebrow: "Tamay Enterprises · West Haven, CT",
+  headline: "Building Better Spaces, One Project at a Time",
+  message:
+    "Watch our team at work — delivering expert construction, renovation, and home improvement with care, precision, and results you can trust.",
+  cta: { label: "Explore Our Services", href: "#our-services" },
+} as const;
+
 export const ABOUT = {
   headline: "CONSTRUCTION, REAL ESTATE & LOGISTICS Services in West Haven, CT",
   body: "Tamay Enterprises is a West Haven, CT–based multi-service company providing construction and home renovation services, real estate solutions, and local logistics support. We help homeowners, property owners, businesses, and investors simplify their needs by working with one trusted team across multiple service areas, serving West Haven and nearby Connecticut communities.",
