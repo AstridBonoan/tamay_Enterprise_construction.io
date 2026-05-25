@@ -107,16 +107,7 @@ export default function HomePage() {
                 {
                   name: "category",
                   label: "Category of Service",
-                  type: "select",
                   required: true,
-                  options: [
-                    "Construction",
-                    "Real Estate",
-                    "Logistics",
-                    "Home Preventive Services",
-                    "Assembly & Installation",
-                    "Other",
-                  ],
                 },
                 { name: "name", label: "Name", required: true },
                 { name: "email", label: "Email", type: "email", required: true },
