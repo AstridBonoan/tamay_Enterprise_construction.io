@@ -10,6 +10,7 @@ import { MobileSidebar } from "./MobileSidebar";
 
 const PRIMARY_LABELS = new Set([
   "HOME",
+  "ABOUT",
   "CONSTRUCTION",
   "REAL ESTATE",
   "LOGISTICS",

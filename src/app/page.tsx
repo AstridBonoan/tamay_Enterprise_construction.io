@@ -12,13 +12,7 @@ import { SITE, SERVICE_AREAS } from "@/lib/site";
 export default function HomePage() {
   return (
     <>
-      <HeroVideoBanner
-        tagline={SITE.tagline}
-        title="CONSTRUCTION, REAL ESTATE & LOGISTICS"
-        titleLine2="Services in West Haven, CT"
-        subtitle="Tamay Enterprises is a West Haven, CT–based multi-service company providing construction and home renovation services, real estate solutions, and local logistics support."
-        cta={{ label: "Explore Our Services", href: "#our-services" }}
-      />
+      <HeroVideoBanner minimal tagline={SITE.tagline} />
 
       <ServicesSectionTitle />
 
