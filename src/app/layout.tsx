@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cinzel, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { HiringBanner } from "@/components/layout/HiringBanner";
@@ -20,7 +20,13 @@ const sourceSans = Source_Sans_3({
   weight: ["400", "600", "700"],
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_BASE_PATH
+    ? `https://astridbonoan.github.io${process.env.NEXT_PUBLIC_BASE_PATH}`
+    : "https://tamayenterprises.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Construction Company in West Haven, CT | Tamay Enterprises",
     template: "%s | Tamay Enterprises",
@@ -30,7 +36,12 @@ export const metadata: Metadata = {
   openGraph: {
     images: [IMG.og],
   },
+};
+
+export const viewport: Viewport = {
   themeColor: "#35558f",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
