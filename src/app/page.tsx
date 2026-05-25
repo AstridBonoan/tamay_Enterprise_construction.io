@@ -1,4 +1,5 @@
 import { HeroVideoBanner } from "@/components/ui/HeroVideoBanner";
+import { AboutUsSection } from "@/components/about/AboutUsSection";
 import { ServicesSectionTitle } from "@/components/home/ServicesSectionTitle";
 import { HomeImageShowcase } from "@/components/home/HomeImageShowcase";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -13,6 +14,8 @@ export default function HomePage() {
   return (
     <>
       <HeroVideoBanner minimal tagline={SITE.tagline} />
+
+      <AboutUsSection />
 
       <ServicesSectionTitle />
 

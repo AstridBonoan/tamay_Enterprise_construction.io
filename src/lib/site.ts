@@ -26,7 +26,6 @@ export const ABOUT = {
 
 export const NAV_LINKS = [
   { href: "/", label: "HOME" },
-  { href: "/about", label: "ABOUT" },
   { href: "/construction", label: "CONSTRUCTION" },
   { href: "/real-estate", label: "REAL ESTATE" },
   { href: "/logistics", label: "LOGISTICS" },
