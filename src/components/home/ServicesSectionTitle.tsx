@@ -2,7 +2,7 @@ export function ServicesSectionTitle() {
   return (
     <div
       id="our-services"
-      className="flex flex-col items-center bg-gray-50 px-4 pt-8 sm:pt-10 pb-10 sm:pb-12 lg:pb-14"
+      className="flex flex-col items-center bg-gray-50 px-4 pt-16 sm:pt-20 lg:pt-24 pb-10 sm:pb-12 lg:pb-14"
     >
       <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl text-tamay-primary font-semibold uppercase tracking-[0.08em] text-center">
         Our Services
