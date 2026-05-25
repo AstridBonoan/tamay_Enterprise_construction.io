@@ -34,7 +34,7 @@ export function DivisionCard({
 }: DivisionCardProps) {
   const fullScreenLayout = fullScreen
     ? alignTop
-      ? "min-h-svh flex flex-col justify-start pt-0 pb-10 sm:pb-12 lg:pb-14"
+      ? "min-h-svh flex flex-col justify-start pt-4 sm:pt-6 pb-10 sm:pb-12 lg:pb-14"
       : "min-h-svh flex flex-col justify-center py-10 sm:py-12 lg:py-14"
     : "py-14 md:py-20";
 
