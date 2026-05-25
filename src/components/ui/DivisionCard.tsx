@@ -14,6 +14,8 @@ type DivisionCardProps = {
   reverse?: boolean;
   /** Each service block fills one viewport height */
   fullScreen?: boolean;
+  /** Sit content below a section title (no vertical centering gap at top) */
+  alignTop?: boolean;
 };
 
 export function DivisionCard({
@@ -28,15 +30,16 @@ export function DivisionCard({
   ctaHref,
   reverse,
   fullScreen = false,
+  alignTop = false,
 }: DivisionCardProps) {
+  const fullScreenLayout = fullScreen
+    ? alignTop
+      ? "min-h-svh flex flex-col justify-start pt-0 pb-10 sm:pb-12 lg:pb-14"
+      : "min-h-svh flex flex-col justify-center py-10 sm:py-12 lg:py-14"
+    : "py-14 md:py-20";
+
   return (
-    <section
-      className={`border-b border-gray-100 bg-gray-50 ${
-        fullScreen
-          ? "min-h-svh flex flex-col justify-center py-10 sm:py-12 lg:py-14"
-          : "py-14 md:py-20"
-      }`}
-    >
+    <section className={`border-b border-gray-100 bg-gray-50 ${fullScreenLayout}`}>
       <div
         className={`max-w-6xl mx-auto px-4 sm:px-6 w-full grid md:grid-cols-2 items-center ${
           fullScreen ? "gap-8 lg:gap-14" : "gap-10"

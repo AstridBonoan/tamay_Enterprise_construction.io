@@ -24,6 +24,7 @@ export default function HomePage() {
 
       <DivisionCard
         fullScreen
+        alignTop
         image={IMAGES.divisions.construction}
         eyebrow="RELIABLE. EXPERIENCED. FULLY INSURED"
         title="Construction & Home Renovation"
