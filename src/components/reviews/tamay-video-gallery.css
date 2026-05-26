@@ -8,22 +8,6 @@
   box-sizing: border-box;
 }
 
-.tamay-gallery--stacked {
-  grid-template-columns: 1fr;
-  max-width: 920px;
-  margin-left: auto;
-  margin-right: auto;
-  gap: 56px;
-}
-
-.tamay-gallery--stacked .tamay-videos {
-  grid-template-columns: 1fr;
-}
-
-.tamay-gallery--stacked .tamay-videos .main {
-  grid-column: auto;
-}
-
 .tamay-project-heading {
   width: 100%;
 }

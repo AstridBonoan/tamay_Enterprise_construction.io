@@ -3,20 +3,13 @@ export type ReviewVideoProject = {
   id: string;
   /** One, two, or three+ YouTube IDs per project */
   videos: string[];
-  /** Heading above the video (e.g. "Chris Yoon - Testimonial") */
+  /** Heading above the video */
   title?: string;
   /** Caption below the video */
   description?: string;
 };
 
-export function formatTestimonialTitle(name: string): string {
-  const trimmed = name.trim();
-  if (/testimonial/i.test(trimmed)) return trimmed.toUpperCase();
-  return `${trimmed} - Testimonial`.toUpperCase();
-}
-
-/** Construction / project showcase videos */
-export const PROJECT_VIDEO_GALLERY: ReviewVideoProject[] = [
+export const REVIEW_VIDEO_PROJECTS: ReviewVideoProject[] = [
   {
     id: "commercial-bridgeport",
     videos: ["JGxUJl-r2Nk"],
@@ -66,17 +59,3 @@ export const PROJECT_VIDEO_GALLERY: ReviewVideoProject[] = [
     description: "Bridgeport Basement Remodeling",
   },
 ];
-
-/** Client testimonial videos — add YouTube IDs to `videos` when available */
-export const CLIENT_TESTIMONIAL_VIDEOS: ReviewVideoProject[] = [
-  { id: "chris-yoon", videos: ["JGxUJl-r2Nk", "af5JYQe6ltY"], title: "Chris Yoon" },
-  { id: "lucas-de-valdivia", videos: ["_eEQVb19zHA"], title: "Lucas de valdivia" },
-  { id: "marie-paul", videos: ["xhyHDnt_G8g"], title: "MARIE-PAUL" },
-  { id: "rosemary", videos: ["XTKenyMkdks"], title: "Rosemary" },
-  { id: "maryse", videos: ["2NTfW0PZAIo"], title: "Maryse" },
-  { id: "brian-sarah", videos: ["NLQKQ6vYPeI"], title: "Brian & sarah" },
-  { id: "mike-adarkwah", videos: ["08Ks5xBkHNY"], title: "MIKE ADARKWAH" },
-];
-
-/** @deprecated Use PROJECT_VIDEO_GALLERY */
-export const REVIEW_VIDEO_PROJECTS = PROJECT_VIDEO_GALLERY;
