@@ -7,23 +7,19 @@ import { createPortal } from "react-dom";
 import { ESTIMATE, SITE } from "@/lib/site";
 import { IMAGES } from "@/lib/images";
 
-const STORAGE_KEY = "tamay-estimate-dismissed";
-
-/** Shows once per browser session on first visit; stays hidden after the user closes it. */
+/** Opens on each page load/refresh; closing hides it until the next refresh. */
 export function EstimateWidget() {
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    if (sessionStorage.getItem(STORAGE_KEY) === "1") return;
     const timer = window.setTimeout(() => setVisible(true), 800);
     return () => window.clearTimeout(timer);
   }, []);
 
   const close = useCallback(() => {
     setVisible(false);
-    sessionStorage.setItem(STORAGE_KEY, "1");
   }, []);
 
   useEffect(() => {
