@@ -10,15 +10,6 @@ type TamayVideoGalleryProps = {
   projects: ReviewVideoProject[];
 };
 
-function descriptionMatchesTitle(description: string, title: string) {
-  const normalize = (s: string) =>
-    s
-      .replace(/\.\s*$/, "")
-      .trim()
-      .toLowerCase();
-  return normalize(description) === normalize(title);
-}
-
 export function TamayVideoGallery({ projects }: TamayVideoGalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -47,26 +38,17 @@ export function TamayVideoGallery({ projects }: TamayVideoGalleryProps) {
   return (
     <>
       <div className="tamay-gallery" id="tamay-gallery" ref={galleryRef}>
-        {activeProjects.map((project) => {
-          const desc =
-            project.description &&
-            project.title &&
-            !descriptionMatchesTitle(project.description, project.title)
-              ? project.description
-              : undefined;
-
-          return (
+        {activeProjects.map((project) => (
             <div
               key={project.id}
               className="tamay-project"
               data-videos={project.videos.join(",")}
-              data-desc={desc ?? ""}
+              data-desc={project.description ?? ""}
             >
               {project.title ? <TestimonialProjectHeader title={project.title} /> : null}
               <div className="tamay-project-mount" />
             </div>
-          );
-        })}
+        ))}
       </div>
 
       <div className="tamay-modal" id="tamay-modal" ref={modalRef} aria-hidden="true">
