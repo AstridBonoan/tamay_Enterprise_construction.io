@@ -5,7 +5,9 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { ContactBlock } from "@/components/ui/ContactBlock";
 import { Button } from "@/components/ui/Button";
+import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
 import { IMAGES } from "@/lib/images";
+import { CONSTRUCTION_PROJECT_VIDEOS } from "@/lib/constructionVideos";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -166,22 +168,7 @@ export default function ConstructionPage() {
 
       <section className="py-14 max-w-6xl mx-auto px-4">
         <SectionHeading title="Residential & Commercial Projects" />
-        <div className="grid sm:grid-cols-2 gap-6">
-          {["Masonry work", "ADA-COMPLIANT COMMERCIAL RESTROOM BUILD-OUT"].map((title) => (
-            <div key={title} className="relative aspect-video bg-gray-200 flex items-end p-4 overflow-hidden rounded-sm">
-              <Image
-                src={IMAGES.heroConstruction}
-                alt={title}
-                fill
-                className="object-cover opacity-90"
-                sizes="500px"
-              />
-              <h3 className="relative z-10 font-heading text-white text-xl font-semibold drop-shadow">
-                {title}
-              </h3>
-            </div>
-          ))}
-        </div>
+        <TamayVideoGallery projects={CONSTRUCTION_PROJECT_VIDEOS} showTitle={false} />
         <div className="text-center mt-8">
           <Button href="/gallery" variant="primary">
             More projects

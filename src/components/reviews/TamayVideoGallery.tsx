@@ -8,9 +8,11 @@ import "./tamay-video-gallery.css";
 
 type TamayVideoGalleryProps = {
   projects: ReviewVideoProject[];
+  /** Show client/project name heading above each video block */
+  showTitle?: boolean;
 };
 
-export function TamayVideoGallery({ projects }: TamayVideoGalleryProps) {
+export function TamayVideoGallery({ projects, showTitle = true }: TamayVideoGalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
@@ -45,7 +47,9 @@ export function TamayVideoGallery({ projects }: TamayVideoGalleryProps) {
               data-videos={project.videos.join(",")}
               data-desc={project.description ?? ""}
             >
-              {project.title ? <TestimonialProjectHeader title={project.title} /> : null}
+              {showTitle && project.title ? (
+                <TestimonialProjectHeader title={project.title} />
+              ) : null}
               <div className="tamay-project-mount" />
             </div>
         ))}
