@@ -1,5 +1,13 @@
 import type { ReviewVideoProject } from "./reviewVideos";
 
+/** New year promotion video — edit video ID in videos[] */
+export const GALLERY_PROMOTION_VIDEO: ReviewVideoProject = {
+  id: "new-year-promotion-2026",
+  title: "2026 🎉New year promotion 🎉",
+  videos: ["l26oQaGBskk"],
+  description: "2026 🎉New year promotion 🎉",
+};
+
 /** YouTube project embeds for the gallery page — edit data-videos + description per project */
 export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
   {

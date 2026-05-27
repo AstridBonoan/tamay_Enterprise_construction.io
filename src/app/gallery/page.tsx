@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { GALLERY_VIDEO_PROJECTS } from "@/lib/galleryVideos";
+import { GALLERY_PROMOTION_VIDEO, GALLERY_VIDEO_PROJECTS } from "@/lib/galleryVideos";
 import { IMAGES } from "@/lib/images";
 
 export const metadata: Metadata = {
@@ -22,10 +22,14 @@ export default function GalleryPage() {
         height="medium"
       />
 
-      <section className="py-10 bg-tamay-accent text-white text-center">
-        <h2 className="font-heading text-2xl md:text-3xl font-bold px-4">
-          2026 🎉New year promotion 🎉
-        </h2>
+      <section className="py-14 bg-gray-50 px-4">
+        <div className="max-w-3xl mx-auto tamay-gallery-promo">
+          <TamayVideoGallery
+            projects={[GALLERY_PROMOTION_VIDEO]}
+            instanceId="gallery-promo"
+            showTitle
+          />
+        </div>
       </section>
 
       <section id="gallery" className="py-14 max-w-6xl mx-auto px-4">

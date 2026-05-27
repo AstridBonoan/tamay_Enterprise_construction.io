@@ -58,6 +58,19 @@
   margin-top: 1.25rem;
 }
 
+.tamay-gallery-promo .tamay-gallery {
+  grid-template-columns: 1fr;
+  max-width: 100%;
+}
+
+.tamay-gallery-promo .tamay-project {
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
 .tamay-project-heading {
   width: 100%;
 }
