@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function OnlineAppointmentsPage() {
   return (
-    <div className="py-8 md:py-12 px-4 max-w-6xl mx-auto">
+    <div className="py-10 md:py-14 px-4">
       <OnlineAppointmentsSection />
     </div>
   );
