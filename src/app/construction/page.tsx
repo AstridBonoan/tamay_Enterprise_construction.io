@@ -7,7 +7,11 @@ import { ContactBlock } from "@/components/ui/ContactBlock";
 import { Button } from "@/components/ui/Button";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
 import { IMAGES } from "@/lib/images";
-import { CONSTRUCTION_PROJECT_VIDEOS, MASONRY_PROJECT_VIDEOS } from "@/lib/constructionVideos";
+import {
+  ADA_RESTROOM_PROJECT_VIDEOS,
+  CONSTRUCTION_PROJECT_VIDEOS,
+  MASONRY_PROJECT_VIDEOS,
+} from "@/lib/constructionVideos";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -180,6 +184,15 @@ export default function ConstructionPage() {
             projects={MASONRY_PROJECT_VIDEOS}
             showTitle={false}
             instanceId="construction-masonry"
+          />
+        </div>
+
+        <div className="mt-16">
+          <SectionHeading title="ADA-COMPLIANT COMMERCIAL RESTROOM BUILD-OUT" />
+          <TamayVideoGallery
+            projects={ADA_RESTROOM_PROJECT_VIDEOS}
+            showTitle={false}
+            instanceId="construction-ada"
           />
         </div>
 

@@ -17,3 +17,11 @@ export const MASONRY_PROJECT_VIDEOS: ReviewVideoProject[] = [
     description: "Retaining Wall Project - East Hartford.",
   },
 ];
+
+export const ADA_RESTROOM_PROJECT_VIDEOS: ReviewVideoProject[] = [
+  {
+    id: "ada-bathroom-brooklyn",
+    videos: ["EXIut76IUDU", "hg34-f2Qfok", "af5JYQe6ltY"],
+    description: "New ADA bathroom Construction - Brooklyn, New York",
+  },
+];
