@@ -27,7 +27,7 @@ export function HeroBanner({
   imagePosition = "center center",
 }: HeroBannerProps) {
   const heightClass = height === "tall" ? "min-h-[420px] md:min-h-[520px]" : "min-h-[280px] md:min-h-[360px]";
-  const zoomOut = imageZoom > 1 ? (imageZoom - 1) * 50 : 0;
+  const zoomOutFactor = imageZoom > 1 ? imageZoom : 1;
   const zoomInScale = imageZoom > 0 && imageZoom < 1 ? 1 / imageZoom : 1;
 
   return (
@@ -35,12 +35,13 @@ export function HeroBanner({
       <div
         className="absolute"
         style={
-          zoomOut > 0
+          zoomOutFactor > 1
             ? {
-                top: `-${zoomOut}%`,
-                left: `-${zoomOut}%`,
-                right: `-${zoomOut}%`,
-                bottom: `-${zoomOut}%`,
+                width: `${zoomOutFactor * 100}%`,
+                height: `${zoomOutFactor * 100}%`,
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
               }
             : zoomInScale > 1
               ? {
