@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { APPOINTMENT_SERVICES } from "@/lib/appointmentServices";
-import { SITE } from "@/lib/site";
 import { ContactForm } from "@/components/ui/ContactForm";
 
 export function OnlineAppointmentsSection() {
@@ -82,22 +81,6 @@ export function OnlineAppointmentsSection() {
           />
         </div>
       )}
-
-      <p className="text-center text-sm text-gray-500 py-8">
-        Prefer to book by phone?{" "}
-        <a href={SITE.phoneTel} className="text-tamay-primary font-semibold hover:underline">
-          {SITE.phone}
-        </a>{" "}
-        ·{" "}
-        <a
-          href={SITE.whatsapp}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-tamay-primary font-semibold hover:underline"
-        >
-          WhatsApp
-        </a>
-      </p>
     </div>
   );
 }
