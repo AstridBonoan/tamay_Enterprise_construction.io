@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/ui/ContactForm";
@@ -40,10 +41,26 @@ const supportAudience = [
   "Individuals needing organized transportation support",
 ];
 
+function LogisticsPhoto({
+  src,
+  alt,
+  className = "aspect-[2/1]",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) {
+  return (
+    <figure className={`relative ${className} max-w-5xl mx-auto overflow-hidden rounded-sm`}>
+      <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 1024px" unoptimized />
+    </figure>
+  );
+}
+
 export default function LogisticsPage() {
   return (
     <>
-      <HeroBanner image={IMAGES.divisions.logistics} title="Logistics & Delivery Services" height="medium" />
+      <HeroBanner image={IMAGES.logistics.hero} title="Logistics & Delivery Services" height="medium" />
 
       <section className="py-14 max-w-4xl mx-auto px-4">
         <SectionHeading title="Logistics & Delivery Services in West Haven, CT" />
@@ -66,6 +83,11 @@ export default function LogisticsPage() {
 
       <section className="py-14 bg-gray-50 px-4">
         <div className="max-w-4xl mx-auto text-center">
+          <LogisticsPhoto
+            src={IMAGES.logistics.warehouseFleet}
+            alt="Tamay Enterprises delivery vans at a warehouse loading dock"
+            className="aspect-[16/10] mb-10"
+          />
           <SectionHeading title="Logistics Services Built on Reliability" />
           <div className="space-y-4 text-gray-600 leading-relaxed -mt-4 text-left md:text-center">
             <p>
@@ -132,6 +154,10 @@ export default function LogisticsPage() {
         <p className="text-gray-600 text-center leading-relaxed">
           By combining planning with execution, we help reduce delays, miscommunication, and operational friction.
         </p>
+      </section>
+
+      <section className="px-4 pb-10 max-w-5xl mx-auto">
+        <LogisticsPhoto src={IMAGES.logistics.routeMap} alt="Regional logistics route map" />
       </section>
 
       <section className="py-14 bg-tamay-primary text-white px-4">

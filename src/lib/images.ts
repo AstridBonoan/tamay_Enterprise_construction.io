@@ -45,6 +45,11 @@ export const IMAGES = {
     longTermValue:
       "https://img1.wsimg.com/isteam/getty/2170553469/:/cr=t:5.56%25,l:0%25,w:100%25,h:88.88%25/rs=w:1200,h:600,cg:true",
   },
+  logistics: {
+    hero: assetUrl("/logistics/van-road.png"),
+    warehouseFleet: assetUrl("/logistics/warehouse-fleet.png"),
+    routeMap: assetUrl("/logistics/route-map.png"),
+  },
   gallery: [
     { title: "Complete basement Renovation", src: home("HomePageImage5.webp") },
     { title: "Full Bathroom Renovation", src: home("HomePageImage6.webp") },
