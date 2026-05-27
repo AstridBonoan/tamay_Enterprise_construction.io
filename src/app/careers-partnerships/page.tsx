@@ -3,6 +3,7 @@ import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { CareerRoleCard } from "@/components/careers/CareerRoleCard";
+import { CareersSectionGallery } from "@/components/careers/CareersSectionGallery";
 import { CAREER_ROLE_GROUPS } from "@/lib/careerRoles";
 import { IMAGES } from "@/lib/images";
 
@@ -36,6 +37,7 @@ export default function CareersPage() {
       <section className="py-14 bg-gray-50 px-4">
         <div className="max-w-4xl mx-auto">
           <SectionHeading title="Careers at Tamay Enterprises" />
+          <CareersSectionGallery />
 
           <div className="space-y-10 text-sm text-gray-700 leading-relaxed">
             <div>
