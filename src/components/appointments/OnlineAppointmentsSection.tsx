@@ -27,7 +27,7 @@ export function OnlineAppointmentsSection() {
               <div className="relative shrink-0 w-full sm:w-[140px] h-[140px] bg-gray-100 mx-auto sm:mx-0">
                 <Image
                   src={service.image}
-                  alt=""
+                  alt={service.imageAlt}
                   fill
                   className="object-cover"
                   sizes="140px"

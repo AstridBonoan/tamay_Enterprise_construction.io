@@ -1,4 +1,4 @@
-import { IMAGES } from "./images";
+import { assetUrl } from "./assetUrl";
 
 export type AppointmentService = {
   id: string;
@@ -6,6 +6,7 @@ export type AppointmentService = {
   meta: string;
   description: string;
   image: string;
+  imageAlt: string;
 };
 
 /** Matches tamayenterprises.com Online Appointments service list */
@@ -16,21 +17,24 @@ export const APPOINTMENT_SERVICES: AppointmentService[] = [
     meta: "1 hr | $250",
     description:
       "A one-on-one session to discuss your project vision. (Job estimate fee applies to job total if accepted)",
-    image: IMAGES.construction.renovation,
+    image: assetUrl("/appointments/construction.png"),
+    imageAlt: "Construction professional reviewing blueprints at a job site",
   },
   {
     id: "real-estate",
     title: "Real Estate",
     meta: "1 hr | Free",
     description: "A one-on-one session to discuss your specific needs and goals.",
-    image: IMAGES.realEstate.agent,
+    image: assetUrl("/appointments/real-estate.png"),
+    imageAlt: "For sale sign in front of a suburban home",
   },
   {
     id: "logistics",
     title: "Logistics",
     meta: "1 hr | Free",
     description: "A one-on-one session to discuss your specific needs and goals.",
-    image: IMAGES.logistics.warehouseFleet,
+    image: assetUrl("/appointments/logistics.png"),
+    imageAlt: "Tamay Enterprises delivery vans at a loading dock",
   },
   {
     id: "prevention",
@@ -38,7 +42,8 @@ export const APPOINTMENT_SERVICES: AppointmentService[] = [
     meta: "1 hr | $90",
     description:
       "A one-on-one session to discuss your prevention needs. (fee applies to membership total if accepted)",
-    image: IMAGES.preventiveServices.aboutConsultation,
+    image: assetUrl("/appointments/prevention-services.png"),
+    imageAlt: "Home preventive service technician consulting with a homeowner",
   },
   {
     id: "assembly",
@@ -46,6 +51,7 @@ export const APPOINTMENT_SERVICES: AppointmentService[] = [
     meta: "1 hr | Free",
     description:
       "A one-on-one session to discuss your Assembling or Installation needs. ( fee applies to total assembling price if accepted)",
-    image: IMAGES.homepage.image6,
+    image: assetUrl("/appointments/assembly-installation.png"),
+    imageAlt: "Technician assembling furniture on a patio",
   },
 ];
