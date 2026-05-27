@@ -13,8 +13,8 @@ type HeroBannerProps = {
   imageZoom?: number;
   /** object-position for the background image */
   imagePosition?: string;
-  /** contain = full photo visible (no crop); cover = fill frame (may crop) */
-  imageFit?: "cover" | "contain";
+  /** contain = full photo (letterbox); fill = stretch to banner; cover = fill frame (may crop) */
+  imageFit?: "cover" | "contain" | "fill";
 };
 
 export function HeroBanner({
@@ -32,7 +32,8 @@ export function HeroBanner({
   const heightClass = height === "tall" ? "min-h-[420px] md:min-h-[520px]" : "min-h-[280px] md:min-h-[360px]";
   const zoomOutFactor = imageFit === "cover" && imageZoom > 1 ? imageZoom : 1;
   const zoomInScale = imageFit === "cover" && imageZoom > 0 && imageZoom < 1 ? 1 / imageZoom : 1;
-  const fitClass = imageFit === "contain" ? "object-contain" : "object-cover";
+  const fitClass =
+    imageFit === "contain" ? "object-contain" : imageFit === "fill" ? "object-fill" : "object-cover";
 
   return (
     <section
