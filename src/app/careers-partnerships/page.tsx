@@ -117,10 +117,17 @@ export default function CareersPage() {
       <section className="py-14 bg-gray-50 px-4">
         <div className="max-w-6xl mx-auto">
           <SectionHeading title="Career Opportunities & Construction Trade Roles" />
-          <div className="grid md:grid-cols-2 gap-6 lg:gap-8 mt-10">
-            {CAREER_ROLE_GROUPS.map((group) => (
-              <CareerRoleCard key={group.id} group={group} />
-            ))}
+          <div className="mt-10 space-y-6 lg:space-y-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              {CAREER_ROLE_GROUPS.slice(0, 3).map((group) => (
+                <CareerRoleCard key={group.id} group={group} />
+              ))}
+            </div>
+            <div className="grid sm:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto w-full">
+              {CAREER_ROLE_GROUPS.slice(3).map((group) => (
+                <CareerRoleCard key={group.id} group={group} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
