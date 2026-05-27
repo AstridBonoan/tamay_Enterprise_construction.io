@@ -45,6 +45,15 @@ export const IMAGES = {
     longTermValue:
       "https://img1.wsimg.com/isteam/getty/2170553469/:/cr=t:5.56%25,l:0%25,w:100%25,h:88.88%25/rs=w:1200,h:600,cg:true",
   },
+  preventiveServices: {
+    hero: assetUrl("/home-preventive-services/hero-banner.png"),
+    aboutConsultation: assetUrl("/home-preventive-services/about-consultation.png"),
+    homeownerSupport: assetUrl("/home-preventive-services/homeowner-support.png"),
+    serviceBathroom: assetUrl("/home-preventive-services/service-bathroom.png"),
+    serviceHvac: assetUrl("/home-preventive-services/service-hvac.png"),
+    servicePlumbing: assetUrl("/home-preventive-services/service-plumbing.png"),
+    serviceExterior: assetUrl("/home-preventive-services/service-exterior.png"),
+  },
   logistics: {
     hero: assetUrl("/logistics/hero-banner.png"),
     warehouseFleet: assetUrl("/logistics/warehouse-fleet.png"),

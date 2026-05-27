@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/ui/ContactForm";
@@ -27,6 +28,8 @@ type PreventiveService = {
   notes?: string[];
   areasCovered?: { heading: string; lines: string[] };
   moreInfo?: boolean;
+  image?: string;
+  imageAlt?: string;
 };
 
 const preventiveServices: PreventiveService[] = [
@@ -47,6 +50,8 @@ const preventiveServices: PreventiveService[] = [
   },
   {
     title: "Bathroom Rejuvenation Services",
+    image: IMAGES.preventiveServices.serviceBathroom,
+    imageAlt: "Professional reviewing bathroom fixtures with a homeowner",
     items: [
       "Caulking and grout refresh",
       "Fixture tightening and leak awareness",
@@ -59,6 +64,8 @@ const preventiveServices: PreventiveService[] = [
   },
   {
     title: "Seasonal HVAC Preparation",
+    image: IMAGES.preventiveServices.serviceHvac,
+    imageAlt: "HVAC technician inspecting an outdoor air conditioning unit",
     items: [
       "Pre-winter heating readiness",
       "Pre-summer cooling preparation",
@@ -75,6 +82,8 @@ const preventiveServices: PreventiveService[] = [
   },
   {
     title: "Plumbing Preventive Care",
+    image: IMAGES.preventiveServices.servicePlumbing,
+    imageAlt: "Technician inspecting under-sink plumbing with a homeowner",
     items: [
       "Leak awareness",
       "Water pressure evaluation",
@@ -116,6 +125,8 @@ const preventiveServices: PreventiveService[] = [
   },
   {
     title: "Exterior and Roof Awareness",
+    image: IMAGES.preventiveServices.serviceExterior,
+    imageAlt: "Technician inspecting roof and gutter conditions",
     items: [
       "General roof condition observations",
       "Seasonal gutter cleaning",
@@ -163,6 +174,22 @@ const whoWeSupport = [
   },
 ];
 
+function PreventivePhoto({
+  src,
+  alt,
+  className = "aspect-[16/10]",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) {
+  return (
+    <figure className={`relative ${className} overflow-hidden rounded-sm`}>
+      <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 600px" unoptimized />
+    </figure>
+  );
+}
+
 function ServiceList({ items, notes }: { items: string[]; notes?: string[] }) {
   return (
     <>
@@ -188,7 +215,7 @@ export default function HomePreventiveServicesPage() {
   return (
     <>
       <HeroBanner
-        image={IMAGES.heroConstruction}
+        image={IMAGES.preventiveServices.hero}
         tagline="Seasonal & year-round services"
         title="Home Preventive Services Program"
         subtitle="Designed to keep every home safe, efficient, and well-maintained."
@@ -196,18 +223,25 @@ export default function HomePreventiveServicesPage() {
         height="medium"
       />
 
-      <section id="about" className="py-14 max-w-4xl mx-auto px-4">
+      <section id="about" className="py-14 max-w-6xl mx-auto px-4">
         <SectionHeading title="About This Program" />
-        <div className="space-y-4 text-gray-600 text-center leading-relaxed -mt-4">
-          <p>
-            Tamay Enterprises provides preventive home services that help homeowners stay prepared throughout
-            every season. Our focus is on reducing unexpected issues, identifying early concerns, and supporting
-            the long-term health of essential home systems.
-          </p>
-          <p>
-            This program is ideal for homeowners, real estate professionals, and organizations seeking reliable,
-            preventive maintenance support.
-          </p>
+        <div className="grid md:grid-cols-2 gap-10 items-center -mt-2">
+          <div className="space-y-4 text-gray-600 leading-relaxed">
+            <p>
+              Tamay Enterprises provides preventive home services that help homeowners stay prepared throughout
+              every season. Our focus is on reducing unexpected issues, identifying early concerns, and supporting
+              the long-term health of essential home systems.
+            </p>
+            <p>
+              This program is ideal for homeowners, real estate professionals, and organizations seeking reliable,
+              preventive maintenance support.
+            </p>
+          </div>
+          <PreventivePhoto
+            src={IMAGES.preventiveServices.aboutConsultation}
+            alt="Tamay technician reviewing preventive maintenance with a homeowner in the kitchen"
+            className="aspect-[4/3]"
+          />
         </div>
       </section>
 
@@ -230,6 +264,13 @@ export default function HomePreventiveServicesPage() {
         <div className="grid md:grid-cols-2 gap-10 -mt-2">
           {preventiveServices.map((service) => (
             <div key={service.title} className="border-l-4 border-tamay-accent pl-6">
+              {service.image && (
+                <PreventivePhoto
+                  src={service.image}
+                  alt={service.imageAlt ?? service.title}
+                  className="aspect-[16/10] mb-4"
+                />
+              )}
               <h3 className="font-heading text-lg text-tamay-primary font-semibold mb-3">{service.title}</h3>
               <ServiceList items={service.items} notes={service.notes} />
               {service.areasCovered && (
@@ -255,26 +296,33 @@ export default function HomePreventiveServicesPage() {
       </section>
 
       <section className="py-14 bg-tamay-primary text-white px-4">
-        <div className="max-w-3xl mx-auto">
-          <SectionHeading light title="Additional Homeowner Support" />
-          <div className="space-y-4 text-gray-200 text-center leading-relaxed -mt-4">
-            <h3 className="font-heading text-lg font-semibold text-white">Technical Written Summary</h3>
-            <p>
-              If, during our preventive services, we observe a condition that may require attention—such as roof
-              wear, plumbing concerns, or early equipment deterioration—we notify the homeowner and provide a{" "}
-              <strong className="text-white">technical written summary</strong> describing what was found.
-            </p>
-            <p>
-              This summary is meant to help the homeowner communicate clearly with their insurance or warranty
-              provider. We do not call or contact providers on behalf of the homeowner. Instead, we offer the
-              correct terminology, explanation, and context so the homeowner can send an accurate and professional
-              message on their own.
-            </p>
-            <p>
-              Our goal is simply to help the homeowner express why timely attention is important and how delaying
-              repairs could increase future costs or risks.
-            </p>
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <SectionHeading light title="Additional Homeowner Support" />
+            <div className="space-y-4 text-gray-200 leading-relaxed -mt-4">
+              <h3 className="font-heading text-lg font-semibold text-white">Technical Written Summary</h3>
+              <p>
+                If, during our preventive services, we observe a condition that may require attention—such as roof
+                wear, plumbing concerns, or early equipment deterioration—we notify the homeowner and provide a{" "}
+                <strong className="text-white">technical written summary</strong> describing what was found.
+              </p>
+              <p>
+                This summary is meant to help the homeowner communicate clearly with their insurance or warranty
+                provider. We do not call or contact providers on behalf of the homeowner. Instead, we offer the
+                correct terminology, explanation, and context so the homeowner can send an accurate and professional
+                message on their own.
+              </p>
+              <p>
+                Our goal is simply to help the homeowner express why timely attention is important and how delaying
+                repairs could increase future costs or risks.
+              </p>
+            </div>
           </div>
+          <PreventivePhoto
+            src={IMAGES.preventiveServices.homeownerSupport}
+            alt="Professional reviewing a technical summary document with a client"
+            className="aspect-[4/3]"
+          />
         </div>
       </section>
 
