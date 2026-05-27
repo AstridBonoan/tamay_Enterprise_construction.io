@@ -29,7 +29,9 @@ export function OnlineAppointmentsSection() {
                   src={service.image}
                   alt={service.imageAlt}
                   fill
-                  className="object-cover"
+                  className={
+                    service.imageFit === "contain" ? "object-contain p-1" : "object-cover"
+                  }
                   style={
                     service.imagePosition
                       ? { objectPosition: service.imagePosition }

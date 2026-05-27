@@ -9,6 +9,8 @@ export type AppointmentService = {
   imageAlt: string;
   /** CSS object-position for square thumbnails (default: center) */
   imagePosition?: string;
+  /** cover (default) or contain — contain keeps the full sign visible */
+  imageFit?: "cover" | "contain";
 };
 
 /** Matches tamayenterprises.com Online Appointments service list */
@@ -27,8 +29,9 @@ export const APPOINTMENT_SERVICES: AppointmentService[] = [
     title: "Real Estate",
     meta: "1 hr | Free",
     description: "A one-on-one session to discuss your specific needs and goals.",
-    image: assetUrl("/appointments/real-estate.png"),
-    imageAlt: "Red for sale sign in front of a suburban home",
+    image: assetUrl("/appointments/real-estate-for-sale.png"),
+    imageAlt: "Red for sale sign with white FOR SALE lettering",
+    imageFit: "contain",
   },
   {
     id: "logistics",
