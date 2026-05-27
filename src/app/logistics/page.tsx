@@ -24,14 +24,20 @@ const whyChoose = [
   {
     title: "Professional appearance",
     text: "Professional appearance and courteous drivers",
+    image: IMAGES.logistics.whyChoose.professional,
+    alt: "Tamay logistics team member reviewing operations on a tablet in a warehouse",
   },
   {
     title: "On-time, communication-first operations",
     text: "Same-day or next-day transport for urgent materials and equipment.",
+    image: IMAGES.logistics.whyChoose.delivery,
+    alt: "Package delivery tracking with order delivery confirmation",
   },
   {
     title: "Problem-solving mindset",
     text: "Problem-solving mindset for tight windows and tricky sites",
+    image: IMAGES.logistics.whyChoose.problemSolving,
+    alt: "Strategic problem-solving approach from problem to solution",
   },
 ];
 
@@ -139,6 +145,9 @@ export default function LogisticsPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {whyChoose.map((w) => (
               <div key={w.title} className="bg-white p-6 border-t-4 border-tamay-primary shadow-sm text-center">
+                <div className="relative w-40 h-40 mx-auto mb-5 rounded-full overflow-hidden">
+                  <Image src={w.image} alt={w.alt} fill className="object-cover" sizes="160px" unoptimized />
+                </div>
                 <h3 className="font-heading text-tamay-primary font-semibold mb-3">{w.title}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{w.text}</p>
               </div>

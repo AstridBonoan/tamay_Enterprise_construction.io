@@ -49,6 +49,11 @@ export const IMAGES = {
     hero: assetUrl("/logistics/hero-banner.png"),
     warehouseFleet: assetUrl("/logistics/warehouse-fleet.png"),
     routeMap: assetUrl("/logistics/route-map.png"),
+    whyChoose: {
+      professional: assetUrl("/logistics/why-choose-professional.png"),
+      delivery: assetUrl("/logistics/why-choose-delivery.png"),
+      problemSolving: assetUrl("/logistics/why-choose-problem-solving.png"),
+    },
   },
   gallery: [
     { title: "Complete basement Renovation", src: home("HomePageImage5.webp") },
