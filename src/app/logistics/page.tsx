@@ -60,7 +60,13 @@ function LogisticsPhoto({
 export default function LogisticsPage() {
   return (
     <>
-      <HeroBanner image={IMAGES.logistics.hero} title="Logistics & Delivery Services" height="medium" />
+      <HeroBanner
+        image={IMAGES.logistics.hero}
+        title="Logistics & Delivery Services"
+        height="medium"
+        imageZoom={1.35}
+        imagePosition="50% 28%"
+      />
 
       <section className="py-14 max-w-4xl mx-auto px-4">
         <SectionHeading title="Logistics & Delivery Services in West Haven, CT" />
