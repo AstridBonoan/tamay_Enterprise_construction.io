@@ -25,3 +25,12 @@ export const ADA_RESTROOM_PROJECT_VIDEOS: ReviewVideoProject[] = [
     description: "New ADA bathroom Construction - Brooklyn, New York",
   },
 ];
+
+/** Featured client testimonial video (construction page) */
+export const CONSTRUCTION_CLIENT_TESTIMONIAL_VIDEOS: ReviewVideoProject[] = [
+  {
+    id: "wilton-bathroom-testimonial",
+    videos: ["xhyHDnt_G8g"],
+    description: "Wilton Bathroom Remodeling",
+  },
+];
