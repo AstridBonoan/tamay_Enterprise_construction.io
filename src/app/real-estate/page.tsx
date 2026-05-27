@@ -51,7 +51,7 @@ export default function RealEstatePage() {
   return (
     <>
       <HeroBanner
-        image={IMAGES.divisions.realEstate}
+        image={IMAGES.realEstate.hero}
         title="Real Estate Services"
         height="medium"
       />
