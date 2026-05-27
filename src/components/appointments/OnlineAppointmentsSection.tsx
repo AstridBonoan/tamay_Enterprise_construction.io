@@ -30,6 +30,11 @@ export function OnlineAppointmentsSection() {
                   alt={service.imageAlt}
                   fill
                   className="object-cover"
+                  style={
+                    service.imagePosition
+                      ? { objectPosition: service.imagePosition }
+                      : undefined
+                  }
                   sizes="140px"
                 />
               </div>
