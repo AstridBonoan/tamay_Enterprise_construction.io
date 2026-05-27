@@ -10,9 +10,15 @@ type TamayVideoGalleryProps = {
   projects: ReviewVideoProject[];
   /** Show client/project name heading above each video block */
   showTitle?: boolean;
+  /** Unique prefix for element ids when multiple galleries share a page */
+  instanceId?: string;
 };
 
-export function TamayVideoGallery({ projects, showTitle = true }: TamayVideoGalleryProps) {
+export function TamayVideoGallery({
+  projects,
+  showTitle = true,
+  instanceId = "tamay",
+}: TamayVideoGalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
@@ -39,7 +45,7 @@ export function TamayVideoGallery({ projects, showTitle = true }: TamayVideoGall
 
   return (
     <>
-      <div className="tamay-gallery" id="tamay-gallery" ref={galleryRef}>
+      <div className="tamay-gallery" id={`${instanceId}-gallery`} ref={galleryRef}>
         {activeProjects.map((project) => (
             <div
               key={project.id}
@@ -55,10 +61,21 @@ export function TamayVideoGallery({ projects, showTitle = true }: TamayVideoGall
         ))}
       </div>
 
-      <div className="tamay-modal" id="tamay-modal" ref={modalRef} aria-hidden="true">
-        <div className="tamay-modal-video" id="tamay-player" ref={playerRef} />
+      <div
+        className="tamay-modal"
+        id={`${instanceId}-modal`}
+        ref={modalRef}
+        aria-hidden="true"
+      >
+        <div className="tamay-modal-video" id={`${instanceId}-player`} ref={playerRef} />
       </div>
-      <div className="tamay-close" id="tamay-close" ref={closeRef} role="button" tabIndex={0}>
+      <div
+        className="tamay-close"
+        id={`${instanceId}-close`}
+        ref={closeRef}
+        role="button"
+        tabIndex={0}
+      >
         ✕
       </div>
     </>

@@ -7,7 +7,7 @@ import { ContactBlock } from "@/components/ui/ContactBlock";
 import { Button } from "@/components/ui/Button";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
 import { IMAGES } from "@/lib/images";
-import { CONSTRUCTION_PROJECT_VIDEOS } from "@/lib/constructionVideos";
+import { CONSTRUCTION_PROJECT_VIDEOS, MASONRY_PROJECT_VIDEOS } from "@/lib/constructionVideos";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -168,7 +168,21 @@ export default function ConstructionPage() {
 
       <section className="py-14 max-w-6xl mx-auto px-4">
         <SectionHeading title="Residential & Commercial Projects" />
-        <TamayVideoGallery projects={CONSTRUCTION_PROJECT_VIDEOS} showTitle={false} />
+        <TamayVideoGallery
+          projects={CONSTRUCTION_PROJECT_VIDEOS}
+          showTitle={false}
+          instanceId="construction-residential"
+        />
+
+        <div className="mt-16">
+          <SectionHeading title="Masonry work" />
+          <TamayVideoGallery
+            projects={MASONRY_PROJECT_VIDEOS}
+            showTitle={false}
+            instanceId="construction-masonry"
+          />
+        </div>
+
         <div className="text-center mt-8">
           <Button href="/gallery" variant="primary">
             More projects

@@ -9,3 +9,11 @@ export const CONSTRUCTION_PROJECT_VIDEOS: ReviewVideoProject[] = [
       "Complete basement renovation project including demolition, framing, lighting installation and final finishing. This transformation created a modern entertainment space designed for comfort and functionality.",
   },
 ];
+
+export const MASONRY_PROJECT_VIDEOS: ReviewVideoProject[] = [
+  {
+    id: "retaining-wall-east-hartford",
+    videos: ["9KakXUv9-kE"],
+    description: "Retaining Wall Project - East Hartford.",
+  },
+];
