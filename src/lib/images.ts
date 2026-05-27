@@ -39,6 +39,11 @@ export const IMAGES = {
     realEstate: home("HomePageImage3.webp"),
     logistics: home("HomePageImage8.webp"),
   },
+  realEstate: {
+    agent: `${BASE}/blob-a29678c.png/:/cr=t:24.79%25,l:0%25,w:100%25,h:39.44%25/rs=w:1200,h:600,cg:true`,
+    longTermValue:
+      "https://img1.wsimg.com/isteam/getty/2170553469/:/cr=t:5.56%25,l:0%25,w:100%25,h:88.88%25/rs=w:1200,h:600,cg:true",
+  },
   gallery: [
     { title: "Complete basement Renovation", src: home("HomePageImage5.webp") },
     { title: "Full Bathroom Renovation", src: home("HomePageImage6.webp") },
