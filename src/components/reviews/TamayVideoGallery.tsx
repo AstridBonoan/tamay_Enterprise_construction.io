@@ -12,12 +12,15 @@ type TamayVideoGalleryProps = {
   showTitle?: boolean;
   /** Unique prefix for element ids when multiple galleries share a page */
   instanceId?: string;
+  /** Single-video projects in a 2-column row; multi-video projects full-width below */
+  grouped?: boolean;
 };
 
 export function TamayVideoGallery({
   projects,
   showTitle = true,
   instanceId = "tamay",
+  grouped = false,
 }: TamayVideoGalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -39,26 +42,54 @@ export function TamayVideoGallery({
     return initTamayGallery(gallery, modal, player, closeBtn);
   }, [activeProjects]);
 
+  const singleVideoProjects = useMemo(
+    () => activeProjects.filter((p) => p.videos.length === 1),
+    [activeProjects]
+  );
+  const multiVideoProjects = useMemo(
+    () => activeProjects.filter((p) => p.videos.length > 1),
+    [activeProjects]
+  );
+
   if (activeProjects.length === 0) {
     return null;
   }
 
+  const renderProject = (project: ReviewVideoProject) => (
+    <div
+      key={project.id}
+      className="tamay-project"
+      data-videos={project.videos.join(",")}
+      data-desc={project.description ?? ""}
+    >
+      {showTitle && project.title ? <TestimonialProjectHeader title={project.title} /> : null}
+      <div className="tamay-project-mount" />
+    </div>
+  );
+
   return (
     <>
-      <div className="tamay-gallery" id={`${instanceId}-gallery`} ref={galleryRef}>
-        {activeProjects.map((project) => (
-            <div
-              key={project.id}
-              className="tamay-project"
-              data-videos={project.videos.join(",")}
-              data-desc={project.description ?? ""}
-            >
-              {showTitle && project.title ? (
-                <TestimonialProjectHeader title={project.title} />
-              ) : null}
-              <div className="tamay-project-mount" />
-            </div>
-        ))}
+      <div
+        className={grouped ? "tamay-gallery-root" : "tamay-gallery"}
+        id={`${instanceId}-gallery`}
+        ref={galleryRef}
+      >
+        {grouped ? (
+          <>
+            {singleVideoProjects.length > 0 && (
+              <div className="tamay-gallery-row tamay-gallery-row--singles">
+                {singleVideoProjects.map(renderProject)}
+              </div>
+            )}
+            {multiVideoProjects.length > 0 && (
+              <div className="tamay-gallery-row tamay-gallery-row--multi">
+                {multiVideoProjects.map(renderProject)}
+              </div>
+            )}
+          </>
+        ) : (
+          activeProjects.map(renderProject)
+        )}
       </div>
 
       <div

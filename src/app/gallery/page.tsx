@@ -40,7 +40,12 @@ export default function GalleryPage() {
       <section id="gallery" className="py-14 max-w-6xl mx-auto px-4">
         <SectionHeading title="Photo Gallery" />
         <div className="-mt-2">
-          <TamayVideoGallery projects={GALLERY_VIDEO_PROJECTS} instanceId="gallery" showTitle />
+          <TamayVideoGallery
+            projects={GALLERY_VIDEO_PROJECTS}
+            instanceId="gallery"
+            showTitle
+            grouped
+          />
         </div>
       </section>
 

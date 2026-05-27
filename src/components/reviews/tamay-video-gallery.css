@@ -8,6 +8,56 @@
   box-sizing: border-box;
 }
 
+.tamay-gallery-root {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.tamay-gallery-row--singles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.75rem;
+  width: 100%;
+}
+
+.tamay-gallery-row--multi {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.tamay-gallery-row--singles .tamay-project,
+.tamay-gallery-row--multi .tamay-project {
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.tamay-gallery-row--singles .tamay-project-heading {
+  margin-bottom: 1rem;
+}
+
+.tamay-gallery-row--singles .tamay-project-heading h2 {
+  font-size: 1.05rem;
+}
+
+.tamay-gallery-row--singles .tamay-desc {
+  margin-top: 1rem;
+  padding: 1rem 1.125rem;
+  font-size: 0.9375rem;
+}
+
+.tamay-gallery-row--multi .tamay-desc {
+  margin-top: 1.25rem;
+}
+
 .tamay-project-heading {
   width: 100%;
 }
@@ -225,6 +275,16 @@ body.tamay-lock {
   .tamay-gallery {
     grid-template-columns: 1fr;
     gap: 22px;
+  }
+
+  .tamay-gallery-row--singles {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .tamay-gallery-row--singles .tamay-project,
+  .tamay-gallery-row--multi .tamay-project {
+    padding: 1.25rem;
   }
 
   .tamay-mobile-overlay.active {
