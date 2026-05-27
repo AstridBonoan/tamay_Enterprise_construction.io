@@ -30,9 +30,9 @@ export const IMAGES = {
     image11: home("HomePageImage11.webp"),
   },
   construction: {
-    renovation: home("HomePageImage5.webp"),
-    addition: home("HomePageImage6.webp"),
-    kitchenBath: home("HomePageImage7.webp"),
+    renovation: assetUrl("/construction/core-renovation.png"),
+    addition: assetUrl("/construction/core-addition.png"),
+    kitchenBath: assetUrl("/construction/core-kitchen-bath.png"),
   },
   divisions: {
     construction: home("HomePageImage2.webp"),
