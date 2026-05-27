@@ -64,7 +64,9 @@ export default function LogisticsPage() {
         image={IMAGES.logistics.hero}
         title="Logistics & Delivery Services"
         height="medium"
-        imageFit="fill"
+        imageFit="cover"
+        imageZoom={1.45}
+        imagePosition="50% 40%"
       />
 
       <section className="py-14 max-w-4xl mx-auto px-4">
