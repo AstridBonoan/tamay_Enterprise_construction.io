@@ -3,7 +3,6 @@ import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { CareerRoleCard } from "@/components/careers/CareerRoleCard";
-import { CareersIntroGallery } from "@/components/careers/CareersIntroGallery";
 import { CareersAboutPhoto } from "@/components/careers/CareersAboutPhoto";
 import { CAREER_ROLE_GROUPS } from "@/lib/careerRoles";
 import { CAREERS_ABOUT_IMAGES } from "@/lib/careerImages";
@@ -24,8 +23,6 @@ export default function CareersPage() {
         subtitle="Construction Jobs available"
         height="medium"
       />
-
-      <CareersIntroGallery />
 
       <section className="py-14 max-w-4xl mx-auto px-4 text-center border-b border-gray-200">
         <SectionHeading
@@ -130,13 +127,6 @@ export default function CareersPage() {
             </div>
           </div>
         </div>
-      </section>
-
-      <section className="py-16 bg-tamay-primary text-white text-center px-4">
-        <h2 className="font-heading text-2xl md:text-3xl font-semibold mb-6">Join our team</h2>
-        <Button href="/careers-partnerships/apply" variant="accent">
-          Join our team
-        </Button>
       </section>
     </>
   );

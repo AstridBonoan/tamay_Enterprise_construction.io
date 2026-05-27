@@ -1,0 +1,237 @@
+.job-app {
+  --job-navy: #0b1f3a;
+  --job-gold: #c9a227;
+  --job-card: #ffffff;
+  --job-border: #d9d9e3;
+  --job-text: #1a1a1a;
+  --job-muted: #5b5b66;
+  --job-success-bg: #f4f8f3;
+  --job-success-border: #cfe3cf;
+  max-width: 920px;
+  margin: 0 auto;
+  font-family: var(--font-body), Arial, sans-serif;
+  color: var(--job-text);
+}
+
+.job-app-header {
+  background: linear-gradient(135deg, var(--job-navy), #0f2e57);
+  border-radius: 14px;
+  padding: 18px;
+  color: #fff;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.job-app-header h2 {
+  margin: 0;
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 24px;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+}
+
+.job-app-header p {
+  margin: 6px 0 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.job-app-progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.job-app-progress-step {
+  flex: 1;
+  min-width: 72px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--job-muted);
+  padding: 8px 4px;
+  border-bottom: 3px solid var(--job-border);
+  line-height: 1.3;
+}
+
+.job-app-progress-step.is-active {
+  color: var(--job-navy);
+  border-bottom-color: var(--job-gold);
+}
+
+.job-app-progress-step.is-done {
+  color: var(--job-navy);
+  border-bottom-color: var(--job-navy);
+}
+
+.job-app-card {
+  background: var(--job-card);
+  border: 1px solid var(--job-border);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+}
+
+.job-app-legend {
+  display: inline-block;
+  padding: 6px 10px;
+  background: rgba(201, 162, 39, 0.14);
+  color: var(--job-navy);
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.job-app-grid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.job-app-col {
+  flex: 1;
+  min-width: min(100%, 220px);
+}
+
+.job-app label {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--job-muted);
+  line-height: 1.4;
+}
+
+.job-app input,
+.job-app select,
+.job-app textarea {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #cfd3da;
+  border-radius: 10px;
+  outline: none;
+  margin-top: 6px;
+  background: #fff;
+  font-size: 14px;
+  color: var(--job-text);
+  font-family: inherit;
+}
+
+.job-app input[type="file"] {
+  padding: 10px;
+}
+
+.job-app input:focus,
+.job-app select:focus,
+.job-app textarea:focus {
+  border-color: rgba(201, 162, 39, 0.85);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.18);
+}
+
+.job-app-check {
+  display: block;
+  margin-top: 12px;
+  color: var(--job-text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.job-app-check input {
+  width: auto;
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.job-app-note {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--job-muted);
+  line-height: 1.5;
+}
+
+.job-app-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.job-app-btn {
+  background: var(--job-navy);
+  color: #fff;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 10px 18px rgba(11, 31, 58, 0.18);
+  min-width: 140px;
+}
+
+.job-app-btn:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+.job-app-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.job-app-btn-secondary {
+  background: #fff;
+  color: var(--job-navy);
+  border: 2px solid var(--job-navy);
+  box-shadow: none;
+}
+
+.job-app-status {
+  font-size: 13px;
+  color: var(--job-muted);
+  flex: 1;
+  min-width: 200px;
+}
+
+.job-app-success {
+  background: var(--job-success-bg);
+  border: 1px solid var(--job-success-border);
+  border-radius: 14px;
+  padding: 28px 20px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+.job-app-success h3 {
+  margin: 0 0 10px;
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 24px;
+  color: var(--job-navy);
+}
+
+.job-app-success p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .job-app-header h2 {
+    font-size: 21px;
+  }
+
+  .job-app-progress-step {
+    font-size: 10px;
+    min-width: 56px;
+  }
+
+  .job-app-btn {
+    width: 100%;
+  }
+}
