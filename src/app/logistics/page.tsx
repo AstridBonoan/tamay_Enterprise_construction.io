@@ -65,8 +65,8 @@ export default function LogisticsPage() {
         title="Logistics & Delivery Services"
         height="medium"
         imageFit="cover"
-        imageZoom={1.45}
-        imagePosition="50% 40%"
+        imageZoom={1.8}
+        imagePosition="58% 66%"
       />
 
       <section className="py-14 max-w-4xl mx-auto px-4">
