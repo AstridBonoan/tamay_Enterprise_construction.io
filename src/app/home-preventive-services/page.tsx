@@ -259,19 +259,19 @@ export default function HomePreventiveServicesPage() {
       </section>
 
       <section className="py-16 bg-gray-50 px-4">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <SectionHeading title="Our Preventive Services" />
-          <p className="text-gray-600 text-center leading-relaxed mb-12 -mt-2">
+          <p className="text-gray-600 text-center leading-relaxed mb-12 -mt-2 max-w-3xl mx-auto">
             Each service is delivered with clear communication, careful observation, and practical guidance for
             long-term home care.
           </p>
-          <div className="space-y-10">
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-10 items-start">
             {preventiveServices.map((service) => (
               <article
                 key={service.title}
-                className="bg-white p-8 md:p-10 shadow-sm border border-gray-100 border-t-4 border-t-tamay-accent"
+                className="bg-white p-6 md:p-8 shadow-sm border border-gray-100 border-t-4 border-t-tamay-accent h-full"
               >
-                <h3 className="font-heading text-xl text-tamay-primary font-semibold mb-8 pb-4 border-b border-gray-100">
+                <h3 className="font-heading text-lg md:text-xl text-tamay-primary font-semibold mb-6 pb-4 border-b border-gray-100">
                   {service.title}
                 </h3>
                 <ServiceList items={service.items} notes={service.notes} />
