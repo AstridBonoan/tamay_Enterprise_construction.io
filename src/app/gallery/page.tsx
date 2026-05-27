@@ -3,7 +3,6 @@ import Link from "next/link";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { GalleryCarousel } from "@/components/gallery/GalleryCarousel";
 import { GALLERY_VIDEO_PROJECTS } from "@/lib/galleryVideos";
 import { IMAGES } from "@/lib/images";
 import { SITE } from "@/lib/site";
@@ -11,11 +10,8 @@ import { SITE } from "@/lib/site";
 export const metadata: Metadata = {
   title: "GALLERY",
   description:
-    "Photo gallery of construction and renovation projects by Tamay Enterprises across Connecticut.",
+    "Project video gallery of construction and renovation work by Tamay Enterprises across Connecticut.",
 };
-
-const galleryProjects = [...IMAGES.gallery];
-const featuredSlides = galleryProjects.slice(0, 6);
 
 const socialLinks = [
   { href: SITE.social.facebook, label: "Facebook" },
@@ -43,33 +39,8 @@ export default function GalleryPage() {
 
       <section id="gallery" className="py-14 max-w-6xl mx-auto px-4">
         <SectionHeading title="Photo Gallery" />
-        <div className="mb-14 -mt-2">
-          <GalleryCarousel slides={featuredSlides} />
-        </div>
-
-        <div className="max-w-3xl mx-auto">
-          {galleryProjects.map((item, index) => (
-            <div key={item.title}>
-              {index > 0 && <hr className="border-gray-200 my-8" />}
-              <h2 className="font-heading text-lg md:text-xl text-tamay-primary font-semibold text-center py-2">
-                {item.title}
-              </h2>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="py-14 bg-gray-50 px-4">
-        <div className="max-w-6xl mx-auto">
-          <SectionHeading title="Project Videos" />
-          <p className="text-gray-600 text-center max-w-2xl mx-auto mb-10 -mt-2 leading-relaxed">
-            Tap a thumbnail to play project walkthroughs. Supports one, two, or multiple videos per project.
-          </p>
-          <TamayVideoGallery
-            projects={GALLERY_VIDEO_PROJECTS}
-            instanceId="gallery"
-            showTitle
-          />
+        <div className="-mt-2">
+          <TamayVideoGallery projects={GALLERY_VIDEO_PROJECTS} instanceId="gallery" showTitle />
         </div>
       </section>
 
