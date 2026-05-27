@@ -28,8 +28,6 @@ type PreventiveService = {
   notes?: string[];
   areasCovered?: { heading: string; lines: string[] };
   moreInfo?: boolean;
-  image?: string;
-  imageAlt?: string;
 };
 
 const preventiveServices: PreventiveService[] = [
@@ -50,8 +48,6 @@ const preventiveServices: PreventiveService[] = [
   },
   {
     title: "Bathroom Rejuvenation Services",
-    image: IMAGES.preventiveServices.serviceBathroom,
-    imageAlt: "Professional reviewing bathroom fixtures with a homeowner",
     items: [
       "Caulking and grout refresh",
       "Fixture tightening and leak awareness",
@@ -64,8 +60,6 @@ const preventiveServices: PreventiveService[] = [
   },
   {
     title: "Seasonal HVAC Preparation",
-    image: IMAGES.preventiveServices.serviceHvac,
-    imageAlt: "HVAC technician inspecting an outdoor air conditioning unit",
     items: [
       "Pre-winter heating readiness",
       "Pre-summer cooling preparation",
@@ -82,8 +76,6 @@ const preventiveServices: PreventiveService[] = [
   },
   {
     title: "Plumbing Preventive Care",
-    image: IMAGES.preventiveServices.servicePlumbing,
-    imageAlt: "Technician inspecting under-sink plumbing with a homeowner",
     items: [
       "Leak awareness",
       "Water pressure evaluation",
@@ -125,8 +117,6 @@ const preventiveServices: PreventiveService[] = [
   },
   {
     title: "Exterior and Roof Awareness",
-    image: IMAGES.preventiveServices.serviceExterior,
-    imageAlt: "Technician inspecting roof and gutter conditions",
     items: [
       "General roof condition observations",
       "Seasonal gutter cleaning",
@@ -192,22 +182,31 @@ function PreventivePhoto({
 
 function ServiceList({ items, notes }: { items: string[]; notes?: string[] }) {
   return (
-    <>
-      <ul className="text-sm text-gray-600 space-y-1.5">
+    <div className="space-y-8">
+      <ul className="text-base text-gray-700 space-y-3 leading-relaxed">
         {items.map((item) => (
-          <li key={item}>• {item}</li>
+          <li key={item} className="flex gap-3">
+            <span className="text-tamay-accent font-bold shrink-0">•</span>
+            <span>{item}</span>
+          </li>
         ))}
       </ul>
       {notes && notes.length > 0 && (
-        <ul className="text-sm text-gray-600 space-y-1.5 mt-3">
-          {notes.map((note) => (
-            <li key={note} className="text-gray-500">
-              * {note}
-            </li>
-          ))}
-        </ul>
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-wide text-tamay-primary mb-4">
+            Additional observations
+          </p>
+          <ul className="text-sm text-gray-600 space-y-2.5 leading-relaxed pl-1">
+            {notes.map((note) => (
+              <li key={note} className="flex gap-3">
+                <span className="text-gray-400 shrink-0">*</span>
+                <span>{note}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
-    </>
+    </div>
   );
 }
 
@@ -259,39 +258,43 @@ export default function HomePreventiveServicesPage() {
         </div>
       </section>
 
-      <section className="py-14 max-w-6xl mx-auto px-4">
-        <SectionHeading title="Our Preventive Services" />
-        <div className="grid md:grid-cols-2 gap-10 -mt-2">
-          {preventiveServices.map((service) => (
-            <div key={service.title} className="border-l-4 border-tamay-accent pl-6">
-              {service.image && (
-                <PreventivePhoto
-                  src={service.image}
-                  alt={service.imageAlt ?? service.title}
-                  className="aspect-[16/10] mb-4"
-                />
-              )}
-              <h3 className="font-heading text-lg text-tamay-primary font-semibold mb-3">{service.title}</h3>
-              <ServiceList items={service.items} notes={service.notes} />
-              {service.areasCovered && (
-                <div className="mt-6 pt-4 border-t border-gray-200">
-                  <p className="text-xs font-semibold tracking-wide uppercase text-tamay-primary mb-2">
-                    {service.areasCovered.heading}
-                  </p>
-                  {service.areasCovered.lines.map((line) => (
-                    <p key={line} className="text-sm text-gray-600">
-                      {line}
+      <section className="py-16 bg-gray-50 px-4">
+        <div className="max-w-3xl mx-auto">
+          <SectionHeading title="Our Preventive Services" />
+          <p className="text-gray-600 text-center leading-relaxed mb-12 -mt-2">
+            Each service is delivered with clear communication, careful observation, and practical guidance for
+            long-term home care.
+          </p>
+          <div className="space-y-10">
+            {preventiveServices.map((service) => (
+              <article
+                key={service.title}
+                className="bg-white p-8 md:p-10 shadow-sm border border-gray-100 border-t-4 border-t-tamay-accent"
+              >
+                <h3 className="font-heading text-xl text-tamay-primary font-semibold mb-8 pb-4 border-b border-gray-100">
+                  {service.title}
+                </h3>
+                <ServiceList items={service.items} notes={service.notes} />
+                {service.areasCovered && (
+                  <div className="mt-8 pt-6 border-t border-gray-100">
+                    <p className="text-sm font-semibold tracking-wide uppercase text-tamay-primary mb-3">
+                      {service.areasCovered.heading}
                     </p>
-                  ))}
-                </div>
-              )}
-              {service.moreInfo && (
-                <Button href="#contact" variant="outline" className="mt-4">
-                  More info
-                </Button>
-              )}
-            </div>
-          ))}
+                    {service.areasCovered.lines.map((line) => (
+                      <p key={line} className="text-base text-gray-600 leading-relaxed">
+                        {line}
+                      </p>
+                    ))}
+                  </div>
+                )}
+                {service.moreInfo && (
+                  <Button href="#contact" variant="outline" className="mt-8">
+                    More info
+                  </Button>
+                )}
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
