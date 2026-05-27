@@ -53,7 +53,9 @@ export default function RealEstatePage() {
       <HeroBanner
         image={IMAGES.realEstate.hero}
         title="Real Estate Services"
-        height="medium"
+        height="tall"
+        imageZoom={1.22}
+        imagePosition="center 38%"
       />
 
       <section className="py-14 max-w-4xl mx-auto px-4">

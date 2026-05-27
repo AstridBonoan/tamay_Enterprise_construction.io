@@ -9,6 +9,10 @@ type HeroBannerProps = {
   cta?: { label: string; href: string };
   overlay?: boolean;
   height?: "tall" | "medium";
+  /** Values above 1 zoom out (e.g. 1.2 shows ~20% more of the photo). */
+  imageZoom?: number;
+  /** object-position for the background image */
+  imagePosition?: string;
 };
 
 export function HeroBanner({
@@ -19,12 +23,38 @@ export function HeroBanner({
   cta,
   overlay = true,
   height = "tall",
+  imageZoom = 1,
+  imagePosition = "center center",
 }: HeroBannerProps) {
   const heightClass = height === "tall" ? "min-h-[420px] md:min-h-[520px]" : "min-h-[280px] md:min-h-[360px]";
+  const zoomOut = imageZoom > 1 ? (imageZoom - 1) * 50 : 0;
 
   return (
     <section className={`relative ${heightClass} flex items-center justify-center overflow-hidden`}>
-      <Image src={image} alt="" fill className="object-cover" priority sizes="100vw" />
+      <div
+        className="absolute"
+        style={
+          zoomOut > 0
+            ? {
+                top: `-${zoomOut}%`,
+                left: `-${zoomOut}%`,
+                right: `-${zoomOut}%`,
+                bottom: `-${zoomOut}%`,
+              }
+            : { inset: 0 }
+        }
+      >
+        <Image
+          src={image}
+          alt=""
+          fill
+          className="object-cover"
+          style={{ objectPosition: imagePosition }}
+          priority
+          sizes="100vw"
+          unoptimized
+        />
+      </div>
       {overlay && <div className="absolute inset-0 bg-black/40" />}
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white py-16">
         {tagline && (
