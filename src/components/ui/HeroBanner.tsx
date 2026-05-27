@@ -9,7 +9,7 @@ type HeroBannerProps = {
   cta?: { label: string; href: string };
   overlay?: boolean;
   height?: "tall" | "medium";
-  /** Values above 1 zoom out (e.g. 1.2 shows ~20% more of the photo). */
+  /** Above 1 zooms out; below 1 zooms in (e.g. 0.92 crops tighter). Banner size unchanged. */
   imageZoom?: number;
   /** object-position for the background image */
   imagePosition?: string;
@@ -28,6 +28,7 @@ export function HeroBanner({
 }: HeroBannerProps) {
   const heightClass = height === "tall" ? "min-h-[420px] md:min-h-[520px]" : "min-h-[280px] md:min-h-[360px]";
   const zoomOut = imageZoom > 1 ? (imageZoom - 1) * 50 : 0;
+  const zoomInScale = imageZoom > 0 && imageZoom < 1 ? 1 / imageZoom : 1;
 
   return (
     <section className={`relative ${heightClass} flex items-center justify-center overflow-hidden`}>
@@ -41,7 +42,13 @@ export function HeroBanner({
                 right: `-${zoomOut}%`,
                 bottom: `-${zoomOut}%`,
               }
-            : { inset: 0 }
+            : zoomInScale > 1
+              ? {
+                  inset: 0,
+                  transform: `scale(${zoomInScale})`,
+                  transformOrigin: imagePosition,
+                }
+              : { inset: 0 }
         }
       >
         <Image
