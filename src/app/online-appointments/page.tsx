@@ -26,8 +26,7 @@ export default function OnlineAppointmentsPage() {
       <section id="book" className="py-14 max-w-5xl mx-auto px-4">
         <SectionHeading title="Online Appointments" />
         <p className="text-gray-600 text-center max-w-2xl mx-auto mb-10 -mt-2 leading-relaxed">
-          Request a consultation or site visit using our online scheduler. You will complete booking on our
-          main website in a new tab.
+          Request a consultation or site visit using the form below, or contact us by phone or WhatsApp.
         </p>
         <BookingEmbed />
       </section>
@@ -38,18 +37,18 @@ export default function OnlineAppointmentsPage() {
             Need help scheduling?
           </h2>
           <p className="text-gray-600 mb-6 leading-relaxed">
-            Questions about availability or which service to choose? Contact us directly and we will help
-            you schedule.
+            Questions about availability or which service to choose? Call or message us and we will help
+            you find a time.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button href={SITE.appointmentsUrl} variant="primary" external>
-              Open scheduler
-            </Button>
-            <Button href={SITE.phoneTel} variant="outline">
+            <Button href={SITE.phoneTel} variant="primary">
               Call {SITE.phone}
             </Button>
             <Button href={SITE.whatsapp} variant="outline" external>
               WhatsApp
+            </Button>
+            <Button href={`mailto:${SITE.email}`} variant="outline" external>
+              Email us
             </Button>
           </div>
         </div>

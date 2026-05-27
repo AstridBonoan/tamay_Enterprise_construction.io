@@ -17,8 +17,6 @@ export const SITE = {
   license: "NHC.0018326",
   whatsapp: "https://wa.me/12032206678",
   estimateUrl: "http://estimator.tamayenterprises.com",
-  /** GoDaddy Online Appointments — opens full scheduler on the live site */
-  appointmentsUrl: "https://tamayenterprises.com/online-appointments",
   financingUrl: "https://your.acornfinance.com/apply?d=93753",
   hiringUrl: "/careers-partnerships",
   social: {
