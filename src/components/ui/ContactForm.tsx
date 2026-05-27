@@ -6,18 +6,22 @@ type Field = {
   type?: "text" | "email" | "tel" | "textarea" | "select";
   required?: boolean;
   options?: string[];
+  /** Display labels for select options (same order as options) */
+  optionLabels?: string[];
 };
 
 type ContactFormProps = {
   fields: Field[];
   submitLabel?: string;
   showRecaptchaNote?: boolean;
+  defaultValues?: Record<string, string>;
 };
 
 export function ContactForm({
   fields,
   submitLabel = "Send",
   showRecaptchaNote = true,
+  defaultValues,
 }: ContactFormProps) {
   return (
     <form
@@ -39,6 +43,7 @@ export function ContactForm({
               name={field.name}
               rows={4}
               required={field.required}
+              defaultValue={defaultValues?.[field.name]}
               className="w-full border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tamay-primary"
             />
           ) : field.type === "select" && field.options ? (
@@ -46,12 +51,13 @@ export function ContactForm({
               id={field.name}
               name={field.name}
               required={field.required}
+              defaultValue={defaultValues?.[field.name] ?? ""}
               className="w-full border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tamay-primary bg-white"
             >
               <option value="">Select...</option>
-              {field.options.map((opt) => (
+              {field.options.map((opt, i) => (
                 <option key={opt} value={opt}>
-                  {opt}
+                  {field.optionLabels?.[i] ?? opt}
                 </option>
               ))}
             </select>
@@ -61,6 +67,7 @@ export function ContactForm({
               name={field.name}
               type={field.type ?? "text"}
               required={field.required}
+              defaultValue={defaultValues?.[field.name]}
               className="w-full border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tamay-primary"
             />
           )}
