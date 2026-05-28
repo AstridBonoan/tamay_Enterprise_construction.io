@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { assetUrl } from "@/lib/assetUrl";
 import { isAuthenticated } from "@/lib/auth";
 
 function UserIcon({ className = "w-6 h-6" }: { className?: string }) {
@@ -25,9 +24,10 @@ type AccountMenuProps = {
 
 export function AccountMenu({ compact = false, open, onToggle, onClose }: AccountMenuProps) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
   const [loggedIn, setLoggedIn] = useState(false);
   const iconClass = compact ? "w-6 h-6" : "w-7 h-7";
+  const signInHref = `${assetUrl("/m/login/")}?r=%2Fm%2Faccount`;
+  const createAccountHref = assetUrl("/m/create-account/");
 
   useEffect(() => {
     const syncAuth = () => setLoggedIn(isAuthenticated());
@@ -75,30 +75,24 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
           role="menu"
         >
           <li role="none">
-            <button
-              type="button"
+            <a
+              href={signInHref}
               role="menuitem"
-              onClick={() => {
-                onClose();
-                router.push("/m/login?r=%2Fm%2Faccount");
-              }}
+              onClick={onClose}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               SIGN IN
-            </button>
+            </a>
           </li>
           <li role="none">
-            <button
-              type="button"
+            <a
+              href={createAccountHref}
               role="menuitem"
-              onClick={() => {
-                onClose();
-                router.push("/m/create-account");
-              }}
+              onClick={onClose}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               CREATE ACCOUNT
-            </button>
+            </a>
           </li>
           <li role="separator" className="my-1 border-t border-gray-200" />
           <li role="none">
@@ -107,12 +101,12 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
               role="menuitem"
               onClick={() => {
                 onClose();
-                const target = "/m/bookings";
+                const target = assetUrl("/m/bookings/");
                 if (loggedIn) {
-                  router.push(target);
+                  window.location.assign(target);
                   return;
                 }
-                router.push(`/m/login?r=${encodeURIComponent(target)}`);
+                window.location.assign(`${assetUrl("/m/login/")}?r=${encodeURIComponent(target)}`);
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
@@ -125,12 +119,12 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
               role="menuitem"
               onClick={() => {
                 onClose();
-                const target = "/m/account";
+                const target = assetUrl("/m/account/");
                 if (loggedIn) {
-                  router.push(target);
+                  window.location.assign(target);
                   return;
                 }
-                router.push(`/m/login?r=${encodeURIComponent(target)}`);
+                window.location.assign(`${assetUrl("/m/login/")}?r=${encodeURIComponent(target)}`);
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >

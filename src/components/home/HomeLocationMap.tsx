@@ -25,7 +25,7 @@ export function HomeLocationMap() {
           allowFullScreen
         />
         {/* Hide Google top-left place card/controls so only custom CTA appears */}
-        <div className="absolute top-0 left-0 z-[20] w-[300px] h-[90px] bg-white pointer-events-none" />
+        <div className="absolute top-0 left-0 z-[20] w-[430px] h-[130px] bg-white pointer-events-none" />
 
         <a
           href={SITE.maps.directionsUrl}
