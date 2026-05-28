@@ -78,7 +78,11 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
             <a
               href={signInHref}
               role="menuitem"
-              onClick={onClose}
+              onClick={(e) => {
+                e.preventDefault();
+                onClose();
+                window.location.assign(signInHref);
+              }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               SIGN IN
@@ -88,7 +92,11 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
             <a
               href={createAccountHref}
               role="menuitem"
-              onClick={onClose}
+              onClick={(e) => {
+                e.preventDefault();
+                onClose();
+                window.location.assign(createAccountHref);
+              }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               CREATE ACCOUNT
