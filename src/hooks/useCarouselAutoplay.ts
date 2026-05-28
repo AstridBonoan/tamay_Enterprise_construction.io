@@ -11,7 +11,7 @@ type UseCarouselAutoplayOptions = {
   paused?: boolean;
 };
 
-const DEFAULT_INTERVAL_MS = 5000;
+const DEFAULT_INTERVAL_MS = 4000;
 
 /**
  * Advances a carousel on an interval. Respects prefers-reduced-motion and pauses when the tab is hidden.

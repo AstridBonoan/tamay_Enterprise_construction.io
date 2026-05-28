@@ -100,7 +100,7 @@ function getCardsPerPage(width: number) {
   return 1;
 }
 
-const AUTOPLAY_INTERVAL_MS = 6000;
+const AUTOPLAY_INTERVAL_MS = 5000;
 
 export function ReviewsSection() {
   const background = assetUrl("/reviews/reviews-background.png");
