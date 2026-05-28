@@ -5,7 +5,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { ContactBlock } from "@/components/ui/ContactBlock";
 import { Button } from "@/components/ui/Button";
-import { ASSEMBLY_HERO_BANNER } from "@/lib/assemblyImages";
+import { ASSEMBLY_HERO_BANNER, ASSEMBLY_HERO_BANNER_ASPECT } from "@/lib/assemblyImages";
 import {
   ASSEMBLY_CABINET_FEATURE,
   ASSEMBLY_IMPORTANT_NOTE,
@@ -55,8 +55,8 @@ export default function AssemblyInstallationPage() {
         image={ASSEMBLY_HERO_BANNER}
         title="Professional Furniture Assembly & Installation"
         subtitle={ASSEMBLY_INTRO.tagline}
-        height="medium"
-        imageFit="fill"
+        aspectRatio={ASSEMBLY_HERO_BANNER_ASPECT}
+        imageFit="cover"
         overlayClassName="bg-black/50"
       />
 
