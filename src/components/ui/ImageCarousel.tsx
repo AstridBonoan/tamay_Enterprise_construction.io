@@ -59,12 +59,7 @@ export function ImageCarousel({
   if (slides.length === 0) return null;
 
   return (
-    <div
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={() => setPaused(false)}
-    >
+    <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div className={`relative overflow-hidden bg-gray-100 ${aspectClassName}`}>
         <Image
           src={slides[index].src}

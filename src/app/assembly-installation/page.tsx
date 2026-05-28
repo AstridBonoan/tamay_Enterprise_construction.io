@@ -138,12 +138,12 @@ export default function AssemblyInstallationPage() {
       </section>
 
       <section className="bg-tamay-primary text-white">
-        <figure className="relative w-full h-[220px] sm:h-[300px] md:h-[380px]">
+        <figure className="relative w-full aspect-[1024/282]">
           <Image
             src={ASSEMBLY_SCALE.image}
             alt={ASSEMBLY_SCALE.imageAlt}
             fill
-            className="object-cover object-[center_15%] sm:object-[center_12%]"
+            className="object-cover object-top"
             sizes="100vw"
             unoptimized
           />
