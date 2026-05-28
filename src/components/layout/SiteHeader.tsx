@@ -24,15 +24,9 @@ function CartIcon({ className = "w-6 h-6" }: { className?: string }) {
 function HeaderToolbar({
   compact = false,
   onOpenCart,
-  accountOpen,
-  onToggleAccount,
-  onCloseAccount,
 }: {
   compact?: boolean;
   onOpenCart: () => void;
-  accountOpen: boolean;
-  onToggleAccount: () => void;
-  onCloseAccount: () => void;
 }) {
   const iconClass = compact ? "w-6 h-6" : "w-7 h-7";
   return (
@@ -40,12 +34,7 @@ function HeaderToolbar({
       <button type="button" onClick={onOpenCart} className={iconLinkClass} aria-label="Open cart">
         <CartIcon className={iconClass} />
       </button>
-      <AccountMenu
-        compact={compact}
-        open={accountOpen}
-        onToggle={onToggleAccount}
-        onClose={onCloseAccount}
-      />
+      <AccountMenu compact={compact} />
     </div>
   );
 }
@@ -54,22 +43,14 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
-  const [accountOpen, setAccountOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const openSidebar = useCallback(() => setSidebarOpen(true), []);
   const closeCart = useCallback(() => setCartOpen(false), []);
   const openCart = useCallback(() => {
-    setAccountOpen(false);
     setMoreOpen(false);
     setCartOpen(true);
-  }, []);
-  const closeAccount = useCallback(() => setAccountOpen(false), []);
-  const toggleAccount = useCallback(() => {
-    setCartOpen(false);
-    setMoreOpen(false);
-    setAccountOpen((v) => !v);
   }, []);
 
   const isActive = (href: string) =>
@@ -110,9 +91,6 @@ export function SiteHeader() {
           <HeaderToolbar
             compact
             onOpenCart={openCart}
-            accountOpen={accountOpen}
-            onToggleAccount={toggleAccount}
-            onCloseAccount={closeAccount}
           />
         </div>
 
@@ -193,9 +171,6 @@ export function SiteHeader() {
 
             <HeaderToolbar
               onOpenCart={openCart}
-              accountOpen={accountOpen}
-              onToggleAccount={toggleAccount}
-              onCloseAccount={closeAccount}
             />
           </div>
         </div>
