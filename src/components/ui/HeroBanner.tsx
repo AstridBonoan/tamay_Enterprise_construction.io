@@ -8,6 +8,8 @@ type HeroBannerProps = {
   tagline?: string;
   cta?: { label: string; href: string };
   overlay?: boolean;
+  /** e.g. bg-black/60 — darker overlay when the image includes baked-in text */
+  overlayClassName?: string;
   height?: "tall" | "medium";
   /** Above 1 zooms out; below 1 zooms in. Only applies when imageFit is cover. */
   imageZoom?: number;
@@ -26,6 +28,7 @@ export function HeroBanner({
   tagline,
   cta,
   overlay = true,
+  overlayClassName = "bg-black/40",
   height = "tall",
   imageZoom = 1,
   imagePosition = "center center",
@@ -85,7 +88,7 @@ export function HeroBanner({
           unoptimized
         />
       </div>
-      {effectiveOverlay && <div className="absolute inset-0 bg-black/40" />}
+      {effectiveOverlay && <div className={`absolute inset-0 ${overlayClassName}`} />}
       {imageOnly ? (
         <h1 className="sr-only">{title}</h1>
       ) : (

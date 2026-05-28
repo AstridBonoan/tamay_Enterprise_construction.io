@@ -19,7 +19,10 @@ export default function CareersPage() {
       <HeroBanner
         image={CAREERS_HERO_BANNER}
         title="Careers & Partnerships"
-        imageOnly
+        subtitle="Construction Jobs available"
+        height="medium"
+        imageFit="fill"
+        overlayClassName="bg-black/55"
       />
 
       <section className="py-14 max-w-4xl mx-auto px-4 text-center border-b border-gray-200">
