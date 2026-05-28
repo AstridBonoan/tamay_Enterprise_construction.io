@@ -19,9 +19,8 @@ export const SITE = {
   estimateUrl: "http://estimator.tamayenterprises.com",
   financingUrl: "https://your.acornfinance.com/apply?d=93753",
   hiringUrl: "/careers-partnerships",
-  /** Header icons (matches live site cart + account) */
+  /** Cart empty state + bookings */
   headerCartUrl: "/online-appointments",
-  headerAccountUrl: "/online-appointments",
   social: {
     facebook: "https://www.facebook.com/Tamay.Constructions",
     instagram: "https://www.instagram.com/tamay.enterprises/",
@@ -68,6 +67,15 @@ export const NAV_MORE = [
 ] as const;
 
 export const NAV_LINKS = [...NAV_PRIMARY, ...NAV_MORE] as const;
+
+/** Person icon dropdown (matches tamayenterprises.com) */
+export const ACCOUNT_MENU_ITEMS = [
+  { type: "link" as const, href: "/online-appointments", label: "SIGN IN" },
+  { type: "link" as const, href: "/online-appointments", label: "CREATE ACCOUNT" },
+  { type: "divider" as const },
+  { type: "link" as const, href: "/online-appointments", label: "BOOKINGS" },
+  { type: "link" as const, href: "/online-appointments", label: "MY ACCOUNT" },
+] as const;
 
 export const FOOTER_LINKS = [
   { href: "/home-preventive-services", label: "HOME PREVENTIVE SERVICES" },

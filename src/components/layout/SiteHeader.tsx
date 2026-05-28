@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import { useCallback, useState } from "react";
 import { NAV_MORE, NAV_PRIMARY, SITE } from "@/lib/site";
 import { IMAGES } from "@/lib/images";
+import { AccountMenu } from "./AccountMenu";
+import { CartDrawer } from "./CartDrawer";
 import { MobileSidebar } from "./MobileSidebar";
 
 const iconLinkClass =
@@ -19,24 +21,31 @@ function CartIcon({ className = "w-6 h-6" }: { className?: string }) {
   );
 }
 
-function UserIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z" />
-    </svg>
-  );
-}
-
-function HeaderToolbar({ compact = false }: { compact?: boolean }) {
+function HeaderToolbar({
+  compact = false,
+  onOpenCart,
+  accountOpen,
+  onToggleAccount,
+  onCloseAccount,
+}: {
+  compact?: boolean;
+  onOpenCart: () => void;
+  accountOpen: boolean;
+  onToggleAccount: () => void;
+  onCloseAccount: () => void;
+}) {
   const iconClass = compact ? "w-6 h-6" : "w-7 h-7";
   return (
     <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-      <Link href={SITE.headerCartUrl} className={iconLinkClass} aria-label="Bookings">
+      <button type="button" onClick={onOpenCart} className={iconLinkClass} aria-label="Open cart">
         <CartIcon className={iconClass} />
-      </Link>
-      <Link href={SITE.headerAccountUrl} className={iconLinkClass} aria-label="My account">
-        <UserIcon className={iconClass} />
-      </Link>
+      </button>
+      <AccountMenu
+        compact={compact}
+        open={accountOpen}
+        onToggle={onToggleAccount}
+        onClose={onCloseAccount}
+      />
     </div>
   );
 }
@@ -44,10 +53,24 @@ function HeaderToolbar({ compact = false }: { compact?: boolean }) {
 export function SiteHeader() {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const openSidebar = useCallback(() => setSidebarOpen(true), []);
+  const closeCart = useCallback(() => setCartOpen(false), []);
+  const openCart = useCallback(() => {
+    setAccountOpen(false);
+    setMoreOpen(false);
+    setCartOpen(true);
+  }, []);
+  const closeAccount = useCallback(() => setAccountOpen(false), []);
+  const toggleAccount = useCallback(() => {
+    setCartOpen(false);
+    setMoreOpen(false);
+    setAccountOpen((v) => !v);
+  }, []);
 
   const isActive = (href: string) =>
     pathname === href || (href !== "/" && pathname.startsWith(href));
@@ -55,6 +78,7 @@ export function SiteHeader() {
   return (
     <>
       <MobileSidebar open={sidebarOpen} onClose={closeSidebar} />
+      <CartDrawer open={cartOpen} onClose={closeCart} />
 
       <header className="sticky top-0 z-[120] bg-white shadow-sm border-b border-gray-100">
         {/* Mobile & tablet: hamburger */}
@@ -83,7 +107,13 @@ export function SiteHeader() {
             />
           </Link>
 
-          <HeaderToolbar compact />
+          <HeaderToolbar
+            compact
+            onOpenCart={openCart}
+            accountOpen={accountOpen}
+            onToggleAccount={toggleAccount}
+            onCloseAccount={closeAccount}
+          />
         </div>
 
         {/* Desktop xl+: logo, compact nav, phone */}
@@ -161,7 +191,12 @@ export function SiteHeader() {
               </div>
             </nav>
 
-            <HeaderToolbar />
+            <HeaderToolbar
+              onOpenCart={openCart}
+              accountOpen={accountOpen}
+              onToggleAccount={toggleAccount}
+              onCloseAccount={closeAccount}
+            />
           </div>
         </div>
       </header>
