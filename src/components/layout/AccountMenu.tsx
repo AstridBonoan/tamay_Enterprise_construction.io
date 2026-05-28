@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { assetUrl } from "@/lib/assetUrl";
 
 function UserIcon({ className = "w-6 h-6" }: { className?: string }) {
   return (
@@ -23,10 +22,10 @@ type AccountMenuProps = {
 
 export function AccountMenu({ compact = false, open, onToggle, onClose }: AccountMenuProps) {
   const iconClass = compact ? "w-6 h-6" : "w-7 h-7";
-  const signInHref = `${assetUrl("/m/login/")}?r=%2Fm%2Faccount`;
-  const signUpHref = assetUrl("/m/create-account/");
-  const bookingsSignInHref = `${assetUrl("/m/login/")}?r=${encodeURIComponent(assetUrl("/m/bookings/"))}`;
-  const accountSignInHref = `${assetUrl("/m/login/")}?r=${encodeURIComponent(assetUrl("/m/account/"))}`;
+  const signInHref = "/m/login/?r=%2Fm%2Faccount";
+  const signUpHref = "/m/create-account/";
+  const bookingsSignInHref = `/m/login/?r=${encodeURIComponent("/m/bookings/")}`;
+  const accountSignInHref = `/m/login/?r=${encodeURIComponent("/m/account/")}`;
 
   return (
     <div className="relative">
