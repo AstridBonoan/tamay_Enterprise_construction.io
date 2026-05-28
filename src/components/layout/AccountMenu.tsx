@@ -71,9 +71,6 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
             <a
               href={signInHref}
               role="menuitem"
-              onClick={() => {
-                onClose();
-              }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               SIGN IN
@@ -83,9 +80,6 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
             <a
               href={signUpHref}
               role="menuitem"
-              onClick={() => {
-                onClose();
-              }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               SIGN UP
@@ -96,7 +90,6 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
             <a
               href={bookingsSignInHref}
               role="menuitem"
-              onClick={() => onClose()}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               BOOKINGS
@@ -106,7 +99,6 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
             <a
               href={accountSignInHref}
               role="menuitem"
-              onClick={() => onClose()}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               MY ACCOUNT
