@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
-import { ACCOUNT_MENU_ITEMS } from "@/lib/site";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { isAuthenticated } from "@/lib/auth";
 
 function UserIcon({ className = "w-6 h-6" }: { className?: string }) {
   return (
@@ -24,7 +25,16 @@ type AccountMenuProps = {
 
 export function AccountMenu({ compact = false, open, onToggle, onClose }: AccountMenuProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const [loggedIn, setLoggedIn] = useState(false);
   const iconClass = compact ? "w-6 h-6" : "w-7 h-7";
+
+  useEffect(() => {
+    const syncAuth = () => setLoggedIn(isAuthenticated());
+    syncAuth();
+    window.addEventListener("storage", syncAuth);
+    return () => window.removeEventListener("storage", syncAuth);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -64,22 +74,55 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
           className="absolute right-0 top-full mt-1 z-[130] min-w-[220px] bg-white border border-gray-200 shadow-lg py-2"
           role="menu"
         >
-          {ACCOUNT_MENU_ITEMS.map((item, index) =>
-            item.type === "divider" ? (
-              <li key={`divider-${index}`} role="separator" className="my-1 border-t border-gray-200" />
-            ) : (
-              <li key={item.label} role="none">
-                <Link
-                  href={item.href}
-                  role="menuitem"
-                  onClick={onClose}
-                  className="block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ),
-          )}
+          <li role="none">
+            <Link
+              href="/m/login?r=%2Fm%2Faccount"
+              role="menuitem"
+              onClick={onClose}
+              className="block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
+            >
+              SIGN IN
+            </Link>
+          </li>
+          <li role="none">
+            <Link
+              href="/m/create-account"
+              role="menuitem"
+              onClick={onClose}
+              className="block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
+            >
+              CREATE ACCOUNT
+            </Link>
+          </li>
+          <li role="separator" className="my-1 border-t border-gray-200" />
+          <li role="none">
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                onClose();
+                const target = "/m/bookings";
+                router.push(loggedIn ? target : `/m/login?r=${encodeURIComponent(target)}`);
+              }}
+              className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
+            >
+              BOOKINGS
+            </button>
+          </li>
+          <li role="none">
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                onClose();
+                const target = "/m/account";
+                router.push(loggedIn ? target : `/m/login?r=${encodeURIComponent(target)}`);
+              }}
+              className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
+            >
+              MY ACCOUNT
+            </button>
+          </li>
         </ul>
       )}
     </div>

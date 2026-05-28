@@ -24,6 +24,8 @@ export function HomeLocationMap() {
           referrerPolicy="no-referrer-when-downgrade"
           allowFullScreen
         />
+        {/* Hide Google top-left place card so only custom CTA appears */}
+        <div className="absolute top-0 left-0 z-[5] w-[230px] h-[72px] bg-white/95 pointer-events-none" />
 
         <a
           href={SITE.maps.directionsUrl}
