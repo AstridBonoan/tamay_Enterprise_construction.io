@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { assetUrl } from "@/lib/assetUrl";
 import { isAuthenticated } from "@/lib/auth";
 
 function UserIcon({ className = "w-6 h-6" }: { className?: string }) {
@@ -29,8 +28,6 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
   const router = useRouter();
   const [loggedIn, setLoggedIn] = useState(false);
   const iconClass = compact ? "w-6 h-6" : "w-7 h-7";
-  const loginUrl = assetUrl("/m/login?r=%2Fm%2Faccount");
-  const createAccountUrl = assetUrl("/m/create-account");
 
   useEffect(() => {
     const syncAuth = () => setLoggedIn(isAuthenticated());
@@ -83,7 +80,7 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
               role="menuitem"
               onClick={() => {
                 onClose();
-                window.location.href = loginUrl;
+                router.push("/m/login?r=%2Fm%2Faccount");
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
@@ -96,7 +93,7 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
               role="menuitem"
               onClick={() => {
                 onClose();
-                window.location.href = createAccountUrl;
+                router.push("/m/create-account");
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
@@ -115,7 +112,7 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
                   router.push(target);
                   return;
                 }
-                window.location.href = assetUrl(`/m/login?r=${encodeURIComponent(target)}`);
+                router.push(`/m/login?r=${encodeURIComponent(target)}`);
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
@@ -133,7 +130,7 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
                   router.push(target);
                   return;
                 }
-                window.location.href = assetUrl(`/m/login?r=${encodeURIComponent(target)}`);
+                router.push(`/m/login?r=${encodeURIComponent(target)}`);
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
