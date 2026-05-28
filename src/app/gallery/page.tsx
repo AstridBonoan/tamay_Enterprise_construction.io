@@ -3,6 +3,7 @@ import Image from "next/image";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { assetUrl } from "@/lib/assetUrl";
 import { GALLERY_PROMOTION_VIDEO, GALLERY_VIDEO_PROJECTS } from "@/lib/galleryVideos";
 import { IMAGES } from "@/lib/images";
 
@@ -27,18 +28,18 @@ const COLLAGE_CLASSES = [
 ] as const;
 
 const PHOTO_GALLERY_ITEMS = [
-  { title: "Modern Kitchen Renovation", src: "/gallery/photos/photo-1.png" },
-  { title: "Luxury Bathroom Vanity Installation", src: "/gallery/photos/photo-2.png" },
-  { title: "Contemporary Bathroom Remodel", src: "/gallery/photos/photo-3.png" },
-  { title: "Custom Kitchen Island Build", src: "/gallery/photos/photo-4.png" },
-  { title: "Tamay Logistics Fleet", src: "/gallery/photos/photo-5.png" },
-  { title: "New Home Exterior Project", src: "/gallery/photos/photo-6.png" },
-  { title: "Furniture Assembly On-Site", src: "/gallery/photos/photo-7.png" },
-  { title: "Upholstery Repair & Assembly", src: "/gallery/photos/photo-8.png" },
-  { title: "Precision Wall Installation", src: "/gallery/photos/photo-9.png" },
-  { title: "Commercial Furniture Setup", src: "/gallery/photos/photo-10.png" },
-  { title: "Bedroom Frame Assembly", src: "/gallery/photos/photo-11.png" },
-  { title: "Vanity Installation Service", src: "/gallery/photos/photo-12.png" },
+  { title: "Modern Kitchen Renovation", src: assetUrl("/gallery/photos/photo-1.png") },
+  { title: "Luxury Bathroom Vanity Installation", src: assetUrl("/gallery/photos/photo-2.png") },
+  { title: "Contemporary Bathroom Remodel", src: assetUrl("/gallery/photos/photo-3.png") },
+  { title: "Custom Kitchen Island Build", src: assetUrl("/gallery/photos/photo-4.png") },
+  { title: "Tamay Logistics Fleet", src: assetUrl("/gallery/photos/photo-5.png") },
+  { title: "New Home Exterior Project", src: assetUrl("/gallery/photos/photo-6.png") },
+  { title: "Furniture Assembly On-Site", src: assetUrl("/gallery/photos/photo-7.png") },
+  { title: "Upholstery Repair & Assembly", src: assetUrl("/gallery/photos/photo-8.png") },
+  { title: "Precision Wall Installation", src: assetUrl("/gallery/photos/photo-9.png") },
+  { title: "Commercial Furniture Setup", src: assetUrl("/gallery/photos/photo-10.png") },
+  { title: "Bedroom Frame Assembly", src: assetUrl("/gallery/photos/photo-11.png") },
+  { title: "Vanity Installation Service", src: assetUrl("/gallery/photos/photo-12.png") },
 ] as const;
 
 export default function GalleryPage() {
