@@ -9,33 +9,30 @@ function DirectionsIcon() {
 }
 
 export function HomeLocationMap() {
-  const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent(
-    SITE.address,
-  )}&z=16&output=embed`;
-
   return (
     <section id="location" className="w-full">
       <div className="relative w-full h-[380px] sm:h-[420px] md:h-[460px] bg-gray-200">
         <iframe
           title={`Map showing ${SITE.address}`}
-          src={mapEmbedSrc}
+          src={SITE.maps.embedUrl}
           className="absolute inset-0 h-full w-full border-0"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
           allowFullScreen
         />
-        {/* Hide Google top-left place card/controls so only custom CTA appears */}
-        <div className="absolute top-0 left-0 z-[20] w-[430px] h-[130px] bg-white pointer-events-none" />
-
-        <a
-          href={SITE.maps.directionsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute top-4 left-4 z-[30] inline-flex items-center gap-2 rounded-full bg-tamay-primary hover:bg-tamay-primary-dark text-white text-xs sm:text-sm font-bold tracking-widest uppercase px-4 py-2.5 shadow-lg transition-colors"
-        >
-          <DirectionsIcon />
-          Get Directions
-        </a>
+      </div>
+      <div className="bg-white py-4 px-4 border-b border-gray-200">
+        <div className="max-w-6xl mx-auto">
+          <a
+            href={SITE.maps.directionsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-tamay-primary hover:bg-tamay-primary-dark text-white text-xs sm:text-sm font-bold tracking-widest uppercase px-4 py-2.5 shadow-lg transition-colors"
+          >
+            <DirectionsIcon />
+            Get Directions
+          </a>
+        </div>
       </div>
 
       <div className="bg-tamay-primary-dark text-white px-4 py-8 sm:py-10">
