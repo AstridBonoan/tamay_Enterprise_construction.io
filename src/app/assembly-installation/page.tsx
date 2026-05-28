@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/ui/ContactForm";
@@ -6,6 +7,7 @@ import { ContactBlock } from "@/components/ui/ContactBlock";
 import { Button } from "@/components/ui/Button";
 import { ASSEMBLY_HERO_BANNER } from "@/lib/assemblyImages";
 import {
+  ASSEMBLY_CABINET_FEATURE,
   ASSEMBLY_IMPORTANT_NOTE,
   ASSEMBLY_INTRO,
   ASSEMBLY_SCALE,
@@ -21,15 +23,27 @@ export const metadata: Metadata = {
     "Scalable furniture assembly and installation for retailers, platforms, property managers, and multi-unit properties in West Haven, CT.",
 };
 
-function ServiceList({ title, items }: { title: string; items: readonly string[] }) {
+type ServiceCardProps = {
+  title: string;
+  image: string;
+  imageAlt: string;
+  items: readonly string[];
+};
+
+function ServiceCard({ title, image, imageAlt, items }: ServiceCardProps) {
   return (
-    <article className="border border-gray-200 bg-white p-6 h-full">
-      <h3 className="font-heading text-lg text-tamay-primary font-semibold mb-4">{title}</h3>
-      <ul className="text-sm text-gray-600 space-y-2 list-disc pl-5">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
+    <article className="border border-gray-200 bg-white overflow-hidden h-full flex flex-col">
+      <figure className="relative aspect-[16/10] w-full bg-gray-100">
+        <Image src={image} alt={imageAlt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" unoptimized />
+      </figure>
+      <div className="p-6 flex-1 flex flex-col">
+        <h3 className="font-heading text-lg text-tamay-primary font-semibold mb-4">{title}</h3>
+        <ul className="text-sm text-gray-600 space-y-2 list-disc pl-5 flex-1">
+          {items.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </div>
     </article>
   );
 }
@@ -87,9 +101,26 @@ export default function AssemblyInstallationPage() {
           title="Types of Assembly and Installation Projects We Handle"
           subtitle="Our team performs a wide range of furniture assembly and installation services commonly requested by large furniture retailers, logistics providers, and service platforms. Each project is completed with attention to detail, proper alignment, and client-ready results."
         />
-        <div className="grid md:grid-cols-2 gap-6 mt-10">
+        <figure className="relative aspect-[21/9] max-w-5xl mx-auto mt-10 mb-8 overflow-hidden rounded-sm">
+          <Image
+            src={ASSEMBLY_CABINET_FEATURE.image}
+            alt={ASSEMBLY_CABINET_FEATURE.imageAlt}
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 1024px"
+            unoptimized
+          />
+        </figure>
+        <p className="text-center text-sm text-gray-600 max-w-2xl mx-auto mb-10">{ASSEMBLY_CABINET_FEATURE.caption}</p>
+        <div className="grid md:grid-cols-2 gap-6">
           {ASSEMBLY_SERVICE_GROUPS.map((group) => (
-            <ServiceList key={group.title} title={group.title} items={group.items} />
+            <ServiceCard
+              key={group.title}
+              title={group.title}
+              image={group.image}
+              imageAlt={group.imageAlt}
+              items={group.items}
+            />
           ))}
         </div>
       </section>
@@ -104,8 +135,19 @@ export default function AssemblyInstallationPage() {
         </div>
       </section>
 
-      <section className="py-14 bg-tamay-primary text-white px-4">
-        <div className="max-w-3xl mx-auto">
+      <section className="bg-tamay-primary text-white">
+        <figure className="relative aspect-[21/9] w-full max-h-[min(52vw,420px)]">
+          <Image
+            src={ASSEMBLY_SCALE.image}
+            alt={ASSEMBLY_SCALE.imageAlt}
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+            unoptimized
+          />
+          <div className="absolute inset-0 bg-tamay-primary/35" aria-hidden />
+        </figure>
+        <div className="py-14 px-4 max-w-3xl mx-auto">
           <p className="text-sm font-semibold tracking-widest uppercase text-tamay-accent text-center mb-2">
             {ASSEMBLY_SCALE.eyebrow}
           </p>
@@ -121,7 +163,17 @@ export default function AssemblyInstallationPage() {
         </div>
       </section>
 
-      <section className="py-14 max-w-4xl mx-auto px-4">
+      <section className="py-14 max-w-5xl mx-auto px-4">
+        <figure className="relative aspect-[16/9] w-full mb-10 overflow-hidden rounded-sm">
+          <Image
+            src={ASSEMBLY_STANDARDS.image}
+            alt={ASSEMBLY_STANDARDS.imageAlt}
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 1024px) 100vw, 1024px"
+            unoptimized
+          />
+        </figure>
         <SectionHeading
           eyebrow={ASSEMBLY_STANDARDS.eyebrow}
           title={ASSEMBLY_STANDARDS.title}

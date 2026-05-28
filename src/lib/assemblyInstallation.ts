@@ -1,3 +1,9 @@
+import {
+  ASSEMBLY_BUILT_FOR_SCALE_IMAGE,
+  ASSEMBLY_PROFESSIONAL_STANDARDS_IMAGE,
+  ASSEMBLY_SERVICE_IMAGES,
+} from "./assemblyImages";
+
 export const ASSEMBLY_INTRO = {
   tagline: "Scalable. Reliable. Platform-Ready Assembly Solutions.",
   heading: "Professional assembly & installation support for scalable projects",
@@ -26,6 +32,8 @@ export const ASSEMBLY_WHO_WE_SUPPORT = {
 export const ASSEMBLY_SERVICE_GROUPS = [
   {
     title: "Furniture Assembly Services",
+    image: ASSEMBLY_SERVICE_IMAGES.furnitureAssembly,
+    imageAlt: "Technician assembling white furniture with an Allen key on protective cardboard",
     items: [
       "Bed frames (platform, storage, and adjustable-ready)",
       "Headboards and footboards",
@@ -39,6 +47,8 @@ export const ASSEMBLY_SERVICE_GROUPS = [
   },
   {
     title: "Storage & Organization Assembly",
+    image: ASSEMBLY_SERVICE_IMAGES.storageWarehouse,
+    imageAlt: "Team organizing inventory and storage supplies in a warehouse",
     items: [
       "Freestanding shelving units",
       "Bookcases and display furniture",
@@ -49,6 +59,8 @@ export const ASSEMBLY_SERVICE_GROUPS = [
   },
   {
     title: "Office & Commercial Furniture Assembly",
+    image: ASSEMBLY_SERVICE_IMAGES.officeAssembly,
+    imageAlt: "Two technicians assembling office furniture in a bright workspace",
     items: [
       "Home office and commercial desks",
       "Office chairs and seating systems",
@@ -60,6 +72,8 @@ export const ASSEMBLY_SERVICE_GROUPS = [
   },
   {
     title: "Wall-Mounted & Anchored Installations",
+    image: ASSEMBLY_SERVICE_IMAGES.wallMountInstall,
+    imageAlt: "Installer marking drill points for a wall-mounted bracket",
     items: [
       "Wall-mounted TV stands and media units",
       "Floating shelves and wall shelving",
@@ -69,6 +83,8 @@ export const ASSEMBLY_SERVICE_GROUPS = [
   },
   {
     title: "Multi-Unit & Property-Based Assembly Projects",
+    image: ASSEMBLY_SERVICE_IMAGES.flatPackAssembly,
+    imageAlt: "Technicians assembling flat-pack furniture in a furnished apartment",
     items: [
       "Apartment and condo furniture assembly",
       "Multi-unit residential installations",
@@ -79,6 +95,8 @@ export const ASSEMBLY_SERVICE_GROUPS = [
   },
   {
     title: "Post-Delivery & Follow-Up Assembly Services",
+    image: ASSEMBLY_SERVICE_IMAGES.precisionAssembly,
+    imageAlt: "Close-up of precise hardware tightening during furniture assembly",
     items: [
       "Post-delivery inspection and quality checks",
       "Hardware re-tightening",
@@ -89,6 +107,8 @@ export const ASSEMBLY_SERVICE_GROUPS = [
   },
   {
     title: "White-Glove, Client-Ready Execution",
+    image: ASSEMBLY_SERVICE_IMAGES.whiteGloveVanity,
+    imageAlt: "Tamay Enterprises technician assembling a vanity with LED mirror in a client home",
     items: [
       "In-home professional furniture assembly",
       "Clean, respectful work in occupied spaces",
@@ -98,9 +118,19 @@ export const ASSEMBLY_SERVICE_GROUPS = [
   },
 ] as const;
 
+/** Featured photo for built-in and cabinet work (8th image in the services section) */
+export const ASSEMBLY_CABINET_FEATURE = {
+  image: ASSEMBLY_SERVICE_IMAGES.cabinetInstall,
+  imageAlt: "Technician leveling white kitchen cabinets during installation",
+  caption: "Kitchen, vanity, and built-in cabinet assembly with professional leveling and alignment.",
+} as const;
+
 export const ASSEMBLY_SCALE = {
   eyebrow: "BUILT FOR SCALE",
   title: "Built for High-Volume and Multi-Job Platforms",
+  image: ASSEMBLY_BUILT_FOR_SCALE_IMAGE,
+  imageAlt:
+    "Tamay Enterprises assembly team of six technicians in a professional workshop, ready for high-volume projects",
   intro:
     "Unlike individual service providers, Tamay Enterprises operates as a structured company with team-based execution and standardized workflows.",
   subheading: "Our assembly and installation services are designed to support partners that require:",
@@ -118,6 +148,9 @@ export const ASSEMBLY_SCALE = {
 export const ASSEMBLY_STANDARDS = {
   eyebrow: "PROFESSIONAL STANDARDS & COMPLIANCE",
   title: "Professional Standards, Safety, and Accountability",
+  image: ASSEMBLY_PROFESSIONAL_STANDARDS_IMAGE,
+  imageAlt:
+    "Business ethics and compliance icons representing professional standards, accountability, and trust",
   intro:
     "We understand the importance of trust, brand protection, and professionalism when working inside client homes and managed properties.",
   items: [
