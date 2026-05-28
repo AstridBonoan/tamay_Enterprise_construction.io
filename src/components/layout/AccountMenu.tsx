@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { assetUrl } from "@/lib/assetUrl";
+import { useEffect, useRef } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { isAuthenticated } from "@/lib/auth";
 
 function UserIcon({ className = "w-6 h-6" }: { className?: string }) {
@@ -24,17 +25,17 @@ type AccountMenuProps = {
 
 export function AccountMenu({ compact = false, open, onToggle, onClose }: AccountMenuProps) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const router = useRouter();
   const iconClass = compact ? "w-6 h-6" : "w-7 h-7";
-  const signInHref = `${assetUrl("/m/login/")}?r=%2Fm%2Faccount`;
-  const createAccountHref = assetUrl("/m/create-account/");
-
-  useEffect(() => {
-    const syncAuth = () => setLoggedIn(isAuthenticated());
-    syncAuth();
-    window.addEventListener("storage", syncAuth);
-    return () => window.removeEventListener("storage", syncAuth);
-  }, []);
+  const signInHref = "/m/login?r=%2Fm%2Faccount";
+  const createAccountHref = "/m/create-account";
+  const goToProtected = (target: string) => {
+    if (isAuthenticated()) {
+      router.push(target);
+      return;
+    }
+    router.push(`/m/login?r=${encodeURIComponent(target)}`);
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -75,32 +76,28 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
           role="menu"
         >
           <li role="none">
-            <a
+            <Link
               href={signInHref}
               role="menuitem"
-              onClick={(e) => {
-                e.preventDefault();
+              onClick={() => {
                 onClose();
-                window.location.assign(signInHref);
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               SIGN IN
-            </a>
+            </Link>
           </li>
           <li role="none">
-            <a
+            <Link
               href={createAccountHref}
               role="menuitem"
-              onClick={(e) => {
-                e.preventDefault();
+              onClick={() => {
                 onClose();
-                window.location.assign(createAccountHref);
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
-              CREATE ACCOUNT
-            </a>
+              SIGN UP
+            </Link>
           </li>
           <li role="separator" className="my-1 border-t border-gray-200" />
           <li role="none">
@@ -109,12 +106,7 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
               role="menuitem"
               onClick={() => {
                 onClose();
-                const target = assetUrl("/m/bookings/");
-                if (loggedIn) {
-                  window.location.assign(target);
-                  return;
-                }
-                window.location.assign(`${assetUrl("/m/login/")}?r=${encodeURIComponent(target)}`);
+                goToProtected("/m/bookings");
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
@@ -127,12 +119,7 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
               role="menuitem"
               onClick={() => {
                 onClose();
-                const target = assetUrl("/m/account/");
-                if (loggedIn) {
-                  window.location.assign(target);
-                  return;
-                }
-                window.location.assign(`${assetUrl("/m/login/")}?r=${encodeURIComponent(target)}`);
+                goToProtected("/m/account");
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
