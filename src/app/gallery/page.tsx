@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { GalleryPhotoCarousel } from "@/components/gallery/GalleryPhotoCarousel";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -54,28 +54,7 @@ export default function GalleryPage() {
           title="Photo Gallery"
           subtitle="Completed projects across renovation, remodeling, and installation work."
         />
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 -mt-2">
-          {PHOTO_GALLERY_ITEMS.map((photo) => (
-            <figure
-              key={photo.title}
-              className="flex flex-col border border-gray-200 bg-white rounded-sm overflow-hidden h-full"
-            >
-              <div className="relative aspect-[4/3] w-full bg-gray-100">
-                <Image
-                  src={photo.src}
-                  alt={photo.title}
-                  fill
-                  className="object-contain p-1"
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  unoptimized
-                />
-              </div>
-              <figcaption className="px-2 py-2.5 text-xs sm:text-sm text-center text-tamay-primary font-semibold leading-snug border-t border-gray-100 min-h-[3.25rem] flex items-center justify-center">
-                {photo.title}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        <GalleryPhotoCarousel photos={PHOTO_GALLERY_ITEMS} />
       </section>
 
       <section id="gallery" className="py-14 max-w-6xl mx-auto px-4 border-t border-gray-200">

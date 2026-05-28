@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useCarouselAutoplay } from "@/hooks/useCarouselAutoplay";
 import { assetUrl } from "@/lib/assetUrl";
 import {
   GOOGLE_RATING,
@@ -105,7 +106,7 @@ export function ReviewsSection() {
   const background = assetUrl("/reviews/reviews-background.png");
   const [cardsPerPage, setCardsPerPage] = useState(3);
   const [page, setPage] = useState(0);
-  const hoverPausedRef = useRef(false);
+  const [paused, setPaused] = useState(false);
 
   const pageCount = Math.max(1, Math.ceil(REVIEWS.length / cardsPerPage));
 
@@ -131,21 +132,12 @@ export function ReviewsSection() {
   const prev = () => setPage((p) => (p === 0 ? pageCount - 1 : p - 1));
   const next = () => setPage((p) => (p === pageCount - 1 ? 0 : p + 1));
 
-  useEffect(() => {
-    if (pageCount <= 1) return;
-
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReducedMotion) return;
-
-    const id = window.setInterval(() => {
-      if (document.hidden || hoverPausedRef.current) return;
-      setPage((p) => (p === pageCount - 1 ? 0 : p + 1));
-    }, AUTOPLAY_INTERVAL_MS);
-
-    return () => window.clearInterval(id);
-  }, [pageCount]);
+  useCarouselAutoplay({
+    itemCount: pageCount,
+    onAdvance: next,
+    intervalMs: AUTOPLAY_INTERVAL_MS,
+    paused,
+  });
 
   return (
     <section
@@ -185,12 +177,10 @@ export function ReviewsSection() {
 
         <div
           className="relative"
-          onMouseEnter={() => {
-            hoverPausedRef.current = true;
-          }}
-          onMouseLeave={() => {
-            hoverPausedRef.current = false;
-          }}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocusCapture={() => setPaused(true)}
+          onBlurCapture={() => setPaused(false)}
         >
           <button
             type="button"
