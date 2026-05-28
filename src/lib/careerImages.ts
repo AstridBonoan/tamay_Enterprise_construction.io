@@ -1,7 +1,8 @@
 import { assetUrl } from "./assetUrl";
 
-/** Full-width hero with logo and titles baked into the artwork */
+/** Wide careers hero (1920×633); pair with aspectRatio on HeroBanner */
 export const CAREERS_HERO_BANNER = assetUrl("/careers/careers-hero-banner.png");
+export const CAREERS_HERO_BANNER_ASPECT = 1920 / 633;
 
 export const CAREERS_ABOUT_IMAGES = {
   mission: {

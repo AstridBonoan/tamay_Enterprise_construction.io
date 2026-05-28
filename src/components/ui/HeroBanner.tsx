@@ -19,6 +19,8 @@ type HeroBannerProps = {
   imageFit?: "cover" | "contain" | "fill";
   /** Use when titles and copy are part of the image file */
   imageOnly?: boolean;
+  /** Full-width banner height from image proportions (e.g. 1920 / 633). Overrides height min-heights. */
+  aspectRatio?: number;
 };
 
 export function HeroBanner({
@@ -34,12 +36,15 @@ export function HeroBanner({
   imagePosition = "center center",
   imageFit = "cover",
   imageOnly = false,
+  aspectRatio,
 }: HeroBannerProps) {
-  const heightClass = imageOnly
-    ? "min-h-[200px] md:min-h-[280px] lg:min-h-[320px]"
-    : height === "tall"
-      ? "min-h-[420px] md:min-h-[520px]"
-      : "min-h-[280px] md:min-h-[360px]";
+  const heightClass = aspectRatio
+    ? ""
+    : imageOnly
+      ? "min-h-[200px] md:min-h-[280px] lg:min-h-[320px]"
+      : height === "tall"
+        ? "min-h-[420px] md:min-h-[520px]"
+        : "min-h-[280px] md:min-h-[360px]";
   const effectiveFit = imageOnly ? "contain" : imageFit;
   const effectiveOverlay = imageOnly ? false : overlay;
   const zoomOutFactor = effectiveFit === "cover" && imageZoom > 1 ? imageZoom : 1;
@@ -53,7 +58,8 @@ export function HeroBanner({
 
   return (
     <section
-      className={`relative ${heightClass} flex items-center justify-center overflow-hidden ${effectiveFit === "contain" ? "bg-[#0a0a0a]" : ""}`}
+      className={`relative w-full ${heightClass} flex items-center justify-center overflow-hidden ${effectiveFit === "contain" ? "bg-[#0a0a0a]" : ""}`}
+      style={aspectRatio ? { aspectRatio } : undefined}
     >
       <div
         className="absolute"
