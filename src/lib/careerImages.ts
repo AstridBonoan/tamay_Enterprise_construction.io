@@ -1,5 +1,8 @@
 import { assetUrl } from "./assetUrl";
 
+/** Full-width hero with logo and titles baked into the artwork */
+export const CAREERS_HERO_BANNER = assetUrl("/careers/careers-hero-banner.png");
+
 export const CAREERS_ABOUT_IMAGES = {
   mission: {
     src: assetUrl("/careers/careers-compass.png"),

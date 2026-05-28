@@ -15,6 +15,8 @@ type HeroBannerProps = {
   imagePosition?: string;
   /** contain = full photo (letterbox); fill = stretch to banner; cover = fill frame (may crop) */
   imageFit?: "cover" | "contain" | "fill";
+  /** Use when titles and copy are part of the image file */
+  imageOnly?: boolean;
 };
 
 export function HeroBanner({
@@ -28,21 +30,32 @@ export function HeroBanner({
   imageZoom = 1,
   imagePosition = "center center",
   imageFit = "cover",
+  imageOnly = false,
 }: HeroBannerProps) {
-  const heightClass = height === "tall" ? "min-h-[420px] md:min-h-[520px]" : "min-h-[280px] md:min-h-[360px]";
-  const zoomOutFactor = imageFit === "cover" && imageZoom > 1 ? imageZoom : 1;
-  const zoomInScale = imageFit === "cover" && imageZoom > 0 && imageZoom < 1 ? 1 / imageZoom : 1;
+  const heightClass = imageOnly
+    ? "min-h-[200px] md:min-h-[280px] lg:min-h-[320px]"
+    : height === "tall"
+      ? "min-h-[420px] md:min-h-[520px]"
+      : "min-h-[280px] md:min-h-[360px]";
+  const effectiveFit = imageOnly ? "contain" : imageFit;
+  const effectiveOverlay = imageOnly ? false : overlay;
+  const zoomOutFactor = effectiveFit === "cover" && imageZoom > 1 ? imageZoom : 1;
+  const zoomInScale = effectiveFit === "cover" && imageZoom > 0 && imageZoom < 1 ? 1 / imageZoom : 1;
   const fitClass =
-    imageFit === "contain" ? "object-contain" : imageFit === "fill" ? "object-fill" : "object-cover";
+    effectiveFit === "contain"
+      ? "object-contain"
+      : effectiveFit === "fill"
+        ? "object-fill"
+        : "object-cover";
 
   return (
     <section
-      className={`relative ${heightClass} flex items-center justify-center overflow-hidden ${imageFit === "contain" ? "bg-slate-900" : ""}`}
+      className={`relative ${heightClass} flex items-center justify-center overflow-hidden ${effectiveFit === "contain" ? "bg-[#0a0a0a]" : ""}`}
     >
       <div
         className="absolute"
         style={
-          imageFit === "contain"
+          effectiveFit === "contain"
             ? { inset: 0 }
             : zoomOutFactor > 1
               ? {
@@ -72,7 +85,10 @@ export function HeroBanner({
           unoptimized
         />
       </div>
-      {overlay && <div className="absolute inset-0 bg-black/40" />}
+      {effectiveOverlay && <div className="absolute inset-0 bg-black/40" />}
+      {imageOnly ? (
+        <h1 className="sr-only">{title}</h1>
+      ) : (
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white py-16">
         {tagline && (
           <p className="text-sm md:text-base font-semibold tracking-widest uppercase mb-3 text-tamay-accent">
@@ -96,6 +112,7 @@ export function HeroBanner({
           </Link>
         )}
       </div>
+      )}
     </section>
   );
 }
