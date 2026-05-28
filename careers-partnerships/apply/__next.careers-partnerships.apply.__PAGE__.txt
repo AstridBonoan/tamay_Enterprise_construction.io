@@ -1,0 +1,8 @@
+1:"$Sreact.fragment"
+2:I[22016,["/tamay_Enterprise_construction.io/_next/static/chunks/0d~jfy_.y_-92.js","/tamay_Enterprise_construction.io/_next/static/chunks/0d3shmwh5_nmn.js","/tamay_Enterprise_construction.io/_next/static/chunks/18a76mybwibvl.js"],""]
+3:"$Sreact.suspense"
+4:I[84337,["/tamay_Enterprise_construction.io/_next/static/chunks/0d~jfy_.y_-92.js","/tamay_Enterprise_construction.io/_next/static/chunks/0d3shmwh5_nmn.js","/tamay_Enterprise_construction.io/_next/static/chunks/18a76mybwibvl.js"],"JobApplicationForm"]
+5:I[97367,["/tamay_Enterprise_construction.io/_next/static/chunks/0d~jfy_.y_-92.js","/tamay_Enterprise_construction.io/_next/static/chunks/0d3shmwh5_nmn.js"],"OutletBoundary"]
+:HL["/tamay_Enterprise_construction.io/_next/static/chunks/07tb33lh.9l24.css","style"]
+0:{"rsc":["$","$1","c",{"children":[["$","div",null,{"className":"py-10 md:py-14 px-4","children":["$","div",null,{"className":"max-w-[960px] mx-auto","children":[["$","$L2",null,{"href":"/careers-partnerships","className":"text-sm text-tamay-primary font-semibold hover:underline mb-6 inline-block","children":"← Back to Careers & Partnerships"}],["$","$3",null,{"fallback":["$","p",null,{"className":"text-gray-600 text-sm","children":"Loading application form…"}],"children":["$","$L4",null,{}]}]]}]}],[["$","link","0",{"rel":"stylesheet","href":"/tamay_Enterprise_construction.io/_next/static/chunks/07tb33lh.9l24.css","precedence":"next"}],["$","script","script-0",{"src":"/tamay_Enterprise_construction.io/_next/static/chunks/18a76mybwibvl.js","async":true}]],["$","$L5",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@6"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"dzCdaTzeq0T7xoGpeeMpk"}
+6:null

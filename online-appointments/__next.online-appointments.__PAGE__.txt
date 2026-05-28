@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[98137,["/tamay_Enterprise_construction.io/_next/static/chunks/0d~jfy_.y_-92.js","/tamay_Enterprise_construction.io/_next/static/chunks/0d3shmwh5_nmn.js","/tamay_Enterprise_construction.io/_next/static/chunks/0kjf8qn-exj5l.js"],"OnlineAppointmentsSection"]
+3:I[97367,["/tamay_Enterprise_construction.io/_next/static/chunks/0d~jfy_.y_-92.js","/tamay_Enterprise_construction.io/_next/static/chunks/0d3shmwh5_nmn.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"rsc":["$","$1","c",{"children":[["$","div",null,{"className":"py-10 md:py-14 px-4","children":["$","$L2",null,{}]}],[["$","script","script-0",{"src":"/tamay_Enterprise_construction.io/_next/static/chunks/0kjf8qn-exj5l.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"dzCdaTzeq0T7xoGpeeMpk"}
+5:null
