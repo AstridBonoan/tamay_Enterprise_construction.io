@@ -138,16 +138,16 @@ export default function AssemblyInstallationPage() {
       </section>
 
       <section className="bg-tamay-primary text-white">
-        <figure className="relative w-full aspect-[1024/282]">
+        <figure className="relative w-full aspect-[16/9] sm:aspect-[735/369] max-h-[520px] mx-auto">
           <Image
             src={ASSEMBLY_SCALE.image}
             alt={ASSEMBLY_SCALE.imageAlt}
             fill
-            className="object-cover object-top"
-            sizes="100vw"
+            className="object-cover object-[center_20%]"
+            sizes="(max-width: 768px) 100vw, 1200px"
             unoptimized
           />
-          <div className="absolute inset-0 bg-tamay-primary/35" aria-hidden />
+          <div className="absolute inset-0 bg-tamay-primary/25" aria-hidden />
         </figure>
         <div className="py-14 px-4 max-w-3xl mx-auto">
           <p className="text-sm font-semibold tracking-widest uppercase text-tamay-accent text-center mb-2">
