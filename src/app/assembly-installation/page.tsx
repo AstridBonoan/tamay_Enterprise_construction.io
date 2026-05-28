@@ -127,7 +127,9 @@ export default function AssemblyInstallationPage() {
 
       <section className="py-12 px-4 bg-tamay-primary/5 border-y border-tamay-primary/20">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-xs font-bold tracking-widest uppercase text-tamay-primary mb-2">Important</p>
+          <p className="text-2xl md:text-3xl font-bold tracking-widest uppercase text-tamay-primary mb-4">
+            Important
+          </p>
           <p className="text-gray-700 leading-relaxed">{ASSEMBLY_IMPORTANT_NOTE}</p>
           <Button href="/online-appointments" variant="primary" className="mt-8">
             Request Assembly Support
@@ -136,12 +138,12 @@ export default function AssemblyInstallationPage() {
       </section>
 
       <section className="bg-tamay-primary text-white">
-        <figure className="relative aspect-[21/9] w-full max-h-[min(52vw,420px)]">
+        <figure className="relative w-full aspect-[1024/282]">
           <Image
             src={ASSEMBLY_SCALE.image}
             alt={ASSEMBLY_SCALE.imageAlt}
             fill
-            className="object-cover object-center"
+            className="object-cover object-top"
             sizes="100vw"
             unoptimized
           />
