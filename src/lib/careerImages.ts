@@ -1,7 +1,7 @@
 import { assetUrl } from "./assetUrl";
 
 /** Careers hero banner artwork (text-free; titles via HeroBanner overlay) */
-export const CAREERS_HERO_BANNER = assetUrl("/careers/careers-hero-banner.png");
+export const CAREERS_HERO_BANNER = assetUrl("/careers/careers-hero-v2.png");
 
 export const CAREERS_ABOUT_IMAGES = {
   mission: {
