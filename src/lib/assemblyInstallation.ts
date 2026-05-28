@@ -130,7 +130,7 @@ export const ASSEMBLY_SCALE = {
   title: "Built for High-Volume and Multi-Job Platforms",
   image: ASSEMBLY_BUILT_FOR_SCALE_IMAGE,
   imageAlt:
-    "Tamay Enterprises assembly technicians coordinating inventory and high-volume project support in a professional workspace",
+    "Tamay Enterprises assembly team of six technicians in a professional workshop, ready for high-volume projects",
   intro:
     "Unlike individual service providers, Tamay Enterprises operates as a structured company with team-based execution and standardized workflows.",
   subheading: "Our assembly and installation services are designed to support partners that require:",
