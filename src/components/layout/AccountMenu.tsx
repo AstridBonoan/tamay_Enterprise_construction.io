@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { assetUrl } from "@/lib/assetUrl";
-import { isAuthenticated } from "@/lib/auth";
 
 function UserIcon({ className = "w-6 h-6" }: { className?: string }) {
   return (
@@ -28,13 +27,9 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
   const signInHref = `${assetUrl("/m/login/")}?r=%2Fm%2Faccount`;
   const signUpHref = assetUrl("/m/create-account/");
 
-  const goToProtected = (target: string) => {
+  const goToSignIn = (target: string) => {
     onClose();
     const targetUrl = assetUrl(target);
-    if (isAuthenticated()) {
-      window.location.assign(targetUrl);
-      return;
-    }
     window.location.assign(`${assetUrl("/m/login/")}?r=${encodeURIComponent(targetUrl)}`);
   };
 
@@ -107,7 +102,7 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
             <button
               type="button"
               role="menuitem"
-              onClick={() => goToProtected("/m/bookings/")}
+              onClick={() => goToSignIn("/m/bookings/")}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               BOOKINGS
@@ -117,7 +112,7 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
             <button
               type="button"
               role="menuitem"
-              onClick={() => goToProtected("/m/account/")}
+              onClick={() => goToSignIn("/m/account/")}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               MY ACCOUNT
