@@ -19,6 +19,9 @@ export const SITE = {
   estimateUrl: "http://estimator.tamayenterprises.com",
   financingUrl: "https://your.acornfinance.com/apply?d=93753",
   hiringUrl: "/careers-partnerships",
+  /** Header icons (matches live site cart + account) */
+  headerCartUrl: "/online-appointments",
+  headerAccountUrl: "/online-appointments",
   social: {
     facebook: "https://www.facebook.com/Tamay.Constructions",
     instagram: "https://www.instagram.com/tamay.enterprises/",
@@ -46,18 +49,25 @@ export const ABOUT = {
   body: "Tamay Enterprises is a West Haven, CT–based multi-service company providing construction and home renovation services, real estate solutions, and local logistics support. We help homeowners, property owners, businesses, and investors simplify their needs by working with one trusted team across multiple service areas, serving West Haven and nearby Connecticut communities.",
 } as const;
 
-export const NAV_LINKS = [
+/** Top bar links (matches tamayenterprises.com) */
+export const NAV_PRIMARY = [
   { href: "/", label: "HOME" },
   { href: "/construction", label: "CONSTRUCTION" },
   { href: "/real-estate", label: "REAL ESTATE" },
   { href: "/logistics", label: "LOGISTICS" },
   { href: "/home-preventive-services", label: "HOME PREVENTIVE SERVICES" },
+] as const;
+
+/** MORE dropdown — order matches live site */
+export const NAV_MORE = [
   { href: "/reviews", label: "REVIEWS" },
   { href: "/gallery", label: "GALLERY" },
   { href: "/online-appointments", label: "ONLINE APPOINTMENTS" },
   { href: "/careers-partnerships", label: "CAREERS & PARTNERSHIPS" },
   { href: "/assembly-installation", label: "ASSSEMBLY & INSTALLATION" },
 ] as const;
+
+export const NAV_LINKS = [...NAV_PRIMARY, ...NAV_MORE] as const;
 
 export const FOOTER_LINKS = [
   { href: "/home-preventive-services", label: "HOME PREVENTIVE SERVICES" },

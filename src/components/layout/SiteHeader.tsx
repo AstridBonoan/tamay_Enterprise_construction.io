@@ -4,21 +4,42 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useState } from "react";
-import { NAV_LINKS, SITE } from "@/lib/site";
+import { NAV_MORE, NAV_PRIMARY, SITE } from "@/lib/site";
 import { IMAGES } from "@/lib/images";
 import { MobileSidebar } from "./MobileSidebar";
 
-const PRIMARY_LABELS = new Set([
-  "HOME",
-  "CONSTRUCTION",
-  "REAL ESTATE",
-  "LOGISTICS",
-  "HOME PREVENTIVE SERVICES",
-  "GALLERY",
-]);
+const iconLinkClass =
+  "p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-gray-900 hover:text-tamay-primary rounded-lg hover:bg-gray-100 transition-colors touch-manipulation";
 
-const PRIMARY_NAV = NAV_LINKS.filter((l) => PRIMARY_LABELS.has(l.label));
-const MORE_NAV = NAV_LINKS.filter((l) => !PRIMARY_LABELS.has(l.label));
+function CartIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M7 20c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM7.2 16h9.7c.8 0 1.5-.5 1.8-1.2l2.8-6.5A1 1 0 0 0 20.6 7H6.3L5.8 4H2V2h4l1 12.2c0 .4.3.8.7.8h.5z" />
+    </svg>
+  );
+}
+
+function UserIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z" />
+    </svg>
+  );
+}
+
+function HeaderToolbar({ compact = false }: { compact?: boolean }) {
+  const iconClass = compact ? "w-6 h-6" : "w-7 h-7";
+  return (
+    <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+      <Link href={SITE.headerCartUrl} className={iconLinkClass} aria-label="Bookings">
+        <CartIcon className={iconClass} />
+      </Link>
+      <Link href={SITE.headerAccountUrl} className={iconLinkClass} aria-label="My account">
+        <UserIcon className={iconClass} />
+      </Link>
+    </div>
+  );
+}
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -62,15 +83,7 @@ export function SiteHeader() {
             />
           </Link>
 
-          <a
-            href={SITE.phoneTel}
-            className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-tamay-primary rounded-lg hover:bg-gray-100 touch-manipulation"
-            aria-label={`Call ${SITE.phone}`}
-          >
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.54.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.54 1 1 0 01-.25 1.01l-2.2 2.2z" />
-            </svg>
-          </a>
+          <HeaderToolbar compact />
         </div>
 
         {/* Desktop xl+: logo, compact nav, phone */}
@@ -89,7 +102,7 @@ export function SiteHeader() {
             </Link>
 
             <nav className="flex-1 flex items-center justify-center gap-0.5 min-w-0">
-              {PRIMARY_NAV.map((link) => (
+              {NAV_PRIMARY.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -129,7 +142,7 @@ export function SiteHeader() {
                       onClick={() => setMoreOpen(false)}
                     />
                     <ul className="absolute right-0 top-full mt-1 z-20 min-w-[220px] bg-white border border-gray-200 shadow-lg py-1">
-                      {MORE_NAV.map((link) => (
+                      {NAV_MORE.map((link) => (
                         <li key={link.href}>
                           <Link
                             href={link.href}
@@ -148,12 +161,7 @@ export function SiteHeader() {
               </div>
             </nav>
 
-            <a
-              href={SITE.phoneTel}
-              className="shrink-0 text-tamay-primary font-semibold text-base hover:underline whitespace-nowrap"
-            >
-              {SITE.phone}
-            </a>
+            <HeaderToolbar />
           </div>
         </div>
       </header>
