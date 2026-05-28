@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { assetUrl } from "@/lib/assetUrl";
 import { isAuthenticated } from "@/lib/auth";
 
 function UserIcon({ className = "w-6 h-6" }: { className?: string }) {
@@ -28,6 +29,8 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
   const router = useRouter();
   const [loggedIn, setLoggedIn] = useState(false);
   const iconClass = compact ? "w-6 h-6" : "w-7 h-7";
+  const loginUrl = assetUrl("/m/login?r=%2Fm%2Faccount");
+  const createAccountUrl = assetUrl("/m/create-account");
 
   useEffect(() => {
     const syncAuth = () => setLoggedIn(isAuthenticated());
@@ -75,24 +78,30 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
           role="menu"
         >
           <li role="none">
-            <Link
-              href="/m/login?r=%2Fm%2Faccount"
+            <button
+              type="button"
               role="menuitem"
-              onClick={onClose}
-              className="block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
+              onClick={() => {
+                onClose();
+                window.location.href = loginUrl;
+              }}
+              className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               SIGN IN
-            </Link>
+            </button>
           </li>
           <li role="none">
-            <Link
-              href="/m/create-account"
+            <button
+              type="button"
               role="menuitem"
-              onClick={onClose}
-              className="block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
+              onClick={() => {
+                onClose();
+                window.location.href = createAccountUrl;
+              }}
+              className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               CREATE ACCOUNT
-            </Link>
+            </button>
           </li>
           <li role="separator" className="my-1 border-t border-gray-200" />
           <li role="none">
@@ -102,7 +111,11 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
               onClick={() => {
                 onClose();
                 const target = "/m/bookings";
-                router.push(loggedIn ? target : `/m/login?r=${encodeURIComponent(target)}`);
+                if (loggedIn) {
+                  router.push(target);
+                  return;
+                }
+                window.location.href = assetUrl(`/m/login?r=${encodeURIComponent(target)}`);
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
@@ -116,7 +129,11 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
               onClick={() => {
                 onClose();
                 const target = "/m/account";
-                router.push(loggedIn ? target : `/m/login?r=${encodeURIComponent(target)}`);
+                if (loggedIn) {
+                  router.push(target);
+                  return;
+                }
+                window.location.href = assetUrl(`/m/login?r=${encodeURIComponent(target)}`);
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >

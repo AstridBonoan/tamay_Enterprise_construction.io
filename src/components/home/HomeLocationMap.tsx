@@ -24,14 +24,14 @@ export function HomeLocationMap() {
           referrerPolicy="no-referrer-when-downgrade"
           allowFullScreen
         />
-        {/* Hide Google top-left place card so only custom CTA appears */}
-        <div className="absolute top-0 left-0 z-[5] w-[230px] h-[72px] bg-white/95 pointer-events-none" />
+        {/* Hide Google top-left place card/controls so only custom CTA appears */}
+        <div className="absolute top-0 left-0 z-[20] w-[300px] h-[90px] bg-white pointer-events-none" />
 
         <a
           href={SITE.maps.directionsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute top-4 left-4 z-10 inline-flex items-center gap-2 rounded-full bg-tamay-primary hover:bg-tamay-primary-dark text-white text-xs sm:text-sm font-bold tracking-widest uppercase px-4 py-2.5 shadow-lg transition-colors"
+          className="absolute top-4 left-4 z-[30] inline-flex items-center gap-2 rounded-full bg-tamay-primary hover:bg-tamay-primary-dark text-white text-xs sm:text-sm font-bold tracking-widest uppercase px-4 py-2.5 shadow-lg transition-colors"
         >
           <DirectionsIcon />
           Get Directions
