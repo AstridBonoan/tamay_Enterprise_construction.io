@@ -13,20 +13,6 @@ export const metadata: Metadata = {
     "Project video gallery of construction and renovation work by Tamay Enterprises across Connecticut.",
 };
 
-const COLLAGE_CLASSES = [
-  "md:col-span-2 md:row-span-2",
-  "md:col-span-1 md:row-span-1",
-  "md:col-span-1 md:row-span-2",
-  "md:col-span-2 md:row-span-1",
-  "md:col-span-1 md:row-span-1",
-  "md:col-span-1 md:row-span-1",
-  "md:col-span-2 md:row-span-1",
-  "md:col-span-1 md:row-span-1",
-  "md:col-span-1 md:row-span-1",
-  "md:col-span-1 md:row-span-1",
-  "md:col-span-2 md:row-span-1",
-] as const;
-
 const PHOTO_GALLERY_ITEMS = [
   { title: "Modern Kitchen Renovation", src: assetUrl("/gallery/photos/photo-1.png") },
   { title: "Luxury Bathroom Vanity Installation", src: assetUrl("/gallery/photos/photo-2.png") },
@@ -66,25 +52,25 @@ export default function GalleryPage() {
       <section className="py-14 max-w-6xl mx-auto px-4 border-t border-gray-200">
         <SectionHeading
           title="Photo Gallery"
-          subtitle="A collage of completed projects across renovation, remodeling, and installation work."
+          subtitle="Completed projects across renovation, remodeling, and installation work."
         />
-        <div className="grid grid-cols-1 md:grid-cols-4 md:auto-rows-[180px] gap-4 -mt-2">
-          {PHOTO_GALLERY_ITEMS.map((photo, idx) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 -mt-2">
+          {PHOTO_GALLERY_ITEMS.map((photo) => (
             <figure
               key={photo.title}
-              className={`relative overflow-hidden rounded-sm bg-gray-100 ${
-                COLLAGE_CLASSES[idx % COLLAGE_CLASSES.length]
-              }`}
+              className="flex flex-col border border-gray-200 bg-white rounded-sm overflow-hidden h-full"
             >
-              <Image
-                src={photo.src}
-                alt={photo.title}
-                fill
-                className="object-cover transition-transform duration-500 hover:scale-105"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                unoptimized
-              />
-              <figcaption className="absolute inset-x-0 bottom-0 bg-black/45 text-white text-xs md:text-sm px-3 py-2 font-medium">
+              <div className="relative aspect-[4/3] w-full bg-gray-100">
+                <Image
+                  src={photo.src}
+                  alt={photo.title}
+                  fill
+                  className="object-contain p-1"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  unoptimized
+                />
+              </div>
+              <figcaption className="px-2 py-2.5 text-xs sm:text-sm text-center text-tamay-primary font-semibold leading-snug border-t border-gray-100 min-h-[3.25rem] flex items-center justify-center">
                 {photo.title}
               </figcaption>
             </figure>
