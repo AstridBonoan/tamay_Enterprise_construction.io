@@ -26,12 +26,8 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
   const iconClass = compact ? "w-6 h-6" : "w-7 h-7";
   const signInHref = `${assetUrl("/m/login/")}?r=%2Fm%2Faccount`;
   const signUpHref = assetUrl("/m/create-account/");
-
-  const goToSignIn = (target: string) => {
-    onClose();
-    const targetUrl = assetUrl(target);
-    window.location.assign(`${assetUrl("/m/login/")}?r=${encodeURIComponent(targetUrl)}`);
-  };
+  const bookingsSignInHref = `${assetUrl("/m/login/")}?r=${encodeURIComponent(assetUrl("/m/bookings/"))}`;
+  const accountSignInHref = `${assetUrl("/m/login/")}?r=${encodeURIComponent(assetUrl("/m/account/"))}`;
 
   useEffect(() => {
     if (!open) return;
@@ -72,51 +68,49 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
           role="menu"
         >
           <li role="none">
-            <button
-              type="button"
+            <a
+              href={signInHref}
               role="menuitem"
               onClick={() => {
                 onClose();
-                window.location.assign(signInHref);
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               SIGN IN
-            </button>
+            </a>
           </li>
           <li role="none">
-            <button
-              type="button"
+            <a
+              href={signUpHref}
               role="menuitem"
               onClick={() => {
                 onClose();
-                window.location.assign(signUpHref);
               }}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               SIGN UP
-            </button>
+            </a>
           </li>
           <li role="separator" className="my-1 border-t border-gray-200" />
           <li role="none">
-            <button
-              type="button"
+            <a
+              href={bookingsSignInHref}
               role="menuitem"
-              onClick={() => goToSignIn("/m/bookings/")}
+              onClick={() => onClose()}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               BOOKINGS
-            </button>
+            </a>
           </li>
           <li role="none">
-            <button
-              type="button"
+            <a
+              href={accountSignInHref}
               role="menuitem"
-              onClick={() => goToSignIn("/m/account/")}
+              onClick={() => onClose()}
               className="w-full text-left block px-5 py-3 text-sm font-semibold uppercase tracking-wide text-gray-900 hover:bg-gray-50 hover:text-tamay-primary transition-colors"
             >
               MY ACCOUNT
-            </button>
+            </a>
           </li>
         </ul>
       )}
