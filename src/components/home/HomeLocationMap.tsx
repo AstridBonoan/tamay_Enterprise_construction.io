@@ -20,19 +20,15 @@ export function HomeLocationMap() {
           referrerPolicy="no-referrer-when-downgrade"
           allowFullScreen
         />
-      </div>
-      <div className="bg-white py-4 px-4 border-b border-gray-200">
-        <div className="max-w-6xl mx-auto">
-          <a
-            href={SITE.maps.directionsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-tamay-primary hover:bg-tamay-primary-dark text-white text-xs sm:text-sm font-bold tracking-widest uppercase px-4 py-2.5 shadow-lg transition-colors"
-          >
-            <DirectionsIcon />
-            Get Directions
-          </a>
-        </div>
+        <a
+          href={SITE.maps.directionsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute left-3 sm:left-4 top-[78px] sm:top-[82px] z-10 inline-flex items-center gap-2 rounded-full bg-tamay-primary hover:bg-tamay-primary-dark text-white text-xs sm:text-sm font-bold tracking-widest uppercase px-4 py-2.5 shadow-lg transition-colors"
+        >
+          <DirectionsIcon />
+          Get Directions
+        </a>
       </div>
 
       <div className="bg-tamay-primary-dark text-white px-4 py-8 sm:py-10">
