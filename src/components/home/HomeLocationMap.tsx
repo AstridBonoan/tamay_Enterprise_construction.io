@@ -9,12 +9,16 @@ function DirectionsIcon() {
 }
 
 export function HomeLocationMap() {
+  const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent(
+    SITE.address,
+  )}&z=16&output=embed`;
+
   return (
     <section id="location" className="w-full">
       <div className="relative w-full h-[380px] sm:h-[420px] md:h-[460px] bg-gray-200">
         <iframe
           title={`Map showing ${SITE.address}`}
-          src={SITE.maps.embedUrl}
+          src={mapEmbedSrc}
           className="absolute inset-0 h-full w-full border-0"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
