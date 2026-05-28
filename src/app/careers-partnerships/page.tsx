@@ -5,11 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { CareerRoleCard } from "@/components/careers/CareerRoleCard";
 import { CareersAboutPhoto } from "@/components/careers/CareersAboutPhoto";
 import { CAREER_ROLE_GROUPS } from "@/lib/careerRoles";
-import {
-  CAREERS_ABOUT_IMAGES,
-  CAREERS_HERO_BANNER,
-  CAREERS_HERO_BANNER_ASPECT,
-} from "@/lib/careerImages";
+import { CAREERS_ABOUT_IMAGES, CAREERS_HERO_BANNER } from "@/lib/careerImages";
 
 export const metadata: Metadata = {
   title: "Careers & Partnerships | Tamay Enterprises West Haven CT",
@@ -24,8 +20,8 @@ export default function CareersPage() {
         image={CAREERS_HERO_BANNER}
         title="Careers & Partnerships"
         subtitle="Construction Jobs available"
-        aspectRatio={CAREERS_HERO_BANNER_ASPECT}
-        imageFit="cover"
+        height="medium"
+        imageFit="fill"
         overlayClassName="bg-black/55"
       />
 
