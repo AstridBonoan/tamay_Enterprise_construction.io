@@ -11,7 +11,7 @@ import { DivisionCard } from "@/components/ui/DivisionCard";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { ContactBlock } from "@/components/ui/ContactBlock";
 import { IMAGES } from "@/lib/images";
-import { SITE, SERVICE_AREAS } from "@/lib/site";
+import { SITE, SERVICE_AREAS, HOME_CONTACT_SERVICE_CATEGORIES } from "@/lib/site";
 
 export default function HomePage() {
   return (
@@ -108,7 +108,9 @@ export default function HomePage() {
                 {
                   name: "category",
                   label: "Category of Service",
+                  type: "select",
                   required: true,
+                  options: [...HOME_CONTACT_SERVICE_CATEGORIES],
                 },
                 { name: "name", label: "Name", required: true },
                 { name: "email", label: "Email", type: "email", required: true },

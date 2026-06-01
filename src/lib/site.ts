@@ -1,3 +1,11 @@
+export const HOME_CONTACT_SERVICE_CATEGORIES = [
+  "Construction",
+  "Real Estate",
+  "Logistics",
+  "Prevention Services",
+  "Pro Furniture Assembly & Installation",
+] as const;
+
 export const SITE = {
   name: "Tamay Enterprises",
   legalName: "Tamay Enterprises Inc",
@@ -20,7 +28,7 @@ export const SITE = {
   financingUrl: "https://your.acornfinance.com/apply?d=93753",
   hiringUrl: "/careers-partnerships",
   /** Cart empty state + bookings */
-  headerCartUrl: "/online-appointments",
+  headerCartUrl: "/#contact",
   social: {
     facebook: "https://www.facebook.com/Tamay.Constructions",
     instagram: "https://www.instagram.com/tamay.enterprises/",
@@ -61,7 +69,6 @@ export const NAV_PRIMARY = [
 export const NAV_MORE = [
   { href: "/reviews", label: "REVIEWS" },
   { href: "/gallery", label: "GALLERY" },
-  { href: "/online-appointments", label: "ONLINE APPOINTMENTS" },
   { href: "/careers-partnerships", label: "CAREERS & PARTNERSHIPS" },
   { href: "/assembly-installation", label: "ASSSEMBLY & INSTALLATION" },
 ] as const;
@@ -70,16 +77,15 @@ export const NAV_LINKS = [...NAV_PRIMARY, ...NAV_MORE] as const;
 
 /** Person icon dropdown (matches tamayenterprises.com) */
 export const ACCOUNT_MENU_ITEMS = [
-  { type: "link" as const, href: "/online-appointments", label: "SIGN IN" },
-  { type: "link" as const, href: "/online-appointments", label: "CREATE ACCOUNT" },
+  { type: "link" as const, href: "/m/login", label: "SIGN IN" },
+  { type: "link" as const, href: "/m/create-account", label: "CREATE ACCOUNT" },
   { type: "divider" as const },
-  { type: "link" as const, href: "/online-appointments", label: "BOOKINGS" },
-  { type: "link" as const, href: "/online-appointments", label: "MY ACCOUNT" },
+  { type: "link" as const, href: "/m/bookings", label: "BOOKINGS" },
+  { type: "link" as const, href: "/m/account", label: "MY ACCOUNT" },
 ] as const;
 
 export const FOOTER_LINKS = [
   { href: "/home-preventive-services", label: "HOME PREVENTIVE SERVICES" },
-  { href: "/online-appointments", label: "ONLINE APPOINTMENTS" },
   { href: "/careers-partnerships", label: "CAREERS & PARTNERSHIPS" },
   { href: "/assembly-installation", label: "ASSEMBLY & INSTALLATION" },
 ] as const;
