@@ -13,14 +13,14 @@ type PropertyListingsSectionProps = {
   alternateBackground?: boolean;
 };
 
-function PropertyCard({
+function PropertyListingCard({
   listing,
   badgeLabel,
 }: {
   listing: PropertyListing;
   badgeLabel: "For Sale" | "For Rent";
 }) {
-  const details = [
+  const specs = [
     `${listing.beds} bed`,
     `${listing.baths} bath`,
     listing.sqft ? `${listing.sqft.toLocaleString()} sq ft` : null,
@@ -29,31 +29,56 @@ function PropertyCard({
     .join(" · ");
 
   return (
-    <article className="bg-white border border-gray-200 shadow-sm overflow-hidden flex flex-col h-full">
-      <div className="relative aspect-[4/3] bg-gray-100">
+    <article className="bg-white border border-gray-200 shadow-sm overflow-hidden">
+      <div className="relative aspect-[16/10] sm:aspect-[2/1] bg-gray-100">
         <Image
           src={listing.image}
           alt={listing.imageAlt}
           fill
           className="object-cover"
-          sizes="(max-width: 768px) 100vw, 33vw"
+          sizes="(max-width: 768px) 100vw, 768px"
           unoptimized
         />
-        <span className="absolute top-3 left-3 bg-tamay-accent text-white text-xs font-bold tracking-wide uppercase px-2.5 py-1">
+        <span className="absolute top-4 left-4 bg-tamay-accent text-white text-xs font-bold tracking-wide uppercase px-3 py-1.5">
           {badgeLabel}
         </span>
       </div>
-      <div className="p-5 flex flex-col flex-1">
-        <h3 className="font-heading text-lg text-tamay-primary font-semibold leading-snug">{listing.title}</h3>
-        <p className="text-sm text-gray-500 mt-1">{listing.address}</p>
-        <p className="text-tamay-primary font-bold text-xl mt-3">{listing.price}</p>
-        <p className="text-sm text-gray-600 mt-1">{details}</p>
-        {listing.description && (
-          <p className="text-sm text-gray-600 leading-relaxed mt-3 flex-1">{listing.description}</p>
-        )}
-        <div className="mt-5">
-          <Button href="#contact" variant="primary" className="w-full sm:w-auto">
-            Inquire
+
+      <div className="px-5 sm:px-8 py-6 sm:py-8 space-y-5">
+        <div>
+          <h3 className="font-heading text-xl sm:text-2xl text-tamay-primary font-semibold leading-snug">
+            {listing.title}
+          </h3>
+          <p className="text-gray-600 mt-2">{listing.address}</p>
+          <p className="text-tamay-primary font-bold text-2xl sm:text-3xl mt-4">{listing.price}</p>
+          <p className="text-sm text-gray-500 mt-2">{specs}</p>
+        </div>
+
+        <div className="border-t border-gray-100 pt-5">
+          <h4 className="text-sm font-semibold tracking-widest uppercase text-tamay-primary mb-3">Details</h4>
+          <p className="text-gray-600 leading-relaxed">{listing.details}</p>
+        </div>
+
+        <div className="border-t border-gray-100 pt-5">
+          <h4 className="text-sm font-semibold tracking-widest uppercase text-tamay-primary mb-4">
+            {listing.scheduleLabel}
+          </h4>
+          <ul className="space-y-3">
+            {listing.scheduleSlots.map((slot) => (
+              <li
+                key={`${slot.date}-${slot.time}`}
+                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 py-3 px-4 bg-gray-50 border border-gray-100"
+              >
+                <span className="font-medium text-gray-800">{slot.date}</span>
+                <span className="text-gray-600 text-sm sm:text-base">{slot.time}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="pt-2 text-center sm:text-left">
+          <Button href="#contact" variant="primary">
+            {listing.scheduleCtaLabel}
           </Button>
         </div>
       </div>
@@ -72,16 +97,16 @@ export function PropertyListingsSection({
 }: PropertyListingsSectionProps) {
   return (
     <section id={id} className={`py-14 px-4 scroll-mt-24 ${alternateBackground ? "bg-gray-50" : "bg-white"}`}>
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <SectionHeading title={title} subtitle={intro} />
         {listings.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 -mt-2">
+          <div className="space-y-12 -mt-2">
             {listings.map((listing) => (
-              <PropertyCard key={listing.id} listing={listing} badgeLabel={badgeLabel} />
+              <PropertyListingCard key={listing.id} listing={listing} badgeLabel={badgeLabel} />
             ))}
           </div>
         ) : (
-          <div className="max-w-2xl mx-auto text-center bg-white border border-gray-200 shadow-sm px-6 py-12 -mt-2">
+          <div className="text-center bg-white border border-gray-200 shadow-sm px-6 py-12 -mt-2">
             <p className="text-gray-600 leading-relaxed mb-6">{emptyMessage}</p>
             <Button href="#contact" variant="primary">
               Contact an agent
