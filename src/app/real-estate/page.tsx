@@ -6,6 +6,7 @@ import { ContactForm } from "@/components/ui/ContactForm";
 import { ContactBlock } from "@/components/ui/ContactBlock";
 import { Button } from "@/components/ui/Button";
 import { PropertyListingsSection } from "@/components/real-estate/PropertyListingsSection";
+import { SellingHelpBanner } from "@/components/real-estate/SellingHelpBanner";
 import { IMAGES } from "@/lib/images";
 import { RENT_LISTINGS, SALE_LISTINGS } from "@/lib/realEstateListings";
 
@@ -213,6 +214,8 @@ export default function RealEstatePage() {
           />
         </div>
       </section>
+
+      <SellingHelpBanner />
     </>
   );
 }
