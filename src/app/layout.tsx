@@ -4,7 +4,6 @@ import "./globals.css";
 import { HiringBanner } from "@/components/layout/HiringBanner";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
-import { EstimateWidget } from "@/components/layout/EstimateWidget";
 import { CookieBanner } from "@/components/layout/CookieBanner";
 import { IMAGES as IMG } from "@/lib/images";
 
@@ -56,7 +55,6 @@ export default function RootLayout({
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
-        <EstimateWidget />
         <CookieBanner />
       </body>
     </html>

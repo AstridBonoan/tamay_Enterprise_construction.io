@@ -13,6 +13,7 @@ import {
   CONSTRUCTION_PROJECT_VIDEOS,
   MASONRY_PROJECT_VIDEOS,
 } from "@/lib/constructionVideos";
+import { ConstructionEstimateBanner } from "@/components/construction/ConstructionEstimateBanner";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -277,6 +278,8 @@ export default function ConstructionPage() {
           <ContactBlock showAddress={false} />
         </div>
       </section>
+
+      <ConstructionEstimateBanner />
     </>
   );
 }
