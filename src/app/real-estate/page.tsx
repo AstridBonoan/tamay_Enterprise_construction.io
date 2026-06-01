@@ -5,7 +5,9 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { ContactBlock } from "@/components/ui/ContactBlock";
 import { Button } from "@/components/ui/Button";
+import { PropertyListingsSection } from "@/components/real-estate/PropertyListingsSection";
 import { IMAGES } from "@/lib/images";
+import { RENT_LISTINGS, SALE_LISTINGS } from "@/lib/realEstateListings";
 
 export const metadata: Metadata = {
   title: "Real Estate Services in West Haven, CT",
@@ -144,6 +146,25 @@ export default function RealEstatePage() {
           </Button>
         </div>
       </section>
+
+      <PropertyListingsSection
+        id="houses-for-sale"
+        title="House For Sale"
+        intro="Browse homes currently available for purchase in West Haven and nearby Connecticut communities. Contact our team for showings, pricing details, and renovation potential."
+        listings={SALE_LISTINGS}
+        emptyMessage="No homes are listed for sale at the moment. Reach out to our agents for upcoming listings and off-market opportunities."
+        badgeLabel="For Sale"
+        alternateBackground
+      />
+
+      <PropertyListingsSection
+        id="houses-for-rent"
+        title="House For Rent"
+        intro="Explore rental properties managed with the same local expertise and responsive communication you expect from Tamay Enterprises."
+        listings={RENT_LISTINGS}
+        emptyMessage="No rental homes are listed right now. Contact us to learn about availability or get notified when new rentals are posted."
+        badgeLabel="For Rent"
+      />
 
       <section className="py-14 bg-tamay-primary text-white px-4">
         <div className="max-w-3xl mx-auto text-center">
