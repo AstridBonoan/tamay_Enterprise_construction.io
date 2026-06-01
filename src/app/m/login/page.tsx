@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
+import { AuthOrDivider, GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 import { signIn } from "@/lib/auth";
 
 export default function LoginPage() {
@@ -62,6 +63,11 @@ export default function LoginPage() {
             </button>
           </div>
         </form>
+
+        <div className="max-w-[620px] mx-auto">
+          <AuthOrDivider />
+          <GoogleSignInButton redirectTo={redirectTarget} />
+        </div>
 
         <div className="text-center mt-5 space-y-2">
           <button type="button" className="text-white text-base font-medium hover:underline">
