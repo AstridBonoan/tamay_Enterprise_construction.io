@@ -1,5 +1,5 @@
 import { FloatingPromoBanner } from "@/components/ui/FloatingPromoBanner";
-import { ESTIMATE } from "@/lib/site";
+import { ESTIMATE, SITE } from "@/lib/site";
 
 /** Fixed bottom-right project estimator promo on the Construction page. */
 export function ConstructionEstimateBanner() {
@@ -8,6 +8,8 @@ export function ConstructionEstimateBanner() {
       ariaLabel="Project cost estimator"
       headline={ESTIMATE.title}
       body={ESTIMATE.description}
+      ctaLabel={ESTIMATE.ctaLabel}
+      ctaHref={SITE.estimateUrl}
     />
   );
 }
