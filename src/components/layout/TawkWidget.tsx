@@ -1,10 +1,11 @@
 import Script from "next/script";
+import { TAWK } from "@/lib/tawk";
 import { TawkChatPlaceholder } from "@/components/layout/TawkChatPlaceholder";
 
-const propertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID;
-const widgetId = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID ?? "default";
+const propertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID ?? TAWK.propertyId;
+const widgetId = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID ?? TAWK.widgetId;
 
-/** Tawk.to live chat — bottom-left on all pages. Shows a preview bubble until configured. */
+/** Tawk.to live chat — bottom-left on all pages. */
 export function TawkWidget() {
   if (!propertyId) {
     return <TawkChatPlaceholder />;
