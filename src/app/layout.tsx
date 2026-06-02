@@ -5,6 +5,7 @@ import { HiringBanner } from "@/components/layout/HiringBanner";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { CookieBanner } from "@/components/layout/CookieBanner";
+import { TawkWidget } from "@/components/layout/TawkWidget";
 import { IMAGES as IMG } from "@/lib/images";
 
 const cinzel = Cinzel({
@@ -56,6 +57,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <CookieBanner />
+        <TawkWidget />
       </body>
     </html>
   );

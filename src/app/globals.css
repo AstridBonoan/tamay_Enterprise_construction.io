@@ -80,3 +80,18 @@ body {
   margin: 0 auto;
   max-width: 120px;
 }
+
+/* Tawk.to chat bubble — bottom-left sitewide */
+#tawk-bubble-container,
+.tawk-min-container {
+  left: 16px !important;
+  right: auto !important;
+}
+
+@media (max-width: 767px) {
+  #tawk-bubble-container,
+  .tawk-min-container {
+    bottom: 88px !important;
+    left: 12px !important;
+  }
+}
