@@ -1,6 +1,5 @@
-/** Shared bottom row — matches Tawk chat bubble vertical position. */
-export const FLOAT_ROW_BOTTOM_CLASS =
-  "bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] sm:bottom-6";
+/** Shared bottom row — matches Tawk chat bubble; lifts when cookie banner is visible. */
+export const FLOAT_ROW_BOTTOM_CLASS = "float-row-bottom";
 
 export function isChatFloatDismissed() {
   if (typeof window === "undefined") return false;

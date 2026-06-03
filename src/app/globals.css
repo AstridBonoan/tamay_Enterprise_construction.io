@@ -81,21 +81,37 @@ body {
   max-width: 120px;
 }
 
+/* Bottom float row — chat, promos, collapsed pills; lifts above cookie banner */
+.float-row-bottom {
+  bottom: calc(0.75rem + var(--cookie-banner-offset, 0px) + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 640px) {
+  .float-row-bottom {
+    bottom: calc(1.5rem + var(--cookie-banner-offset, 0px));
+  }
+}
+
 /* Tawk.to chat bubble — bottom-left sitewide */
 #tawk-bubble-container,
 .tawk-min-container {
   left: 16px !important;
   right: auto !important;
-  bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)) !important;
+  bottom: calc(0.75rem + var(--cookie-banner-offset, 0px) + env(safe-area-inset-bottom, 0px)) !important;
   top: auto !important;
 }
 
 @media (min-width: 640px) {
   #tawk-bubble-container,
   .tawk-min-container {
-    bottom: 1.5rem !important;
+    bottom: calc(1.5rem + var(--cookie-banner-offset, 0px)) !important;
     left: 16px !important;
   }
+}
+
+body.cookie-banner-visible #tawk-bubble-container,
+body.cookie-banner-visible .tawk-min-container {
+  z-index: 9998 !important;
 }
 
 body.tawk-dismissed #tawk-bubble-container,
