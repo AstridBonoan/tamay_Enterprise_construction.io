@@ -1,6 +1,13 @@
+"use client";
+
 import { Button } from "@/components/ui/Button";
+import { CollapsedFloatButton, FloatCloseButton } from "@/components/ui/FloatingFloatControls";
+import { useDismissibleFloat } from "@/hooks/useDismissibleFloat";
 
 type FloatingPromoBannerProps = {
+  floatId: string;
+  stackIndex?: number;
+  collapsedLabel: string;
   headline: string;
   body: string;
   ariaLabel: string;
@@ -8,25 +15,41 @@ type FloatingPromoBannerProps = {
   ctaHref?: string;
 };
 
-/** Fixed bottom-right promo banner — optional CTA for external links. */
+/** Fixed bottom-right promo banner — dismissible with restore pill bottom-right. */
 export function FloatingPromoBanner({
+  floatId,
+  stackIndex = 1,
+  collapsedLabel,
   headline,
   body,
   ariaLabel,
   ctaLabel,
   ctaHref,
 }: FloatingPromoBannerProps) {
+  const { dismissed, dismiss, restore, ready } = useDismissibleFloat(floatId);
   const hasCta = Boolean(ctaLabel && ctaHref);
+
+  if (!ready) return null;
+
+  if (dismissed) {
+    return (
+      <CollapsedFloatButton
+        label={collapsedLabel}
+        stackIndex={stackIndex}
+        onClick={restore}
+        ariaLabel={`Show ${ariaLabel}`}
+      />
+    );
+  }
 
   return (
     <aside
-      className={`fixed right-3 z-[75] max-w-[min(16rem,calc(100vw-2rem))] sm:max-w-[17rem] bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] sm:bottom-6 sm:right-5 ${
-        hasCta ? "" : "pointer-events-none"
-      }`}
+      className="fixed right-3 z-[75] max-w-[min(16rem,calc(100vw-2rem))] sm:max-w-[17rem] bottom-[calc(3.5rem+env(safe-area-inset-bottom,0px))] sm:bottom-6 sm:right-5"
       aria-label={ariaLabel}
     >
-      <div className="bg-tamay-primary text-white shadow-xl border-l-4 border-tamay-accent px-3.5 py-4 sm:px-4 sm:py-4">
-        <p className="font-heading text-[0.9375rem] sm:text-base font-semibold leading-snug">{headline}</p>
+      <div className="relative bg-tamay-primary text-white shadow-xl border-l-4 border-tamay-accent px-3.5 py-4 sm:px-4 sm:py-4">
+        <FloatCloseButton onClick={dismiss} ariaLabel={`Close ${ariaLabel}`} />
+        <p className="font-heading text-[0.9375rem] sm:text-base font-semibold leading-snug pr-5">{headline}</p>
         <p className="text-xs sm:text-sm text-gray-100 leading-relaxed mt-2">{body}</p>
         {hasCta && (
           <div className="mt-3">

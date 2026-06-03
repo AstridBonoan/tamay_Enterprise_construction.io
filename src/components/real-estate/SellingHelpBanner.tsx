@@ -4,6 +4,9 @@ import { FloatingPromoBanner } from "@/components/ui/FloatingPromoBanner";
 export function SellingHelpBanner() {
   return (
     <FloatingPromoBanner
+      floatId="real-estate-selling"
+      stackIndex={1}
+      collapsedLabel="Selling"
       ariaLabel="Selling your home"
       headline="Are You Selling A House?"
       body="We Can Help You Prepare Your House For The Market"

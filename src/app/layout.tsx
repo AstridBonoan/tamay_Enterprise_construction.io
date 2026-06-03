@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { CookieBanner } from "@/components/layout/CookieBanner";
 import { TawkWidget } from "@/components/layout/TawkWidget";
+import { TawkFloatControl } from "@/components/layout/TawkFloatControl";
 import { IMAGES as IMG } from "@/lib/images";
 
 const cinzel = Cinzel({
@@ -58,6 +59,7 @@ export default function RootLayout({
         <SiteFooter />
         <CookieBanner />
         <TawkWidget />
+        <TawkFloatControl />
       </body>
     </html>
   );
