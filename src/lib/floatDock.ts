@@ -3,5 +3,5 @@ export const FLOAT_ROW_BOTTOM_CLASS = "float-row-bottom";
 
 export function isChatFloatDismissed() {
   if (typeof window === "undefined") return false;
-  return window.localStorage.getItem("tamay_float_dismissed_tawk-chat") === "1";
+  return window.sessionStorage.getItem("tamay_float_dismissed_tawk-chat") === "1";
 }

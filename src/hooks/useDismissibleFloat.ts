@@ -6,23 +6,25 @@ function storageKey(id: string) {
   return `tamay_float_dismissed_${id}`;
 }
 
+/** Dismiss state lasts for the browser session only — floats open on each new visit. */
 export function useDismissibleFloat(id: string) {
   const [dismissed, setDismissed] = useState(false);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    setDismissed(window.localStorage.getItem(storageKey(id)) === "1");
+    window.localStorage.removeItem(storageKey(id));
+    setDismissed(window.sessionStorage.getItem(storageKey(id)) === "1");
     setReady(true);
   }, [id]);
 
   const dismiss = useCallback(() => {
-    window.localStorage.setItem(storageKey(id), "1");
+    window.sessionStorage.setItem(storageKey(id), "1");
     setDismissed(true);
     window.dispatchEvent(new Event("tamay-float-dismiss"));
   }, [id]);
 
   const restore = useCallback(() => {
-    window.localStorage.removeItem(storageKey(id));
+    window.sessionStorage.removeItem(storageKey(id));
     setDismissed(false);
     window.dispatchEvent(new Event("tamay-float-dismiss"));
   }, [id]);
