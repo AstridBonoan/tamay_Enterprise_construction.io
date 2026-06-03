@@ -15,7 +15,7 @@ export function TawkChatPlaceholder() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-4 left-4 sm:bottom-4 sm:left-4 max-sm:bottom-[5.5rem] max-sm:left-3 z-[85] flex flex-col items-start gap-3">
+    <div className="fixed left-3 z-[85] flex flex-col items-start gap-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] sm:left-4 sm:bottom-4">
       {open && (
         <div
           className="w-[min(18rem,calc(100vw-2rem))] rounded-lg bg-white border border-gray-200 shadow-xl overflow-hidden animate-[fadeIn_0.2s_ease-out]"

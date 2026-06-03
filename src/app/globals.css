@@ -91,7 +91,8 @@ body {
 @media (max-width: 767px) {
   #tawk-bubble-container,
   .tawk-min-container {
-    bottom: 88px !important;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)) !important;
     left: 12px !important;
+    top: auto !important;
   }
 }

@@ -20,7 +20,7 @@ export function TawkWidget() {
           window.Tawk_API.customStyle = {
             visibility: {
               desktop: { position: "bl", xOffset: 16, yOffset: 16 },
-              mobile: { position: "bl", xOffset: 12, yOffset: 88 }
+              mobile: { position: "bl", xOffset: 12, yOffset: 12 }
             }
           };
         `}

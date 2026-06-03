@@ -20,7 +20,7 @@ export function FloatingPromoBanner({
 
   return (
     <aside
-      className={`fixed bottom-24 right-3 sm:bottom-6 sm:right-5 z-[75] max-w-[min(16rem,calc(100vw-2rem))] sm:max-w-[17rem] ${
+      className={`fixed right-3 z-[75] max-w-[min(16rem,calc(100vw-2rem))] sm:max-w-[17rem] bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] sm:bottom-6 sm:right-5 ${
         hasCta ? "" : "pointer-events-none"
       }`}
       aria-label={ariaLabel}
