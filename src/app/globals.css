@@ -86,14 +86,15 @@ body {
 .tawk-min-container {
   left: 16px !important;
   right: auto !important;
+  bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)) !important;
+  top: auto !important;
 }
 
-@media (max-width: 767px) {
+@media (min-width: 640px) {
   #tawk-bubble-container,
   .tawk-min-container {
-    bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)) !important;
-    left: 12px !important;
-    top: auto !important;
+    bottom: 1.5rem !important;
+    left: 16px !important;
   }
 }
 

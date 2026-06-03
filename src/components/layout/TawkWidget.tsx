@@ -19,7 +19,7 @@ export function TawkWidget() {
           window.Tawk_LoadStart = new Date();
           window.Tawk_API.customStyle = {
             visibility: {
-              desktop: { position: "bl", xOffset: 16, yOffset: 16 },
+              desktop: { position: "bl", xOffset: 16, yOffset: 24 },
               mobile: { position: "bl", xOffset: 12, yOffset: 12 }
             }
           };
