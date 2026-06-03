@@ -113,11 +113,3 @@ body.cookie-banner-visible #tawk-bubble-container,
 body.cookie-banner-visible .tawk-min-container {
   z-index: 9998 !important;
 }
-
-body.tawk-dismissed #tawk-bubble-container,
-body.tawk-dismissed .tawk-min-container,
-body.tawk-dismissed iframe[title="chat widget"] {
-  display: none !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
