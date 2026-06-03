@@ -18,11 +18,13 @@ export function useDismissibleFloat(id: string) {
   const dismiss = useCallback(() => {
     window.localStorage.setItem(storageKey(id), "1");
     setDismissed(true);
+    window.dispatchEvent(new Event("tamay-float-dismiss"));
   }, [id]);
 
   const restore = useCallback(() => {
     window.localStorage.removeItem(storageKey(id));
     setDismissed(false);
+    window.dispatchEvent(new Event("tamay-float-dismiss"));
   }, [id]);
 
   return { dismissed, dismiss, restore, ready };

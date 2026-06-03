@@ -5,7 +5,6 @@ export function SellingHelpBanner() {
   return (
     <FloatingPromoBanner
       floatId="real-estate-selling"
-      stackIndex={1}
       collapsedLabel="Selling"
       ariaLabel="Selling your home"
       headline="Are You Selling A House?"

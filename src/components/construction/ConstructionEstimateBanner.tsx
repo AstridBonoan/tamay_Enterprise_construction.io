@@ -6,7 +6,6 @@ export function ConstructionEstimateBanner() {
   return (
     <FloatingPromoBanner
       floatId="construction-estimate"
-      stackIndex={1}
       collapsedLabel="Estimate"
       ariaLabel="Project cost estimator"
       headline={ESTIMATE.title}

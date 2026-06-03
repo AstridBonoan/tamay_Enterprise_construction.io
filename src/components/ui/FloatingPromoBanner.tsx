@@ -1,12 +1,26 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import { Button } from "@/components/ui/Button";
 import { CollapsedFloatButton, FloatCloseButton } from "@/components/ui/FloatingFloatControls";
 import { useDismissibleFloat } from "@/hooks/useDismissibleFloat";
+import { FLOAT_DOCK_LEFT_CLASS, isChatFloatDismissed, openPromoBottom } from "@/lib/floatDock";
+
+function subscribeChatDismiss(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener("tamay-float-dismiss", callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener("tamay-float-dismiss", callback);
+  };
+}
+
+function getChatDismissSnapshot() {
+  return isChatFloatDismissed();
+}
 
 type FloatingPromoBannerProps = {
   floatId: string;
-  stackIndex?: number;
   collapsedLabel: string;
   headline: string;
   body: string;
@@ -15,10 +29,9 @@ type FloatingPromoBannerProps = {
   ctaHref?: string;
 };
 
-/** Fixed bottom-right promo banner — dismissible with restore pill bottom-right. */
+/** Fixed bottom-left promo banner — aligned above the chat dock. */
 export function FloatingPromoBanner({
   floatId,
-  stackIndex = 1,
   collapsedLabel,
   headline,
   body,
@@ -27,6 +40,7 @@ export function FloatingPromoBanner({
   ctaHref,
 }: FloatingPromoBannerProps) {
   const { dismissed, dismiss, restore, ready } = useDismissibleFloat(floatId);
+  const chatDismissed = useSyncExternalStore(subscribeChatDismiss, getChatDismissSnapshot, () => false);
   const hasCta = Boolean(ctaLabel && ctaHref);
 
   if (!ready) return null;
@@ -35,7 +49,8 @@ export function FloatingPromoBanner({
     return (
       <CollapsedFloatButton
         label={collapsedLabel}
-        stackIndex={stackIndex}
+        stackIndex={chatDismissed ? 1 : 0}
+        aboveChat={!chatDismissed}
         onClick={restore}
         ariaLabel={`Show ${ariaLabel}`}
       />
@@ -44,7 +59,8 @@ export function FloatingPromoBanner({
 
   return (
     <aside
-      className="fixed right-3 z-[75] max-w-[min(16rem,calc(100vw-2rem))] sm:max-w-[17rem] bottom-[calc(3.5rem+env(safe-area-inset-bottom,0px))] sm:bottom-6 sm:right-5"
+      className={`fixed ${FLOAT_DOCK_LEFT_CLASS} z-[75] max-w-[min(16rem,calc(100vw-2rem))] sm:max-w-[17rem]`}
+      style={{ bottom: openPromoBottom(chatDismissed) }}
       aria-label={ariaLabel}
     >
       <div className="relative bg-tamay-primary text-white shadow-xl border-l-4 border-tamay-accent px-3.5 py-4 sm:px-4 sm:py-4">

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { CollapsedFloatButton, FloatCloseButton } from "@/components/ui/FloatingFloatControls";
 import { useDismissibleFloat } from "@/hooks/useDismissibleFloat";
 import { TAWK } from "@/lib/tawk";
+import { CHAT_BUBBLE_SLOT_REM } from "@/lib/floatDock";
 
 type TawkApi = {
   hideWidget?: () => void;
@@ -65,7 +66,8 @@ export function TawkFloatControl() {
 
   return (
     <div
-      className="fixed z-[90] left-[calc(3.75rem+env(safe-area-inset-left,0px))] bottom-[calc(3.25rem+env(safe-area-inset-bottom,0px))] sm:left-[4.25rem] sm:bottom-[calc(4rem+env(safe-area-inset-bottom,0px))]"
+      className="fixed z-[90] left-[calc(0.75rem+2.75rem+env(safe-area-inset-left,0px))] sm:left-[calc(1rem+2.75rem+env(safe-area-inset-left,0px))]"
+      style={{ bottom: `calc(0.75rem + ${CHAT_BUBBLE_SLOT_REM - 0.5}rem + env(safe-area-inset-bottom, 0px))` }}
       aria-hidden
     >
       <FloatCloseButton onClick={dismiss} ariaLabel="Close live chat" />
