@@ -144,15 +144,12 @@ export default function ConstructionPage() {
 
       <section className="py-14 max-w-3xl mx-auto px-4 text-center">
         <SectionHeading title="7-Year Warranty & Complimentary Tune-Ups" subtitle="Renovate Once. Enjoy It Longer." />
-        <ol className="text-left text-gray-700 space-y-2 max-w-md mx-auto mb-8">
+        <ol className="text-left text-gray-700 space-y-2 max-w-md mx-auto">
           <li>1. 7-year workmanship warranty on eligible renovations</li>
           <li>2. Bathroom rejuvenation tune-ups (only on full/ new renovations)</li>
           <li>3. Kitchen tune-ups (only on full/new renovations)</li>
           <li>4. Transferable (1 year if unused)</li>
         </ol>
-        <Button href={SITE.financingUrl} variant="accent" external>
-          Check Eligibility
-        </Button>
       </section>
 
       <section className="py-14 bg-tamay-primary text-white px-4">
