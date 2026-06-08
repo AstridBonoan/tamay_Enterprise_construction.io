@@ -6,7 +6,7 @@ import { CollapsedFloatButton, FloatCloseButton } from "@/components/ui/Floating
 import { useDismissibleFloat } from "@/hooks/useDismissibleFloat";
 import { FLOAT_ROW_BOTTOM_CLASS } from "@/lib/floatDock";
 
-const AUTO_CLOSE_MS = 10_000;
+const AUTO_CLOSE_MS = 5_000;
 
 type FloatingPromoBannerProps = {
   floatId: string;
