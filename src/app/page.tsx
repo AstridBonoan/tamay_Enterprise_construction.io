@@ -20,6 +20,8 @@ export default function HomePage() {
 
       <AboutUsSection />
 
+      <FinancingBanner />
+
       <ServicesSectionTitle />
 
       <DivisionCard
@@ -96,8 +98,6 @@ export default function HomePage() {
       <HomeImageShowcase />
 
       <ReviewsSection />
-
-      <FinancingBanner />
 
       <section id="contact" className="py-16">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12">
