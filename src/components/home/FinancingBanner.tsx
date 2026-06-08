@@ -29,27 +29,34 @@ function FinancingBadge() {
 
 export function FinancingBanner() {
   return (
-    <section className="bg-tamay-primary py-12 md:py-14">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-6 md:grid-cols-2 md:gap-6 md:px-10 lg:px-14">
-        <div className="flex justify-center md:justify-center">
-          <FinancingBadge />
-        </div>
+    <section className="bg-gray-50 px-4 pt-10 sm:pt-12 pb-8 sm:pb-10">
+      <div className="max-w-5xl mx-auto">
+        <div className="overflow-hidden rounded-sm border border-gray-200 bg-white shadow-md">
+          <div className="grid md:grid-cols-2 items-center">
+            <div className="flex justify-center border-b border-gray-100 bg-gradient-to-br from-tamay-primary/[0.06] to-tamay-accent/10 px-6 py-10 md:border-b-0 md:border-r md:py-12">
+              <FinancingBadge />
+            </div>
 
-        <div className="flex flex-col items-center text-center">
-          <p className="mb-6 max-w-md text-base font-semibold leading-snug text-white sm:text-[17px]">
-            <span className="block">
-              Build now. Pay over time. Financing available across all
-            </span>
-            <span className="block">projects</span>
-          </p>
-          <a
-            href={SITE.financingUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block rounded-full bg-white px-10 py-3.5 text-xs font-bold uppercase tracking-[0.22em] text-tamay-primary transition-colors hover:bg-gray-100 sm:px-12 sm:text-[13px]"
-          >
-            Check Financing Options
-          </a>
+            <div className="px-6 py-8 md:px-10 md:py-10 text-center md:text-left">
+              <p className="text-xs font-semibold tracking-[0.2em] uppercase text-tamay-accent mb-3">
+                Flexible Payment Options
+              </p>
+              <h2 className="font-heading text-xl sm:text-2xl font-bold text-tamay-primary leading-snug mb-4">
+                Financing Available Across All Projects
+              </h2>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-6 max-w-md md:mx-0 mx-auto">
+                Build now. Pay over time. Get the work done today with payment plans that fit your budget.
+              </p>
+              <a
+                href={SITE.financingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block rounded-full bg-tamay-primary px-10 py-3.5 text-xs font-bold uppercase tracking-[0.22em] text-white transition-colors hover:bg-tamay-primary-dark sm:px-12 sm:text-[13px]"
+              >
+                Check Financing Options
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
