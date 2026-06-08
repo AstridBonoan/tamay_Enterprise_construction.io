@@ -15,7 +15,7 @@ export function ConstructionEstimateBanner() {
       ctaHref={SITE.estimateUrl}
       bannerImage={{
         src: IMAGES.heroConstruction,
-        alt: "Construction and home renovation services",
+        alt: "Home renovation project in progress",
       }}
     />
   );
