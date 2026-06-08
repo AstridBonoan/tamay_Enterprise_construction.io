@@ -14,8 +14,8 @@ export function ConstructionEstimateBanner() {
       ctaLabel={ESTIMATE.ctaLabel}
       ctaHref={SITE.estimateUrl}
       bannerImage={{
-        src: IMAGES.construction.estimateBanner,
-        alt: "Construction planning with blueprints, calculator, and hard hat",
+        src: IMAGES.heroConstruction,
+        alt: "Construction and home renovation services",
       }}
     />
   );
