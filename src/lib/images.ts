@@ -16,6 +16,7 @@ export const IMAGES = {
   /** Interior photo only — no text baked in (avoids duplicate copy in modal) */
   estimateModalPhoto: home("HomePageImage4.webp"),
   estimatePromoPhoto: assetUrl("/images/homepage/estimate-flooring-install.png"),
+  financeHero: assetUrl("/images/finance/hero-banner.png"),
   financingBadge: home("financing-available.png"),
   homepage: {
     image1: home("HomePageImage1.webp"),

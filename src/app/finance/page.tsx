@@ -16,7 +16,7 @@ export default function FinancePage() {
   return (
     <>
       <HeroBanner
-        image={IMAGES.homepage.image2}
+        image={IMAGES.financeHero}
         title={FINANCE.title}
         subtitle="Build now. Pay over time."
         height="medium"
