@@ -1,5 +1,5 @@
 import { FloatingPromoBanner } from "@/components/ui/FloatingPromoBanner";
-import { assetUrl } from "@/lib/assetUrl";
+import { IMAGES } from "@/lib/images";
 import { ESTIMATE, SITE } from "@/lib/site";
 
 /** Fixed bottom-right project estimator promo on the Construction page. */
@@ -14,7 +14,7 @@ export function ConstructionEstimateBanner() {
       ctaLabel={ESTIMATE.ctaLabel}
       ctaHref={SITE.estimateUrl}
       bannerImage={{
-        src: assetUrl("/images/construction/estimate-float-banner.png"),
+        src: IMAGES.construction.estimateBanner,
         alt: "Construction planning with blueprints, calculator, and hard hat",
       }}
     />

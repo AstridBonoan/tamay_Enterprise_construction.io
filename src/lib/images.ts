@@ -33,6 +33,7 @@ export const IMAGES = {
     renovation: assetUrl("/construction/core-renovation.png"),
     addition: assetUrl("/construction/core-addition.png"),
     kitchenBath: assetUrl("/construction/core-kitchen-bath.png"),
+    estimateBanner: assetUrl("/images/construction/estimate-float-banner.png"),
   },
   divisions: {
     construction: home("HomePageImage2.webp"),

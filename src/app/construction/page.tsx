@@ -14,7 +14,10 @@ import {
   MASONRY_PROJECT_VIDEOS,
 } from "@/lib/constructionVideos";
 import { ConstructionEstimateBanner } from "@/components/construction/ConstructionEstimateBanner";
+import { EstimatePromoSection } from "@/components/home/EstimatePromoSection";
 import { SITE } from "@/lib/site";
+
+const ESTIMATE_BANNER_ALT = "Construction planning with blueprints, calculator, and hard hat";
 
 export const metadata: Metadata = {
   title: "General Contractor in West Haven, CT",
@@ -254,6 +257,11 @@ export default function ConstructionPage() {
           the greater West Haven and New Haven County area.
         </p>
       </section>
+
+      <EstimatePromoSection
+        image={IMAGES.construction.estimateBanner}
+        imageAlt={ESTIMATE_BANNER_ALT}
+      />
 
       <section id="contact" className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12">
