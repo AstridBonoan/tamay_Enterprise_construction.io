@@ -34,6 +34,8 @@ export const IMAGES = {
     addition: assetUrl("/construction/core-addition.png"),
     kitchenBath: assetUrl("/construction/core-kitchen-bath.png"),
     estimateBanner: assetUrl("/images/construction/estimate-float-banner.png"),
+    /** Service collage — used only on the cost estimator float, not the page hero */
+    estimateFloatBanner: `${BASE}/blob-8582a7d.png/:/cr=t:19.7%25,l:0%25,w:100%25,h:60.61%25/rs=w:1200,h:600,cg:true`,
   },
   divisions: {
     construction: home("HomePageImage2.webp"),

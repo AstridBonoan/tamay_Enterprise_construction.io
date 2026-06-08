@@ -67,7 +67,7 @@ export function FloatingPromoBanner({
             <img
               src={bannerImage.src}
               alt={bannerImage.alt}
-              className="absolute inset-0 h-full w-full min-w-full max-w-none object-cover object-center"
+              className="absolute inset-0 h-full w-full min-w-full max-w-none object-cover object-[center_22%] scale-110"
               loading="lazy"
               decoding="async"
             />
