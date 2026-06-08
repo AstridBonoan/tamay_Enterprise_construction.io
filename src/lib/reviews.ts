@@ -3,6 +3,10 @@ import { SITE } from "./site";
 export const GOOGLE_REVIEWS_URL =
   "https://www.google.com/maps/place/Tamay+Enterprises+Inc/@41.2621069,-72.9526724,17z/data=!4m8!3m7!1s0x89e8775d7376cd55:0x8dd3577fdc927647!8m2!3d41.2621069!4d-72.9526724!9m1!1b1!16s%2Fg%2F11n92rd69n?entry=ttu";
 
+/** Direct Google review form — override via NEXT_PUBLIC_GOOGLE_WRITE_REVIEW_URL from Google Business Profile. */
+export const GOOGLE_WRITE_REVIEW_URL =
+  process.env.NEXT_PUBLIC_GOOGLE_WRITE_REVIEW_URL ?? GOOGLE_REVIEWS_URL;
+
 export const GOOGLE_RATING = {
   score: 4.9,
   count: 65,

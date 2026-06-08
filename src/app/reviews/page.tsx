@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
+import { WriteReviewSection } from "@/components/reviews/WriteReviewSection";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { REVIEW_VIDEO_PROJECTS } from "@/lib/reviewVideos";
 
@@ -13,6 +14,8 @@ export default function ReviewsPage() {
   return (
     <>
       <ReviewsSection />
+
+      <WriteReviewSection />
 
       <section className="py-14 max-w-6xl mx-auto px-4 w-full">
         <SectionHeading title="Video Testimonials" />
