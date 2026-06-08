@@ -61,20 +61,20 @@ export function FloatingPromoBanner({
       className={`fixed right-3 sm:right-5 ${FLOAT_ROW_BOTTOM_CLASS} z-[75] max-w-[min(18rem,calc(100vw-2rem))] sm:max-w-[19rem]`}
       aria-label={ariaLabel}
     >
-      <div className="relative overflow-hidden bg-tamay-primary text-white shadow-xl border-l-4 border-tamay-accent">
+      <div className="relative overflow-hidden bg-tamay-primary text-white shadow-xl">
         {bannerImage && (
-          <div className="relative w-full">
+          <div className="relative h-24 sm:h-28 w-full overflow-hidden">
             <img
               src={bannerImage.src}
               alt={bannerImage.alt}
-              className="block w-full h-24 sm:h-28 object-cover object-center"
+              className="absolute inset-0 h-full w-full min-w-full max-w-none object-cover object-[center_22%] scale-110"
               loading="lazy"
               decoding="async"
             />
             <FloatCloseButton onClick={dismiss} ariaLabel={`Close ${ariaLabel}`} />
           </div>
         )}
-        <div className="relative px-3.5 py-4 sm:px-4 sm:py-4">
+        <div className="relative border-l-4 border-tamay-accent px-3.5 py-4 sm:px-4 sm:py-4">
           {!bannerImage && <FloatCloseButton onClick={dismiss} ariaLabel={`Close ${ariaLabel}`} />}
           <p className="font-heading text-[0.9375rem] sm:text-base font-semibold leading-snug pr-5">{headline}</p>
           <p className="text-xs sm:text-sm text-gray-100 leading-relaxed mt-2">{body}</p>
