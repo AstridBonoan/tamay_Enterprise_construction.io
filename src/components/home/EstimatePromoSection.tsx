@@ -10,8 +10,8 @@ type EstimatePromoSectionProps = {
 };
 
 export function EstimatePromoSection({
-  image = IMAGES.estimateModalPhoto,
-  imageAlt = "Tamay Enterprises home project services",
+  image = IMAGES.estimatePromoPhoto,
+  imageAlt = "Installer measuring laminate flooring during a home project",
 }: EstimatePromoSectionProps) {
   return (
     <section id="project-estimate" className="py-16 bg-gray-50">
