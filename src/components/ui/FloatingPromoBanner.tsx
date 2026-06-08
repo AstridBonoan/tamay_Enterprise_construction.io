@@ -1,9 +1,12 @@
 "use client";
 
+import { useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { CollapsedFloatButton, FloatCloseButton } from "@/components/ui/FloatingFloatControls";
 import { useDismissibleFloat } from "@/hooks/useDismissibleFloat";
 import { FLOAT_ROW_BOTTOM_CLASS } from "@/lib/floatDock";
+
+const AUTO_CLOSE_MS = 10_000;
 
 type FloatingPromoBannerProps = {
   floatId: string;
@@ -32,6 +35,13 @@ export function FloatingPromoBanner({
 }: FloatingPromoBannerProps) {
   const { dismissed, dismiss, restore, ready } = useDismissibleFloat(floatId);
   const hasCta = Boolean(ctaLabel && ctaHref);
+
+  useEffect(() => {
+    if (!ready || dismissed) return;
+
+    const timer = window.setTimeout(dismiss, AUTO_CLOSE_MS);
+    return () => window.clearTimeout(timer);
+  }, [ready, dismissed, dismiss]);
 
   if (!ready) return null;
 
