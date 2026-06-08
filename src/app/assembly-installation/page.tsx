@@ -222,6 +222,7 @@ export default function AssemblyInstallationPage() {
             <div>
               <h3 className="font-heading text-lg text-tamay-primary font-semibold mb-4">Contact us</h3>
               <ContactForm
+                formName="Tamay - Assembly & Installation Contact"
                 fields={[
                   { name: "name", label: "Name" },
                   { name: "phone", label: "Phone Number", type: "tel" },

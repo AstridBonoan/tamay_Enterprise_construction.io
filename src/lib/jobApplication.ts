@@ -1,6 +1,6 @@
 import { CAREER_ROLE_GROUPS } from "./careerRoles";
 
-export const FORMSPREE_JOB_APPLICATION = "https://formspree.io/f/mqedjwda";
+export { FORMSPREE_JOB_APPLICATION } from "./formspree";
 
 export const PRIMARY_INTEREST_OPTIONS = ["Construction", "Both (Construction + Driving)"] as const;
 

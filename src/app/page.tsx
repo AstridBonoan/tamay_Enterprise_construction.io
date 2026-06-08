@@ -104,6 +104,7 @@ export default function HomePage() {
           <div>
             <SectionHeading align="left" eyebrow="CONTACT US" title="Explore our Services" />
             <ContactForm
+              formName="Tamay - Homepage Contact"
               fields={[
                 {
                   name: "category",

@@ -200,6 +200,7 @@ export default function LogisticsPage() {
           <div>
             <SectionHeading align="left" eyebrow="Contact us" title="What Can We Help You Move Today?" />
             <ContactForm
+              formName="Tamay - Logistics Contact"
               fields={[
                 { name: "name", label: "Name" },
                 { name: "email", label: "Email", type: "email", required: true },

@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import { FORMSPREE_CONTACT } from "@/lib/formspree";
+
 type Field = {
   name: string;
   label: string;
@@ -12,6 +15,7 @@ type Field = {
 
 type ContactFormProps = {
   fields: Field[];
+  formName: string;
   submitLabel?: string;
   showRecaptchaNote?: boolean;
   defaultValues?: Record<string, string>;
@@ -19,18 +23,73 @@ type ContactFormProps = {
 
 export function ContactForm({
   fields,
+  formName,
   submitLabel = "Send",
   showRecaptchaNote = true,
   defaultValues,
 }: ContactFormProps) {
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError("");
+    setSubmitting(true);
+
+    const form = event.currentTarget;
+    const body = new FormData(form);
+    body.append("form_name", formName);
+    body.append("_subject", `New Contact - ${formName}`);
+    body.append("page", window.location.pathname);
+
+    try {
+      const response = await fetch(FORMSPREE_CONTACT, {
+        method: "POST",
+        body,
+        headers: { Accept: "application/json" },
+      });
+
+      if (!response.ok) {
+        const json = (await response.json().catch(() => ({}))) as {
+          errors?: { message: string }[];
+        };
+        throw new Error(json.errors?.[0]?.message ?? "Unable to send your message right now.");
+      }
+
+      setSubmitted(true);
+      form.reset();
+    } catch (submitError) {
+      setError(
+        submitError instanceof Error
+          ? submitError.message
+          : "Unable to send your message right now. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (submitted) {
+    return (
+      <div className="max-w-md rounded-sm border border-green-200 bg-green-50 px-5 py-6 text-center">
+        <p className="font-heading text-lg font-semibold text-tamay-primary">Thank you!</p>
+        <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+          Your message was sent successfully. Our team will get back to you soon.
+        </p>
+        <button
+          type="button"
+          onClick={() => setSubmitted(false)}
+          className="mt-4 text-sm font-semibold text-tamay-primary hover:underline"
+        >
+          Send another message
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <form
-      className="space-y-4 max-w-md"
-      onSubmit={(e) => {
-        e.preventDefault();
-        alert("Form submission will connect to your backend. Replace this handler when ready.");
-      }}
-    >
+    <form className="space-y-4 max-w-md" onSubmit={handleSubmit}>
       {fields.map((field) => (
         <div key={field.name}>
           <label htmlFor={field.name} className="block text-sm font-semibold text-gray-700 mb-1">
@@ -73,12 +132,21 @@ export function ContactForm({
           )}
         </div>
       ))}
+
+      {error && (
+        <p className="text-sm text-red-600" role="alert">
+          {error}
+        </p>
+      )}
+
       <button
         type="submit"
-        className="w-full bg-tamay-primary hover:bg-tamay-primary-dark text-white font-bold py-3 text-sm tracking-wide transition-colors"
+        disabled={submitting}
+        className="w-full bg-tamay-primary hover:bg-tamay-primary-dark disabled:opacity-60 text-white font-bold py-3 text-sm tracking-wide transition-colors"
       >
-        {submitLabel}
+        {submitting ? "Sending..." : submitLabel}
       </button>
+
       {showRecaptchaNote && (
         <p className="text-xs text-gray-500">
           This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
