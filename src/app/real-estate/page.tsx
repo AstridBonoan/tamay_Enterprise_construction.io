@@ -60,19 +60,22 @@ export default function RealEstatePage() {
       />
 
       <section className="py-14 max-w-4xl mx-auto px-4">
-        <SectionHeading title="Real Estate Services in West Haven, CT" />
+        <SectionHeading title="Real Estate Services Backed by Construction Expertise" />
         <div className="space-y-4 text-gray-600 text-center leading-relaxed -mt-4">
           <p>
             Dream homes, functional spaces, and long-term value are rarely found exactly as-is — they are built.
-            At Tamay Enterprises, our real estate services go beyond simply helping clients buy or sell property.
-            We are a group of licensed contractors and real estate professionals who help clients identify what a
-            property can become, not just what currently is.
+            At Tamay Enterprises, our real estate services in West Haven, CT go beyond simply helping clients buy
+            or sell property. Unlike traditional agents who focus solely on listings, we are licensed contractors
+            and real estate professionals who approach every property with a builder&apos;s mindset — helping
+            clients see what it can become, not just what it is today.
           </p>
           <p>
-            Based in West Haven, CT, we support homebuyers, sellers, real estate investors, and property managers
-            by combining real estate guidance with construction insight. This approach allows our clients to see
-            opportunity where others see limitations — whether that means purchasing a property at a lower price
-            point and improving it, or understanding the true potential and costs before making a decision.
+            Our construction background allows us to evaluate properties based on layout potential, renovation
+            feasibility, and long-term value — not just appearance. We support homebuyers, sellers, real estate
+            investors, and property managers by combining real estate guidance with construction insight. This
+            approach helps clients spot opportunity where others see limitations — whether that means purchasing
+            at a lower price point and improving it, or understanding the true potential and costs before making
+            a decision.
           </p>
         </div>
 
@@ -86,18 +89,6 @@ export default function RealEstatePage() {
             unoptimized
           />
         </figure>
-      </section>
-
-      <section className="py-14 bg-gray-50 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <SectionHeading title="Real Estate Services Backed by Construction Expertise" />
-          <p className="text-gray-600 leading-relaxed -mt-4">
-            Unlike traditional real estate agents who focus solely on listings, Tamay Enterprises approaches real
-            estate with a builder&apos;s mindset. Our background in construction allows us to help clients evaluate
-            properties based on layout potential, renovation feasibility, and long-term value — not just
-            appearance.
-          </p>
-        </div>
       </section>
 
       <section className="py-14 max-w-4xl mx-auto px-4">
