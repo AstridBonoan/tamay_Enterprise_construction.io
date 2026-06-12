@@ -68,7 +68,7 @@ export function SiteFooter() {
           Copyright © {new Date().getFullYear()} {SITE.legalName} - All Rights Reserved.
         </p>
 
-        <ul className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs sm:text-sm font-semibold text-gray-900 uppercase tracking-wide">
+        <ul className="grid grid-cols-2 gap-x-6 gap-y-3 max-w-sm mx-auto text-left text-xs font-semibold text-gray-900 uppercase tracking-wide sm:flex sm:flex-wrap sm:justify-center sm:text-center sm:max-w-none sm:gap-x-4 sm:gap-y-2 sm:text-sm">
           {FOOTER_LINKS.map((link) => (
             <li key={link.href}>
               <Link href={link.href} className="hover:text-tamay-primary transition-colors">
