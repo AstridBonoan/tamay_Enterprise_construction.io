@@ -2,11 +2,7 @@
 
 import { useState } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import {
-  FORMSPREE_REVIEW,
-  GOOGLE_WRITE_REVIEW_URL,
-  type ReviewSubmission,
-} from "@/lib/reviewSubmission";
+import { GOOGLE_WRITE_REVIEW_URL, type ReviewSubmission } from "@/lib/reviewSubmission";
 
 function StarPicker({
   value,
@@ -84,36 +80,11 @@ export function WriteReviewSection() {
 
     setSubmitting(true);
 
-    const body = new FormData();
-    body.append("form_name", "Tamay - Customer Review");
-    body.append("_subject", "New Customer Review - Tamay Enterprises Inc.");
-    body.append("name", form.name.trim());
-    body.append("email", form.email.trim());
-    body.append("rating", `${form.rating} out of 5`);
-    body.append("review", form.text.trim());
-
     try {
-      const response = await fetch(FORMSPREE_REVIEW, {
-        method: "POST",
-        body,
-        headers: { Accept: "application/json" },
-      });
-
-      if (!response.ok) {
-        const json = (await response.json().catch(() => ({}))) as {
-          errors?: { message: string }[];
-        };
-        throw new Error(json.errors?.[0]?.message ?? "Unable to send your review right now.");
-      }
-
       setSubmitted(true);
       await openGoogleReview();
-    } catch (submitError) {
-      setError(
-        submitError instanceof Error
-          ? submitError.message
-          : "Unable to send your review right now. Please try again.",
-      );
+    } catch {
+      setError("Unable to open Google right now. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -124,7 +95,7 @@ export function WriteReviewSection() {
       <div className="max-w-2xl mx-auto">
         <SectionHeading
           title="Write A Review"
-          subtitle="Share your experience with Tamay Enterprises. Submit here and finish on Google so your review appears on our Google profile and in our public review carousel."
+          subtitle="Share your experience with Tamay Enterprises. Draft your review here, then finish on Google so it appears on our Google profile and in our public review carousel."
         />
 
         <div className="mt-8 bg-white border border-gray-200 shadow-md rounded-sm p-6 sm:p-8">
@@ -132,8 +103,8 @@ export function WriteReviewSection() {
             <div className="text-center space-y-4">
               <p className="font-heading text-xl text-tamay-primary font-semibold">Thank you!</p>
               <p className="text-gray-600 leading-relaxed">
-                We received your review. A Google tab should have opened — paste your review there and
-                submit it on Google to publish it publicly.
+                A Google tab should have opened — paste your review there and submit it on Google to
+                publish it publicly.
               </p>
               <p className="text-sm text-gray-500">
                 Reviews shown on this website are pulled from Google after they are published there.
@@ -211,13 +182,12 @@ export function WriteReviewSection() {
                 disabled={submitting}
                 className="w-full bg-tamay-primary hover:bg-tamay-primary-dark disabled:opacity-60 text-white font-bold py-3 text-sm tracking-wide transition-colors"
               >
-                {submitting ? "Sending..." : "Submit Review & Continue on Google"}
+                {submitting ? "Opening Google..." : "Continue on Google"}
               </button>
 
               <p className="text-xs text-gray-500 leading-relaxed">
-                After you submit, we&apos;ll open Google in a new tab. Your review text will be copied to
-                your clipboard when possible. Google requires reviews to be posted on their platform to
-                appear publicly.
+                We&apos;ll open Google in a new tab. Your review text will be copied to your clipboard
+                when possible. Google requires reviews to be posted on their platform to appear publicly.
               </p>
             </form>
           )}

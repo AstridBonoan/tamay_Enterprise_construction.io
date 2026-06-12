@@ -170,7 +170,7 @@ export default function ConstructionPage() {
       </section>
 
       <section className="py-14 max-w-6xl mx-auto px-4">
-        <SectionHeading title="Residential & Commercial Projects" />
+        <SectionHeading title="Residential Projects" />
         <TamayVideoGallery
           projects={CONSTRUCTION_PROJECT_VIDEOS}
           showTitle={false}
