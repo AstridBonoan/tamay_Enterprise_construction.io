@@ -160,7 +160,7 @@ export default function RealEstatePage() {
 
       <PropertyListingsSection
         id="houses-for-rent"
-        title="House For Rent"
+        title="Houses For Rent"
         intro="Explore rental properties managed with the same local expertise and responsive communication you expect from Tamay Enterprises."
         listings={RENT_LISTINGS}
         emptyMessage="No rental homes are listed right now. Contact us to learn about availability or get notified when new rentals are posted."

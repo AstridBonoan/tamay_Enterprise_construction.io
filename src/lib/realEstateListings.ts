@@ -25,6 +25,7 @@ export type PropertyListing = {
 const saleImage = assetUrl("/real-estate/listings/house-for-sale-west-haven.png");
 const saleImageMilford = assetUrl("/gallery/photos/photo-6.png");
 const rentImage = assetUrl("/real-estate/listings/apartment-for-rent-west-haven.png");
+const rentImageNewHaven = assetUrl("/gallery/photos/photo-1.png");
 
 export const SALE_LISTINGS: PropertyListing[] = [
   {
@@ -85,6 +86,26 @@ export const RENT_LISTINGS: PropertyListing[] = [
       { date: "Wednesday, June 11, 2026", time: "5:30 PM – 6:30 PM" },
       { date: "Saturday, June 14, 2026", time: "10:00 AM – 11:30 AM" },
       { date: "Tuesday, June 17, 2026", time: "6:00 PM – 7:00 PM" },
+    ],
+    scheduleCtaLabel: "Schedule a viewing",
+  },
+  {
+    id: "rent-new-haven-single-family",
+    title: "Charming 3-Bed Single-Family Home",
+    address: "56 Park Street, New Haven, CT 06511",
+    price: "$2,850 / month",
+    beds: 3,
+    baths: 1.5,
+    sqft: 1280,
+    image: rentImageNewHaven,
+    imageAlt: "Renovated kitchen in a single-family home available for rent in New Haven",
+    details:
+      "Updated single-family rental with renovated kitchen, hardwood floors, and a private backyard. Off-street parking, washer/dryer hookups, and convenient access to downtown New Haven, Yale, and major highways. Tenant pays utilities; one-year lease preferred. Our team handles showings, applications, and move-in coordination with the property owner.",
+    scheduleLabel: "Home Viewings",
+    scheduleSlots: [
+      { date: "Thursday, June 19, 2026", time: "5:30 PM – 6:30 PM" },
+      { date: "Saturday, June 21, 2026", time: "10:00 AM – 11:30 AM" },
+      { date: "Wednesday, June 25, 2026", time: "6:00 PM – 7:00 PM" },
     ],
     scheduleCtaLabel: "Schedule a viewing",
   },
