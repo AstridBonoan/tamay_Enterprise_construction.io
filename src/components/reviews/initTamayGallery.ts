@@ -256,7 +256,6 @@ export function initTamayGallery(
       .filter(Boolean);
     if (ids.length === 0) return;
 
-    const desc = p.dataset.desc || "";
     const grid = document.createElement("div");
     grid.className = "tamay-videos";
 
@@ -292,13 +291,6 @@ export function initTamayGallery(
     });
 
     mount.appendChild(grid);
-
-    if (desc) {
-      const d = document.createElement("div");
-      d.className = "tamay-desc";
-      d.textContent = desc;
-      mount.appendChild(d);
-    }
   });
 
   return () => {

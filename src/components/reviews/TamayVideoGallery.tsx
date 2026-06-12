@@ -60,7 +60,6 @@ export function TamayVideoGallery({
       key={project.id}
       className="tamay-project"
       data-videos={project.videos.join(",")}
-      data-desc={project.description ?? ""}
     >
       {showTitle && project.title ? <TestimonialProjectHeader title={project.title} /> : null}
       <div className="tamay-project-mount" />
