@@ -131,21 +131,16 @@ export default function RealEstatePage() {
         </div>
       </section>
 
-      <section className="py-14 max-w-4xl mx-auto px-4">
-        <SectionHeading title="Buying, Selling & Strategic Property Guidance" />
-        <p className="text-gray-600 text-center mb-6 -mt-4">
-          Tamay Enterprises provides real estate services for clients looking to:
+      <section className="py-14 max-w-4xl mx-auto px-4 text-center">
+        <SectionHeading
+          title="A Different Way to Think About Real Estate"
+          subtitle="Helping clients see beyond what a property is — and recognize what it can become."
+        />
+        <p className="text-gray-600 leading-relaxed -mt-4">
+          Not every dream home is found — many are created. At Tamay Enterprises, we believe the right property
+          combined with the right vision and execution can unlock opportunities others overlook. Our role is not
+          just to facilitate transactions, but to help clients understand what is possible.
         </p>
-        <ul className="text-gray-700 space-y-2 max-w-xl mx-auto mb-8 list-disc pl-5">
-          {guidanceItems.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        <div className="text-center">
-          <Button href="#contact" variant="primary">
-            Find out more
-          </Button>
-        </div>
       </section>
 
       <PropertyListingsSection
@@ -183,16 +178,21 @@ export default function RealEstatePage() {
         </div>
       </section>
 
-      <section className="py-14 max-w-4xl mx-auto px-4 text-center">
-        <SectionHeading
-          title="A Different Way to Think About Real Estate"
-          subtitle="Helping clients see beyond what a property is — and recognize what it can become."
-        />
-        <p className="text-gray-600 leading-relaxed -mt-4">
-          Not every dream home is found — many are created. At Tamay Enterprises, we believe the right property
-          combined with the right vision and execution can unlock opportunities others overlook. Our role is not
-          just to facilitate transactions, but to help clients understand what is possible.
+      <section className="py-14 max-w-4xl mx-auto px-4">
+        <SectionHeading title="Buying, Selling & Strategic Property Guidance" />
+        <p className="text-gray-600 text-center mb-6 -mt-4">
+          Tamay Enterprises provides real estate services for clients looking to:
         </p>
+        <ul className="text-gray-700 space-y-2 max-w-xl mx-auto mb-8 list-disc pl-5">
+          {guidanceItems.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+        <div className="text-center">
+          <Button href="#contact" variant="primary">
+            Find out more
+          </Button>
+        </div>
       </section>
 
       <section id="contact" className="py-16 bg-gray-50">
