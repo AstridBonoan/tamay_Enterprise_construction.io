@@ -10,14 +10,6 @@ export const CONSTRUCTION_PROJECT_VIDEOS: ReviewVideoProject[] = [
   },
 ];
 
-export const MASONRY_PROJECT_VIDEOS: ReviewVideoProject[] = [
-  {
-    id: "retaining-wall-east-hartford",
-    videos: ["9KakXUv9-kE"],
-    description: "Retaining Wall Project - East Hartford.",
-  },
-];
-
 export const ADA_RESTROOM_PROJECT_VIDEOS: ReviewVideoProject[] = [
   {
     id: "ada-bathroom-brooklyn",

@@ -11,7 +11,6 @@ import {
   ADA_RESTROOM_PROJECT_VIDEOS,
   CONSTRUCTION_CLIENT_TESTIMONIAL_VIDEOS,
   CONSTRUCTION_PROJECT_VIDEOS,
-  MASONRY_PROJECT_VIDEOS,
 } from "@/lib/constructionVideos";
 import { ConstructionEstimateBanner } from "@/components/construction/ConstructionEstimateBanner";
 import { SITE } from "@/lib/site";
@@ -176,15 +175,6 @@ export default function ConstructionPage() {
           showTitle={false}
           instanceId="construction-residential"
         />
-
-        <div className="mt-16">
-          <SectionHeading title="Masonry work" />
-          <TamayVideoGallery
-            projects={MASONRY_PROJECT_VIDEOS}
-            showTitle={false}
-            instanceId="construction-masonry"
-          />
-        </div>
 
         <div className="mt-16">
           <SectionHeading title="ADA-COMPLIANT COMMERCIAL RESTROOM BUILD-OUT" />
