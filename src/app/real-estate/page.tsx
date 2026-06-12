@@ -150,7 +150,7 @@ export default function RealEstatePage() {
 
       <PropertyListingsSection
         id="houses-for-sale"
-        title="House For Sale"
+        title="Houses For Sale"
         intro="Browse homes currently available for purchase in West Haven and nearby Connecticut communities. Contact our team for showings, pricing details, and renovation potential."
         listings={SALE_LISTINGS}
         emptyMessage="No homes are listed for sale at the moment. Reach out to our agents for upcoming listings and off-market opportunities."

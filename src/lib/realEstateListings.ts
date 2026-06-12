@@ -23,6 +23,7 @@ export type PropertyListing = {
 };
 
 const saleImage = assetUrl("/real-estate/listings/house-for-sale-west-haven.png");
+const saleImageMilford = assetUrl("/gallery/photos/photo-6.png");
 const rentImage = assetUrl("/real-estate/listings/apartment-for-rent-west-haven.png");
 
 export const SALE_LISTINGS: PropertyListing[] = [
@@ -42,6 +43,25 @@ export const SALE_LISTINGS: PropertyListing[] = [
     scheduleSlots: [
       { date: "Saturday, June 14, 2026", time: "11:00 AM – 1:00 PM" },
       { date: "Sunday, June 15, 2026", time: "1:00 PM – 3:00 PM" },
+    ],
+    scheduleCtaLabel: "Request a private showing",
+  },
+  {
+    id: "sale-milford-cape",
+    title: "Spacious 4-Bed Cape Cod",
+    address: "7 Orchard Lane, Milford, CT 06460",
+    price: "$525,000",
+    beds: 4,
+    baths: 2.5,
+    sqft: 2120,
+    image: saleImageMilford,
+    imageAlt: "Spacious cape cod home with updated exterior in Milford, Connecticut",
+    details:
+      "Well-maintained cape with an open first floor, primary suite, and finished lower level. Updated mechanicals, two-car garage, and a level backyard with patio space. Close to downtown Milford, beaches, and commuter routes. Tamay agents can discuss renovation options such as a kitchen refresh or expanded outdoor living before or after closing.",
+    scheduleLabel: "Open House",
+    scheduleSlots: [
+      { date: "Saturday, June 21, 2026", time: "11:00 AM – 1:00 PM" },
+      { date: "Sunday, June 22, 2026", time: "1:00 PM – 3:00 PM" },
     ],
     scheduleCtaLabel: "Request a private showing",
   },
