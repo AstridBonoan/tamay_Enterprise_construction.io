@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   FORMSPREE_JOB_APPLICATION,
   JOB_APPLICATION_STEPS,
@@ -9,6 +10,7 @@ import {
   emptyJobApplicationForm,
   type JobApplicationFormData,
 } from "@/lib/jobApplication";
+import { CAREER_ROLE_GROUPS, findCareerRoleGroup } from "@/lib/careerRoles";
 import "@/styles/job-application-form.css";
 
 function validateStep(step: number, data: JobApplicationFormData): string | null {
@@ -25,7 +27,8 @@ function validateStep(step: number, data: JobApplicationFormData): string | null
     case 1:
       if (!data.primary_interest) return "Primary interest is required.";
       if (!data.position) return "Position is required.";
-      if (!data.role_applying_for.trim()) return "Role applying for is required.";
+      if (!data.role_category) return "Role category is required.";
+      if (!data.role_applying_for) return "Role applying for is required.";
       if (!data.start_date) return "Available start date is required.";
       if (!data.employment_type) return "Employment type is required.";
       if (!data.availability_details.trim()) return "Days / hours available is required.";
@@ -51,11 +54,29 @@ function validateStep(step: number, data: JobApplicationFormData): string | null
 }
 
 export function JobApplicationForm() {
+  const searchParams = useSearchParams();
   const [step, setStep] = useState(0);
   const [data, setData] = useState<JobApplicationFormData>(() => emptyJobApplicationForm());
   const [status, setStatus] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const selectedRoleGroup = useMemo(
+    () => CAREER_ROLE_GROUPS.find((group) => group.id === data.role_category),
+    [data.role_category],
+  );
+
+  useEffect(() => {
+    const roleId = searchParams.get("role");
+    const group = findCareerRoleGroup(roleId);
+    if (!group) return;
+
+    setData((prev) => ({
+      ...prev,
+      role_category: group.id,
+      role_applying_for: "",
+    }));
+  }, [searchParams]);
 
   const update = useCallback(
     <K extends keyof JobApplicationFormData>(key: K, value: JobApplicationFormData[K]) => {
@@ -105,6 +126,7 @@ export function JobApplicationForm() {
     body.append("state", data.state);
     body.append("primary_interest", data.primary_interest);
     body.append("position", data.position);
+    body.append("role_category", selectedRoleGroup?.category ?? data.role_category);
     body.append("role_applying_for", data.role_applying_for);
     body.append("position_other", data.position_other);
     body.append("start_date", data.start_date);
@@ -320,15 +342,45 @@ export function JobApplicationForm() {
               </select>
             </label>
             <label>
-              Role Applying For *
-              <input
-                type="text"
+              Role Category *
+              <select
                 required
-                placeholder="Example: Carpenter, Electrician, Driver"
-                value={data.role_applying_for}
-                onChange={(e) => update("role_applying_for", e.target.value)}
-              />
+                value={data.role_category}
+                onChange={(e) => {
+                  const roleCategory = e.target.value;
+                  setData((prev) => ({
+                    ...prev,
+                    role_category: roleCategory,
+                    role_applying_for: "",
+                  }));
+                  setStatus("");
+                }}
+              >
+                <option value="">Select one</option>
+                {CAREER_ROLE_GROUPS.map((group) => (
+                  <option key={group.id} value={group.id}>
+                    {group.category}
+                  </option>
+                ))}
+              </select>
             </label>
+            {selectedRoleGroup && (
+              <label>
+                Role Applying For *
+                <select
+                  required
+                  value={data.role_applying_for}
+                  onChange={(e) => update("role_applying_for", e.target.value)}
+                >
+                  <option value="">Select one</option>
+                  {selectedRoleGroup.items.map((role) => (
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
             <div className="job-app-grid">
               <div className="job-app-col">
                 <label>

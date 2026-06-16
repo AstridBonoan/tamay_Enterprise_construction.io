@@ -24,6 +24,7 @@ export type JobApplicationFormData = {
   state: string;
   primary_interest: string;
   position: string;
+  role_category: string;
   role_applying_for: string;
   position_other: string;
   start_date: string;
@@ -52,6 +53,7 @@ export function emptyJobApplicationForm(stateDefault = "CT"): JobApplicationForm
     state: stateDefault,
     primary_interest: "",
     position: "",
+    role_category: "",
     role_applying_for: "",
     position_other: "",
     start_date: "",
