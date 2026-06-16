@@ -177,7 +177,7 @@ export default function ConstructionPage() {
         />
 
         <div className="mt-16">
-          <SectionHeading title="Commercial Restroom Build Out" />
+          <SectionHeading title="Commercial Projects" />
           <TamayVideoGallery
             projects={ADA_RESTROOM_PROJECT_VIDEOS}
             showTitle={false}
