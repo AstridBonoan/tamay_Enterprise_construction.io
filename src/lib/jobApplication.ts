@@ -1,6 +1,6 @@
 export { FORMSPREE_JOB_APPLICATION } from "./formspree";
 
-export const PRIMARY_INTEREST_OPTIONS = ["Construction", "Both (Construction + Driving)"] as const;
+export const PRIMARY_INTEREST_OPTIONS = ["Construction", "Driving", "Both"] as const;
 
 export const POSITION_OPTIONS = ["Employee", "Sub Contractor"] as const;
 
