@@ -97,7 +97,7 @@ export default function HomePage() {
 
       <HomeImageShowcase />
 
-      <ReviewsSection />
+      <ReviewsSection showVideoTestimonials />
 
       <section id="contact" className="py-16">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12">

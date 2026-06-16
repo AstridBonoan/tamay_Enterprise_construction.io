@@ -9,6 +9,8 @@ import {
   REVIEWS,
   type Review,
 } from "@/lib/reviews";
+import { REVIEW_VIDEO_PROJECTS } from "@/lib/reviewVideos";
+import { VideoTestimonialCarousel } from "@/components/home/VideoTestimonialCarousel";
 
 function GoogleIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -102,7 +104,11 @@ function getCardsPerPage(width: number) {
 
 const AUTOPLAY_INTERVAL_MS = 5000;
 
-export function ReviewsSection() {
+type ReviewsSectionProps = {
+  showVideoTestimonials?: boolean;
+};
+
+export function ReviewsSection({ showVideoTestimonials = false }: ReviewsSectionProps) {
   const background = assetUrl("/reviews/reviews-background.png");
   const [cardsPerPage, setCardsPerPage] = useState(3);
   const [page, setPage] = useState(0);
@@ -227,6 +233,10 @@ export function ReviewsSection() {
             />
           ))}
         </div>
+
+        {showVideoTestimonials && (
+          <VideoTestimonialCarousel projects={REVIEW_VIDEO_PROJECTS} />
+        )}
       </div>
     </section>
   );
