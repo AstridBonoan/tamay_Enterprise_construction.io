@@ -25,6 +25,7 @@ function validateStep(step: number, data: JobApplicationFormData): string | null
     case 1:
       if (!data.primary_interest) return "Primary interest is required.";
       if (!data.position) return "Position is required.";
+      if (!data.role_applying_for.trim()) return "Role applying for is required.";
       if (!data.start_date) return "Available start date is required.";
       if (!data.employment_type) return "Employment type is required.";
       if (!data.availability_details.trim()) return "Days / hours available is required.";
@@ -104,6 +105,7 @@ export function JobApplicationForm() {
     body.append("state", data.state);
     body.append("primary_interest", data.primary_interest);
     body.append("position", data.position);
+    body.append("role_applying_for", data.role_applying_for);
     body.append("position_other", data.position_other);
     body.append("start_date", data.start_date);
     body.append("employment_type", data.employment_type);
@@ -316,6 +318,16 @@ export function JobApplicationForm() {
                   </option>
                 ))}
               </select>
+            </label>
+            <label>
+              Role Applying For *
+              <input
+                type="text"
+                required
+                placeholder="Example: Carpenter, Electrician, Driver"
+                value={data.role_applying_for}
+                onChange={(e) => update("role_applying_for", e.target.value)}
+              />
             </label>
             <div className="job-app-grid">
               <div className="job-app-col">
