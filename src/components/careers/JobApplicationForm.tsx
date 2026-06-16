@@ -1,13 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useCallback, useState } from "react";
 import {
   FORMSPREE_JOB_APPLICATION,
   JOB_APPLICATION_STEPS,
   POSITION_OPTIONS,
   PRIMARY_INTEREST_OPTIONS,
-  defaultPositionFromRoleId,
   emptyJobApplicationForm,
   type JobApplicationFormData,
 } from "@/lib/jobApplication";
@@ -26,10 +24,7 @@ function validateStep(step: number, data: JobApplicationFormData): string | null
       return null;
     case 1:
       if (!data.primary_interest) return "Primary interest is required.";
-      if (!data.position) return "Trade / role is required.";
-      if (data.position === "Other" && !data.position_other.trim()) {
-        return "Please specify your role under Other.";
-      }
+      if (!data.position) return "Position is required.";
       if (!data.start_date) return "Available start date is required.";
       if (!data.employment_type) return "Employment type is required.";
       if (!data.availability_details.trim()) return "Days / hours available is required.";
@@ -55,20 +50,11 @@ function validateStep(step: number, data: JobApplicationFormData): string | null
 }
 
 export function JobApplicationForm() {
-  const searchParams = useSearchParams();
   const [step, setStep] = useState(0);
   const [data, setData] = useState<JobApplicationFormData>(() => emptyJobApplicationForm());
   const [status, setStatus] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => {
-    const roleId = searchParams.get("role");
-    const position = defaultPositionFromRoleId(roleId);
-    if (position) {
-      setData((prev) => ({ ...prev, position }));
-    }
-  }, [searchParams]);
 
   const update = useCallback(
     <K extends keyof JobApplicationFormData>(key: K, value: JobApplicationFormData[K]) => {
@@ -317,7 +303,7 @@ export function JobApplicationForm() {
               </select>
             </label>
             <label>
-              Trade / Role Applying For *
+              Position *
               <select
                 required
                 value={data.position}
@@ -330,14 +316,6 @@ export function JobApplicationForm() {
                   </option>
                 ))}
               </select>
-            </label>
-            <label>
-              If &quot;Other&quot;, please specify
-              <input
-                type="text"
-                value={data.position_other}
-                onChange={(e) => update("position_other", e.target.value)}
-              />
             </label>
             <div className="job-app-grid">
               <div className="job-app-col">

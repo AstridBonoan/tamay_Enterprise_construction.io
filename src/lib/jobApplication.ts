@@ -1,56 +1,8 @@
-import { CAREER_ROLE_GROUPS } from "./careerRoles";
-
 export { FORMSPREE_JOB_APPLICATION } from "./formspree";
 
 export const PRIMARY_INTEREST_OPTIONS = ["Construction", "Both (Construction + Driving)"] as const;
 
-export const POSITION_OPTIONS = [
-  "General Construction Worker",
-  "Helper / General Labor",
-  "Carpenter",
-  "Painter",
-  "Drywall",
-  "Tile Installer",
-  "Flooring Installer",
-  "Plumber",
-  "Electrician",
-  "HVAC Technician",
-  "Handyman",
-  "Crew Lead",
-  "Foreman",
-  "Project Coordinator",
-  "Kitchen Renovation Specialist",
-  "Bathroom Renovation Specialist",
-  "Construction Sales Representative",
-  "Sales-Minded Field Technician",
-  "Other",
-] as const;
-
-const ITEM_TO_POSITION: Record<string, string> = {
-  "Crew Leads / Foremen": "Crew Lead",
-  "Project Coordinators": "Project Coordinator",
-  "Kitchen Renovation Specialists": "Kitchen Renovation Specialist",
-  "Bathroom Renovation Specialists": "Bathroom Renovation Specialist",
-  "Construction Sales Representatives": "Construction Sales Representative",
-  "Sales-Minded Field Technicians": "Sales-Minded Field Technician",
-  "Electricians (Licensed or Experienced)": "Electrician",
-  "Plumbers (Licensed or Experienced)": "Plumber",
-  "HVAC Technicians": "HVAC Technician",
-  "General Laborers": "Helper / General Labor",
-  "Painters (Interior & Exterior)": "Painter",
-  "Drywall Installers / Finishers": "Drywall",
-  "Flooring Installers (Hardwood, LVP, Tile, Laminate)": "Flooring Installer",
-  "Tile Installers": "Tile Installer",
-  "Finish & Framing Carpenters": "Carpenter",
-};
-
-export function defaultPositionFromRoleId(roleId: string | null): string {
-  if (!roleId) return "";
-  const group = CAREER_ROLE_GROUPS.find((g) => g.id === roleId);
-  if (!group || group.items.length === 0) return "";
-  const mapped = ITEM_TO_POSITION[group.items[0]];
-  return mapped ?? "";
-}
+export const POSITION_OPTIONS = ["Employee", "Sub Contractor"] as const;
 
 export const JOB_APPLICATION_STEPS = [
   { id: "personal", label: "Personal", title: "1) Personal Information" },
