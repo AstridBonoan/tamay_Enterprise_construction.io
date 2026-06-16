@@ -76,6 +76,8 @@ export function JobApplicationForm() {
       role_category: group.id,
       role_applying_for: "",
     }));
+    setStep(1);
+    setStatus("");
   }, [searchParams]);
 
   const update = useCallback(
