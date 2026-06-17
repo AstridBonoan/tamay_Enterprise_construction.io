@@ -42,11 +42,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (next) {
       syncTawkVisitor({
-        userId: next.id,
-        firstName: next.firstName,
-        lastName: next.lastName,
+        name: [next.firstName, next.lastName].filter(Boolean).join(" ").trim() || undefined,
         email: next.email,
         phone: next.phone ?? undefined,
+        userId: next.id,
       });
     } else {
       clearTawkVisitorSync();

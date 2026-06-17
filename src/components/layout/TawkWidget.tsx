@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { TAWK } from "@/lib/tawk";
+import { markTawkReady } from "@/lib/tawk-ready";
 import { TawkChatPlaceholder } from "@/components/layout/TawkChatPlaceholder";
 
 const propertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID ?? TAWK.propertyId;
@@ -14,6 +15,11 @@ export function TawkWidget() {
 
     window.Tawk_API = window.Tawk_API || {};
     window.Tawk_LoadStart = new Date();
+    const previousOnLoad = window.Tawk_API.onLoad;
+    window.Tawk_API.onLoad = function onLoad() {
+      previousOnLoad?.();
+      markTawkReady();
+    };
     window.Tawk_API.customStyle = {
       visibility: {
         desktop: { position: "bl", xOffset: 16, yOffset: 24 },

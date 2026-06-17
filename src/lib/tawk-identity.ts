@@ -1,9 +1,10 @@
+import { onTawkReady } from "@/lib/tawk-ready";
+
 type TawkVisitor = {
-  userId?: string;
-  firstName?: string;
-  lastName?: string;
+  name?: string;
   email?: string;
   phone?: string;
+  userId?: string;
 };
 
 declare global {
@@ -27,47 +28,30 @@ declare global {
 
 let lastSyncedKey = "";
 
-const visitorSyncEnabled = process.env.NEXT_PUBLIC_TAWK_VISITOR_SYNC === "true";
-
 function applyTawkAttributes(visitor: TawkVisitor) {
   const attrs: Record<string, string> = {};
 
-  if (visitor.userId) attrs.userid = visitor.userId;
-  if (visitor.firstName) attrs.firstname = visitor.firstName;
-  if (visitor.lastName) attrs.lastname = visitor.lastName;
-  if (visitor.email) attrs.useremail = visitor.email;
+  if (visitor.name) attrs.name = visitor.name;
+  if (visitor.email) attrs.email = visitor.email;
   if (visitor.phone) attrs.phone = visitor.phone;
+  if (visitor.userId) attrs.userid = visitor.userId;
 
   if (Object.keys(attrs).length === 0) return;
+  if (!window.Tawk_API?.setAttributes) return;
 
   const syncKey = JSON.stringify(attrs);
   if (syncKey === lastSyncedKey) return;
   lastSyncedKey = syncKey;
 
-  window.Tawk_API?.setAttributes?.(attrs, (error) => {
+  window.Tawk_API.setAttributes(attrs, (error) => {
     if (error) lastSyncedKey = "";
   });
 }
 
-function runWhenTawkReady(visitor: TawkVisitor) {
-  window.Tawk_API = window.Tawk_API ?? {};
-  const previousOnLoad = window.Tawk_API.onLoad;
-
-  window.Tawk_API.onLoad = function onLoad() {
-    previousOnLoad?.();
-    applyTawkAttributes(visitor);
-  };
-}
-
-/**
- * Identify a signed-in visitor in Tawk.to chat.
- * Off by default — Tawk Secure Mode blocks setAttributes and logs console errors.
- * Enable after turning off Secure Mode in Tawk admin:
- *   NEXT_PUBLIC_TAWK_VISITOR_SYNC=true
- */
+/** Identify a signed-in visitor in Tawk.to after the widget is fully loaded. */
 export function syncTawkVisitor(visitor: TawkVisitor) {
-  if (typeof window === "undefined" || !visitorSyncEnabled) return;
-  runWhenTawkReady(visitor);
+  if (typeof window === "undefined") return;
+  onTawkReady(() => applyTawkAttributes(visitor));
 }
 
 export function clearTawkVisitorSync() {
