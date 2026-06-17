@@ -170,3 +170,69 @@ export function authUserDisplayName(user: AuthUser): string {
   const name = profileDisplayName({ first_name: user.firstName, last_name: user.lastName });
   return name || user.email;
 }
+
+export type UpdateProfileInput = {
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  email?: string;
+};
+
+export type UpdateProfileResult = {
+  user: AuthUser;
+  emailChangePending?: boolean;
+};
+
+export async function updateProfile(
+  userId: string,
+  currentEmail: string,
+  input: UpdateProfileInput,
+): Promise<UpdateProfileResult> {
+  const supabase = createClient();
+  const firstName = input.firstName.trim();
+  const lastName = input.lastName.trim();
+  const phone = input.phone?.trim() || null;
+  const nextEmail = input.email?.trim();
+
+  const { error: profileError } = await supabase
+    .from("profiles")
+    .upsert({
+      id: userId,
+      first_name: firstName,
+      last_name: lastName,
+      phone,
+      updated_at: new Date().toISOString(),
+    });
+
+  if (profileError) throw profileError;
+
+  let emailChangePending = false;
+
+  const metadataUpdate = {
+    data: {
+      first_name: firstName,
+      last_name: lastName,
+      phone,
+    },
+  };
+
+  if (nextEmail && nextEmail !== currentEmail) {
+    const { error: emailError } = await supabase.auth.updateUser({
+      ...metadataUpdate,
+      email: nextEmail,
+    });
+    if (emailError) throw emailError;
+    emailChangePending = true;
+  } else {
+    const { error: metaError } = await supabase.auth.updateUser(metadataUpdate);
+    if (metaError) throw metaError;
+  }
+
+  const { data } = await supabase.auth.getUser();
+  if (!data.user) throw new Error("Could not refresh account.");
+
+  return {
+    user: await resolveAuthUser(data.user),
+    emailChangePending,
+  };
+}

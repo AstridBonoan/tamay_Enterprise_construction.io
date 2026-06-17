@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { authUserDisplayName } from "@/lib/auth";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useRequireAuth } from "@/components/auth/useRequireAuth";
 
@@ -16,25 +15,19 @@ export default function AccountPage() {
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="font-heading text-4xl md:text-5xl font-semibold tracking-wide uppercase">My Account</h1>
         <div className="w-20 h-px bg-white/25 mx-auto mt-5 mb-8" />
-        <p className="text-lg text-white/95">Signed in as {authUserDisplayName(user)}</p>
-        <dl className="mt-6 space-y-2 text-base text-white/90 max-w-md mx-auto">
-          <div>
-            <dt className="sr-only">Email</dt>
-            <dd>{user.email}</dd>
-          </div>
-          {user.phone && (
-            <div>
-              <dt className="sr-only">Phone</dt>
-              <dd>{user.phone}</dd>
-            </div>
-          )}
-        </dl>
+        <p className="text-lg text-white/95">Manage your bookings and account settings.</p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
           <Link
             href="/m/bookings"
             className="inline-flex items-center justify-center bg-white text-gray-900 font-bold tracking-wide rounded-full px-8 py-3 hover:bg-gray-100 transition-colors"
           >
             Go to Bookings
+          </Link>
+          <Link
+            href="/m/account/settings"
+            className="inline-flex items-center justify-center bg-white text-gray-900 font-bold tracking-wide rounded-full px-8 py-3 hover:bg-gray-100 transition-colors"
+          >
+            Account Settings
           </Link>
           <button
             type="button"

@@ -89,6 +89,11 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
                   </Link>
                 </li>
                 <li role="none">
+                  <Link href="/m/account/settings/" role="menuitem" onClick={onClose} className={menuItemClass}>
+                    Settings
+                  </Link>
+                </li>
+                <li role="none">
                   <Link href="/m/bookings/" role="menuitem" onClick={onClose} className={menuItemClass}>
                     Bookings
                   </Link>
