@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { AuthOrDivider, GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
-import { signIn } from "@/lib/auth";
+import { signUpWithEmail } from "@/lib/auth";
 
 export default function CreateAccountPage() {
   const router = useRouter();
@@ -12,12 +11,50 @@ export default function CreateAccountPage() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!firstName.trim() || !lastName.trim() || !email.trim()) return;
-    signIn(email.trim());
-    router.push("/m/account");
+    if (!firstName.trim() || !lastName.trim() || !email.trim() || !password) return;
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setInfo(null);
+
+    try {
+      const result = await signUpWithEmail({
+        email: email.trim(),
+        password,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        phone: phone.trim() || undefined,
+      });
+
+      if (result.needsEmailConfirmation) {
+        setInfo("Account created. Check your email to confirm your address, then sign in.");
+        return;
+      }
+
+      router.push("/m/account");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not create account. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,6 +72,7 @@ export default function CreateAccountPage() {
           <input
             type="text"
             required
+            autoComplete="given-name"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             placeholder="First name"
@@ -43,6 +81,7 @@ export default function CreateAccountPage() {
           <input
             type="text"
             required
+            autoComplete="family-name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             placeholder="Last name"
@@ -51,6 +90,7 @@ export default function CreateAccountPage() {
           <input
             type="email"
             required
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
@@ -58,26 +98,54 @@ export default function CreateAccountPage() {
           />
           <input
             type="tel"
+            autoComplete="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="Phone (optional)"
             className="w-full bg-transparent border border-white/55 rounded-md px-4 py-3 text-base placeholder:text-white/90 focus:outline-none focus:ring-2 focus:ring-white/60"
           />
+          <input
+            type="password"
+            required
+            minLength={8}
+            autoComplete="new-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password (min. 8 characters)"
+            className="w-full bg-transparent border border-white/55 rounded-md px-4 py-3 text-base placeholder:text-white/90 focus:outline-none focus:ring-2 focus:ring-white/60"
+          />
+          <input
+            type="password"
+            required
+            minLength={8}
+            autoComplete="new-password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm password"
+            className="w-full bg-transparent border border-white/55 rounded-md px-4 py-3 text-base placeholder:text-white/90 focus:outline-none focus:ring-2 focus:ring-white/60"
+          />
+
+          {error && (
+            <p className="text-sm text-red-200 text-center" role="alert">
+              {error}
+            </p>
+          )}
+          {info && (
+            <p className="text-sm text-green-200 text-center" role="status">
+              {info}
+            </p>
+          )}
 
           <div className="text-center pt-2">
             <button
               type="submit"
-              className="inline-flex items-center justify-center bg-white text-gray-900 font-bold text-sm tracking-wide rounded-full px-9 py-2.5 hover:bg-gray-100 transition-colors"
+              disabled={loading}
+              className="inline-flex items-center justify-center bg-white text-gray-900 font-bold text-sm tracking-wide rounded-full px-9 py-2.5 hover:bg-gray-100 transition-colors disabled:opacity-60"
             >
-              CREATE ACCOUNT
+              {loading ? "CREATING..." : "CREATE ACCOUNT"}
             </button>
           </div>
         </form>
-
-        <div className="max-w-[620px] mx-auto">
-          <AuthOrDivider />
-          <GoogleSignInButton redirectTo="/m/account" />
-        </div>
 
         <div className="text-center mt-5 space-y-3">
           <p className="text-base">
@@ -86,12 +154,8 @@ export default function CreateAccountPage() {
               Sign in
             </Link>
           </p>
-          <p className="text-sm text-white/95">
-            This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
-          </p>
         </div>
       </div>
     </section>
   );
 }
-

@@ -1,20 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { isAuthenticated } from "@/lib/auth";
+import { useRequireAuth } from "@/components/auth/useRequireAuth";
 
 export default function BookingsPage() {
-  const router = useRouter();
+  const { user, loading } = useRequireAuth("/m/bookings");
 
-  useEffect(() => {
-    if (!isAuthenticated()) {
-      router.replace(`/m/login?r=${encodeURIComponent("/m/bookings")}`);
-    }
-  }, [router]);
-
-  if (!isAuthenticated()) return null;
+  if (loading || !user) return null;
 
   return (
     <section className="bg-tamay-primary text-white py-16 md:py-20 px-4">

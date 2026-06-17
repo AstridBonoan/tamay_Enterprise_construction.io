@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { isAuthenticated } from "@/lib/auth";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 export default function AuthOptionsPage() {
   const router = useRouter();
+  const { user, loading } = useAuth();
 
   const goToProtected = (target: string) => {
-    if (isAuthenticated()) {
+    if (loading) return;
+    if (user) {
       router.push(target);
       return;
     }

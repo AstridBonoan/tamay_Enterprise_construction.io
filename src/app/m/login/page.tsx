@@ -3,25 +3,58 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
-import { AuthOrDivider, GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
-import { signIn } from "@/lib/auth";
+import { resetPassword, signInWithEmail } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
   const [redirectTarget, setRedirectTarget] = useState("/m/account");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [resetMessage, setResetMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const value = new URLSearchParams(window.location.search).get("r");
     if (value) setRedirectTarget(value);
   }, []);
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !password.trim()) return;
-    signIn(email.trim());
-    router.push(redirectTarget);
+
+    setLoading(true);
+    setError(null);
+    setResetMessage(null);
+
+    try {
+      await signInWithEmail(email.trim(), password);
+      router.push(redirectTarget);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Sign in failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onResetPassword = async () => {
+    if (!email.trim()) {
+      setError("Enter your email address first, then click Reset password.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setResetMessage(null);
+
+    try {
+      await resetPassword(email.trim());
+      setResetMessage("Password reset email sent. Check your inbox.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not send reset email.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -40,6 +73,7 @@ export default function LoginPage() {
           <input
             type="email"
             required
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
@@ -48,29 +82,42 @@ export default function LoginPage() {
           <input
             type="password"
             required
+            autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             className="w-full bg-transparent border border-white/55 rounded-md px-4 py-3 text-base placeholder:text-white/90 focus:outline-none focus:ring-2 focus:ring-white/60"
           />
 
+          {error && (
+            <p className="text-sm text-red-200 text-center" role="alert">
+              {error}
+            </p>
+          )}
+          {resetMessage && (
+            <p className="text-sm text-green-200 text-center" role="status">
+              {resetMessage}
+            </p>
+          )}
+
           <div className="text-center pt-1.5">
             <button
               type="submit"
-              className="inline-flex items-center justify-center bg-white text-gray-900 font-bold text-sm tracking-wide rounded-full px-9 py-2.5 hover:bg-gray-100 transition-colors"
+              disabled={loading}
+              className="inline-flex items-center justify-center bg-white text-gray-900 font-bold text-sm tracking-wide rounded-full px-9 py-2.5 hover:bg-gray-100 transition-colors disabled:opacity-60"
             >
-              SIGN IN
+              {loading ? "SIGNING IN..." : "SIGN IN"}
             </button>
           </div>
         </form>
 
-        <div className="max-w-[620px] mx-auto">
-          <AuthOrDivider />
-          <GoogleSignInButton redirectTo={redirectTarget} />
-        </div>
-
         <div className="text-center mt-5 space-y-2">
-          <button type="button" className="text-white text-base font-medium hover:underline">
+          <button
+            type="button"
+            onClick={onResetPassword}
+            disabled={loading}
+            className="text-white text-base font-medium hover:underline disabled:opacity-60"
+          >
             Reset password
           </button>
           <p className="text-base">
@@ -84,4 +131,3 @@ export default function LoginPage() {
     </section>
   );
 }
-
