@@ -19,8 +19,8 @@ type ImageCarouselProps = {
   /** Show active slide title below thumbnails */
   showCaption?: boolean;
   autoplayIntervalMs?: number;
-  /** Optional ornate frame overlay for gallery-style presentation */
-  frameSrc?: string;
+  /** Render slides inside an ornate gallery-style frame */
+  framed?: boolean;
 };
 
 export function ImageCarousel({
@@ -29,7 +29,7 @@ export function ImageCarousel({
   showThumbnails = true,
   showCaption = false,
   autoplayIntervalMs,
-  frameSrc,
+  framed = false,
 }: ImageCarouselProps) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -69,8 +69,8 @@ export function ImageCarousel({
 
   return (
     <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-      {frameSrc ? (
-        <div className="max-w-2xl mx-auto">
+      {framed ? (
+        <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-center gap-2 sm:gap-4 px-1">
             <button type="button" onClick={prev} className={navButtonClass} aria-label="Previous image">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,7 +81,6 @@ export function ImageCarousel({
               <GalleryPictureFrame
                 src={mainSlide.src}
                 alt={mainSlide.alt}
-                frameSrc={frameSrc}
                 priority={index === 0}
               />
             </div>
@@ -135,19 +134,18 @@ export function ImageCarousel({
               }}
               onClick={() => goTo(i)}
               className={`relative shrink-0 transition-opacity ${
-                frameSrc ? "w-24" : "h-14 w-20 overflow-hidden border-2"
-              } ${i === index ? (frameSrc ? "opacity-100" : "border-tamay-accent") : frameSrc ? "opacity-65 hover:opacity-90" : "border-transparent opacity-70"}`}
+                framed ? "w-28" : "h-14 w-20 overflow-hidden border-2"
+              } ${i === index ? (framed ? "opacity-100" : "border-tamay-accent") : framed ? "opacity-65 hover:opacity-90" : "border-transparent opacity-70"}`}
               aria-label={`View image ${i + 1}`}
               aria-current={i === index ? "true" : undefined}
             >
-              {frameSrc ? (
+              {framed ? (
                 <GalleryPictureFrame
                   src={slide.src}
                   alt=""
-                  frameSrc={frameSrc}
                   compact
                   active={i === index}
-                  sizes="96px"
+                  sizes="112px"
                 />
               ) : (
                 <Image src={slide.src} alt="" fill className="object-cover" sizes="80px" unoptimized />

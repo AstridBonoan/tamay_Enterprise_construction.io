@@ -1,9 +1,6 @@
 "use client";
 
 import { ImageCarousel, type ImageCarouselSlide } from "@/components/ui/ImageCarousel";
-import { assetUrl } from "@/lib/assetUrl";
-
-const GALLERY_FRAME_SRC = assetUrl("/gallery/ornate-gold-frame.png");
 
 type GalleryPhotoCarouselProps = {
   photos: readonly { title: string; src: string }[];
@@ -17,12 +14,7 @@ export function GalleryPhotoCarousel({ photos }: GalleryPhotoCarouselProps) {
 
   return (
     <div className="max-w-4xl mx-auto -mt-2">
-      <ImageCarousel
-        slides={slides}
-        showThumbnails
-        showCaption
-        frameSrc={GALLERY_FRAME_SRC}
-      />
+      <ImageCarousel slides={slides} showThumbnails showCaption framed />
     </div>
   );
 }

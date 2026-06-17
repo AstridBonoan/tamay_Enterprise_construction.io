@@ -4,7 +4,6 @@ import "./gallery-picture-frame.css";
 type GalleryPictureFrameProps = {
   src: string;
   alt: string;
-  frameSrc: string;
   priority?: boolean;
   sizes?: string;
   compact?: boolean;
@@ -15,7 +14,6 @@ type GalleryPictureFrameProps = {
 export function GalleryPictureFrame({
   src,
   alt,
-  frameSrc,
   priority = false,
   sizes = "100vw",
   compact = false,
@@ -28,20 +26,30 @@ export function GalleryPictureFrame({
         active ? "gallery-picture-frame--active" : ""
       } ${className}`.trim()}
     >
-      <div className="gallery-picture-frame__stage">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={frameSrc} alt="" aria-hidden className="gallery-picture-frame__border" />
-        <div className="gallery-picture-frame__opening">
-          <Image
-            src={src}
-            alt={alt}
-            fill
-            className="object-cover"
-            sizes={sizes}
-            unoptimized
-            priority={priority}
-          />
+      <div className="gallery-picture-frame__mount">
+        <div className="gallery-picture-frame__outer-rail">
+          <div className="gallery-picture-frame__inner-rail">
+            <div className="gallery-picture-frame__mat">
+              <div className="gallery-picture-frame__recess">
+                <div className="gallery-picture-frame__photo">
+                  <Image
+                    src={src}
+                    alt={alt}
+                    fill
+                    className="object-cover"
+                    sizes={sizes}
+                    unoptimized
+                    priority={priority}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        <span className="gallery-picture-frame__corner gallery-picture-frame__corner--tl" aria-hidden />
+        <span className="gallery-picture-frame__corner gallery-picture-frame__corner--tr" aria-hidden />
+        <span className="gallery-picture-frame__corner gallery-picture-frame__corner--bl" aria-hidden />
+        <span className="gallery-picture-frame__corner gallery-picture-frame__corner--br" aria-hidden />
       </div>
     </div>
   );
