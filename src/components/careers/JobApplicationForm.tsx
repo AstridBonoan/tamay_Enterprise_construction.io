@@ -8,6 +8,7 @@ import {
   POSITION_OPTIONS,
   PRIMARY_INTEREST_OPTIONS,
   emptyJobApplicationForm,
+  positionFromParam,
   type JobApplicationFormData,
 } from "@/lib/jobApplication";
 import { CAREER_ROLE_GROUPS, findCareerRoleGroup } from "@/lib/careerRoles";
@@ -68,13 +69,20 @@ export function JobApplicationForm() {
 
   useEffect(() => {
     const roleId = searchParams.get("role");
+    const position = positionFromParam(searchParams.get("position"));
     const group = findCareerRoleGroup(roleId);
-    if (!group) return;
+
+    if (!group && !position) return;
 
     setData((prev) => ({
       ...prev,
-      role_category: group.id,
-      role_applying_for: "",
+      ...(group
+        ? {
+            role_category: group.id,
+            role_applying_for: "",
+          }
+        : {}),
+      ...(position ? { position } : {}),
     }));
     setStep(1);
     setStatus("");

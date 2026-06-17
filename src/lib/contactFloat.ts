@@ -74,15 +74,6 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
     ctaLabel: "Schedule Now",
     ctaHref: "#contact",
   },
-  "/careers-partnerships": {
-    floatId: "careers-contact",
-    collapsedLabel: "Careers",
-    ariaLabel: "Careers contact",
-    headline: "Want In?",
-    body: "Questions before you apply? Reach our team through the contact form.",
-    ctaLabel: "Contact Us",
-    ctaHref: "/#contact",
-  },
   "/careers-partnerships/apply": {
     floatId: "careers-apply-contact",
     collapsedLabel: "Help",
@@ -95,7 +86,7 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
 };
 
 /** Paths that already show a dedicated bottom-right promo float. */
-export const PAGES_WITH_PROMO_FLOAT = ["/construction", "/real-estate"] as const;
+export const PAGES_WITH_PROMO_FLOAT = ["/construction", "/real-estate", "/careers-partnerships"] as const;
 
 export function getContactFloatConfig(pathname: string): ContactFloatConfig | null {
   return PAGE_CONTACT_FLOATS[normalizeSitePath(pathname)] ?? null;

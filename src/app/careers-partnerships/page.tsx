@@ -3,6 +3,7 @@ import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { CareerRoleCard } from "@/components/careers/CareerRoleCard";
+import { CareersJoinFloat } from "@/components/careers/CareersJoinFloat";
 import { CareersAboutPhoto } from "@/components/careers/CareersAboutPhoto";
 import { CAREER_ROLE_GROUPS } from "@/lib/careerRoles";
 import { CAREERS_ABOUT_IMAGES, CAREERS_HERO_BANNER } from "@/lib/careerImages";
@@ -129,6 +130,8 @@ export default function CareersPage() {
           </div>
         </div>
       </section>
+
+      <CareersJoinFloat />
     </>
   );
 }

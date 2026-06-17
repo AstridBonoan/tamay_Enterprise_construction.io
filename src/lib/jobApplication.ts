@@ -4,6 +4,24 @@ export const PRIMARY_INTEREST_OPTIONS = ["Construction", "Driving", "Both"] as c
 
 export const POSITION_OPTIONS = ["Employee", "Sub Contractor"] as const;
 
+const POSITION_PARAM_ALIASES: Record<string, (typeof POSITION_OPTIONS)[number]> = {
+  employee: "Employee",
+  "sub-contractor": "Sub Contractor",
+  subcontractor: "Sub Contractor",
+  "sub contractor": "Sub Contractor",
+};
+
+export function positionFromParam(param: string | null | undefined): string {
+  if (!param) return "";
+  const normalized = param.trim().toLowerCase();
+  if (POSITION_PARAM_ALIASES[normalized]) return POSITION_PARAM_ALIASES[normalized];
+  return POSITION_OPTIONS.find((option) => option.toLowerCase() === normalized) ?? "";
+}
+
+export function positionToApplyParam(position: (typeof POSITION_OPTIONS)[number]): string {
+  return position === "Sub Contractor" ? "sub-contractor" : "employee";
+}
+
 export const JOB_APPLICATION_STEPS = [
   { id: "personal", label: "Personal", title: "1) Personal Information" },
   { id: "position", label: "Position", title: "2) Position & Availability" },
