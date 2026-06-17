@@ -18,7 +18,7 @@ begin
   on conflict (id) do update set
     first_name = excluded.first_name,
     last_name = excluded.last_name,
-    phone = excluded.phone,
+    phone = coalesce(nullif(excluded.phone, ''), profiles.phone),
     updated_at = now();
   return new;
 end;

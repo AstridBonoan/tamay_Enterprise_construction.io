@@ -6,7 +6,6 @@ import {
   AccountEmptyState,
   AccountPageShell,
   AccountPanel,
-  accountButtonPrimaryClass,
   accountButtonSecondaryClass,
   accountInputClass,
 } from "@/components/account/AccountHub";
@@ -20,24 +19,21 @@ import {
   type SavedAddress,
 } from "@/lib/account-data";
 
-const emptyForm = {
-  label: "Home",
-  fullName: "",
-  line1: "",
-  line2: "",
-  city: "",
-  state: "",
-  zip: "",
-  isDefault: false,
-};
-
 export default function AddressesPage() {
   const { user, loading } = useRequireAuth("/m/account/addresses");
   const [addresses, setAddresses] = useState<SavedAddress[]>([]);
   const [loadingAddresses, setLoadingAddresses] = useState(true);
-  const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState({
+    label: "Home",
+    fullName: "",
+    line1: "",
+    line2: "",
+    city: "",
+    state: "",
+    zip: "",
+    isDefault: false,
+  });
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -57,19 +53,8 @@ export default function AddressesPage() {
     void loadAddresses();
   }, [loadAddresses]);
 
-  useEffect(() => {
-    if (!user) return;
-    setForm((prev) => ({ ...prev, fullName: `${user.firstName} ${user.lastName}`.trim() }));
-  }, [user]);
-
-  const resetForm = () => {
-    setForm({
-      ...emptyForm,
-      fullName: user ? `${user.firstName} ${user.lastName}`.trim() : "",
-      isDefault: addresses.length === 0,
-    });
+  const cancelEdit = () => {
     setEditingId(null);
-    setShowForm(false);
     setError(null);
   };
 
@@ -85,12 +70,11 @@ export default function AddressesPage() {
       zip: address.zip,
       isDefault: address.is_default,
     });
-    setShowForm(true);
   };
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!user) return;
+    if (!user || !editingId) return;
 
     setSaving(true);
     setError(null);
@@ -108,10 +92,10 @@ export default function AddressesPage() {
           zip: form.zip,
           isDefault: form.isDefault,
         },
-        editingId ?? undefined,
+        editingId,
       );
       await loadAddresses();
-      resetForm();
+      cancelEdit();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not save address.");
     } finally {
@@ -144,33 +128,12 @@ export default function AddressesPage() {
   return (
     <AccountPageShell
       title="Your Addresses"
-      description="Addresses from checkout billing are saved here. You can also add or edit them anytime."
+      description="Addresses are saved when you submit a job application or complete checkout billing."
     >
       <div className="space-y-4">
-        {!showForm && (
-          <div>
-            <button
-              type="button"
-              onClick={() => {
-                setShowForm(true);
-                setForm({
-                  ...emptyForm,
-                  fullName: `${user.firstName} ${user.lastName}`.trim(),
-                  isDefault: addresses.length === 0,
-                });
-              }}
-              className={accountButtonPrimaryClass}
-            >
-              Add address
-            </button>
-          </div>
-        )}
-
-        {showForm && (
+        {editingId && (
           <AccountPanel>
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
-              {editingId ? "Edit address" : "Add a new address"}
-            </h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">Edit address</h2>
             <form onSubmit={onSubmit} className="space-y-4 max-w-xl">
               <div>
                 <label htmlFor="label" className="block text-sm font-medium text-gray-700 mb-1">
@@ -182,7 +145,6 @@ export default function AddressesPage() {
                   value={form.label}
                   onChange={(e) => setForm({ ...form, label: e.target.value })}
                   className={accountInputClass}
-                  placeholder="Home, Work, etc."
                 />
               </div>
               <div>
@@ -281,10 +243,10 @@ export default function AddressesPage() {
               )}
 
               <div className="flex flex-wrap gap-3">
-                <button type="submit" disabled={saving} className={accountButtonPrimaryClass}>
-                  {saving ? "Saving..." : "Save address"}
+                <button type="submit" disabled={saving} className={accountButtonSecondaryClass}>
+                  {saving ? "Saving..." : "Save changes"}
                 </button>
-                <button type="button" onClick={resetForm} className={accountButtonSecondaryClass}>
+                <button type="button" onClick={cancelEdit} className={accountButtonSecondaryClass}>
                   Cancel
                 </button>
               </div>
@@ -296,37 +258,31 @@ export default function AddressesPage() {
           <AccountPanel>
             <p className="text-sm text-gray-600">Loading addresses...</p>
           </AccountPanel>
-        ) : addresses.length === 0 && !showForm ? (
+        ) : addresses.length === 0 ? (
           <AccountEmptyState
             title="No addresses saved yet"
-            description="When you complete checkout, your billing address will appear here. You can also add one now."
+            description="Submit a job application or complete a purchase to save your address here."
             action={
-              <button
-                type="button"
-                onClick={() => setShowForm(true)}
-                className={accountButtonPrimaryClass}
-              >
-                Add your first address
-              </button>
+              <Link href="/careers-partnerships/apply" className={accountButtonSecondaryClass}>
+                Go to job application
+              </Link>
             }
           />
         ) : (
           <div className="grid md:grid-cols-2 gap-4">
             {addresses.map((address) => (
               <AccountPanel key={address.id}>
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="font-semibold text-gray-900">
-                      {address.label}
-                      {address.is_default && (
-                        <span className="ml-2 text-xs font-semibold uppercase tracking-wide text-tamay-primary">
-                          Default
-                        </span>
-                      )}
-                    </p>
-                    <p className="mt-2 text-sm text-gray-700">{address.full_name}</p>
-                    <p className="text-sm text-gray-600">{formatAddressLines(address)}</p>
-                  </div>
+                <div>
+                  <p className="font-semibold text-gray-900">
+                    {address.label}
+                    {address.is_default && (
+                      <span className="ml-2 text-xs font-semibold uppercase tracking-wide text-tamay-primary">
+                        Default
+                      </span>
+                    )}
+                  </p>
+                  <p className="mt-2 text-sm text-gray-700">{address.full_name}</p>
+                  <p className="text-sm text-gray-600">{formatAddressLines(address)}</p>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-3 text-sm">
                   <button

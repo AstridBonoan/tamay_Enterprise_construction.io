@@ -15,7 +15,6 @@ export type SignUpInput = {
   password: string;
   firstName: string;
   lastName: string;
-  phone?: string;
 };
 
 function mapProfileToAuthUser(user: User, profile: UserProfile | null): AuthUser {
@@ -95,7 +94,6 @@ function isExistingAccountResponse(user: User): boolean {
 
 export async function signUpWithEmail(input: SignUpInput): Promise<SignUpResult> {
   const supabase = createClient();
-  const phone = input.phone?.trim() || null;
   const siteUrl = getSiteUrl();
 
   const { data, error } = await supabase.auth.signUp({
@@ -105,7 +103,6 @@ export async function signUpWithEmail(input: SignUpInput): Promise<SignUpResult>
       data: {
         first_name: input.firstName.trim(),
         last_name: input.lastName.trim(),
-        phone,
       },
       emailRedirectTo: siteUrl ? `${siteUrl}/m/login/` : undefined,
     },
@@ -131,7 +128,6 @@ export async function signUpWithEmail(input: SignUpInput): Promise<SignUpResult>
       id: data.user.id,
       first_name: input.firstName.trim(),
       last_name: input.lastName.trim(),
-      phone,
     });
 
     if (profileError) {
@@ -174,7 +170,6 @@ export function authUserDisplayName(user: AuthUser): string {
 export type UpdateProfileInput = {
   firstName: string;
   lastName: string;
-  phone?: string;
   email?: string;
 };
 
@@ -182,6 +177,24 @@ export type UpdateProfileResult = {
   user: AuthUser;
   emailChangePending?: boolean;
 };
+
+export async function savePhoneToProfile(userId: string, phone: string) {
+  const supabase = createClient();
+  const trimmed = phone.trim();
+  if (!trimmed) return;
+
+  const { error: profileError } = await supabase
+    .from("profiles")
+    .update({ phone: trimmed, updated_at: new Date().toISOString() })
+    .eq("id", userId);
+
+  if (profileError) throw profileError;
+
+  const { error: metaError } = await supabase.auth.updateUser({
+    data: { phone: trimmed },
+  });
+  if (metaError) throw metaError;
+}
 
 export async function updateProfile(
   userId: string,
@@ -191,18 +204,16 @@ export async function updateProfile(
   const supabase = createClient();
   const firstName = input.firstName.trim();
   const lastName = input.lastName.trim();
-  const phone = input.phone?.trim() || null;
   const nextEmail = input.email?.trim();
 
   const { error: profileError } = await supabase
     .from("profiles")
-    .upsert({
-      id: userId,
+    .update({
       first_name: firstName,
       last_name: lastName,
-      phone,
       updated_at: new Date().toISOString(),
-    });
+    })
+    .eq("id", userId);
 
   if (profileError) throw profileError;
 
@@ -212,7 +223,6 @@ export async function updateProfile(
     data: {
       first_name: firstName,
       last_name: lastName,
-      phone,
     },
   };
 

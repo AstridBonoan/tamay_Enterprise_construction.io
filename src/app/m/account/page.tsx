@@ -59,13 +59,13 @@ export default function AccountPage() {
           <AccountHubCard
             href="/m/account/settings"
             title="Login & security"
-            description="Edit login, name, email, and mobile number."
+            description="Edit login, name, and email."
             icon={<ShieldIcon />}
           />
           <AccountHubCard
             href="/m/account/addresses"
             title="Your Addresses"
-            description="Edit, remove, or set a default billing and shipping address."
+            description="View addresses saved from job applications or checkout billing."
             icon={<AddressIcon />}
           />
           <AccountHubCard

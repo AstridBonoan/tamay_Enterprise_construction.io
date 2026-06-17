@@ -19,7 +19,6 @@ export default function AccountSettingsPage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -29,7 +28,6 @@ export default function AccountSettingsPage() {
     setFirstName(user.firstName);
     setLastName(user.lastName);
     setEmail(user.email);
-    setPhone(user.phone ?? "");
   }, [user]);
 
   const onSubmit = async (e: FormEvent) => {
@@ -45,7 +43,6 @@ export default function AccountSettingsPage() {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         email: email.trim(),
-        phone: phone.trim() || undefined,
       });
 
       await refreshUser();
@@ -67,7 +64,7 @@ export default function AccountSettingsPage() {
   return (
     <AccountPageShell
       title="Login & security"
-      description="Manage your name, email, and phone number."
+      description="Manage your name and email. Phone and address are saved when you apply for a job or complete checkout."
     >
       <AccountPanel>
         <form onSubmit={onSubmit} className="space-y-4 max-w-xl">
@@ -115,19 +112,12 @@ export default function AccountSettingsPage() {
               className={accountInputClass}
             />
           </div>
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-              Mobile number
-            </label>
-            <input
-              id="phone"
-              type="tel"
-              autoComplete="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className={accountInputClass}
-            />
-          </div>
+
+          {user.phone && (
+            <p className="text-sm text-gray-600">
+              Phone on file: <span className="font-medium text-gray-900">{user.phone}</span>
+            </p>
+          )}
 
           {error && (
             <p className="text-sm text-red-600" role="alert">

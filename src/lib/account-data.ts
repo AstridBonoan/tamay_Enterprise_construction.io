@@ -158,6 +158,51 @@ export async function saveBillingAddress(userId: string, input: AddressInput) {
   return saveAddress(userId, { ...input, isDefault: input.isDefault ?? true });
 }
 
+/** Called from checkout when the customer completes billing info. */
+export async function saveBillingContactInfo(
+  userId: string,
+  input: {
+    phone: string;
+    fullName: string;
+    line1: string;
+    line2?: string;
+    city: string;
+    state: string;
+    zip: string;
+    label?: string;
+  },
+) {
+  const { savePhoneToProfile } = await import("@/lib/auth");
+  await savePhoneToProfile(userId, input.phone);
+  return saveBillingAddress(userId, {
+    label: input.label,
+    fullName: input.fullName,
+    line1: input.line1,
+    line2: input.line2,
+    city: input.city,
+    state: input.state,
+    zip: input.zip,
+    isDefault: true,
+  });
+}
+
+/** Called from job application or billing forms when contact details are collected. */
+export async function syncContactFromForm(
+  userId: string,
+  input: {
+    phone: string;
+    fullName: string;
+    line1: string;
+    line2?: string;
+    city: string;
+    state: string;
+    zip: string;
+    label?: string;
+  },
+) {
+  return saveBillingContactInfo(userId, input);
+}
+
 export async function deleteAddress(userId: string, addressId: string) {
   const supabase = createClient();
   const { error } = await supabase.from("addresses").delete().eq("id", addressId).eq("user_id", userId);

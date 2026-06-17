@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { syncContactFromForm, fetchAddresses } from "@/lib/account-data";
 import {
   FORMSPREE_JOB_APPLICATION,
   JOB_APPLICATION_STEPS,
@@ -84,6 +86,7 @@ function validateStep(step: number, data: JobApplicationFormData): string | null
 
 export function JobApplicationForm() {
   const searchParams = useSearchParams();
+  const { user, refreshUser } = useAuth();
   const [step, setStep] = useState(() => readApplyPrefillFromWindow().initialStep);
   const [data, setData] = useState<JobApplicationFormData>(() => ({
     ...emptyJobApplicationForm(),
@@ -97,6 +100,34 @@ export function JobApplicationForm() {
     () => CAREER_ROLE_GROUPS.find((group) => group.id === data.role_category),
     [data.role_category],
   );
+
+  useEffect(() => {
+    if (!user) return;
+
+    void (async () => {
+      const fullName = `${user.firstName} ${user.lastName}`.trim();
+      let defaultAddress: Awaited<ReturnType<typeof fetchAddresses>>[number] | undefined;
+
+      try {
+        const addresses = await fetchAddresses(user.id);
+        defaultAddress = addresses.find((address) => address.is_default) ?? addresses[0];
+      } catch {
+        defaultAddress = undefined;
+      }
+
+      setData((prev) => ({
+        ...prev,
+        email: prev.email || user.email,
+        full_name: prev.full_name || fullName,
+        phone: prev.phone || user.phone || "",
+        address_line1: prev.address_line1 || defaultAddress?.line1 || "",
+        address_line2: prev.address_line2 || defaultAddress?.line2 || "",
+        city: prev.city || defaultAddress?.city || "",
+        state: prev.state || defaultAddress?.state || prev.state,
+        zip: prev.zip || defaultAddress?.zip || "",
+      }));
+    })();
+  }, [user]);
 
   useEffect(() => {
     const roleId = searchParams.get("role");
@@ -193,6 +224,24 @@ export function JobApplicationForm() {
       });
 
       if (response.ok) {
+        if (user) {
+          try {
+            await syncContactFromForm(user.id, {
+              phone: data.phone,
+              fullName: data.full_name,
+              line1: data.address_line1,
+              line2: data.address_line2 || undefined,
+              city: data.city,
+              state: data.state,
+              zip: data.zip,
+              label: "Home",
+            });
+            await refreshUser();
+          } catch {
+            // Application still submitted; account sync can be retried later.
+          }
+        }
+
         setSubmitted(true);
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
