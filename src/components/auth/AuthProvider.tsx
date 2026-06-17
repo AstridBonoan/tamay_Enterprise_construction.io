@@ -16,7 +16,6 @@ import {
   type AuthUser,
 } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/client";
-import { syncTawkVisitor, clearTawkVisitorSync } from "@/lib/tawk-identity";
 
 type AuthContextValue = {
   user: AuthUser | null;
@@ -39,18 +38,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const applyUser = useCallback(async (supabaseUser: User | null) => {
     const next = await loadAuthUser(supabaseUser);
     setUser(next);
-
-    if (next) {
-      syncTawkVisitor({
-        firstName: next.firstName,
-        lastName: next.lastName,
-        email: next.email,
-        phone: next.phone ?? undefined,
-        userId: next.id,
-      });
-    } else {
-      clearTawkVisitorSync();
-    }
   }, []);
 
   const refreshUser = useCallback(async () => {
