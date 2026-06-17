@@ -1,5 +1,7 @@
 type TawkVisitor = {
-  name?: string;
+  userId?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
   phone?: string;
 };
@@ -9,29 +11,44 @@ declare global {
     Tawk_API?: {
       setAttributes?: (
         attrs: Record<string, string>,
-        callback?: (error?: Error) => void,
+        callback?: (error?: unknown) => void,
       ) => void;
       onLoad?: () => void;
     };
   }
 }
 
+let lastSyncedKey = "";
+
+/**
+ * Identify a signed-in visitor in Tawk.to using custom attributes.
+ * Avoid reserved `name` / `email` keys unless Secure Mode + hash are configured.
+ */
 function applyTawkAttributes(visitor: TawkVisitor) {
   const attrs: Record<string, string> = {};
-  if (visitor.name) attrs.name = visitor.name;
-  if (visitor.email) attrs.email = visitor.email;
+
+  if (visitor.userId) attrs.userid = visitor.userId;
+  if (visitor.firstName) attrs.firstname = visitor.firstName;
+  if (visitor.lastName) attrs.lastname = visitor.lastName;
+  if (visitor.email) attrs.useremail = visitor.email;
   if (visitor.phone) attrs.phone = visitor.phone;
+
   if (Object.keys(attrs).length === 0) return;
 
+  const syncKey = JSON.stringify(attrs);
+  if (syncKey === lastSyncedKey) return;
+  lastSyncedKey = syncKey;
+
   window.Tawk_API?.setAttributes?.(attrs, (error) => {
-    if (error) console.warn("Tawk setAttributes failed:", error);
+    if (error) {
+      // Tawk may pass `true` or a string error code (e.g. UNAUTHORIZED_API_CALL).
+      console.warn("Tawk visitor sync skipped:", error);
+      lastSyncedKey = "";
+    }
   });
 }
 
-/** Identify the signed-in visitor in Tawk.to chat. */
-export function syncTawkVisitor(visitor: TawkVisitor) {
-  if (typeof window === "undefined") return;
-
+function runWhenTawkReady(visitor: TawkVisitor) {
   if (window.Tawk_API?.setAttributes) {
     applyTawkAttributes(visitor);
     return;
@@ -43,4 +60,14 @@ export function syncTawkVisitor(visitor: TawkVisitor) {
     previousOnLoad?.();
     applyTawkAttributes(visitor);
   };
+}
+
+/** Identify the signed-in visitor in Tawk.to chat. */
+export function syncTawkVisitor(visitor: TawkVisitor) {
+  if (typeof window === "undefined") return;
+  runWhenTawkReady(visitor);
+}
+
+export function clearTawkVisitorSync() {
+  lastSyncedKey = "";
 }

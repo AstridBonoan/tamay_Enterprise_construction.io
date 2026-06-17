@@ -11,13 +11,12 @@ import {
   type ReactNode,
 } from "react";
 import {
-  authUserDisplayName,
   resolveAuthUser,
   signOut as authSignOut,
   type AuthUser,
 } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/client";
-import { syncTawkVisitor } from "@/lib/tawk-identity";
+import { syncTawkVisitor, clearTawkVisitorSync } from "@/lib/tawk-identity";
 
 type AuthContextValue = {
   user: AuthUser | null;
@@ -43,10 +42,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (next) {
       syncTawkVisitor({
-        name: authUserDisplayName(next),
+        userId: next.id,
+        firstName: next.firstName,
+        lastName: next.lastName,
         email: next.email,
         phone: next.phone ?? undefined,
       });
+    } else {
+      clearTawkVisitorSync();
     }
   }, []);
 
