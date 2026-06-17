@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { GOOGLE_WRITE_REVIEW_URL, type ReviewSubmission } from "@/lib/reviewSubmission";
+import { submitReview, type ReviewSubmission } from "@/lib/reviewSubmission";
 
 function StarPicker({
   value,
@@ -43,22 +44,24 @@ const emptyForm: ReviewSubmission = {
 };
 
 export function WriteReviewSection() {
+  const { user } = useAuth();
   const [form, setForm] = useState<ReviewSubmission>(emptyForm);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (!user) return;
+    const fullName = `${user.firstName} ${user.lastName}`.trim();
+    setForm((current) => ({
+      ...current,
+      name: current.name || fullName,
+      email: current.email || user.email,
+    }));
+  }, [user]);
+
   const update = (patch: Partial<ReviewSubmission>) => {
     setForm((current) => ({ ...current, ...patch }));
-  };
-
-  const openGoogleReview = async () => {
-    try {
-      await navigator.clipboard.writeText(form.text.trim());
-    } catch {
-      // Clipboard may be blocked; Google tab still opens.
-    }
-    window.open(GOOGLE_WRITE_REVIEW_URL, "_blank", "noopener,noreferrer");
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -81,10 +84,10 @@ export function WriteReviewSection() {
     setSubmitting(true);
 
     try {
+      await submitReview(form);
       setSubmitted(true);
-      await openGoogleReview();
-    } catch {
-      setError("Unable to open Google right now. Please try again.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not submit your review. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -95,7 +98,7 @@ export function WriteReviewSection() {
       <div className="max-w-2xl mx-auto">
         <SectionHeading
           title="Write A Review"
-          subtitle="Share your experience with Tamay Enterprises. Draft your review here, then finish on Google so it appears on our Google profile and in our public review carousel."
+          subtitle="Share your experience with Tamay Enterprises. Approved reviews appear in our review carousel alongside our Google reviews."
         />
 
         <div className="mt-8 bg-white border border-gray-200 shadow-md rounded-sm p-6 sm:p-8">
@@ -103,18 +106,18 @@ export function WriteReviewSection() {
             <div className="text-center space-y-4">
               <p className="font-heading text-xl text-tamay-primary font-semibold">Thank you!</p>
               <p className="text-gray-600 leading-relaxed">
-                A Google tab should have opened — paste your review there and submit it on Google to
-                publish it publicly.
-              </p>
-              <p className="text-sm text-gray-500">
-                Reviews shown on this website are pulled from Google after they are published there.
+                Your review has been submitted. Once our team approves it, it will appear in the
+                review carousel on this page.
               </p>
               <button
                 type="button"
-                onClick={openGoogleReview}
+                onClick={() => {
+                  setSubmitted(false);
+                  setForm(emptyForm);
+                }}
                 className="inline-block rounded-full bg-tamay-primary px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-white hover:bg-tamay-primary-dark transition-colors"
               >
-                Open Google Review Page
+                Write Another Review
               </button>
             </div>
           ) : (
@@ -182,12 +185,11 @@ export function WriteReviewSection() {
                 disabled={submitting}
                 className="w-full bg-tamay-primary hover:bg-tamay-primary-dark disabled:opacity-60 text-white font-bold py-3 text-sm tracking-wide transition-colors"
               >
-                {submitting ? "Opening Google..." : "Continue on Google"}
+                {submitting ? "Submitting..." : "Submit Review"}
               </button>
 
               <p className="text-xs text-gray-500 leading-relaxed">
-                We&apos;ll open Google in a new tab. Your review text will be copied to your clipboard
-                when possible. Google requires reviews to be posted on their platform to appear publicly.
+                Reviews are moderated before they appear publicly on our website.
               </p>
             </form>
           )}

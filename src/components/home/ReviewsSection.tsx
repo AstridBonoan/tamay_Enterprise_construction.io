@@ -1,8 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useCarouselAutoplay } from "@/hooks/useCarouselAutoplay";
 import { assetUrl } from "@/lib/assetUrl";
+import {
+  computeCombinedRating,
+  fetchPublishedSiteReviews,
+  mergeCarouselReviews,
+} from "@/lib/reviewSubmission";
 import {
   GOOGLE_RATING,
   GOOGLE_REVIEWS_URL,
@@ -56,9 +61,13 @@ function StarRating({ rating, light = false }: { rating: number; light?: boolean
 }
 
 function ReviewCard({ review }: { review: Review }) {
+  const [expanded, setExpanded] = useState(false);
   const initial = review.author.charAt(0).toUpperCase();
+  const isGoogle = review.source !== "site";
+  const isLong = review.text.length > 90;
   const snippet =
     review.text.length > 90 ? `${review.text.slice(0, 90).trim()}…` : review.text;
+  const displayText = expanded || !isLong ? review.text : snippet;
 
   return (
     <article className="flex flex-col bg-white rounded-sm shadow-lg px-5 pt-8 pb-5 min-h-[280px] sm:min-h-[300px] relative">
@@ -73,21 +82,39 @@ function ReviewCard({ review }: { review: Review }) {
       <StarRating rating={review.rating} />
 
       <blockquote className="flex-1 mt-4 mb-4 text-center text-sm text-gray-700 leading-relaxed px-1">
-        &ldquo;{snippet}&rdquo;
+        &ldquo;{displayText}&rdquo;
       </blockquote>
 
-      <a
-        href={GOOGLE_REVIEWS_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-sm text-tamay-primary font-semibold text-center hover:underline mb-5 inline-flex items-center justify-center gap-1"
-      >
-        Read full review
-        <span aria-hidden>→</span>
-      </a>
+      {isGoogle ? (
+        <a
+          href={GOOGLE_REVIEWS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-tamay-primary font-semibold text-center hover:underline mb-5 inline-flex items-center justify-center gap-1"
+        >
+          Read full review
+          <span aria-hidden>→</span>
+        </a>
+      ) : isLong ? (
+        <button
+          type="button"
+          onClick={() => setExpanded((value) => !value)}
+          className="text-sm text-tamay-primary font-semibold text-center hover:underline mb-5"
+        >
+          {expanded ? "Show less" : "Read full review"}
+        </button>
+      ) : (
+        <div className="mb-5" />
+      )}
 
       <div className="mt-auto flex items-end justify-between gap-2 pt-3 border-t border-gray-100">
-        <GoogleIcon className="w-4 h-4 shrink-0" />
+        {isGoogle ? (
+          <GoogleIcon className="w-4 h-4 shrink-0" />
+        ) : (
+          <span className="text-[10px] font-bold uppercase tracking-wide text-tamay-primary shrink-0">
+            Tamay
+          </span>
+        )}
         <p className="text-xs text-gray-500 text-center flex-1">
           {review.author} – {review.date}
         </p>
@@ -110,14 +137,28 @@ type ReviewsSectionProps = {
 
 export function ReviewsSection({ showVideoTestimonials = false }: ReviewsSectionProps) {
   const background = assetUrl("/reviews/reviews-background.png");
+  const [siteReviews, setSiteReviews] = useState<Review[]>([]);
   const [cardsPerPage, setCardsPerPage] = useState(3);
   const [page, setPage] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  const pageCount = Math.max(1, Math.ceil(REVIEWS.length / cardsPerPage));
+  const allReviews = useMemo(
+    () => mergeCarouselReviews(REVIEWS, siteReviews),
+    [siteReviews],
+  );
+
+  const combinedRating = useMemo(() => computeCombinedRating(siteReviews), [siteReviews]);
+
+  const pageCount = Math.max(1, Math.ceil(allReviews.length / cardsPerPage));
 
   const updateCardsPerPage = useCallback(() => {
     setCardsPerPage(getCardsPerPage(window.innerWidth));
+  }, []);
+
+  useEffect(() => {
+    void fetchPublishedSiteReviews()
+      .then(setSiteReviews)
+      .catch(() => setSiteReviews([]));
   }, []);
 
   useEffect(() => {
@@ -130,9 +171,9 @@ export function ReviewsSection({ showVideoTestimonials = false }: ReviewsSection
     setPage((current) => Math.min(current, pageCount - 1));
   }, [pageCount]);
 
-  const visibleReviews = REVIEWS.slice(
+  const visibleReviews = allReviews.slice(
     page * cardsPerPage,
-    page * cardsPerPage + cardsPerPage
+    page * cardsPerPage + cardsPerPage,
   );
 
   const prev = () => setPage((p) => (p === 0 ? pageCount - 1 : p - 1));
@@ -173,11 +214,11 @@ export function ReviewsSection({ showVideoTestimonials = false }: ReviewsSection
           className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10 sm:mb-12 text-white hover:opacity-95 transition-opacity"
         >
           <GoogleIcon className="w-8 h-8 bg-white rounded-full p-1 shrink-0" />
-          <span className="text-3xl sm:text-4xl font-bold">{GOOGLE_RATING.score}</span>
+          <span className="text-3xl sm:text-4xl font-bold">{combinedRating.score}</span>
           <div className="text-center sm:text-left">
-            <StarRating rating={5} light />
+            <StarRating rating={combinedRating.displayStars} light />
             <p className="font-semibold mt-1">{GOOGLE_RATING.businessName}</p>
-            <p className="text-sm text-white/85">{GOOGLE_RATING.count} Reviews</p>
+            <p className="text-sm text-white/85">{combinedRating.count} Reviews</p>
           </div>
         </a>
 

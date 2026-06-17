@@ -13,6 +13,8 @@ export const GOOGLE_RATING = {
   businessName: SITE.legalName,
 } as const;
 
+export type ReviewSource = "google" | "site";
+
 export type Review = {
   id: string;
   author: string;
@@ -20,6 +22,7 @@ export type Review = {
   rating: number;
   text: string;
   avatarColor?: string;
+  source?: ReviewSource;
 };
 
 export const REVIEWS: Review[] = [
@@ -28,6 +31,7 @@ export const REVIEWS: Review[] = [
     author: "Bria Hovhannissian",
     date: "5/14/2026",
     rating: 5,
+    source: "google",
     text: "Carlos and Thomas did a perfect and professional job. They were on time, respectful of our home, and the finished work exceeded our expectations. Highly recommend Tamay Enterprises.",
     avatarColor: "bg-orange-500",
   },
@@ -36,6 +40,7 @@ export const REVIEWS: Review[] = [
     author: "Maria P.",
     date: "4/28/2026",
     rating: 5,
+    source: "google",
     text: "Outstanding renovation experience from start to finish. Clear communication, fair pricing, and quality craftsmanship throughout our kitchen project.",
     avatarColor: "bg-tamay-primary",
   },
@@ -44,6 +49,7 @@ export const REVIEWS: Review[] = [
     author: "Frank D.",
     date: "4/12/2026",
     rating: 5,
+    source: "google",
     text: "Professional team that handled our bathroom remodel with care. They kept the workspace clean and finished ahead of schedule. Will use them again.",
     avatarColor: "bg-teal-500",
   },
@@ -52,6 +58,7 @@ export const REVIEWS: Review[] = [
     author: "Sarah M.",
     date: "3/30/2026",
     rating: 5,
+    source: "google",
     text: "Tamay Enterprises transformed our basement into a beautiful living space. Honest estimates, skilled workers, and excellent attention to detail.",
     avatarColor: "bg-purple-500",
   },
@@ -60,6 +67,7 @@ export const REVIEWS: Review[] = [
     author: "James K.",
     date: "3/18/2026",
     rating: 5,
+    source: "google",
     text: "Reliable construction company in West Haven. They repaired structural issues and matched the existing finish perfectly. Very satisfied with the results.",
     avatarColor: "bg-rose-500",
   },
@@ -68,6 +76,7 @@ export const REVIEWS: Review[] = [
     author: "Lisa R.",
     date: "2/22/2026",
     rating: 5,
+    source: "google",
     text: "Great experience with their assembly and installation team. TV mounting, shelving, and small repairs were all done quickly and professionally.",
     avatarColor: "bg-amber-600",
   },
@@ -76,6 +85,7 @@ export const REVIEWS: Review[] = [
     author: "David T.",
     date: "2/8/2026",
     rating: 5,
+    source: "google",
     text: "We hired Tamay for a full home renovation and couldn't be happier. They coordinated every trade smoothly and kept us informed at every step.",
     avatarColor: "bg-sky-600",
   },
@@ -84,6 +94,7 @@ export const REVIEWS: Review[] = [
     author: "Ana V.",
     date: "1/19/2026",
     rating: 5,
+    source: "google",
     text: "Excellent service and fair pricing. The crew was courteous, punctual, and the quality of work speaks for itself. Five stars all the way.",
     avatarColor: "bg-emerald-600",
   },
@@ -92,6 +103,7 @@ export const REVIEWS: Review[] = [
     author: "Mike A.",
     date: "1/5/2026",
     rating: 5,
+    source: "google",
     text: "Tamay Enterprises handled our property improvements with professionalism and speed. Responsive team that truly cares about getting the job done right.",
     avatarColor: "bg-indigo-500",
   },
