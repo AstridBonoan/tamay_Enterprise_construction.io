@@ -42,7 +42,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (next) {
       syncTawkVisitor({
-        name: [next.firstName, next.lastName].filter(Boolean).join(" ").trim() || undefined,
+        firstName: next.firstName,
+        lastName: next.lastName,
         email: next.email,
         phone: next.phone ?? undefined,
         userId: next.id,
