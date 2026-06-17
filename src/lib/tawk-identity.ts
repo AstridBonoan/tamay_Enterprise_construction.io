@@ -20,10 +20,8 @@ declare global {
 
 let lastSyncedKey = "";
 
-/**
- * Identify a signed-in visitor in Tawk.to using custom attributes.
- * Avoid reserved `name` / `email` keys unless Secure Mode + hash are configured.
- */
+const visitorSyncEnabled = process.env.NEXT_PUBLIC_TAWK_VISITOR_SYNC === "true";
+
 function applyTawkAttributes(visitor: TawkVisitor) {
   const attrs: Record<string, string> = {};
 
@@ -40,31 +38,28 @@ function applyTawkAttributes(visitor: TawkVisitor) {
   lastSyncedKey = syncKey;
 
   window.Tawk_API?.setAttributes?.(attrs, (error) => {
-    if (error) {
-      // Tawk may pass `true` or a string error code (e.g. UNAUTHORIZED_API_CALL).
-      console.warn("Tawk visitor sync skipped:", error);
-      lastSyncedKey = "";
-    }
+    if (error) lastSyncedKey = "";
   });
 }
 
 function runWhenTawkReady(visitor: TawkVisitor) {
-  if (window.Tawk_API?.setAttributes) {
-    applyTawkAttributes(visitor);
-    return;
-  }
-
   window.Tawk_API = window.Tawk_API ?? {};
   const previousOnLoad = window.Tawk_API.onLoad;
+
   window.Tawk_API.onLoad = function onLoad() {
     previousOnLoad?.();
     applyTawkAttributes(visitor);
   };
 }
 
-/** Identify the signed-in visitor in Tawk.to chat. */
+/**
+ * Identify a signed-in visitor in Tawk.to chat.
+ * Off by default — Tawk Secure Mode blocks setAttributes and logs console errors.
+ * Enable after turning off Secure Mode in Tawk admin:
+ *   NEXT_PUBLIC_TAWK_VISITOR_SYNC=true
+ */
 export function syncTawkVisitor(visitor: TawkVisitor) {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || !visitorSyncEnabled) return;
   runWhenTawkReady(visitor);
 }
 
