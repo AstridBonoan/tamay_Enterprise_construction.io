@@ -14,6 +14,34 @@ import {
 import { CAREER_ROLE_GROUPS, findCareerRoleGroup } from "@/lib/careerRoles";
 import "@/styles/job-application-form.css";
 
+function readApplyPrefill(search: string) {
+  const params = new URLSearchParams(search);
+  const roleId = params.get("role");
+  const position = positionFromParam(params.get("position"));
+  const group = findCareerRoleGroup(roleId);
+  const prefill: Partial<JobApplicationFormData> = {};
+
+  if (group) {
+    prefill.role_category = group.id;
+    prefill.role_applying_for = "";
+  }
+  if (position) {
+    prefill.position = position;
+  }
+
+  return {
+    prefill,
+    initialStep: group && !position ? 1 : 0,
+  };
+}
+
+function readApplyPrefillFromWindow() {
+  if (typeof window === "undefined") {
+    return { prefill: {} as Partial<JobApplicationFormData>, initialStep: 0 };
+  }
+  return readApplyPrefill(window.location.search);
+}
+
 function validateStep(step: number, data: JobApplicationFormData): string | null {
   switch (step) {
     case 0:
@@ -56,8 +84,11 @@ function validateStep(step: number, data: JobApplicationFormData): string | null
 
 export function JobApplicationForm() {
   const searchParams = useSearchParams();
-  const [step, setStep] = useState(0);
-  const [data, setData] = useState<JobApplicationFormData>(() => emptyJobApplicationForm());
+  const [step, setStep] = useState(() => readApplyPrefillFromWindow().initialStep);
+  const [data, setData] = useState<JobApplicationFormData>(() => ({
+    ...emptyJobApplicationForm(),
+    ...readApplyPrefillFromWindow().prefill,
+  }));
   const [status, setStatus] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -84,7 +115,7 @@ export function JobApplicationForm() {
         : {}),
       ...(position ? { position } : {}),
     }));
-    setStep(1);
+    setStep(group && !position ? 1 : 0);
     setStatus("");
   }, [searchParams]);
 
