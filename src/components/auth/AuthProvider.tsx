@@ -10,6 +10,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
 import {
   resolveAuthUser,
   signOut as authSignOut,
@@ -50,16 +51,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const supabase = createClient();
     let active = true;
 
-    supabase.auth.getSession().then(({ data }) => {
+    void (async () => {
+      const { data } = await supabase.auth.getSession();
       if (!active) return;
-      void applyUser(data.session?.user ?? null).finally(() => {
-        if (active) setLoading(false);
-      });
-    });
+      await applyUser(data.session?.user ?? null);
+      if (active) setLoading(false);
+    })();
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
       void applyUser(session?.user ?? null);
     });
 
