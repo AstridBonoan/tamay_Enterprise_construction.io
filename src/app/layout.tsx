@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { Cinzel, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { HiringBanner } from "@/components/layout/HiringBanner";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { CookieBanner } from "@/components/layout/CookieBanner";
+import { PageContactFloat } from "@/components/layout/PageContactFloat";
 import { TawkWidget } from "@/components/layout/TawkWidget";
 import { IMAGES as IMG } from "@/lib/images";
 
@@ -57,6 +59,9 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <CookieBanner />
+        <Suspense fallback={null}>
+          <PageContactFloat />
+        </Suspense>
         <TawkWidget />
       </body>
     </html>

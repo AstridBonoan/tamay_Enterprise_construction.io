@@ -16,6 +16,7 @@ type FloatingPromoBannerProps = {
   ariaLabel: string;
   ctaLabel?: string;
   ctaHref?: string;
+  ctaExternal?: boolean;
   bannerImage?: {
     src: string;
     alt: string;
@@ -31,6 +32,7 @@ export function FloatingPromoBanner({
   ariaLabel,
   ctaLabel,
   ctaHref,
+  ctaExternal = false,
   bannerImage,
 }: FloatingPromoBannerProps) {
   const { dismissed, dismiss, restore, ready } = useDismissibleFloat(floatId);
@@ -82,7 +84,7 @@ export function FloatingPromoBanner({
             <div className="mt-3">
               <Button
                 href={ctaHref!}
-                external
+                external={ctaExternal}
                 className="w-full !bg-white !text-gray-900 hover:!bg-gray-100 !px-3 !py-2.5 !text-xs !tracking-widest !uppercase"
               >
                 {ctaLabel}

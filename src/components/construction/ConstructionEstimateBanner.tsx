@@ -13,6 +13,7 @@ export function ConstructionEstimateBanner() {
       body={ESTIMATE.description}
       ctaLabel={ESTIMATE.ctaLabel}
       ctaHref={SITE.estimateUrl}
+      ctaExternal
       bannerImage={{
         src: IMAGES.construction.estimateFloatBanner,
         alt: "Construction and home renovation services",
