@@ -68,9 +68,16 @@ export async function signInWithEmail(email: string, password: string) {
   return resolveAuthUser(data.user);
 }
 
+function getSiteUrl(): string {
+  if (typeof window === "undefined") return "";
+  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  return `${window.location.origin}${base}`;
+}
+
 export async function signUpWithEmail(input: SignUpInput) {
   const supabase = createClient();
   const phone = input.phone?.trim() || null;
+  const siteUrl = getSiteUrl();
 
   const { data, error } = await supabase.auth.signUp({
     email: input.email.trim(),
@@ -81,25 +88,32 @@ export async function signUpWithEmail(input: SignUpInput) {
         last_name: input.lastName.trim(),
         phone,
       },
+      emailRedirectTo: siteUrl ? `${siteUrl}/m/login/` : undefined,
     },
   });
 
   if (error) throw error;
   if (!data.user) throw new Error("Account creation failed.");
 
-  const { error: profileError } = await supabase.from("profiles").upsert({
-    id: data.user.id,
-    first_name: input.firstName.trim(),
-    last_name: input.lastName.trim(),
-    phone,
-  });
+  // Only write profile when we have a session — otherwise RLS blocks the insert.
+  // With email confirmation on, the DB trigger creates the profile instead.
+  if (data.session) {
+    const { error: profileError } = await supabase.from("profiles").upsert({
+      id: data.user.id,
+      first_name: input.firstName.trim(),
+      last_name: input.lastName.trim(),
+      phone,
+    });
 
-  if (profileError) {
-    console.warn("Profile save failed:", profileError.message);
+    if (profileError) {
+      console.warn("Profile save failed:", profileError.message);
+    }
   }
 
   return {
-    user: await resolveAuthUser(data.user),
+    user: data.session
+      ? await resolveAuthUser(data.user)
+      : mapProfileToAuthUser(data.user, null),
     needsEmailConfirmation: !data.session,
   };
 }

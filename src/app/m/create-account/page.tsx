@@ -45,7 +45,9 @@ export default function CreateAccountPage() {
       });
 
       if (result.needsEmailConfirmation) {
-        setInfo("Account created. Check your email to confirm your address, then sign in.");
+        setInfo(
+          "Account created. Check your email (and spam folder) to confirm your address, then sign in.",
+        );
         return;
       }
 
