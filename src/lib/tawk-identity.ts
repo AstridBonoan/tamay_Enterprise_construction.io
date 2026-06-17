@@ -14,7 +14,14 @@ declare global {
         callback?: (error?: unknown) => void,
       ) => void;
       onLoad?: () => void;
+      customStyle?: {
+        visibility?: {
+          desktop?: { position?: string; xOffset?: number; yOffset?: number };
+          mobile?: { position?: string; xOffset?: number; yOffset?: number };
+        };
+      };
     };
+    Tawk_LoadStart?: Date;
   }
 }
 
