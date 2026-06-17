@@ -74,7 +74,26 @@ function getSiteUrl(): string {
   return `${window.location.origin}${base}`;
 }
 
-export async function signUpWithEmail(input: SignUpInput) {
+export type SignUpResult =
+  | { status: "success"; user: AuthUser }
+  | { status: "needs_confirmation" }
+  | { status: "already_exists" };
+
+function isExistingAccountError(error: { message?: string; code?: string }): boolean {
+  const message = error.message?.toLowerCase() ?? "";
+  return (
+    error.code === "user_already_exists" ||
+    message.includes("already registered") ||
+    message.includes("already been registered") ||
+    message.includes("user already exists")
+  );
+}
+
+function isExistingAccountResponse(user: User): boolean {
+  return Array.isArray(user.identities) && user.identities.length === 0;
+}
+
+export async function signUpWithEmail(input: SignUpInput): Promise<SignUpResult> {
   const supabase = createClient();
   const phone = input.phone?.trim() || null;
   const siteUrl = getSiteUrl();
@@ -92,8 +111,18 @@ export async function signUpWithEmail(input: SignUpInput) {
     },
   });
 
-  if (error) throw error;
+  if (error) {
+    if (isExistingAccountError(error)) {
+      return { status: "already_exists" };
+    }
+    throw error;
+  }
+
   if (!data.user) throw new Error("Account creation failed.");
+
+  if (isExistingAccountResponse(data.user)) {
+    return { status: "already_exists" };
+  }
 
   // Only write profile when we have a session — otherwise RLS blocks the insert.
   // With email confirmation on, the DB trigger creates the profile instead.
@@ -108,14 +137,14 @@ export async function signUpWithEmail(input: SignUpInput) {
     if (profileError) {
       console.warn("Profile save failed:", profileError.message);
     }
+
+    return {
+      status: "success",
+      user: await resolveAuthUser(data.user),
+    };
   }
 
-  return {
-    user: data.session
-      ? await resolveAuthUser(data.user)
-      : mapProfileToAuthUser(data.user, null),
-    needsEmailConfirmation: !data.session,
-  };
+  return { status: "needs_confirmation" };
 }
 
 export async function signOut() {

@@ -44,7 +44,12 @@ export default function CreateAccountPage() {
         phone: phone.trim() || undefined,
       });
 
-      if (result.needsEmailConfirmation) {
+      if (result.status === "already_exists") {
+        setError("An account with this email already exists. Please sign in instead.");
+        return;
+      }
+
+      if (result.status === "needs_confirmation") {
         setInfo(
           "Account created. Check your email (and spam folder) to confirm your address, then sign in.",
         );
@@ -129,7 +134,12 @@ export default function CreateAccountPage() {
 
           {error && (
             <p className="text-sm text-red-200 text-center" role="alert">
-              {error}
+              {error}{" "}
+              {error.includes("already exists") && (
+                <Link className="font-semibold underline" href="/m/login?r=%2Fm%2Faccount">
+                  Sign in
+                </Link>
+              )}
             </p>
           )}
           {info && (
