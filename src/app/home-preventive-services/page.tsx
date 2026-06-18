@@ -27,7 +27,7 @@ type PreventiveService = {
   items: string[];
   notes?: string[];
   areasCovered?: { heading: string; lines: string[] };
-  moreInfo?: boolean;
+  moreInfoHref?: string;
 };
 
 const preventiveServices: PreventiveService[] = [
@@ -145,7 +145,7 @@ const preventiveServices: PreventiveService[] = [
       "Initial operational check after installation",
       "Preventive recommendations for proper use and longevity",
     ],
-    moreInfo: true,
+    moreInfoHref: "/assembly-installation",
   },
 ];
 
@@ -287,8 +287,8 @@ export default function HomePreventiveServicesPage() {
                     ))}
                   </div>
                 )}
-                {service.moreInfo && (
-                  <Button href="#contact" variant="outline" className="mt-8">
+                {service.moreInfoHref && (
+                  <Button href={service.moreInfoHref} variant="outline" className="mt-8">
                     More info
                   </Button>
                 )}
