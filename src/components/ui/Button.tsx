@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { sitePath } from "@/lib/paths";
 
 type ButtonProps = {
   href: string;
@@ -34,8 +34,8 @@ export function Button({
   }
 
   return (
-    <Link href={href} className={classes}>
+    <a href={sitePath(href)} className={classes}>
       {children}
-    </Link>
+    </a>
   );
 }

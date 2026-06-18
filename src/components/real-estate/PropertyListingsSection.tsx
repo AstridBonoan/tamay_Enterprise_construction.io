@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { PropertyListing } from "@/lib/realEstateListings";
+import { sitePath } from "@/lib/paths";
 import { schedulePagePath } from "@/lib/realEstateScheduling";
 
 type PropertyListingsSectionProps = {
@@ -66,12 +67,14 @@ function PropertyListingCard({
           </h4>
           <ul className="space-y-3">
             {listing.scheduleSlots.map((slot) => (
-              <li
-                key={`${slot.date}-${slot.time}`}
-                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 py-3 px-4 bg-gray-50 border border-gray-100"
-              >
-                <span className="font-medium text-gray-800">{slot.date}</span>
-                <span className="text-gray-600 text-sm sm:text-base">{slot.time}</span>
+              <li key={`${slot.date}-${slot.time}`}>
+                <a
+                  href={sitePath(`${schedulePagePath(listing.id)}#book`)}
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 py-3 px-4 bg-gray-50 border border-gray-100 hover:border-tamay-primary hover:bg-tamay-primary/5 transition-colors"
+                >
+                  <span className="font-medium text-gray-800">{slot.date}</span>
+                  <span className="text-gray-600 text-sm sm:text-base">{slot.time}</span>
+                </a>
               </li>
             ))}
           </ul>

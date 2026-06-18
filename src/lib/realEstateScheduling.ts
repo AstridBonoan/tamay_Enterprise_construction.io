@@ -35,6 +35,13 @@ export function getSchedulingEmbedUrl(listing: PropertyListing): string | null {
   return url || null;
 }
 
+/** Public booking page URL (opens Google Calendar appointment flow in a new tab). */
+export function getSchedulingBookingUrl(listing: PropertyListing): string | null {
+  const embedUrl = getSchedulingEmbedUrl(listing);
+  if (!embedUrl) return null;
+  return embedUrl.replace("?gv=true", "").replace("&gv=true", "");
+}
+
 export function realEstateSectionHref(kind: ListingKind): string {
   return kind === "sale" ? "/real-estate#houses-for-sale" : "/real-estate#houses-for-rent";
 }

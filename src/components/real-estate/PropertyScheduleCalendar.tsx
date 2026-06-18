@@ -1,9 +1,9 @@
-"use client";
-
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { PropertyShowingRequestForm } from "@/components/real-estate/PropertyShowingRequestForm";
 import type { PropertyListing } from "@/lib/realEstateListings";
-import { getSchedulingEmbedUrl } from "@/lib/realEstateScheduling";
+import { sitePath } from "@/lib/paths";
+import { getSchedulingBookingUrl, getSchedulingEmbedUrl } from "@/lib/realEstateScheduling";
 import { SITE } from "@/lib/site";
 
 type PropertyScheduleCalendarProps = {
@@ -13,6 +13,7 @@ type PropertyScheduleCalendarProps = {
 
 export function PropertyScheduleCalendar({ listing, kindLabel }: PropertyScheduleCalendarProps) {
   const embedUrl = getSchedulingEmbedUrl(listing);
+  const bookingUrl = getSchedulingBookingUrl(listing);
 
   return (
     <div className="space-y-8">
@@ -48,7 +49,7 @@ export function PropertyScheduleCalendar({ listing, kindLabel }: PropertySchedul
         </div>
       )}
 
-      <div className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
+      <div id="book" className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8 scroll-mt-24">
         <h2 className="font-heading text-lg text-tamay-primary font-semibold mb-2">
           Choose an available time
         </h2>
@@ -58,25 +59,33 @@ export function PropertyScheduleCalendar({ listing, kindLabel }: PropertySchedul
         </p>
 
         {embedUrl ? (
-          <div className="rounded-sm overflow-hidden border border-gray-200 bg-gray-50">
-            <iframe
-              title={`Schedule a showing for ${listing.title}`}
-              src={embedUrl}
-              className="w-full min-h-[600px] border-0"
-              loading="lazy"
-            />
+          <div className="space-y-4">
+            {bookingUrl && (
+              <p className="text-sm text-gray-600">
+                Prefer to book in a new tab?{" "}
+                <a
+                  href={bookingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-tamay-primary font-semibold hover:underline"
+                >
+                  Open Google Calendar scheduling
+                </a>
+              </p>
+            )}
+            <div className="rounded-sm overflow-hidden border border-gray-200 bg-gray-50">
+              <iframe
+                title={`Schedule a showing for ${listing.title}`}
+                src={embedUrl}
+                className="w-full min-h-[600px] border-0"
+                loading="lazy"
+              />
+            </div>
           </div>
         ) : (
-          <div className="rounded-sm border border-dashed border-gray-300 bg-gray-50 px-6 py-10 text-center">
-            <p className="text-gray-700 font-medium mb-2">Online scheduling is being set up.</p>
-            <p className="text-sm text-gray-600 leading-relaxed max-w-md mx-auto mb-6">
-              Please contact our team to arrange a showing for this property. Include the property address
-              in your message.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button href="/real-estate#contact" variant="primary">
-                Contact an agent
-              </Button>
+          <div className="space-y-6">
+            <PropertyShowingRequestForm listing={listing} />
+            <div className="border-t border-gray-100 pt-6 flex flex-col sm:flex-row gap-3 justify-center">
               <Button href={SITE.phoneTel} variant="outline">
                 Call {SITE.phone}
               </Button>
@@ -86,7 +95,7 @@ export function PropertyScheduleCalendar({ listing, kindLabel }: PropertySchedul
       </div>
 
       <p className="text-center">
-        <Link href="/real-estate" className="text-tamay-primary font-semibold hover:underline text-sm">
+        <Link href={sitePath("/real-estate")} className="text-tamay-primary font-semibold hover:underline text-sm">
           ← Back to Real Estate
         </Link>
       </p>

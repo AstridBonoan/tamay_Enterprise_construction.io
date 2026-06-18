@@ -6,7 +6,7 @@ import { FORMSPREE_CONTACT } from "@/lib/formspree";
 type Field = {
   name: string;
   label: string;
-  type?: "text" | "email" | "tel" | "textarea" | "select";
+  type?: "text" | "email" | "tel" | "textarea" | "select" | "hidden";
   required?: boolean;
   options?: string[];
   /** Display labels for select options (same order as options) */
@@ -90,7 +90,16 @@ export function ContactForm({
 
   return (
     <form className="space-y-4 max-w-md" onSubmit={handleSubmit}>
-      {fields.map((field) => (
+      {fields.map((field) =>
+        field.type === "hidden" ? (
+          <input
+            key={field.name}
+            type="hidden"
+            name={field.name}
+            value={defaultValues?.[field.name] ?? ""}
+            readOnly
+          />
+        ) : (
         <div key={field.name}>
           <label htmlFor={field.name} className="block text-sm font-semibold text-gray-700 mb-1">
             {field.label}
@@ -131,7 +140,8 @@ export function ContactForm({
             />
           )}
         </div>
-      ))}
+        ),
+      )}
 
       {error && (
         <p className="text-sm text-red-600" role="alert">
