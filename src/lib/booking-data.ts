@@ -2,20 +2,23 @@ import { createClient } from "@/lib/supabase/client";
 import type { ListingKind } from "@/lib/realEstateScheduling";
 import { SCHEDULING } from "@/lib/schedulingConfig";
 
-export type PropertyBookingStatus = "pending" | "confirmed" | "cancelled";
+export type BookingStatus = "pending" | "confirmed" | "cancelled";
+export type BookingType = "property_viewing" | "consultation" | "service";
 
-export type PropertyBooking = {
+export type Booking = {
   id: string;
   user_id: string;
-  listing_id: string;
-  listing_kind: ListingKind;
-  listing_title: string;
-  listing_address: string;
+  booking_type: BookingType;
+  service_category: string;
+  title: string;
+  subtitle: string | null;
+  listing_id: string | null;
+  listing_kind: ListingKind | null;
   appointment_start: string;
   appointment_end: string;
   appointment_timezone: string;
   preferred_time: string;
-  status: PropertyBookingStatus;
+  status: BookingStatus;
   notes: string | null;
   created_at: string;
 };
@@ -32,6 +35,18 @@ export type CreatePropertyBookingInput = {
   notes?: string;
 };
 
+export type CreateServiceBookingInput = {
+  bookingType: Extract<BookingType, "consultation" | "service">;
+  serviceCategory: string;
+  title: string;
+  subtitle?: string;
+  appointmentStart: string;
+  appointmentEnd: string;
+  preferredTime: string;
+  appointmentTimezone?: string;
+  notes?: string;
+};
+
 export class SlotAlreadyBookedError extends Error {
   constructor() {
     super("This time slot was just booked. Please choose another time.");
@@ -39,16 +54,21 @@ export class SlotAlreadyBookedError extends Error {
   }
 }
 
-export async function fetchPropertyBookings(userId: string): Promise<PropertyBooking[]> {
+export async function fetchBookings(userId: string): Promise<Booking[]> {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from("property_bookings")
+    .from("bookings")
     .select("*")
     .eq("user_id", userId)
     .order("appointment_start", { ascending: true });
 
   if (error) throw error;
-  return (data ?? []) as PropertyBooking[];
+  return (data ?? []) as Booking[];
+}
+
+/** @deprecated Use fetchBookings */
+export async function fetchPropertyBookings(userId: string): Promise<Booking[]> {
+  return fetchBookings(userId);
 }
 
 export async function fetchBookedSlotStarts(listingId: string): Promise<string[]> {
@@ -68,22 +88,53 @@ export async function fetchBookedSlotStarts(listingId: string): Promise<string[]
 export async function createPropertyBooking(
   userId: string,
   input: CreatePropertyBookingInput,
-): Promise<PropertyBooking> {
+): Promise<Booking> {
+  return createBooking(userId, {
+    booking_type: "property_viewing",
+    service_category: "Real Estate",
+    title: input.listingTitle,
+    subtitle: input.listingAddress,
+    listing_id: input.listingId,
+    listing_kind: input.listingKind,
+    appointment_start: input.appointmentStart,
+    appointment_end: input.appointmentEnd,
+    appointment_timezone: input.appointmentTimezone ?? SCHEDULING.timezone,
+    preferred_time: input.preferredTime,
+    notes: input.notes?.trim() || null,
+    status: "pending",
+  });
+}
+
+export async function createServiceBooking(
+  userId: string,
+  input: CreateServiceBookingInput,
+): Promise<Booking> {
+  return createBooking(userId, {
+    booking_type: input.bookingType,
+    service_category: input.serviceCategory,
+    title: input.title,
+    subtitle: input.subtitle?.trim() || null,
+    listing_id: null,
+    listing_kind: null,
+    appointment_start: input.appointmentStart,
+    appointment_end: input.appointmentEnd,
+    appointment_timezone: input.appointmentTimezone ?? SCHEDULING.timezone,
+    preferred_time: input.preferredTime,
+    notes: input.notes?.trim() || null,
+    status: "pending",
+  });
+}
+
+async function createBooking(
+  userId: string,
+  row: Omit<Booking, "id" | "user_id" | "created_at">,
+): Promise<Booking> {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from("property_bookings")
+    .from("bookings")
     .insert({
       user_id: userId,
-      listing_id: input.listingId,
-      listing_kind: input.listingKind,
-      listing_title: input.listingTitle,
-      listing_address: input.listingAddress,
-      appointment_start: input.appointmentStart,
-      appointment_end: input.appointmentEnd,
-      appointment_timezone: input.appointmentTimezone ?? SCHEDULING.timezone,
-      preferred_time: input.preferredTime,
-      status: "pending",
-      notes: input.notes?.trim() || null,
+      ...row,
     })
     .select("*")
     .single();
@@ -95,27 +146,37 @@ export async function createPropertyBooking(
     throw error;
   }
 
-  return data as PropertyBooking;
+  return data as Booking;
 }
 
-export function bookingStatusLabel(status: PropertyBookingStatus): string {
+export function bookingCategoryLabel(booking: Booking): string {
+  if (booking.booking_type === "property_viewing" && booking.listing_kind) {
+    return booking.listing_kind === "sale" ? "For Sale · Viewing" : "For Rent · Viewing";
+  }
+  if (booking.booking_type === "consultation") {
+    return `${booking.service_category} · Consultation`;
+  }
+  return booking.service_category;
+}
+
+export function bookingStatusLabel(status: BookingStatus): string {
   if (status === "confirmed") return "Confirmed";
   if (status === "cancelled") return "Cancelled";
   return "Pending confirmation";
 }
 
-export function formatBookingWhen(booking: PropertyBooking): string {
+export function formatBookingWhen(booking: Booking): string {
   return booking.preferred_time;
 }
 
-export function isUpcomingBooking(booking: PropertyBooking): boolean {
+export function isUpcomingBooking(booking: Booking): boolean {
   if (booking.status === "cancelled") return false;
   const startMs = Date.parse(booking.appointment_start);
   if (Number.isNaN(startMs)) return true;
   return startMs >= Date.now() - 60 * 60 * 1000;
 }
 
-export function sortBookingsUpcomingFirst(bookings: PropertyBooking[]): PropertyBooking[] {
+export function sortBookingsUpcomingFirst(bookings: Booking[]): Booking[] {
   return [...bookings].sort((a, b) => {
     const aUpcoming = isUpcomingBooking(a);
     const bUpcoming = isUpcomingBooking(b);

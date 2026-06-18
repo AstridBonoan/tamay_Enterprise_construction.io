@@ -96,8 +96,9 @@ export function PropertyScheduleCalendar({ listing, kind, kindLabel }: PropertyS
         ) : (
           <>
             <p className="text-gray-600 text-sm leading-relaxed mb-6">
-              Pick a time and confirm your request. Your viewing will be saved to your account Bookings
-              page. Booked times are removed automatically for other visitors.
+              Pick a time and confirm your request. Your appointment will be saved to your Bookings
+              dashboard with any other consultations or services you schedule. Booked times are removed
+              automatically for other visitors.
             </p>
             <div className="space-y-6">
               <PropertyShowingRequestForm listing={listing} kind={kind} />

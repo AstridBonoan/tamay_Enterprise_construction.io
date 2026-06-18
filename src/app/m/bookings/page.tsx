@@ -10,22 +10,19 @@ import {
 } from "@/components/account/AccountHub";
 import { useRequireAuth } from "@/components/auth/useRequireAuth";
 import {
+  bookingCategoryLabel,
   bookingStatusLabel,
-  fetchPropertyBookings,
+  fetchBookings,
   formatBookingWhen,
   isUpcomingBooking,
   sortBookingsUpcomingFirst,
-  type PropertyBooking,
+  type Booking,
 } from "@/lib/booking-data";
 import { sitePath } from "@/lib/paths";
 
-function kindLabel(kind: PropertyBooking["listing_kind"]): string {
-  return kind === "sale" ? "For Sale" : "For Rent";
-}
-
 export default function BookingsPage() {
   const { user, loading } = useRequireAuth("/m/bookings");
-  const [bookings, setBookings] = useState<PropertyBooking[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
   const [loadingBookings, setLoadingBookings] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,7 +30,7 @@ export default function BookingsPage() {
     if (!user) return;
     setLoadingBookings(true);
     try {
-      setBookings(sortBookingsUpcomingFirst(await fetchPropertyBookings(user.id)));
+      setBookings(sortBookingsUpcomingFirst(await fetchBookings(user.id)));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not load bookings.");
     } finally {
@@ -53,7 +50,7 @@ export default function BookingsPage() {
   return (
     <AccountPageShell
       title="Your Bookings"
-      description="Property viewings and showings you scheduled on Tamay Enterprises."
+      description="Consultations, service appointments, and property viewings you scheduled with Tamay Enterprises."
     >
       <div className="space-y-4">
         {error && (
@@ -71,10 +68,10 @@ export default function BookingsPage() {
         ) : bookings.length === 0 ? (
           <AccountEmptyState
             title="No bookings yet"
-            description="When you schedule a property viewing while signed in, it will appear here."
+            description="When you schedule a consultation, service appointment, or property viewing while signed in, it will appear here."
             action={
-              <Link href={sitePath("/real-estate#houses-for-rent")} className={accountButtonSecondaryClass}>
-                Browse rentals
+              <Link href={sitePath("/#contact")} className={accountButtonSecondaryClass}>
+                Explore our services
               </Link>
             }
           />
@@ -108,14 +105,16 @@ export default function BookingsPage() {
   );
 }
 
-function BookingCard({ booking }: { booking: PropertyBooking }) {
+function BookingCard({ booking }: { booking: Booking }) {
   return (
     <AccountPanel>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-tamay-accent">{kindLabel(booking.listing_kind)}</p>
-          <h3 className="font-heading text-lg text-tamay-primary font-semibold mt-1">{booking.listing_title}</h3>
-          <p className="text-sm text-gray-600 mt-1">{booking.listing_address}</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-tamay-accent">
+            {bookingCategoryLabel(booking)}
+          </p>
+          <h3 className="font-heading text-lg text-tamay-primary font-semibold mt-1">{booking.title}</h3>
+          {booking.subtitle && <p className="text-sm text-gray-600 mt-1">{booking.subtitle}</p>}
         </div>
         <div className="text-right">
           <p className="text-sm text-gray-500">Status</p>

@@ -13,7 +13,7 @@ export function ScheduleSignInPrompt({ schedulePath, actionLabel }: ScheduleSign
     <div className="rounded-sm border border-tamay-primary/20 bg-tamay-primary/5 px-5 py-6 text-center">
       <p className="font-heading text-lg font-semibold text-tamay-primary">Sign in to {actionLabel.toLowerCase()}</p>
       <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-        Create a free account or sign in so your viewing is saved to your Bookings dashboard.
+        Create a free account or sign in so your appointment is saved to your Bookings dashboard.
       </p>
       <div className="mt-4 flex flex-col sm:flex-row gap-3 justify-center">
         <Link
