@@ -1,5 +1,17 @@
 const basePath = () => (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
 
+function ensureTrailingSlash(pathPart: string): string {
+  const queryIndex = pathPart.indexOf("?");
+  if (queryIndex >= 0) {
+    return `${ensureTrailingSlash(pathPart.slice(0, queryIndex))}${pathPart.slice(queryIndex)}`;
+  }
+
+  if (pathPart === "" || pathPart === "/") return pathPart || "/";
+  if (/\.[a-zA-Z0-9]+$/.test(pathPart)) return pathPart;
+  if (pathPart.endsWith("/")) return pathPart;
+  return `${pathPart}/`;
+}
+
 /** Prefix internal routes for GitHub Pages subpath deployment. */
 export function sitePath(path: string): string {
   if (
@@ -12,12 +24,20 @@ export function sitePath(path: string): string {
     return path;
   }
 
+  const hashIndex = path.indexOf("#");
+  const pathWithoutHash = hashIndex >= 0 ? path.slice(0, hashIndex) : path;
+  const hash = hashIndex >= 0 ? path.slice(hashIndex) : "";
+
   const base = basePath();
-  const normalized = path.startsWith("/") ? path : `/${path}`;
+  const normalized = pathWithoutHash.startsWith("/") ? pathWithoutHash : `/${pathWithoutHash}`;
+  let result: string;
   if (base && (normalized === base || normalized.startsWith(`${base}/`))) {
-    return normalized;
+    result = normalized;
+  } else {
+    result = `${base}${normalized}`;
   }
-  return `${base}${normalized}`;
+
+  return `${ensureTrailingSlash(result)}${hash}`;
 }
 
 /** True when the current route is the homepage (works with GitHub Pages basePath). */

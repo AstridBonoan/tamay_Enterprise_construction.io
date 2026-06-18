@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { OnlineAppointmentService } from "@/lib/onlineAppointments";
 import { appointmentSchedulePath } from "@/lib/onlineAppointments";
 import { sitePath } from "@/lib/paths";
@@ -9,6 +8,8 @@ type AppointmentServiceRowProps = {
 };
 
 export function AppointmentServiceRow({ service }: AppointmentServiceRowProps) {
+  const scheduleHref = sitePath(`${appointmentSchedulePath(service.id)}#book`);
+
   return (
     <article className="flex flex-col md:flex-row gap-6 md:gap-8 py-10 border-b border-gray-200 last:border-b-0">
       <figure className="relative w-full md:w-52 lg:w-60 aspect-[3/2] shrink-0 bg-gray-100 overflow-hidden">
@@ -31,12 +32,12 @@ export function AppointmentServiceRow({ service }: AppointmentServiceRowProps) {
       </div>
 
       <div className="flex md:items-start shrink-0">
-        <Link
-          href={sitePath(`${appointmentSchedulePath(service.id)}#book`)}
+        <a
+          href={scheduleHref}
           className="inline-flex items-center justify-center rounded-full bg-tamay-primary hover:bg-tamay-primary-dark text-white font-bold text-sm tracking-widest px-8 py-3 transition-colors min-w-[120px]"
         >
           BOOK
-        </Link>
+        </a>
       </div>
     </article>
   );
