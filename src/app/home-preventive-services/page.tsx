@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { ContactBlock } from "@/components/ui/ContactBlock";
 import { Button } from "@/components/ui/Button";
+import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
 import { IMAGES } from "@/lib/images";
 
 export const metadata: Metadata = {
@@ -343,6 +344,8 @@ export default function HomePreventiveServicesPage() {
           Join the Home Preventive Services Program today.
         </p>
       </section>
+
+      <ServiceAppointmentSection serviceId="prevention-services" />
 
       <section id="contact" className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">

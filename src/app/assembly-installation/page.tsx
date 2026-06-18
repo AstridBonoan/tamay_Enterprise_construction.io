@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { ContactBlock } from "@/components/ui/ContactBlock";
 import { Button } from "@/components/ui/Button";
+import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
 import { ASSEMBLY_HERO_BANNER } from "@/lib/assemblyImages";
 import {
   ASSEMBLY_CABINET_FEATURE,
@@ -207,6 +208,8 @@ export default function AssemblyInstallationPage() {
           </ul>
         </div>
       </section>
+
+      <ServiceAppointmentSection serviceId="assembly-installation" />
 
       <section id="contact" className="py-16 px-4 border-t border-gray-200">
         <div className="max-w-6xl mx-auto">

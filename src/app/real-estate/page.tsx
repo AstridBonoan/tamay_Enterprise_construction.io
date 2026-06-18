@@ -7,6 +7,7 @@ import { ContactBlock } from "@/components/ui/ContactBlock";
 import { Button } from "@/components/ui/Button";
 import { PropertyListingsSection } from "@/components/real-estate/PropertyListingsSection";
 import { SellingHelpBanner } from "@/components/real-estate/SellingHelpBanner";
+import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
 import { IMAGES } from "@/lib/images";
 import { RENT_LISTINGS, SALE_LISTINGS } from "@/lib/realEstateListings";
 
@@ -185,6 +186,8 @@ export default function RealEstatePage() {
           </Button>
         </div>
       </section>
+
+      <ServiceAppointmentSection serviceId="real-estate" />
 
       <section id="contact" className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12">

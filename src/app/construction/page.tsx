@@ -13,6 +13,7 @@ import {
   CONSTRUCTION_PROJECT_VIDEOS,
 } from "@/lib/constructionVideos";
 import { ConstructionEstimateBanner } from "@/components/construction/ConstructionEstimateBanner";
+import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -241,6 +242,8 @@ export default function ConstructionPage() {
           the greater West Haven and New Haven County area.
         </p>
       </section>
+
+      <ServiceAppointmentSection serviceId="construction" />
 
       <section id="contact" className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12">
