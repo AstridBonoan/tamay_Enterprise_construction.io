@@ -1,8 +1,14 @@
 import { assetUrl } from "./assetUrl";
 
 export type PropertyScheduleSlot = {
+  /** Display date, e.g. "Saturday, June 14, 2026" */
   date: string;
+  /** Display time range, e.g. "11:00 AM – 1:00 PM" */
   time: string;
+  /** Local start datetime for calendar integration (America/New_York), e.g. "2026-06-14T11:00:00" */
+  start: string;
+  /** Local end datetime for calendar integration, e.g. "2026-06-14T13:00:00" */
+  end: string;
 };
 
 export type PropertyListing = {
@@ -44,8 +50,18 @@ export const SALE_LISTINGS: PropertyListing[] = [
       "Move-in-ready colonial with renovated kitchen, hardwood floors, and a fenced backyard. Minutes from the shore, schools, and I-95. Ideal for buyers who want room to grow with optional renovation upside for a finished basement or expanded deck. Tamay agents can walk you through comparable sales, inspection considerations, and construction options after purchase.",
     scheduleLabel: "Open House",
     scheduleSlots: [
-      { date: "Saturday, June 14, 2026", time: "11:00 AM – 1:00 PM" },
-      { date: "Sunday, June 15, 2026", time: "1:00 PM – 3:00 PM" },
+      {
+        date: "Saturday, June 14, 2026",
+        time: "11:00 AM – 1:00 PM",
+        start: "2026-06-14T11:00:00",
+        end: "2026-06-14T13:00:00",
+      },
+      {
+        date: "Sunday, June 15, 2026",
+        time: "1:00 PM – 3:00 PM",
+        start: "2026-06-15T13:00:00",
+        end: "2026-06-15T15:00:00",
+      },
     ],
     scheduleCtaLabel: "Request a private showing",
   },
@@ -63,8 +79,18 @@ export const SALE_LISTINGS: PropertyListing[] = [
       "Well-maintained cape with an open first floor, primary suite, and finished lower level. Updated mechanicals, two-car garage, and a level backyard with patio space. Close to downtown Milford, beaches, and commuter routes. Tamay agents can discuss renovation options such as a kitchen refresh or expanded outdoor living before or after closing.",
     scheduleLabel: "Open House",
     scheduleSlots: [
-      { date: "Saturday, June 21, 2026", time: "11:00 AM – 1:00 PM" },
-      { date: "Sunday, June 22, 2026", time: "1:00 PM – 3:00 PM" },
+      {
+        date: "Saturday, June 21, 2026",
+        time: "11:00 AM – 1:00 PM",
+        start: "2026-06-21T11:00:00",
+        end: "2026-06-21T13:00:00",
+      },
+      {
+        date: "Sunday, June 22, 2026",
+        time: "1:00 PM – 3:00 PM",
+        start: "2026-06-22T13:00:00",
+        end: "2026-06-22T15:00:00",
+      },
     ],
     scheduleCtaLabel: "Request a private showing",
   },
@@ -85,9 +111,24 @@ export const RENT_LISTINGS: PropertyListing[] = [
       "Sun-filled corner unit with in-unit laundry, updated bath, and assigned parking. Quiet building near shops, dining, and bus routes to New Haven. Heat and hot water included; tenant pays electric and internet. Application and credit check required. Our team coordinates viewings and move-in timelines with property owners.",
     scheduleLabel: "Apartment Viewings",
     scheduleSlots: [
-      { date: "Wednesday, June 11, 2026", time: "5:30 PM – 6:30 PM" },
-      { date: "Saturday, June 14, 2026", time: "10:00 AM – 11:30 AM" },
-      { date: "Tuesday, June 17, 2026", time: "6:00 PM – 7:00 PM" },
+      {
+        date: "Wednesday, June 11, 2026",
+        time: "5:30 PM – 6:30 PM",
+        start: "2026-06-11T17:30:00",
+        end: "2026-06-11T18:30:00",
+      },
+      {
+        date: "Saturday, June 14, 2026",
+        time: "10:00 AM – 11:30 AM",
+        start: "2026-06-14T10:00:00",
+        end: "2026-06-14T11:30:00",
+      },
+      {
+        date: "Tuesday, June 17, 2026",
+        time: "6:00 PM – 7:00 PM",
+        start: "2026-06-17T18:00:00",
+        end: "2026-06-17T19:00:00",
+      },
     ],
     scheduleCtaLabel: "Schedule a viewing",
   },
@@ -105,9 +146,24 @@ export const RENT_LISTINGS: PropertyListing[] = [
       "Updated single-family rental with renovated kitchen, hardwood floors, and a private backyard. Off-street parking, washer/dryer hookups, and convenient access to downtown New Haven, Yale, and major highways. Tenant pays utilities; one-year lease preferred. Our team handles showings, applications, and move-in coordination with the property owner.",
     scheduleLabel: "Home Viewings",
     scheduleSlots: [
-      { date: "Thursday, June 19, 2026", time: "5:30 PM – 6:30 PM" },
-      { date: "Saturday, June 21, 2026", time: "10:00 AM – 11:30 AM" },
-      { date: "Wednesday, June 25, 2026", time: "6:00 PM – 7:00 PM" },
+      {
+        date: "Thursday, June 19, 2026",
+        time: "5:30 PM – 6:30 PM",
+        start: "2026-06-19T17:30:00",
+        end: "2026-06-19T18:30:00",
+      },
+      {
+        date: "Saturday, June 21, 2026",
+        time: "10:00 AM – 11:30 AM",
+        start: "2026-06-21T10:00:00",
+        end: "2026-06-21T11:30:00",
+      },
+      {
+        date: "Wednesday, June 25, 2026",
+        time: "6:00 PM – 7:00 PM",
+        start: "2026-06-25T18:00:00",
+        end: "2026-06-25T19:00:00",
+      },
     ],
     scheduleCtaLabel: "Schedule a viewing",
   },

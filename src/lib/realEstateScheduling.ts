@@ -1,14 +1,10 @@
 import { RENT_LISTINGS, SALE_LISTINGS, type PropertyListing } from "./realEstateListings";
+import { isGoogleAppointmentScheduleConfigured, SCHEDULING } from "./schedulingConfig";
 
 export type ListingKind = "sale" | "rent";
 
-/**
- * Google Calendar Appointment Schedule embed URL.
- * Create one in Google Calendar → Create → Appointment schedule → Share → Website embed.
- * Example: https://calendar.google.com/calendar/appointments/schedules/AcZssZ...?gv=true
- */
-export const GOOGLE_CALENDAR_SCHEDULING_URL =
-  process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_SCHEDULING_URL ?? "";
+/** @deprecated Use SCHEDULING.googleAppointmentEmbedUrl from schedulingConfig. */
+export const GOOGLE_CALENDAR_SCHEDULING_URL = SCHEDULING.googleAppointmentEmbedUrl;
 
 export function getAllListingIds(): string[] {
   return [...SALE_LISTINGS, ...RENT_LISTINGS].map((listing) => listing.id);
@@ -31,8 +27,13 @@ export function schedulePagePath(listingId: string): string {
 }
 
 export function getSchedulingEmbedUrl(listing: PropertyListing): string | null {
-  const url = listing.schedulingUrl?.trim() || GOOGLE_CALENDAR_SCHEDULING_URL.trim();
+  const url = listing.schedulingUrl?.trim() || SCHEDULING.googleAppointmentEmbedUrl.trim();
   return url || null;
+}
+
+export function isAppointmentScheduleEnabled(listing?: PropertyListing): boolean {
+  if (listing?.schedulingUrl?.trim()) return true;
+  return isGoogleAppointmentScheduleConfigured();
 }
 
 /** Public booking page URL (opens Google Calendar appointment flow in a new tab). */

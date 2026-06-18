@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { FORMSPREE_CONTACT } from "@/lib/formspree";
 
 type Field = {
@@ -19,6 +19,9 @@ type ContactFormProps = {
   submitLabel?: string;
   showRecaptchaNote?: boolean;
   defaultValues?: Record<string, string>;
+  /** Extra content shown below the thank-you message after a successful submit. */
+  successExtra?: ReactNode;
+  successMessage?: string;
 };
 
 export function ContactForm({
@@ -27,6 +30,8 @@ export function ContactForm({
   submitLabel = "Send",
   showRecaptchaNote = true,
   defaultValues,
+  successExtra,
+  successMessage = "Your message was sent successfully. Our team will get back to you soon.",
 }: ContactFormProps) {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -74,9 +79,8 @@ export function ContactForm({
     return (
       <div className="max-w-md rounded-sm border border-green-200 bg-green-50 px-5 py-6 text-center">
         <p className="font-heading text-lg font-semibold text-tamay-primary">Thank you!</p>
-        <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-          Your message was sent successfully. Our team will get back to you soon.
-        </p>
+        <p className="mt-2 text-sm text-gray-600 leading-relaxed">{successMessage}</p>
+        {successExtra && <div className="mt-6">{successExtra}</div>}
         <button
           type="button"
           onClick={() => setSubmitted(false)}

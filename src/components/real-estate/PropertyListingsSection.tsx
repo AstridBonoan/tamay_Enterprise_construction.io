@@ -67,7 +67,7 @@ function PropertyListingCard({
           </h4>
           <ul className="space-y-3">
             {listing.scheduleSlots.map((slot) => (
-              <li key={`${slot.date}-${slot.time}`}>
+              <li key={slot.start}>
                 <a
                   href={sitePath(`${schedulePagePath(listing.id)}#book`)}
                   className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 py-3 px-4 bg-gray-50 border border-gray-100 hover:border-tamay-primary hover:bg-tamay-primary/5 transition-colors"

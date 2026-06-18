@@ -44,7 +44,7 @@ export default async function PropertySchedulePage({ params }: SchedulePageProps
             ← Back to {kind === "sale" ? "Houses For Sale" : "Houses For Rent"}
           </Link>
         </p>
-        <PropertyScheduleCalendar listing={listing} kindLabel={kindLabel} />
+        <PropertyScheduleCalendar listing={listing} kind={kind} kindLabel={kindLabel} />
       </div>
     </section>
   );
