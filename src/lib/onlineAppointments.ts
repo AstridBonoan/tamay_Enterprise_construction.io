@@ -1,5 +1,6 @@
 import { ASSEMBLY_SERVICE_IMAGES } from "./assemblyImages";
 import { IMAGES } from "./images";
+import { sitePath } from "./paths";
 
 export type AppointmentSlot = {
   date: string;
@@ -22,38 +23,11 @@ export type OnlineAppointmentService = {
   scheduleSlots: readonly AppointmentSlot[];
 };
 
-const CONSULTATION_SLOTS: readonly AppointmentSlot[] = [
-  {
-    date: "Monday, June 23, 2026",
-    time: "10:00 AM – 11:00 AM",
-    start: "2026-06-23T10:00:00",
-    end: "2026-06-23T11:00:00",
-  },
-  {
-    date: "Tuesday, June 24, 2026",
-    time: "2:00 PM – 3:00 PM",
-    start: "2026-06-24T14:00:00",
-    end: "2026-06-24T15:00:00",
-  },
-  {
-    date: "Wednesday, June 25, 2026",
-    time: "11:00 AM – 12:00 PM",
-    start: "2026-06-25T11:00:00",
-    end: "2026-06-25T12:00:00",
-  },
-  {
-    date: "Thursday, June 26, 2026",
-    time: "3:00 PM – 4:00 PM",
-    start: "2026-06-26T15:00:00",
-    end: "2026-06-26T16:00:00",
-  },
-  {
-    date: "Friday, June 27, 2026",
-    time: "9:00 AM – 10:00 AM",
-    start: "2026-06-27T09:00:00",
-    end: "2026-06-27T10:00:00",
-  },
-];
+function slots(
+  entries: readonly { date: string; time: string; start: string; end: string }[],
+): readonly AppointmentSlot[] {
+  return entries;
+}
 
 export const ONLINE_APPOINTMENT_SERVICES: readonly OnlineAppointmentService[] = [
   {
@@ -67,7 +41,26 @@ export const ONLINE_APPOINTMENT_SERVICES: readonly OnlineAppointmentService[] = 
     imageAlt: "Construction professional reviewing blueprints at a job site",
     scheduleLabel: "Available consultation times",
     scheduleCtaLabel: "Book a construction consultation",
-    scheduleSlots: CONSULTATION_SLOTS,
+    scheduleSlots: slots([
+      {
+        date: "Monday, June 23, 2026",
+        time: "10:00 AM – 11:00 AM",
+        start: "2026-06-23T10:00:00",
+        end: "2026-06-23T11:00:00",
+      },
+      {
+        date: "Tuesday, June 24, 2026",
+        time: "2:00 PM – 3:00 PM",
+        start: "2026-06-24T14:00:00",
+        end: "2026-06-24T15:00:00",
+      },
+      {
+        date: "Wednesday, June 25, 2026",
+        time: "11:00 AM – 12:00 PM",
+        start: "2026-06-25T11:00:00",
+        end: "2026-06-25T12:00:00",
+      },
+    ]),
   },
   {
     id: "real-estate",
@@ -80,7 +73,26 @@ export const ONLINE_APPOINTMENT_SERVICES: readonly OnlineAppointmentService[] = 
     imageAlt: "Happy couple holding house keys after a real estate closing",
     scheduleLabel: "Available consultation times",
     scheduleCtaLabel: "Book a real estate consultation",
-    scheduleSlots: CONSULTATION_SLOTS,
+    scheduleSlots: slots([
+      {
+        date: "Monday, June 23, 2026",
+        time: "1:00 PM – 2:00 PM",
+        start: "2026-06-23T13:00:00",
+        end: "2026-06-23T14:00:00",
+      },
+      {
+        date: "Tuesday, June 24, 2026",
+        time: "10:00 AM – 11:00 AM",
+        start: "2026-06-24T10:00:00",
+        end: "2026-06-24T11:00:00",
+      },
+      {
+        date: "Thursday, June 26, 2026",
+        time: "3:00 PM – 4:00 PM",
+        start: "2026-06-26T15:00:00",
+        end: "2026-06-26T16:00:00",
+      },
+    ]),
   },
   {
     id: "logistics",
@@ -93,7 +105,26 @@ export const ONLINE_APPOINTMENT_SERVICES: readonly OnlineAppointmentService[] = 
     imageAlt: "Tamay Enterprises delivery fleet at a warehouse loading dock",
     scheduleLabel: "Available consultation times",
     scheduleCtaLabel: "Book a logistics consultation",
-    scheduleSlots: CONSULTATION_SLOTS,
+    scheduleSlots: slots([
+      {
+        date: "Tuesday, June 24, 2026",
+        time: "11:00 AM – 12:00 PM",
+        start: "2026-06-24T11:00:00",
+        end: "2026-06-24T12:00:00",
+      },
+      {
+        date: "Wednesday, June 25, 2026",
+        time: "2:00 PM – 3:00 PM",
+        start: "2026-06-25T14:00:00",
+        end: "2026-06-25T15:00:00",
+      },
+      {
+        date: "Friday, June 27, 2026",
+        time: "9:00 AM – 10:00 AM",
+        start: "2026-06-27T09:00:00",
+        end: "2026-06-27T10:00:00",
+      },
+    ]),
   },
   {
     id: "prevention-services",
@@ -106,7 +137,26 @@ export const ONLINE_APPOINTMENT_SERVICES: readonly OnlineAppointmentService[] = 
     imageAlt: "Tamay team member consulting with a homeowner about preventive services",
     scheduleLabel: "Available consultation times",
     scheduleCtaLabel: "Book a prevention services consultation",
-    scheduleSlots: CONSULTATION_SLOTS,
+    scheduleSlots: slots([
+      {
+        date: "Monday, June 23, 2026",
+        time: "3:00 PM – 4:00 PM",
+        start: "2026-06-23T15:00:00",
+        end: "2026-06-23T16:00:00",
+      },
+      {
+        date: "Wednesday, June 25, 2026",
+        time: "10:00 AM – 11:00 AM",
+        start: "2026-06-25T10:00:00",
+        end: "2026-06-25T11:00:00",
+      },
+      {
+        date: "Friday, June 27, 2026",
+        time: "1:00 PM – 2:00 PM",
+        start: "2026-06-27T13:00:00",
+        end: "2026-06-27T14:00:00",
+      },
+    ]),
   },
   {
     id: "assembly-installation",
@@ -119,7 +169,26 @@ export const ONLINE_APPOINTMENT_SERVICES: readonly OnlineAppointmentService[] = 
     imageAlt: "Professional assembling furniture for a client",
     scheduleLabel: "Available consultation times",
     scheduleCtaLabel: "Book an assembly consultation",
-    scheduleSlots: CONSULTATION_SLOTS,
+    scheduleSlots: slots([
+      {
+        date: "Tuesday, June 24, 2026",
+        time: "3:00 PM – 4:00 PM",
+        start: "2026-06-24T15:00:00",
+        end: "2026-06-24T16:00:00",
+      },
+      {
+        date: "Thursday, June 26, 2026",
+        time: "10:00 AM – 11:00 AM",
+        start: "2026-06-26T10:00:00",
+        end: "2026-06-26T11:00:00",
+      },
+      {
+        date: "Friday, June 27, 2026",
+        time: "11:00 AM – 12:00 PM",
+        start: "2026-06-27T11:00:00",
+        end: "2026-06-27T12:00:00",
+      },
+    ]),
   },
 ];
 
@@ -135,4 +204,9 @@ export function getAppointmentServiceById(
 
 export function appointmentSchedulePath(serviceId: string): string {
   return `/online-appointments/schedule/${serviceId}`;
+}
+
+/** Full href for schedule page (GitHub Pages–safe trailing slash + #book). */
+export function appointmentScheduleHref(serviceId: string): string {
+  return sitePath(`${appointmentSchedulePath(serviceId)}#book`);
 }

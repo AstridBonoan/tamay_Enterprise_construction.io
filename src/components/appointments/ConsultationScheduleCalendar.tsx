@@ -1,13 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ServiceAppointmentForm } from "@/components/appointments/ServiceAppointmentForm";
 import { Button } from "@/components/ui/Button";
 import {
-  appointmentSchedulePath,
+  appointmentScheduleHref,
   ONLINE_APPOINTMENT_SERVICES,
   getAppointmentServiceById,
   type OnlineAppointmentService,
@@ -22,16 +20,13 @@ type ConsultationScheduleCalendarProps = {
 function ServicePickerOption({
   service,
   selected,
-  onSelect,
 }: {
   service: OnlineAppointmentService;
   selected: boolean;
-  onSelect: () => void;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onSelect}
+    <a
+      href={appointmentScheduleHref(service.id)}
       className={`w-full text-left flex gap-4 p-4 border transition-colors ${
         selected
           ? "border-tamay-primary bg-tamay-primary/5 ring-1 ring-tamay-primary/30"
@@ -60,12 +55,11 @@ function ServicePickerOption({
           Selected
         </span>
       )}
-    </button>
+    </a>
   );
 }
 
 export function ConsultationScheduleCalendar({ initialServiceId }: ConsultationScheduleCalendarProps) {
-  const router = useRouter();
   const [selectedServiceId, setSelectedServiceId] = useState(initialServiceId);
 
   useEffect(() => {
@@ -74,11 +68,6 @@ export function ConsultationScheduleCalendar({ initialServiceId }: ConsultationS
 
   const service =
     getAppointmentServiceById(selectedServiceId) ?? ONLINE_APPOINTMENT_SERVICES[0];
-
-  const selectService = (serviceId: string) => {
-    setSelectedServiceId(serviceId);
-    router.replace(sitePath(`${appointmentSchedulePath(serviceId)}#book`), { scroll: false });
-  };
 
   return (
     <div className="space-y-8">
@@ -116,7 +105,6 @@ export function ConsultationScheduleCalendar({ initialServiceId }: ConsultationS
               key={item.id}
               service={item}
               selected={item.id === selectedServiceId}
-              onSelect={() => selectService(item.id)}
             />
           ))}
         </div>
@@ -129,12 +117,14 @@ export function ConsultationScheduleCalendar({ initialServiceId }: ConsultationS
           </h2>
           <ul className="space-y-3">
             {service.scheduleSlots.map((slot) => (
-              <li
-                key={slot.start}
-                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 py-3 px-4 bg-gray-50 border border-gray-100"
-              >
-                <span className="font-medium text-gray-800">{slot.date}</span>
-                <span className="text-gray-600 text-sm sm:text-base">{slot.time}</span>
+              <li key={slot.start}>
+                <a
+                  href={appointmentScheduleHref(service.id)}
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 py-3 px-4 bg-gray-50 border border-gray-100 hover:border-tamay-primary hover:bg-tamay-primary/5 transition-colors"
+                >
+                  <span className="font-medium text-gray-800">{slot.date}</span>
+                  <span className="text-gray-600 text-sm sm:text-base">{slot.time}</span>
+                </a>
               </li>
             ))}
           </ul>
@@ -172,12 +162,12 @@ export function ConsultationScheduleCalendar({ initialServiceId }: ConsultationS
       </div>
 
       <p className="text-center">
-        <Link
+        <a
           href={sitePath("/online-appointments")}
           className="text-tamay-primary font-semibold hover:underline text-sm"
         >
           ← Back to Online Appointments
-        </Link>
+        </a>
       </p>
     </div>
   );

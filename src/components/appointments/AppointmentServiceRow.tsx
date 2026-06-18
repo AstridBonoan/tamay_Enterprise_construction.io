@@ -1,14 +1,13 @@
 import Image from "next/image";
 import type { OnlineAppointmentService } from "@/lib/onlineAppointments";
-import { appointmentSchedulePath } from "@/lib/onlineAppointments";
-import { sitePath } from "@/lib/paths";
+import { appointmentScheduleHref } from "@/lib/onlineAppointments";
 
 type AppointmentServiceRowProps = {
   service: OnlineAppointmentService;
 };
 
 export function AppointmentServiceRow({ service }: AppointmentServiceRowProps) {
-  const scheduleHref = sitePath(`${appointmentSchedulePath(service.id)}#book`);
+  const scheduleHref = appointmentScheduleHref(service.id);
 
   return (
     <article className="flex flex-col md:flex-row gap-6 md:gap-8 py-10 border-b border-gray-200 last:border-b-0">
@@ -29,6 +28,27 @@ export function AppointmentServiceRow({ service }: AppointmentServiceRowProps) {
           {service.durationLabel} | {service.priceLabel}
         </p>
         <p className="text-gray-600 mt-3 text-sm md:text-base leading-relaxed">{service.description}</p>
+
+        {service.scheduleSlots.length > 0 && (
+          <div className="mt-5 border-t border-gray-100 pt-5">
+            <h3 className="text-sm font-semibold tracking-widest uppercase text-tamay-primary mb-3">
+              {service.scheduleLabel}
+            </h3>
+            <ul className="space-y-3">
+              {service.scheduleSlots.map((slot) => (
+                <li key={slot.start}>
+                  <a
+                    href={scheduleHref}
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 py-3 px-4 bg-gray-50 border border-gray-100 hover:border-tamay-primary hover:bg-tamay-primary/5 transition-colors"
+                  >
+                    <span className="font-medium text-gray-800">{slot.date}</span>
+                    <span className="text-gray-600 text-sm sm:text-base">{slot.time}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className="flex md:items-start shrink-0">

@@ -18,7 +18,7 @@ import {
   icsFilenameForAppointment,
 } from "@/lib/googleCalendar";
 import type { OnlineAppointmentService } from "@/lib/onlineAppointments";
-import { appointmentSchedulePath } from "@/lib/onlineAppointments";
+import { appointmentScheduleHref, appointmentSchedulePath } from "@/lib/onlineAppointments";
 import { sitePath } from "@/lib/paths";
 import { SCHEDULING } from "@/lib/schedulingConfig";
 import { SITE } from "@/lib/site";
@@ -34,7 +34,7 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
   const [loadingSlots, setLoadingSlots] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const schedulePath = appointmentSchedulePath(service.id);
+  const schedulePath = sitePath(`${appointmentSchedulePath(service.id)}#book`);
 
   const availableSlots = useMemo(
     () => service.scheduleSlots.filter((slot) => !bookedStarts.includes(slot.start)),
@@ -72,7 +72,7 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
 
   if (!user) {
     return (
-      <ScheduleSignInPrompt schedulePath={sitePath(schedulePath)} actionLabel={service.scheduleCtaLabel} />
+      <ScheduleSignInPrompt schedulePath={schedulePath} actionLabel={service.scheduleCtaLabel} />
     );
   }
 
