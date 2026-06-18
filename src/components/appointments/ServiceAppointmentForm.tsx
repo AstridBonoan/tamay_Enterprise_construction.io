@@ -174,7 +174,7 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
           phone: user.phone ?? "",
         }}
         fields={[
-          { name: "service", label: "Service", type: "hidden" },
+          { name: "service", label: "Consultation service", type: "hidden" },
           { name: "service_category", label: "Service category", type: "hidden" },
           { name: "preferred_time", label: "Preferred time", type: "hidden" },
           { name: "appointment_start", label: "Appointment start (ISO)", type: "hidden" },

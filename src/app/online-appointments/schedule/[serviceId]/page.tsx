@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ServiceAppointmentCalendar } from "@/components/appointments/ServiceAppointmentCalendar";
+import { ConsultationScheduleCalendar } from "@/components/appointments/ConsultationScheduleCalendar";
 import {
   getAllAppointmentServiceIds,
   getAppointmentServiceById,
@@ -40,7 +40,7 @@ export default async function AppointmentSchedulePage({ params }: AppointmentSch
             ← Back to Online Appointments
           </Link>
         </p>
-        <ServiceAppointmentCalendar service={service} />
+        <ConsultationScheduleCalendar initialServiceId={serviceId} />
       </div>
     </section>
   );
