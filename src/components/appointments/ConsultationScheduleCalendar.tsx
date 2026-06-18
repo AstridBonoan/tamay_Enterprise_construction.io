@@ -120,30 +120,6 @@ export function ConsultationScheduleCalendar({ initialServiceId }: ConsultationS
         </div>
       </div>
 
-      {service.scheduleSlots.length > 0 && (
-        <div className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
-          <h2 className="font-heading text-lg text-tamay-primary font-semibold mb-4">
-            {service.scheduleLabel}
-          </h2>
-          <ul className="space-y-3">
-            {service.scheduleSlots.map((slot) => (
-              <li key={slot.start}>
-                <a
-                  href="#book"
-                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 py-3 px-4 bg-gray-50 border border-gray-100 hover:border-tamay-primary hover:bg-tamay-primary/5 transition-colors"
-                >
-                  <span className="font-medium text-gray-800">{slot.date}</span>
-                  <span className="text-gray-600 text-sm sm:text-base">{slot.time}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-          <p className="text-sm text-gray-500 mt-4">
-            Select a time below — your date and time will pre-fill a Google Calendar event when you book.
-          </p>
-        </div>
-      )}
-
       <div id="book" className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8 scroll-mt-24">
         <h2 className="font-heading text-lg text-tamay-primary font-semibold mb-2">
           Choose an available time
