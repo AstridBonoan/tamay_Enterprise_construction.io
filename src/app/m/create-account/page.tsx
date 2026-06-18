@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { EmailConfirmationHelp } from "@/components/auth/EmailConfirmationHelp";
+import { formatAuthError, requestAccountActivation } from "@/lib/accountActivation";
 import { resendSignUpConfirmation, signUpWithEmail } from "@/lib/auth";
 
 export default function CreateAccountPage() {
@@ -16,6 +18,8 @@ export default function CreateAccountPage() {
   const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
+  const [activationLoading, setActivationLoading] = useState(false);
+  const [activationSent, setActivationSent] = useState(false);
   const [awaitingConfirmation, setAwaitingConfirmation] = useState(false);
 
   const onSubmit = async (e: FormEvent) => {
@@ -36,6 +40,7 @@ export default function CreateAccountPage() {
     setError(null);
     setInfo(null);
     setAwaitingConfirmation(false);
+    setActivationSent(false);
 
     try {
       const result = await signUpWithEmail({
@@ -53,14 +58,24 @@ export default function CreateAccountPage() {
       if (result.status === "needs_confirmation") {
         setAwaitingConfirmation(true);
         setInfo(
-          "Account created. We sent a confirmation email — check your inbox and spam folder. It may take a few minutes. If nothing arrives, use Resend below.",
+          "Account created. If the confirmation email does not arrive within a few minutes, use Request manual activation below.",
         );
+        void requestAccountActivation({
+          email: email.trim(),
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          source: "signup",
+        })
+          .then(() => setActivationSent(true))
+          .catch(() => {
+            /* Formspree optional; user can click the button manually */
+          });
         return;
       }
 
       router.push("/m/account");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not create account. Please try again.");
+      setError(formatAuthError(err));
     } finally {
       setLoading(false);
     }
@@ -77,12 +92,37 @@ export default function CreateAccountPage() {
 
     try {
       await resendSignUpConfirmation(email.trim());
-      setInfo("Confirmation email sent again. Check your inbox and spam folder.");
+      setInfo("Confirmation email sent again. Check inbox and spam.");
       setAwaitingConfirmation(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not resend confirmation email.");
+      setError(formatAuthError(err));
     } finally {
       setResendLoading(false);
+    }
+  };
+
+  const onRequestActivation = async () => {
+    if (!email.trim()) {
+      setError("Enter your email address first.");
+      return;
+    }
+
+    setActivationLoading(true);
+    setError(null);
+
+    try {
+      await requestAccountActivation({
+        email: email.trim(),
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        source: "signup",
+      });
+      setActivationSent(true);
+      setInfo("We notified our team to activate your account. You can sign in once we confirm it.");
+    } catch (err) {
+      setError(formatAuthError(err));
+    } finally {
+      setActivationLoading(false);
     }
   };
 
@@ -162,7 +202,18 @@ export default function CreateAccountPage() {
             </p>
           )}
 
-          <div className="text-center pt-2 space-y-3">
+          {awaitingConfirmation && (
+            <EmailConfirmationHelp
+              email={email}
+              onResend={onResendConfirmation}
+              resendLoading={resendLoading}
+              onRequestActivation={onRequestActivation}
+              activationLoading={activationLoading}
+              activationSent={activationSent}
+            />
+          )}
+
+          <div className="text-center pt-2">
             <button
               type="submit"
               disabled={loading}
@@ -170,19 +221,6 @@ export default function CreateAccountPage() {
             >
               {loading ? "CREATING..." : "CREATE ACCOUNT"}
             </button>
-
-            {awaitingConfirmation && (
-              <div>
-                <button
-                  type="button"
-                  onClick={onResendConfirmation}
-                  disabled={resendLoading || loading}
-                  className="text-white text-sm font-semibold hover:underline disabled:opacity-60"
-                >
-                  {resendLoading ? "Sending confirmation email…" : "Resend confirmation email"}
-                </button>
-              </div>
-            )}
           </div>
         </form>
 

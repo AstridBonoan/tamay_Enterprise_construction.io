@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
+import { EmailConfirmationHelp } from "@/components/auth/EmailConfirmationHelp";
+import { requestAccountActivation, formatAuthError } from "@/lib/accountActivation";
 import { isEmailNotConfirmedError, resendSignUpConfirmation, resetPassword, signInWithEmail } from "@/lib/auth";
 
 export default function LoginPage() {
@@ -15,6 +17,8 @@ export default function LoginPage() {
   const [resetMessage, setResetMessage] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [resendLoading, setResendLoading] = useState(false);
+  const [activationLoading, setActivationLoading] = useState(false);
+  const [activationSent, setActivationSent] = useState(false);
   const [needsConfirmation, setNeedsConfirmation] = useState(false);
 
   useEffect(() => {
@@ -35,6 +39,7 @@ export default function LoginPage() {
     setResetMessage(null);
     setInfo(null);
     setNeedsConfirmation(false);
+    setActivationSent(false);
 
     try {
       await signInWithEmail(email.trim(), password);
@@ -42,9 +47,9 @@ export default function LoginPage() {
     } catch (err) {
       if (isEmailNotConfirmedError(err)) {
         setNeedsConfirmation(true);
-        setError("Please confirm your email before signing in. Check your inbox and spam folder.");
+        setError("Your account exists but email confirmation is still pending.");
       } else {
-        setError(err instanceof Error ? err.message : "Sign in failed. Please try again.");
+        setError(formatAuthError(err));
       }
     } finally {
       setLoading(false);
@@ -66,7 +71,7 @@ export default function LoginPage() {
       await resetPassword(email.trim());
       setResetMessage("Password reset email sent. Check your inbox and spam folder.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not send reset email.");
+      setError(formatAuthError(err));
     } finally {
       setLoading(false);
     }
@@ -86,9 +91,32 @@ export default function LoginPage() {
       setInfo("Confirmation email sent. Check your inbox and spam folder.");
       setNeedsConfirmation(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not resend confirmation email.");
+      setError(formatAuthError(err));
     } finally {
       setResendLoading(false);
+    }
+  };
+
+  const onRequestActivation = async () => {
+    if (!email.trim()) {
+      setError("Enter your email address first.");
+      return;
+    }
+
+    setActivationLoading(true);
+    setError(null);
+
+    try {
+      await requestAccountActivation({
+        email: email.trim(),
+        source: "login",
+      });
+      setActivationSent(true);
+      setInfo("We notified our team to activate your account. You can sign in once we confirm it.");
+    } catch (err) {
+      setError(formatAuthError(err));
+    } finally {
+      setActivationLoading(false);
     }
   };
 
@@ -140,7 +168,18 @@ export default function LoginPage() {
             </p>
           )}
 
-          <div className="text-center pt-1.5 space-y-3">
+          {needsConfirmation && (
+            <EmailConfirmationHelp
+              email={email}
+              onResend={onResendConfirmation}
+              resendLoading={resendLoading}
+              onRequestActivation={onRequestActivation}
+              activationLoading={activationLoading}
+              activationSent={activationSent}
+            />
+          )}
+
+          <div className="text-center pt-1.5">
             <button
               type="submit"
               disabled={loading}
@@ -148,17 +187,6 @@ export default function LoginPage() {
             >
               {loading ? "SIGNING IN..." : "SIGN IN"}
             </button>
-
-            {needsConfirmation && (
-              <button
-                type="button"
-                onClick={onResendConfirmation}
-                disabled={resendLoading || loading}
-                className="block w-full text-white text-sm font-semibold hover:underline disabled:opacity-60"
-              >
-                {resendLoading ? "Sending confirmation email…" : "Resend confirmation email"}
-              </button>
-            )}
           </div>
         </form>
 

@@ -1,20 +1,47 @@
--- Supabase Auth email setup (Dashboard — not SQL to execute)
+-- Supabase Auth email setup (Dashboard — reference only)
 --
--- 1. Authentication → URL Configuration
---    Site URL:
---      https://astridbonoan.github.io/tamay_Enterprise_construction.io
---    Redirect URLs (add each):
---      https://astridbonoan.github.io/tamay_Enterprise_construction.io/m/auth/confirm/**
---      https://astridbonoan.github.io/tamay_Enterprise_construction.io/m/login/**
+-- =============================================================================
+-- FIX CARLOS (or any user) RIGHT NOW — manual confirm
+-- =============================================================================
+-- Option A (Dashboard):
+--   Authentication → Users → click ctamay323@gmail.com
+--   Open the ⋮ menu (top right of user panel) → "Confirm user"
 --
--- 2. Authentication → Email → enable Confirm email (if you require verification)
+-- Option B (SQL Editor — run once per email):
+--   update auth.users
+--   set
+--     email_confirmed_at = timezone('utc', now()),
+--     confirmed_at = timezone('utc', now())
+--   where email = 'ctamay323@gmail.com';
 --
--- 3. Project Settings → Auth → SMTP Settings (recommended for reliable delivery)
---    Supabase's built-in mailer is rate-limited and often lands in spam.
---    Use custom SMTP (e.g. Resend, SendGrid, Google Workspace) with your domain.
+-- After confirming, the user can sign in immediately with their password.
 --
--- 4. Authentication → Email Templates → Confirm signup
---    Ensure the link uses {{ .ConfirmationURL }} (default).
+-- =============================================================================
+-- STOP THIS FROM HAPPENING AGAIN (pick one or both)
+-- =============================================================================
 --
--- 5. After a failed signup, check Authentication → Logs for delivery errors.
---    Manually confirm a user: Authentication → Users → select user → Confirm user.
+-- 1. DISABLE email confirmation (simplest for a small business site):
+--    Authentication → Sign In / Providers → Email
+--    Turn OFF "Confirm email"
+--    New sign-ups can log in immediately. Existing unconfirmed users still
+--    need manual confirm once (steps above).
+--
+-- 2. CUSTOM SMTP (best for keeping confirmation ON):
+--    Project Settings → Authentication → SMTP Settings
+--    Supabase's built-in mailer is rate-limited and Gmail often blocks it.
+--    Use Resend, SendGrid, or Google Workspace with @tamayenterprises.com.
+--
+-- =============================================================================
+-- URL Configuration (required for confirmation links to work)
+-- =============================================================================
+-- Site URL:
+--   https://astridbonoan.github.io/tamay_Enterprise_construction.io
+-- Redirect URLs:
+--   https://astridbonoan.github.io/tamay_Enterprise_construction.io/m/auth/confirm/**
+--   https://astridbonoan.github.io/tamay_Enterprise_construction.io/m/login/**
+--
+-- =============================================================================
+-- Debugging
+-- =============================================================================
+-- Authentication → Logs — check signup / email events for errors
+-- Authentication → Email Templates → Confirm signup — uses {{ .ConfirmationURL }}
