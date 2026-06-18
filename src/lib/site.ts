@@ -27,8 +27,6 @@ export const SITE = {
   estimateUrl: "http://estimator.tamayenterprises.com",
   financingUrl: "https://your.acornfinance.com/apply?d=93753",
   hiringUrl: "/careers-partnerships",
-  /** Cart empty state + bookings */
-  headerCartUrl: "/#contact",
   social: {
     facebook: "https://www.facebook.com/Tamay.Constructions",
     instagram: "https://www.instagram.com/tamay.enterprises/",

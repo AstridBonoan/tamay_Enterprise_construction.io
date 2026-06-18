@@ -15,7 +15,7 @@ import {
   formatOrderDate,
   type SavedOrder,
 } from "@/lib/account-data";
-import { SITE } from "@/lib/site";
+import { sitePath } from "@/lib/paths";
 
 function orderStatusLabel(status: string) {
   const normalized = status.toLowerCase();
@@ -53,7 +53,7 @@ export default function OrdersPage() {
   return (
     <AccountPageShell
       title="Your Orders"
-      description="View your purchase history and order details from cart checkout."
+      description="View your purchase history and order details."
     >
       <div className="space-y-4">
         {error && (
@@ -71,9 +71,9 @@ export default function OrdersPage() {
         ) : orders.length === 0 ? (
           <AccountEmptyState
             title="No orders yet"
-            description="When you complete a purchase from your cart, your order history will show up here."
+            description="When you complete a purchase with Tamay Enterprises, your order history will show up here."
             action={
-              <Link href={SITE.headerCartUrl} className={accountButtonSecondaryClass}>
+              <Link href={sitePath("/#contact")} className={accountButtonSecondaryClass}>
                 Browse services
               </Link>
             }

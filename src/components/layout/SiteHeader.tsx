@@ -4,42 +4,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useState } from "react";
-import { NAV_MORE, NAV_PRIMARY, SITE } from "@/lib/site";
+import { NAV_MORE, NAV_PRIMARY } from "@/lib/site";
 import { IMAGES } from "@/lib/images";
 import { AccountMenu } from "./AccountMenu";
-import { CartDrawer } from "./CartDrawer";
 import { MobileSidebar } from "./MobileSidebar";
-
-const iconLinkClass =
-  "p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-gray-900 hover:text-tamay-primary rounded-lg hover:bg-gray-100 transition-colors touch-manipulation";
-
-function CartIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M7 20c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM7.2 16h9.7c.8 0 1.5-.5 1.8-1.2l2.8-6.5A1 1 0 0 0 20.6 7H6.3L5.8 4H2V2h4l1 12.2c0 .4.3.8.7.8h.5z" />
-    </svg>
-  );
-}
 
 function HeaderToolbar({
   compact = false,
-  onOpenCart,
   accountOpen,
   onToggleAccount,
   onCloseAccount,
 }: {
   compact?: boolean;
-  onOpenCart: () => void;
   accountOpen: boolean;
   onToggleAccount: () => void;
   onCloseAccount: () => void;
 }) {
-  const iconClass = compact ? "w-6 h-6" : "w-7 h-7";
   return (
     <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-      <button type="button" onClick={onOpenCart} className={iconLinkClass} aria-label="Open cart">
-        <CartIcon className={iconClass} />
-      </button>
       <AccountMenu
         compact={compact}
         open={accountOpen}
@@ -53,21 +35,13 @@ function HeaderToolbar({
 export function SiteHeader() {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const openSidebar = useCallback(() => setSidebarOpen(true), []);
-  const closeCart = useCallback(() => setCartOpen(false), []);
-  const openCart = useCallback(() => {
-    setAccountOpen(false);
-    setMoreOpen(false);
-    setCartOpen(true);
-  }, []);
   const closeAccount = useCallback(() => setAccountOpen(false), []);
   const toggleAccount = useCallback(() => {
-    setCartOpen(false);
     setMoreOpen(false);
     setAccountOpen((v) => !v);
   }, []);
@@ -78,7 +52,6 @@ export function SiteHeader() {
   return (
     <>
       <MobileSidebar open={sidebarOpen} onClose={closeSidebar} />
-      <CartDrawer open={cartOpen} onClose={closeCart} />
 
       <header className="sticky top-0 z-[120] bg-white shadow-sm border-b border-gray-100">
         {/* Mobile & tablet: hamburger */}
@@ -109,7 +82,6 @@ export function SiteHeader() {
 
           <HeaderToolbar
             compact
-            onOpenCart={openCart}
             accountOpen={accountOpen}
             onToggleAccount={toggleAccount}
             onCloseAccount={closeAccount}
@@ -192,7 +164,6 @@ export function SiteHeader() {
             </nav>
 
             <HeaderToolbar
-              onOpenCart={openCart}
               accountOpen={accountOpen}
               onToggleAccount={toggleAccount}
               onCloseAccount={closeAccount}

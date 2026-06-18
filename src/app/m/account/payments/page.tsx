@@ -15,7 +15,7 @@ import {
   paymentBrandLabel,
   type SavedPaymentMethod,
 } from "@/lib/account-data";
-import { SITE } from "@/lib/site";
+import { sitePath } from "@/lib/paths";
 
 export default function PaymentsPage() {
   const { user, loading } = useRequireAuth("/m/account/payments");
@@ -72,9 +72,9 @@ export default function PaymentsPage() {
         ) : methods.length === 0 ? (
           <AccountEmptyState
             title="No payment methods saved"
-            description="When you check out from your cart, your card details will be saved here for future purchases."
+            description="When you pay for a service with Tamay Enterprises, your saved card details will appear here for future purchases."
             action={
-              <Link href={SITE.headerCartUrl} className={accountButtonSecondaryClass}>
+              <Link href={sitePath("/#contact")} className={accountButtonSecondaryClass}>
                 Browse services
               </Link>
             }
