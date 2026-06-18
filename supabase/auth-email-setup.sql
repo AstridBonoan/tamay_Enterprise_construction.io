@@ -1,0 +1,20 @@
+-- Supabase Auth email setup (Dashboard — not SQL to execute)
+--
+-- 1. Authentication → URL Configuration
+--    Site URL:
+--      https://astridbonoan.github.io/tamay_Enterprise_construction.io
+--    Redirect URLs (add each):
+--      https://astridbonoan.github.io/tamay_Enterprise_construction.io/m/auth/confirm/**
+--      https://astridbonoan.github.io/tamay_Enterprise_construction.io/m/login/**
+--
+-- 2. Authentication → Email → enable Confirm email (if you require verification)
+--
+-- 3. Project Settings → Auth → SMTP Settings (recommended for reliable delivery)
+--    Supabase's built-in mailer is rate-limited and often lands in spam.
+--    Use custom SMTP (e.g. Resend, SendGrid, Google Workspace) with your domain.
+--
+-- 4. Authentication → Email Templates → Confirm signup
+--    Ensure the link uses {{ .ConfirmationURL }} (default).
+--
+-- 5. After a failed signup, check Authentication → Logs for delivery errors.
+--    Manually confirm a user: Authentication → Users → select user → Confirm user.

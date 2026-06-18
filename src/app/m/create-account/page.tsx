@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { signUpWithEmail } from "@/lib/auth";
+import { resendSignUpConfirmation, signUpWithEmail } from "@/lib/auth";
 
 export default function CreateAccountPage() {
   const router = useRouter();
@@ -15,6 +15,8 @@ export default function CreateAccountPage() {
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [awaitingConfirmation, setAwaitingConfirmation] = useState(false);
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -33,6 +35,7 @@ export default function CreateAccountPage() {
     setLoading(true);
     setError(null);
     setInfo(null);
+    setAwaitingConfirmation(false);
 
     try {
       const result = await signUpWithEmail({
@@ -48,8 +51,9 @@ export default function CreateAccountPage() {
       }
 
       if (result.status === "needs_confirmation") {
+        setAwaitingConfirmation(true);
         setInfo(
-          "Account created. Check your email (and spam folder) to confirm your address, then sign in.",
+          "Account created. We sent a confirmation email — check your inbox and spam folder. It may take a few minutes. If nothing arrives, use Resend below.",
         );
         return;
       }
@@ -59,6 +63,26 @@ export default function CreateAccountPage() {
       setError(err instanceof Error ? err.message : "Could not create account. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const onResendConfirmation = async () => {
+    if (!email.trim()) {
+      setError("Enter your email address first.");
+      return;
+    }
+
+    setResendLoading(true);
+    setError(null);
+
+    try {
+      await resendSignUpConfirmation(email.trim());
+      setInfo("Confirmation email sent again. Check your inbox and spam folder.");
+      setAwaitingConfirmation(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not resend confirmation email.");
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -138,7 +162,7 @@ export default function CreateAccountPage() {
             </p>
           )}
 
-          <div className="text-center pt-2">
+          <div className="text-center pt-2 space-y-3">
             <button
               type="submit"
               disabled={loading}
@@ -146,6 +170,19 @@ export default function CreateAccountPage() {
             >
               {loading ? "CREATING..." : "CREATE ACCOUNT"}
             </button>
+
+            {awaitingConfirmation && (
+              <div>
+                <button
+                  type="button"
+                  onClick={onResendConfirmation}
+                  disabled={resendLoading || loading}
+                  className="text-white text-sm font-semibold hover:underline disabled:opacity-60"
+                >
+                  {resendLoading ? "Sending confirmation email…" : "Resend confirmation email"}
+                </button>
+              </div>
+            )}
           </div>
         </form>
 

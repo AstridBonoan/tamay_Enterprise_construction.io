@@ -1,5 +1,6 @@
 import type { Session, User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
+import { getAuthConfirmUrl, getAuthLoginUrl } from "@/lib/authUrls";
 import { profileDisplayName, type UserProfile } from "@/lib/profile";
 
 export type AuthUser = {
@@ -67,10 +68,12 @@ export async function signInWithEmail(email: string, password: string) {
   return resolveAuthUser(data.user);
 }
 
-function getSiteUrl(): string {
-  if (typeof window === "undefined") return "";
-  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-  return `${window.location.origin}${base}`;
+
+export function isEmailNotConfirmedError(error: unknown): boolean {
+  if (!error || typeof error !== "object") return false;
+  const message =
+    "message" in error && typeof error.message === "string" ? error.message.toLowerCase() : "";
+  return message.includes("email not confirmed") || message.includes("not confirmed");
 }
 
 export type SignUpResult =
@@ -94,7 +97,6 @@ function isExistingAccountResponse(user: User): boolean {
 
 export async function signUpWithEmail(input: SignUpInput): Promise<SignUpResult> {
   const supabase = createClient();
-  const siteUrl = getSiteUrl();
 
   const { data, error } = await supabase.auth.signUp({
     email: input.email.trim(),
@@ -104,7 +106,7 @@ export async function signUpWithEmail(input: SignUpInput): Promise<SignUpResult>
         first_name: input.firstName.trim(),
         last_name: input.lastName.trim(),
       },
-      emailRedirectTo: siteUrl ? `${siteUrl}/m/login/` : undefined,
+      emailRedirectTo: getAuthConfirmUrl(),
     },
   });
 
@@ -149,15 +151,22 @@ export async function signOut() {
   if (error) throw error;
 }
 
+export async function resendSignUpConfirmation(email: string) {
+  const supabase = createClient();
+  const { error } = await supabase.auth.resend({
+    type: "signup",
+    email: email.trim(),
+    options: {
+      emailRedirectTo: getAuthConfirmUrl(),
+    },
+  });
+  if (error) throw error;
+}
+
 export async function resetPassword(email: string) {
   const supabase = createClient();
-  const redirectTo =
-    typeof window !== "undefined"
-      ? `${window.location.origin}${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/m/login/`
-      : undefined;
-
   const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-    redirectTo,
+    redirectTo: getAuthLoginUrl(),
   });
   if (error) throw error;
 }

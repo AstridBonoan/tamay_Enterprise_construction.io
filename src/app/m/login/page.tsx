@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
-import { resetPassword, signInWithEmail } from "@/lib/auth";
+import { isEmailNotConfirmedError, resendSignUpConfirmation, resetPassword, signInWithEmail } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -13,10 +13,17 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [resetMessage, setResetMessage] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [needsConfirmation, setNeedsConfirmation] = useState(false);
 
   useEffect(() => {
-    const value = new URLSearchParams(window.location.search).get("r");
-    if (value) setRedirectTarget(value);
+    const params = new URLSearchParams(window.location.search);
+    const redirect = params.get("r");
+    if (redirect) setRedirectTarget(redirect);
+    if (params.get("confirmed") === "1") {
+      setInfo("Email confirmed. Sign in with your password.");
+    }
   }, []);
 
   const onSubmit = async (e: FormEvent) => {
@@ -26,12 +33,19 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
     setResetMessage(null);
+    setInfo(null);
+    setNeedsConfirmation(false);
 
     try {
       await signInWithEmail(email.trim(), password);
       router.push(redirectTarget);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Sign in failed. Please try again.");
+      if (isEmailNotConfirmedError(err)) {
+        setNeedsConfirmation(true);
+        setError("Please confirm your email before signing in. Check your inbox and spam folder.");
+      } else {
+        setError(err instanceof Error ? err.message : "Sign in failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -46,14 +60,35 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
     setResetMessage(null);
+    setInfo(null);
 
     try {
       await resetPassword(email.trim());
-      setResetMessage("Password reset email sent. Check your inbox.");
+      setResetMessage("Password reset email sent. Check your inbox and spam folder.");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not send reset email.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const onResendConfirmation = async () => {
+    if (!email.trim()) {
+      setError("Enter your email address first.");
+      return;
+    }
+
+    setResendLoading(true);
+    setError(null);
+
+    try {
+      await resendSignUpConfirmation(email.trim());
+      setInfo("Confirmation email sent. Check your inbox and spam folder.");
+      setNeedsConfirmation(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not resend confirmation email.");
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -89,6 +124,11 @@ export default function LoginPage() {
             className="w-full bg-transparent border border-white/55 rounded-md px-4 py-3 text-base placeholder:text-white/90 focus:outline-none focus:ring-2 focus:ring-white/60"
           />
 
+          {info && (
+            <p className="text-sm text-green-200 text-center" role="status">
+              {info}
+            </p>
+          )}
           {error && (
             <p className="text-sm text-red-200 text-center" role="alert">
               {error}
@@ -100,7 +140,7 @@ export default function LoginPage() {
             </p>
           )}
 
-          <div className="text-center pt-1.5">
+          <div className="text-center pt-1.5 space-y-3">
             <button
               type="submit"
               disabled={loading}
@@ -108,6 +148,17 @@ export default function LoginPage() {
             >
               {loading ? "SIGNING IN..." : "SIGN IN"}
             </button>
+
+            {needsConfirmation && (
+              <button
+                type="button"
+                onClick={onResendConfirmation}
+                disabled={resendLoading || loading}
+                className="block w-full text-white text-sm font-semibold hover:underline disabled:opacity-60"
+              >
+                {resendLoading ? "Sending confirmation email…" : "Resend confirmation email"}
+              </button>
+            )}
           </div>
         </form>
 
