@@ -20,6 +20,8 @@ export type PropertyListing = {
   scheduleLabel: string;
   scheduleSlots: readonly PropertyScheduleSlot[];
   scheduleCtaLabel: string;
+  /** Optional per-listing Google Calendar appointment schedule embed URL. */
+  schedulingUrl?: string;
 };
 
 const saleImage = assetUrl("/real-estate/listings/house-for-sale-west-haven.png");

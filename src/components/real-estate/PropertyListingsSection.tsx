@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { PropertyListing } from "@/lib/realEstateListings";
+import { schedulePagePath } from "@/lib/realEstateScheduling";
 
 type PropertyListingsSectionProps = {
   id: string;
@@ -77,7 +78,7 @@ function PropertyListingCard({
         </div>
 
         <div className="pt-2 text-center sm:text-left">
-          <Button href="#contact" variant="primary">
+          <Button href={schedulePagePath(listing.id)} variant="primary">
             {listing.scheduleCtaLabel}
           </Button>
         </div>
