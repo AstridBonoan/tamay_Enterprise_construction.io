@@ -32,7 +32,7 @@ export function AppointmentServiceRow({ service }: AppointmentServiceRowProps) {
 
       <div className="flex md:items-start shrink-0">
         <Link
-          href={sitePath(appointmentSchedulePath(service.id))}
+          href={sitePath(`${appointmentSchedulePath(service.id)}#book`)}
           className="inline-flex items-center justify-center rounded-full bg-tamay-primary hover:bg-tamay-primary-dark text-white font-bold text-sm tracking-widest px-8 py-3 transition-colors min-w-[120px]"
         >
           BOOK

@@ -17,6 +17,7 @@ export type OnlineAppointmentService = {
   description: string;
   image: string;
   imageAlt: string;
+  scheduleLabel: string;
   scheduleCtaLabel: string;
   scheduleSlots: readonly AppointmentSlot[];
 };
@@ -64,7 +65,8 @@ export const ONLINE_APPOINTMENT_SERVICES: readonly OnlineAppointmentService[] = 
     description: "A one-on-one session to discuss your project vision.",
     image: IMAGES.construction.renovation,
     imageAlt: "Construction professional reviewing blueprints at a job site",
-    scheduleCtaLabel: "Book construction consultation",
+    scheduleLabel: "Available consultation times",
+    scheduleCtaLabel: "Book a construction consultation",
     scheduleSlots: CONSULTATION_SLOTS,
   },
   {
@@ -76,7 +78,8 @@ export const ONLINE_APPOINTMENT_SERVICES: readonly OnlineAppointmentService[] = 
     description: "A one-on-one session to discuss your specific needs and goals.",
     image: IMAGES.realEstate.agent,
     imageAlt: "Happy couple holding house keys after a real estate closing",
-    scheduleCtaLabel: "Book real estate consultation",
+    scheduleLabel: "Available consultation times",
+    scheduleCtaLabel: "Book a real estate consultation",
     scheduleSlots: CONSULTATION_SLOTS,
   },
   {
@@ -88,7 +91,8 @@ export const ONLINE_APPOINTMENT_SERVICES: readonly OnlineAppointmentService[] = 
     description: "A one-on-one session to discuss your specific needs and goals.",
     image: IMAGES.logistics.warehouseFleet,
     imageAlt: "Tamay Enterprises delivery fleet at a warehouse loading dock",
-    scheduleCtaLabel: "Book logistics consultation",
+    scheduleLabel: "Available consultation times",
+    scheduleCtaLabel: "Book a logistics consultation",
     scheduleSlots: CONSULTATION_SLOTS,
   },
   {
@@ -100,7 +104,8 @@ export const ONLINE_APPOINTMENT_SERVICES: readonly OnlineAppointmentService[] = 
     description: "A one-on-one session to discuss your prevention needs.",
     image: IMAGES.preventiveServices.aboutConsultation,
     imageAlt: "Tamay team member consulting with a homeowner about preventive services",
-    scheduleCtaLabel: "Book prevention services consultation",
+    scheduleLabel: "Available consultation times",
+    scheduleCtaLabel: "Book a prevention services consultation",
     scheduleSlots: CONSULTATION_SLOTS,
   },
   {
@@ -112,7 +117,8 @@ export const ONLINE_APPOINTMENT_SERVICES: readonly OnlineAppointmentService[] = 
     description: "A one-on-one session to discuss your assembling or installation needs.",
     image: ASSEMBLY_SERVICE_IMAGES.furnitureAssembly,
     imageAlt: "Professional assembling furniture for a client",
-    scheduleCtaLabel: "Book assembly consultation",
+    scheduleLabel: "Available consultation times",
+    scheduleCtaLabel: "Book an assembly consultation",
     scheduleSlots: CONSULTATION_SLOTS,
   },
 ];
@@ -128,5 +134,5 @@ export function getAppointmentServiceById(
 }
 
 export function appointmentSchedulePath(serviceId: string): string {
-  return `/online-appointments/${serviceId}`;
+  return `/online-appointments/schedule/${serviceId}`;
 }

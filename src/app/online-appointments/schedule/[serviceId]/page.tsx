@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ServiceAppointmentSchedule } from "@/components/appointments/ServiceAppointmentSchedule";
+import { ServiceAppointmentCalendar } from "@/components/appointments/ServiceAppointmentCalendar";
 import {
   getAllAppointmentServiceIds,
   getAppointmentServiceById,
@@ -19,11 +19,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: AppointmentSchedulePageProps): Promise<Metadata> {
   const { serviceId } = await params;
   const service = getAppointmentServiceById(serviceId);
-  if (!service) return { title: "Book an Appointment" };
+  if (!service) return { title: "Book a Consultation" };
 
   return {
-    title: `Book ${service.title} Consultation`,
-    description: `Schedule a free ${service.title.toLowerCase()} consultation with Tamay Enterprises.`,
+    title: service.scheduleCtaLabel,
+    description: `Schedule a free ${service.title.toLowerCase()} consultation with Tamay Enterprises in West Haven, CT.`,
   };
 }
 
@@ -40,7 +40,7 @@ export default async function AppointmentSchedulePage({ params }: AppointmentSch
             ← Back to Online Appointments
           </Link>
         </p>
-        <ServiceAppointmentSchedule service={service} />
+        <ServiceAppointmentCalendar service={service} />
       </div>
     </section>
   );
