@@ -1,47 +1,25 @@
--- Supabase Auth email setup (Dashboard — reference only)
+-- Supabase Auth setup (Dashboard — reference only)
+--
+-- Email confirmation is DISABLED — new users sign in immediately after sign-up.
 --
 -- =============================================================================
--- FIX CARLOS (or any user) RIGHT NOW — manual confirm
+-- LEGACY USERS (signed up while confirmation was ON)
 -- =============================================================================
--- Option A (Dashboard):
---   Authentication → Users → click ctamay323@gmail.com
---   Open the ⋮ menu (top right of user panel) → "Confirm user"
+-- They remain unconfirmed until you unlock them once:
 --
--- Option B (SQL Editor — run once per email):
+-- Option A: Authentication → Users → select user → ⋮ → Confirm user
+--
+-- Option B (SQL Editor):
 --   update auth.users
 --   set
 --     email_confirmed_at = timezone('utc', now()),
 --     confirmed_at = timezone('utc', now())
 --   where email = 'ctamay323@gmail.com';
 --
--- After confirming, the user can sign in immediately with their password.
---
 -- =============================================================================
--- STOP THIS FROM HAPPENING AGAIN (pick one or both)
--- =============================================================================
---
--- 1. DISABLE email confirmation (simplest for a small business site):
---    Authentication → Sign In / Providers → Email
---    Turn OFF "Confirm email"
---    New sign-ups can log in immediately. Existing unconfirmed users still
---    need manual confirm once (steps above).
---
--- 2. CUSTOM SMTP (best for keeping confirmation ON):
---    Project Settings → Authentication → SMTP Settings
---    Supabase's built-in mailer is rate-limited and Gmail often blocks it.
---    Use Resend, SendGrid, or Google Workspace with @tamayenterprises.com.
---
--- =============================================================================
--- URL Configuration (required for confirmation links to work)
+-- URL Configuration (still used for password reset)
 -- =============================================================================
 -- Site URL:
 --   https://astridbonoan.github.io/tamay_Enterprise_construction.io
 -- Redirect URLs:
---   https://astridbonoan.github.io/tamay_Enterprise_construction.io/m/auth/confirm/**
 --   https://astridbonoan.github.io/tamay_Enterprise_construction.io/m/login/**
---
--- =============================================================================
--- Debugging
--- =============================================================================
--- Authentication → Logs — check signup / email events for errors
--- Authentication → Email Templates → Confirm signup — uses {{ .ConfirmationURL }}

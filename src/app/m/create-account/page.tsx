@@ -3,9 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { EmailConfirmationHelp } from "@/components/auth/EmailConfirmationHelp";
-import { formatAuthError, requestAccountActivation } from "@/lib/accountActivation";
-import { resendSignUpConfirmation, signUpWithEmail } from "@/lib/auth";
+import { formatAuthError } from "@/lib/accountActivation";
+import { signUpWithEmail } from "@/lib/auth";
 
 export default function CreateAccountPage() {
   const router = useRouter();
@@ -15,12 +14,7 @@ export default function CreateAccountPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [resendLoading, setResendLoading] = useState(false);
-  const [activationLoading, setActivationLoading] = useState(false);
-  const [activationSent, setActivationSent] = useState(false);
-  const [awaitingConfirmation, setAwaitingConfirmation] = useState(false);
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -38,9 +32,6 @@ export default function CreateAccountPage() {
 
     setLoading(true);
     setError(null);
-    setInfo(null);
-    setAwaitingConfirmation(false);
-    setActivationSent(false);
 
     try {
       const result = await signUpWithEmail({
@@ -56,20 +47,7 @@ export default function CreateAccountPage() {
       }
 
       if (result.status === "needs_confirmation") {
-        setAwaitingConfirmation(true);
-        setInfo(
-          "Account created. If the confirmation email does not arrive within a few minutes, use Request manual activation below.",
-        );
-        void requestAccountActivation({
-          email: email.trim(),
-          firstName: firstName.trim(),
-          lastName: lastName.trim(),
-          source: "signup",
-        })
-          .then(() => setActivationSent(true))
-          .catch(() => {
-            /* Formspree optional; user can click the button manually */
-          });
+        router.push("/m/login?r=%2Fm%2Faccount");
         return;
       }
 
@@ -81,51 +59,6 @@ export default function CreateAccountPage() {
     }
   };
 
-  const onResendConfirmation = async () => {
-    if (!email.trim()) {
-      setError("Enter your email address first.");
-      return;
-    }
-
-    setResendLoading(true);
-    setError(null);
-
-    try {
-      await resendSignUpConfirmation(email.trim());
-      setInfo("Confirmation email sent again. Check inbox and spam.");
-      setAwaitingConfirmation(true);
-    } catch (err) {
-      setError(formatAuthError(err));
-    } finally {
-      setResendLoading(false);
-    }
-  };
-
-  const onRequestActivation = async () => {
-    if (!email.trim()) {
-      setError("Enter your email address first.");
-      return;
-    }
-
-    setActivationLoading(true);
-    setError(null);
-
-    try {
-      await requestAccountActivation({
-        email: email.trim(),
-        firstName: firstName.trim(),
-        lastName: lastName.trim(),
-        source: "signup",
-      });
-      setActivationSent(true);
-      setInfo("We notified our team to activate your account. You can sign in once we confirm it.");
-    } catch (err) {
-      setError(formatAuthError(err));
-    } finally {
-      setActivationLoading(false);
-    }
-  };
-
   return (
     <section className="bg-tamay-primary text-white py-10 md:py-12 px-4">
       <div className="max-w-xl mx-auto">
@@ -134,7 +67,7 @@ export default function CreateAccountPage() {
         </h1>
         <div className="w-16 h-px bg-white/25 mx-auto mt-4 mb-5" />
         <p className="text-center text-sm md:text-base text-white/95 mb-5">
-          By creating an account, you may receive newsletters or promotions.
+          Create an account to sign in right away — no email confirmation required.
         </p>
 
         <form onSubmit={onSubmit} className="space-y-3.5 max-w-[620px] mx-auto">
@@ -195,22 +128,6 @@ export default function CreateAccountPage() {
                 </Link>
               )}
             </p>
-          )}
-          {info && (
-            <p className="text-sm text-green-200 text-center" role="status">
-              {info}
-            </p>
-          )}
-
-          {awaitingConfirmation && (
-            <EmailConfirmationHelp
-              email={email}
-              onResend={onResendConfirmation}
-              resendLoading={resendLoading}
-              onRequestActivation={onRequestActivation}
-              activationLoading={activationLoading}
-              activationSent={activationSent}
-            />
           )}
 
           <div className="text-center pt-2">

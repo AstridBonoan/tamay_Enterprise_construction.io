@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
-import { EmailConfirmationHelp } from "@/components/auth/EmailConfirmationHelp";
-import { requestAccountActivation, formatAuthError } from "@/lib/accountActivation";
-import { isEmailNotConfirmedError, resendSignUpConfirmation, resetPassword, signInWithEmail } from "@/lib/auth";
+import { LegacyAccountHelp } from "@/components/auth/LegacyAccountHelp";
+import { formatAuthError, requestAccountActivation } from "@/lib/accountActivation";
+import { isEmailNotConfirmedError, resetPassword, signInWithEmail } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -16,18 +16,14 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [resetMessage, setResetMessage] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
-  const [resendLoading, setResendLoading] = useState(false);
   const [activationLoading, setActivationLoading] = useState(false);
   const [activationSent, setActivationSent] = useState(false);
-  const [needsConfirmation, setNeedsConfirmation] = useState(false);
+  const [needsLegacyUnlock, setNeedsLegacyUnlock] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const redirect = params.get("r");
     if (redirect) setRedirectTarget(redirect);
-    if (params.get("confirmed") === "1") {
-      setInfo("Email confirmed. Sign in with your password.");
-    }
   }, []);
 
   const onSubmit = async (e: FormEvent) => {
@@ -38,7 +34,7 @@ export default function LoginPage() {
     setError(null);
     setResetMessage(null);
     setInfo(null);
-    setNeedsConfirmation(false);
+    setNeedsLegacyUnlock(false);
     setActivationSent(false);
 
     try {
@@ -46,8 +42,8 @@ export default function LoginPage() {
       router.push(redirectTarget);
     } catch (err) {
       if (isEmailNotConfirmedError(err)) {
-        setNeedsConfirmation(true);
-        setError("Your account exists but email confirmation is still pending.");
+        setNeedsLegacyUnlock(true);
+        setError("This account still needs a one-time unlock from our team.");
       } else {
         setError(formatAuthError(err));
       }
@@ -77,26 +73,6 @@ export default function LoginPage() {
     }
   };
 
-  const onResendConfirmation = async () => {
-    if (!email.trim()) {
-      setError("Enter your email address first.");
-      return;
-    }
-
-    setResendLoading(true);
-    setError(null);
-
-    try {
-      await resendSignUpConfirmation(email.trim());
-      setInfo("Confirmation email sent. Check your inbox and spam folder.");
-      setNeedsConfirmation(true);
-    } catch (err) {
-      setError(formatAuthError(err));
-    } finally {
-      setResendLoading(false);
-    }
-  };
-
   const onRequestActivation = async () => {
     if (!email.trim()) {
       setError("Enter your email address first.");
@@ -112,7 +88,7 @@ export default function LoginPage() {
         source: "login",
       });
       setActivationSent(true);
-      setInfo("We notified our team to activate your account. You can sign in once we confirm it.");
+      setInfo("We notified our team. You can sign in once your account is unlocked.");
     } catch (err) {
       setError(formatAuthError(err));
     } finally {
@@ -128,8 +104,7 @@ export default function LoginPage() {
         </h1>
         <div className="w-16 h-px bg-white/25 mx-auto mt-4 mb-5" />
         <p className="text-center text-sm md:text-base text-white/95 mb-5">
-          Sign in to your account to access your profile, history, and any private pages you&apos;ve been granted
-          access to.
+          Sign in with the email and password you used when creating your account.
         </p>
 
         <form onSubmit={onSubmit} className="space-y-4 max-w-[620px] mx-auto">
@@ -168,11 +143,9 @@ export default function LoginPage() {
             </p>
           )}
 
-          {needsConfirmation && (
-            <EmailConfirmationHelp
+          {needsLegacyUnlock && (
+            <LegacyAccountHelp
               email={email}
-              onResend={onResendConfirmation}
-              resendLoading={resendLoading}
               onRequestActivation={onRequestActivation}
               activationLoading={activationLoading}
               activationSent={activationSent}
