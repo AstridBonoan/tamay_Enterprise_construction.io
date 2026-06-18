@@ -202,8 +202,15 @@ export function getAppointmentServiceById(
   return ONLINE_APPOINTMENT_SERVICES.find((service) => service.id === serviceId);
 }
 
+export function resolveAppointmentServiceId(serviceId: string | null | undefined): string {
+  if (serviceId && getAppointmentServiceById(serviceId)) {
+    return serviceId;
+  }
+  return ONLINE_APPOINTMENT_SERVICES[0].id;
+}
+
 export function appointmentSchedulePath(serviceId: string): string {
-  return `/online-appointments/schedule/${serviceId}`;
+  return `/online-appointments/schedule?service=${encodeURIComponent(serviceId)}`;
 }
 
 /** Full href for schedule page (GitHub Pages–safe trailing slash + #book). */

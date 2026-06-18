@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ServiceAppointmentForm } from "@/components/appointments/ServiceAppointmentForm";
 import { Button } from "@/components/ui/Button";
 import {
-  appointmentScheduleHref,
+  appointmentSchedulePath,
   ONLINE_APPOINTMENT_SERVICES,
   getAppointmentServiceById,
   type OnlineAppointmentService,
@@ -20,13 +20,16 @@ type ConsultationScheduleCalendarProps = {
 function ServicePickerOption({
   service,
   selected,
+  onSelect,
 }: {
   service: OnlineAppointmentService;
   selected: boolean;
+  onSelect: () => void;
 }) {
   return (
-    <a
-      href={appointmentScheduleHref(service.id)}
+    <button
+      type="button"
+      onClick={onSelect}
       className={`w-full text-left flex gap-4 p-4 border transition-colors ${
         selected
           ? "border-tamay-primary bg-tamay-primary/5 ring-1 ring-tamay-primary/30"
@@ -55,7 +58,7 @@ function ServicePickerOption({
           Selected
         </span>
       )}
-    </a>
+    </button>
   );
 }
 
@@ -65,6 +68,12 @@ export function ConsultationScheduleCalendar({ initialServiceId }: ConsultationS
   useEffect(() => {
     setSelectedServiceId(initialServiceId);
   }, [initialServiceId]);
+
+  const selectService = useCallback((serviceId: string) => {
+    setSelectedServiceId(serviceId);
+    const nextUrl = sitePath(`${appointmentSchedulePath(serviceId)}#book`);
+    window.history.replaceState(null, "", nextUrl);
+  }, []);
 
   const service =
     getAppointmentServiceById(selectedServiceId) ?? ONLINE_APPOINTMENT_SERVICES[0];
@@ -105,6 +114,7 @@ export function ConsultationScheduleCalendar({ initialServiceId }: ConsultationS
               key={item.id}
               service={item}
               selected={item.id === selectedServiceId}
+              onSelect={() => selectService(item.id)}
             />
           ))}
         </div>
@@ -119,7 +129,7 @@ export function ConsultationScheduleCalendar({ initialServiceId }: ConsultationS
             {service.scheduleSlots.map((slot) => (
               <li key={slot.start}>
                 <a
-                  href={appointmentScheduleHref(service.id)}
+                  href="#book"
                   className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 py-3 px-4 bg-gray-50 border border-gray-100 hover:border-tamay-primary hover:bg-tamay-primary/5 transition-colors"
                 >
                   <span className="font-medium text-gray-800">{slot.date}</span>

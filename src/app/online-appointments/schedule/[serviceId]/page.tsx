@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ConsultationScheduleCalendar } from "@/components/appointments/ConsultationScheduleCalendar";
+import { LegacyConsultationScheduleRedirect } from "@/components/appointments/LegacyConsultationScheduleRedirect";
 import {
   getAllAppointmentServiceIds,
   getAppointmentServiceById,
 } from "@/lib/onlineAppointments";
-import { sitePath } from "@/lib/paths";
 
-type AppointmentSchedulePageProps = {
+type LegacyAppointmentSchedulePageProps = {
   params: Promise<{ serviceId: string }>;
 };
 
@@ -16,7 +14,7 @@ export function generateStaticParams() {
   return getAllAppointmentServiceIds().map((serviceId) => ({ serviceId }));
 }
 
-export async function generateMetadata({ params }: AppointmentSchedulePageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: LegacyAppointmentSchedulePageProps): Promise<Metadata> {
   const { serviceId } = await params;
   const service = getAppointmentServiceById(serviceId);
   if (!service) return { title: "Book a Consultation" };
@@ -27,20 +25,15 @@ export async function generateMetadata({ params }: AppointmentSchedulePageProps)
   };
 }
 
-export default async function AppointmentSchedulePage({ params }: AppointmentSchedulePageProps) {
+/** Legacy path — redirects to /online-appointments/schedule?service=... */
+export default async function LegacyAppointmentSchedulePage({ params }: LegacyAppointmentSchedulePageProps) {
   const { serviceId } = await params;
-  const service = getAppointmentServiceById(serviceId);
-  if (!service) notFound();
+  if (!getAppointmentServiceById(serviceId)) notFound();
 
   return (
-    <section className="py-14 px-4 bg-gray-50 min-h-[70vh]">
+    <section className="py-14 px-4 bg-gray-50 min-h-[40vh]">
       <div className="max-w-3xl mx-auto">
-        <p className="text-sm text-gray-500 mb-6 text-center">
-          <Link href={sitePath("/online-appointments")} className="text-tamay-primary hover:underline">
-            ← Back to Online Appointments
-          </Link>
-        </p>
-        <ConsultationScheduleCalendar initialServiceId={serviceId} />
+        <LegacyConsultationScheduleRedirect serviceId={serviceId} />
       </div>
     </section>
   );
