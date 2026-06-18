@@ -96,9 +96,8 @@ export function PropertyScheduleCalendar({ listing, kind, kindLabel }: PropertyS
         ) : (
           <>
             <p className="text-gray-600 text-sm leading-relaxed mb-6">
-              Pick a slot, send your request, and add the appointment to Google Calendar with the date
-              and time already filled in. When live Google Calendar booking is enabled, this page will
-              switch to direct scheduling automatically.
+              Pick a time and confirm your request. Your viewing will be saved to your account Bookings
+              page. Booked times are removed automatically for other visitors.
             </p>
             <div className="space-y-6">
               <PropertyShowingRequestForm listing={listing} kind={kind} />

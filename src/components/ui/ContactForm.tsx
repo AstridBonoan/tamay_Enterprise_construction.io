@@ -22,6 +22,8 @@ type ContactFormProps = {
   /** Extra content shown below the thank-you message after a successful submit. */
   successExtra?: ReactNode;
   successMessage?: string;
+  /** When set, runs after Formspree succeeds instead of showing the inline thank-you card. */
+  onSuccess?: (formData: FormData) => void | Promise<void>;
 };
 
 export function ContactForm({
@@ -32,6 +34,7 @@ export function ContactForm({
   defaultValues,
   successExtra,
   successMessage = "Your message was sent successfully. Our team will get back to you soon.",
+  onSuccess,
 }: ContactFormProps) {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -62,8 +65,12 @@ export function ContactForm({
         throw new Error(json.errors?.[0]?.message ?? "Unable to send your message right now.");
       }
 
-      setSubmitted(true);
-      form.reset();
+      if (onSuccess) {
+        await onSuccess(body);
+      } else {
+        setSubmitted(true);
+        form.reset();
+      }
     } catch (submitError) {
       setError(
         submitError instanceof Error

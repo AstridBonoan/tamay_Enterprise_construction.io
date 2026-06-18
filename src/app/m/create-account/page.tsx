@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FormEvent, Suspense, useState } from "react";
 import { formatAuthError } from "@/lib/accountActivation";
 import { signUpWithEmail } from "@/lib/auth";
 
-export default function CreateAccountPage() {
+function CreateAccountForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTarget = searchParams.get("r") ?? "/m/account";
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -47,11 +49,11 @@ export default function CreateAccountPage() {
       }
 
       if (result.status === "needs_confirmation") {
-        router.push("/m/login?r=%2Fm%2Faccount");
+        router.push(`/m/login?r=${encodeURIComponent(redirectTarget)}`);
         return;
       }
 
-      router.push("/m/account");
+      router.push(redirectTarget);
     } catch (err) {
       setError(formatAuthError(err));
     } finally {
@@ -123,7 +125,10 @@ export default function CreateAccountPage() {
             <p className="text-sm text-red-200 text-center" role="alert">
               {error}{" "}
               {error.includes("already exists") && (
-                <Link className="font-semibold underline" href="/m/login?r=%2Fm%2Faccount">
+                <Link
+                  className="font-semibold underline"
+                  href={`/m/login?r=${encodeURIComponent(redirectTarget)}`}
+                >
                   Sign in
                 </Link>
               )}
@@ -144,12 +149,20 @@ export default function CreateAccountPage() {
         <div className="text-center mt-5 space-y-3">
           <p className="text-base">
             Already have an account?{" "}
-            <Link className="font-semibold hover:underline" href="/m/login?r=%2Fm%2Faccount">
+            <Link className="font-semibold hover:underline" href={`/m/login?r=${encodeURIComponent(redirectTarget)}`}>
               Sign in
             </Link>
           </p>
         </div>
       </div>
     </section>
+  );
+}
+
+export default function CreateAccountPage() {
+  return (
+    <Suspense fallback={<section className="bg-tamay-primary text-white py-10 px-4 min-h-[40vh]" />}>
+      <CreateAccountForm />
+    </Suspense>
   );
 }

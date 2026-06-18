@@ -1,28 +1,138 @@
 "use client";
 
 import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import {
+  AccountEmptyState,
+  AccountPageShell,
+  AccountPanel,
+  accountButtonSecondaryClass,
+} from "@/components/account/AccountHub";
 import { useRequireAuth } from "@/components/auth/useRequireAuth";
+import {
+  bookingStatusLabel,
+  fetchPropertyBookings,
+  formatBookingWhen,
+  isUpcomingBooking,
+  sortBookingsUpcomingFirst,
+  type PropertyBooking,
+} from "@/lib/booking-data";
+import { sitePath } from "@/lib/paths";
+
+function kindLabel(kind: PropertyBooking["listing_kind"]): string {
+  return kind === "sale" ? "For Sale" : "For Rent";
+}
 
 export default function BookingsPage() {
   const { user, loading } = useRequireAuth("/m/bookings");
+  const [bookings, setBookings] = useState<PropertyBooking[]>([]);
+  const [loadingBookings, setLoadingBookings] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadBookings = useCallback(async () => {
+    if (!user) return;
+    setLoadingBookings(true);
+    try {
+      setBookings(sortBookingsUpcomingFirst(await fetchPropertyBookings(user.id)));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not load bookings.");
+    } finally {
+      setLoadingBookings(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    void loadBookings();
+  }, [loadBookings]);
 
   if (loading || !user) return null;
 
+  const upcoming = bookings.filter(isUpcomingBooking);
+  const past = bookings.filter((booking) => !isUpcomingBooking(booking));
+
   return (
-    <section className="bg-tamay-primary text-white py-16 md:py-20 px-4">
-      <div className="max-w-4xl mx-auto text-center">
-        <h1 className="font-heading text-4xl md:text-5xl font-semibold tracking-wide uppercase">Bookings</h1>
-        <div className="w-20 h-px bg-white/25 mx-auto mt-5 mb-8" />
-        <p className="text-lg text-white/95">
-          Your bookings dashboard will live here. This page is only available after sign in.
-        </p>
-        <Link
-          href="/"
-          className="inline-flex mt-8 items-center justify-center bg-white text-gray-900 font-bold tracking-wide rounded-full px-8 py-3 hover:bg-gray-100 transition-colors"
-        >
-          Back to Home
+    <AccountPageShell
+      title="Your Bookings"
+      description="Property viewings and showings you scheduled on Tamay Enterprises."
+    >
+      <div className="space-y-4">
+        {error && (
+          <AccountPanel>
+            <p className="text-sm text-red-600" role="alert">
+              {error}
+            </p>
+          </AccountPanel>
+        )}
+
+        {loadingBookings ? (
+          <AccountPanel>
+            <p className="text-sm text-gray-600">Loading bookings...</p>
+          </AccountPanel>
+        ) : bookings.length === 0 ? (
+          <AccountEmptyState
+            title="No bookings yet"
+            description="When you schedule a property viewing while signed in, it will appear here."
+            action={
+              <Link href={sitePath("/real-estate#houses-for-rent")} className={accountButtonSecondaryClass}>
+                Browse rentals
+              </Link>
+            }
+          />
+        ) : (
+          <div className="space-y-6">
+            {upcoming.length > 0 && (
+              <div className="space-y-4">
+                <h2 className="text-sm font-bold uppercase tracking-wide text-gray-500">Upcoming</h2>
+                {upcoming.map((booking) => (
+                  <BookingCard key={booking.id} booking={booking} />
+                ))}
+              </div>
+            )}
+
+            {past.length > 0 && (
+              <div className="space-y-4">
+                <h2 className="text-sm font-bold uppercase tracking-wide text-gray-500">Past</h2>
+                {past.map((booking) => (
+                  <BookingCard key={booking.id} booking={booking} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        <Link href="/m/account" className={accountButtonSecondaryClass}>
+          Back to Your Account
         </Link>
       </div>
-    </section>
+    </AccountPageShell>
+  );
+}
+
+function BookingCard({ booking }: { booking: PropertyBooking }) {
+  return (
+    <AccountPanel>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-widest text-tamay-accent">{kindLabel(booking.listing_kind)}</p>
+          <h3 className="font-heading text-lg text-tamay-primary font-semibold mt-1">{booking.listing_title}</h3>
+          <p className="text-sm text-gray-600 mt-1">{booking.listing_address}</p>
+        </div>
+        <div className="text-right">
+          <p className="text-sm text-gray-500">Status</p>
+          <p className="font-semibold text-tamay-primary">{bookingStatusLabel(booking.status)}</p>
+        </div>
+      </div>
+
+      <div className="mt-4 pt-4 border-t border-gray-100">
+        <p className="text-sm text-gray-500">Scheduled for</p>
+        <p className="font-medium text-gray-900">{formatBookingWhen(booking)}</p>
+        {booking.notes && (
+          <p className="text-sm text-gray-600 mt-3">
+            <span className="font-medium text-gray-700">Notes: </span>
+            {booking.notes}
+          </p>
+        )}
+      </div>
+    </AccountPanel>
   );
 }

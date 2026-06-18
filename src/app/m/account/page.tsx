@@ -83,7 +83,7 @@ export default function AccountPage() {
           <AccountHubCard
             href="/m/bookings"
             title="Bookings"
-            description="View and manage your service appointments."
+            description="View property viewings and appointments you scheduled."
             icon={<CalendarIcon />}
           />
         </div>
