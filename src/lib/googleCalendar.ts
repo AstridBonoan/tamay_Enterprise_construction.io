@@ -1,4 +1,5 @@
 import type { PropertyListing, PropertyScheduleSlot } from "./realEstateListings";
+import type { AppointmentSlot } from "./onlineAppointments";
 import type { ListingKind } from "./realEstateScheduling";
 import { SCHEDULING } from "./schedulingConfig";
 
@@ -109,8 +110,34 @@ export function downloadIcsFile(content: string, filename: string): void {
   URL.revokeObjectURL(url);
 }
 
-export function formatSlotLabel(slot: PropertyScheduleSlot): string {
+export function formatSlotLabel(slot: PropertyScheduleSlot | AppointmentSlot): string {
   return `${slot.date} · ${slot.time}`;
+}
+
+export function buildServiceConsultationEvent(
+  serviceTitle: string,
+  serviceCategory: string,
+  slot: AppointmentSlot,
+): CalendarEventInput {
+  return {
+    title: `${serviceCategory} consultation`,
+    startIso: slot.start,
+    endIso: slot.end,
+    location: "Tamay Enterprises — West Haven, CT",
+    timezone: SCHEDULING.timezone,
+    description: [
+      `Service: ${serviceTitle}`,
+      `When: ${formatSlotLabel(slot)} (${SCHEDULING.timezone})`,
+      "",
+      "Booked via Tamay Enterprises online appointments.",
+    ].join("\n"),
+  };
+}
+
+export function icsFilenameForAppointment(serviceId: string, slot: AppointmentSlot): string {
+  const slug = serviceId.replace(/[^a-z0-9]+/gi, "-").toLowerCase();
+  const date = slot.start.slice(0, 10);
+  return `tamay-appointment-${slug}-${date}.ics`;
 }
 
 export function buildPropertyShowingEvent(

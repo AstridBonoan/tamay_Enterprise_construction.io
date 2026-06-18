@@ -80,6 +80,7 @@ export const NAV_PRIMARY = [
 
 /** MORE dropdown — order matches live site */
 export const NAV_MORE = [
+  { href: "/online-appointments", label: "ONLINE APPOINTMENTS" },
   { href: "/finance", label: "FINANCE" },
   { href: "/reviews", label: "REVIEWS" },
   { href: "/gallery", label: "GALLERY" },
@@ -99,6 +100,7 @@ export const ACCOUNT_MENU_ITEMS = [
 ] as const;
 
 export const FOOTER_LINKS = [
+  { href: "/online-appointments", label: "ONLINE APPOINTMENTS" },
   { href: "/finance", label: "FINANCE" },
   { href: "/home-preventive-services", label: "HOME PREVENTIVE SERVICES" },
   { href: "/careers-partnerships", label: "CAREERS & PARTNERSHIPS" },

@@ -38,6 +38,7 @@ export type CreatePropertyBookingInput = {
 export type CreateServiceBookingInput = {
   bookingType: Extract<BookingType, "consultation" | "service">;
   serviceCategory: string;
+  serviceId: string;
   title: string;
   subtitle?: string;
   appointmentStart: string;
@@ -69,6 +70,23 @@ export async function fetchBookings(userId: string): Promise<Booking[]> {
 /** @deprecated Use fetchBookings */
 export async function fetchPropertyBookings(userId: string): Promise<Booking[]> {
   return fetchBookings(userId);
+}
+
+export async function fetchBookedAppointmentStarts(serviceId: string): Promise<string[]> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("appointment_start")
+    .eq("listing_id", serviceId)
+    .in("booking_type", ["consultation", "service"])
+    .in("status", ["pending", "confirmed"]);
+
+  if (error) {
+    console.warn("Could not load booked appointment slots:", error.message);
+    return [];
+  }
+
+  return (data ?? []).map((row: { appointment_start: string }) => row.appointment_start);
 }
 
 export async function fetchBookedSlotStarts(listingId: string): Promise<string[]> {
@@ -114,7 +132,7 @@ export async function createServiceBooking(
     service_category: input.serviceCategory,
     title: input.title,
     subtitle: input.subtitle?.trim() || null,
-    listing_id: null,
+    listing_id: input.serviceId,
     listing_kind: null,
     appointment_start: input.appointmentStart,
     appointment_end: input.appointmentEnd,
