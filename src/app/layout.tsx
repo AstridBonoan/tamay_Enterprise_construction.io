@@ -36,6 +36,7 @@ export const metadata: Metadata = {
   },
   description:
     "Tamay Enterprises is a West Haven, CT–based multi-service company providing construction, real estate, and logistics services.",
+  referrer: "strict-origin-when-cross-origin",
   openGraph: {
     images: [IMG.og],
   },
