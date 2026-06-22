@@ -41,7 +41,7 @@ export const IMAGES = {
   },
   divisions: {
     construction: home("HomePageImage2.webp"),
-    realEstate: home("HomePageImage3.webp"),
+    realEstate: home("real-estate-division.png"),
     logistics: home("HomePageImage8.webp"),
   },
   realEstate: {
