@@ -42,7 +42,7 @@ export const IMAGES = {
   divisions: {
     construction: home("HomePageImage2.webp"),
     realEstate: home("real-estate-division.png"),
-    logistics: home("HomePageImage8.webp"),
+    logistics: home("logistics-division.png"),
   },
   realEstate: {
     hero: assetUrl("/real-estate/hero-banner.png"),
