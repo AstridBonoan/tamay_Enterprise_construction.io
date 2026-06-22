@@ -89,16 +89,28 @@ export function HeroVideoBanner({
             {HERO_VIDEO.headline}
           </h1>
           <p>
-            <span className="block text-sm sm:text-sm font-semibold tracking-[0.15em] uppercase mb-2 text-tamay-accent drop-shadow-sm">
+            <span className="block text-sm sm:text-sm font-semibold tracking-[0.15em] uppercase mb-3 text-tamay-accent drop-shadow-sm">
               {HERO_VIDEO.eyebrow}
             </span>
             <a
               href={SITE.phoneTel}
-              className="text-base sm:text-base font-semibold text-white/90 hover:text-white tracking-wide drop-shadow-sm"
+              aria-label={`Call Tamay Enterprises at ${SITE.phone}`}
+              className="inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-white/40 bg-white/10 px-6 py-3.5 text-xl sm:text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-md transition-colors hover:bg-white/20 hover:border-white/60 active:bg-white/25 min-h-[52px] min-w-[220px]"
             >
+              <svg className="w-6 h-6 sm:w-7 sm:h-7 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                />
+              </svg>
               {SITE.phone}
             </a>
-            <span className="block mt-1 text-sm sm:text-sm text-white/75 tracking-[0.12em] uppercase">
+            <span className="block mt-2 text-xs sm:text-sm font-medium tracking-[0.14em] uppercase text-white/80">
+              Tap to call
+            </span>
+            <span className="block mt-3 text-sm sm:text-sm text-white/75 tracking-[0.12em] uppercase">
               {tagline ?? SITE.tagline}
             </span>
           </p>
