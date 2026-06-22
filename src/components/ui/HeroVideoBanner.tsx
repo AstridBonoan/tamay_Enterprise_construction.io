@@ -85,16 +85,13 @@ export function HeroVideoBanner({
 
       {withMessage ? (
         <div className="relative z-10 w-full max-w-3xl mx-auto px-4 sm:px-6 pt-2 sm:pt-0 text-center text-white">
-          <p className="text-sm sm:text-sm font-semibold tracking-[0.15em] uppercase mb-3 sm:mb-4 text-tamay-accent drop-shadow-sm">
-            {HERO_VIDEO.eyebrow}
-          </p>
-          <h1 className="font-heading text-3xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-bold leading-tight mb-4 sm:mb-5 text-balance drop-shadow-md">
+          <h1 className="font-heading text-3xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-bold leading-tight mb-6 sm:mb-8 text-balance drop-shadow-md">
             {HERO_VIDEO.headline}
           </h1>
-          <p className="text-base sm:text-base md:text-lg text-white/95 leading-relaxed max-w-2xl mx-auto mb-6 sm:mb-8 drop-shadow-sm">
-            {HERO_VIDEO.message}
-          </p>
           <p>
+            <span className="block text-sm sm:text-sm font-semibold tracking-[0.15em] uppercase mb-2 text-tamay-accent drop-shadow-sm">
+              {HERO_VIDEO.eyebrow}
+            </span>
             <a
               href={SITE.phoneTel}
               className="text-base sm:text-base font-semibold text-white/90 hover:text-white tracking-wide drop-shadow-sm"

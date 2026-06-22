@@ -58,8 +58,6 @@ export const ESTIMATE = {
 export const HERO_VIDEO = {
   eyebrow: "Tamay Enterprises · West Haven, CT",
   headline: "Building Better Spaces, One Project at a Time",
-  message:
-    "Watch our team at work — delivering expert construction, renovation, and home improvement with care, precision, and results you can trust.",
 } as const;
 
 export const ABOUT = {
