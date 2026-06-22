@@ -107,9 +107,6 @@ export function HeroVideoBanner({
               </svg>
               {SITE.phone}
             </a>
-            <span className="block mt-2 text-xs sm:text-sm font-medium tracking-[0.14em] uppercase text-white/80">
-              Tap to call
-            </span>
             <span className="block mt-3 text-sm sm:text-sm text-white/75 tracking-[0.12em] uppercase">
               {tagline ?? SITE.tagline}
             </span>
