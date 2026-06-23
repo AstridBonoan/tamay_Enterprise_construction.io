@@ -51,6 +51,6 @@ export const REVIEW_VIDEO_PROJECTS: ReviewVideoProject[] = [
   {
     id: "glastonbury-testimonial",
     videos: ["z3yUrFNa3WM"],
-    title: "Glastonbury, Connecticut - testimonial",
+    title: "Erik Heller Testimonial",
   },
 ];
