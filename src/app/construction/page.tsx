@@ -143,7 +143,10 @@ export default function ConstructionPage() {
       </section>
 
       <section className="py-14 max-w-3xl mx-auto px-4 text-center">
-        <SectionHeading title="7-Year Warranty & Complimentary Tune-Ups" subtitle="Renovate Once. Enjoy It Longer." />
+        <SectionHeading
+          title="7-Year Warranty & Complimentary Tune-Ups For New Renovations"
+          subtitle="Renovate Once. Enjoy It Longer."
+        />
         <ol className="text-left text-gray-700 space-y-2 max-w-md mx-auto">
           <li>1. 7-year workmanship warranty on eligible renovations</li>
           <li>2. Bathroom rejuvenation tune-ups (only on full/ new renovations)</li>
