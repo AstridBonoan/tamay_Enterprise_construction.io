@@ -48,4 +48,9 @@ export const REVIEW_VIDEO_PROJECTS: ReviewVideoProject[] = [
     videos: ["08Ks5xBkHNY"],
     title: "MIKE ADARKWAH - testimonial",
   },
+  {
+    id: "glastonbury-testimonial",
+    videos: ["z3yUrFNa3WM"],
+    title: "Glastonbury, Connecticut - testimonial",
+  },
 ];
