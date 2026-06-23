@@ -132,9 +132,6 @@ export default function ConstructionPage() {
                 <div className="p-6">
                   <h3 className="font-heading text-lg text-tamay-primary font-semibold mb-3">{s.title}</h3>
                   <p className="text-sm text-gray-600 leading-relaxed">{s.text}</p>
-                  {"caption" in s && s.caption ? (
-                    <p className="mt-4 text-sm font-semibold text-tamay-primary">{s.caption}</p>
-                  ) : null}
                 </div>
               </article>
             ))}
