@@ -14,11 +14,3 @@ export const ADA_RESTROOM_PROJECT_VIDEOS: ReviewVideoProject[] = [
     videos: ["EXIut76IUDU", "hg34-f2Qfok", "af5JYQe6ltY"],
   },
 ];
-
-/** Featured client testimonial video (construction page) */
-export const CONSTRUCTION_CLIENT_TESTIMONIAL_VIDEOS: ReviewVideoProject[] = [
-  {
-    id: "wilton-bathroom-testimonial",
-    videos: ["xhyHDnt_G8g"],
-  },
-];

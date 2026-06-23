@@ -19,9 +19,17 @@ function getSlideWidthPercent(width: number) {
 
 type VideoTestimonialCarouselProps = {
   projects: ReviewVideoProject[];
+  showHeading?: boolean;
+  theme?: "dark" | "light";
+  instanceId?: string;
 };
 
-export function VideoTestimonialCarousel({ projects }: VideoTestimonialCarouselProps) {
+export function VideoTestimonialCarousel({
+  projects,
+  showHeading = true,
+  theme = "dark",
+  instanceId = "home-video-carousel",
+}: VideoTestimonialCarouselProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -116,11 +124,22 @@ export function VideoTestimonialCarousel({ projects }: VideoTestimonialCarouselP
 
   if (count === 0) return null;
 
+  const isDark = theme === "dark";
+  const navButtonClass = isDark
+    ? "text-white/90 hover:text-white"
+    : "text-tamay-primary/80 hover:text-tamay-primary";
+  const dotActiveClass = isDark ? "bg-white" : "bg-tamay-primary";
+  const dotInactiveClass = isDark
+    ? "bg-white/40 hover:bg-white/60"
+    : "bg-gray-300 hover:bg-gray-400";
+
   return (
-    <div className="mt-12 sm:mt-14">
-      <h3 className="font-heading text-xl sm:text-2xl text-white text-center mb-8 tracking-wide">
-        VIDEO TESTIMONIALS
-      </h3>
+    <div className={showHeading ? "mt-12 sm:mt-14" : "mt-2"}>
+      {showHeading && (
+        <h3 className="font-heading text-xl sm:text-2xl text-white text-center mb-8 tracking-wide">
+          VIDEO TESTIMONIALS
+        </h3>
+      )}
 
       <div
         className="relative px-6 sm:px-10"
@@ -131,7 +150,7 @@ export function VideoTestimonialCarousel({ projects }: VideoTestimonialCarouselP
           <button
             type="button"
             onClick={prev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center text-white/90 hover:text-white text-2xl"
+            className={`absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center text-2xl ${navButtonClass}`}
             aria-label="Previous video testimonial"
           >
             ‹
@@ -141,7 +160,7 @@ export function VideoTestimonialCarousel({ projects }: VideoTestimonialCarouselP
         <div ref={viewportRef} className="video-testimonial-viewport">
           <div
             ref={galleryRef}
-            id="home-video-carousel-gallery"
+            id={`${instanceId}-gallery`}
             className="video-testimonial-track"
             style={{ transform: `translateX(${trackOffset}px)` }}
           >
@@ -179,7 +198,7 @@ export function VideoTestimonialCarousel({ projects }: VideoTestimonialCarouselP
           <button
             type="button"
             onClick={next}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center text-white/90 hover:text-white text-2xl"
+            className={`absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center text-2xl ${navButtonClass}`}
             aria-label="Next video testimonial"
           >
             ›
@@ -195,7 +214,7 @@ export function VideoTestimonialCarousel({ projects }: VideoTestimonialCarouselP
               type="button"
               onClick={() => setCenterIndex(index)}
               className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                index === centerIndex ? "bg-white" : "bg-white/40 hover:bg-white/60"
+                index === centerIndex ? dotActiveClass : dotInactiveClass
               }`}
               aria-label={`Go to video testimonial ${index + 1}`}
               aria-current={index === centerIndex ? "true" : undefined}
@@ -206,19 +225,19 @@ export function VideoTestimonialCarousel({ projects }: VideoTestimonialCarouselP
 
       <div
         className="tamay-modal"
-        id="home-video-carousel-modal"
+        id={`${instanceId}-modal`}
         ref={modalRef}
         aria-hidden="true"
       >
         <div
           className="tamay-modal-video"
-          id="home-video-carousel-player"
+          id={`${instanceId}-player`}
           ref={playerRef}
         />
       </div>
       <div
         className="tamay-close"
-        id="home-video-carousel-close"
+        id={`${instanceId}-close`}
         ref={closeRef}
         role="button"
         tabIndex={0}

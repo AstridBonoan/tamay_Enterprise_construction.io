@@ -5,13 +5,14 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { ContactBlock } from "@/components/ui/ContactBlock";
 import { Button } from "@/components/ui/Button";
+import { VideoTestimonialCarousel } from "@/components/home/VideoTestimonialCarousel";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
 import { IMAGES } from "@/lib/images";
 import {
   ADA_RESTROOM_PROJECT_VIDEOS,
-  CONSTRUCTION_CLIENT_TESTIMONIAL_VIDEOS,
   CONSTRUCTION_PROJECT_VIDEOS,
 } from "@/lib/constructionVideos";
+import { REVIEW_VIDEO_PROJECTS } from "@/lib/reviewVideos";
 import { ConstructionEstimateBanner } from "@/components/construction/ConstructionEstimateBanner";
 import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
 import { SITE } from "@/lib/site";
@@ -213,10 +214,11 @@ export default function ConstructionPage() {
 
       <section className="py-14 max-w-6xl mx-auto px-4">
         <SectionHeading title="Client Testimonials" />
-        <TamayVideoGallery
-          projects={CONSTRUCTION_CLIENT_TESTIMONIAL_VIDEOS}
-          showTitle={false}
-          instanceId="construction-testimonial"
+        <VideoTestimonialCarousel
+          projects={REVIEW_VIDEO_PROJECTS}
+          showHeading={false}
+          theme="light"
+          instanceId="construction-testimonials"
         />
         <div className="text-center mt-8">
           <Button href="/reviews" variant="primary">
