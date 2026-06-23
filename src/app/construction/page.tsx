@@ -213,13 +213,6 @@ export default function ConstructionPage() {
 
       <section className="py-14 max-w-6xl mx-auto px-4">
         <SectionHeading title="Client Testimonials" />
-        <p className="text-gray-600 leading-relaxed mb-8 -mt-4 text-center max-w-4xl mx-auto">
-          This testimonial reflects the experience our clients can expect when working with Tamay Enterprise
-          from clear communication and organized project execution to quality results that stand the test of
-          time. While this video highlights one completed project, we invite you to explore our additional
-          testimonial videos to hear directly from other homeowners, investors, and property managers who
-          have trusted our team for their construction and renovation needs.
-        </p>
         <TamayVideoGallery
           projects={CONSTRUCTION_CLIENT_TESTIMONIAL_VIDEOS}
           showTitle={false}
