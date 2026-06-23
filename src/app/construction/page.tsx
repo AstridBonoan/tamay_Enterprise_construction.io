@@ -41,7 +41,6 @@ const coreServices = [
     text: "Tamay Enterprises specializes in kitchen and bathroom remodeling services for homeowners, real estate investors, and property managers throughout West Haven, CT and nearby communities. Our remodeling work balances aesthetics, durability, and everyday usability, delivering kitchens and bathrooms designed to perform reliably in both owner-occupied and managed properties.",
     img: IMAGES.construction.kitchenBath,
     alt: "Modern kitchen and bathroom remodeling",
-    caption: "White shaker cabinets & light quartz countertops",
   },
 ] as const;
 
@@ -212,6 +211,8 @@ export default function ConstructionPage() {
         </div>
       </section>
 
+      <ServiceAppointmentSection serviceId="construction" />
+
       <section className="py-14 max-w-6xl mx-auto px-4">
         <SectionHeading title="Client Testimonials" />
         <VideoTestimonialCarousel
@@ -240,8 +241,6 @@ export default function ConstructionPage() {
           the greater West Haven and New Haven County area.
         </p>
       </section>
-
-      <ServiceAppointmentSection serviceId="construction" />
 
       <section id="contact" className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12">
