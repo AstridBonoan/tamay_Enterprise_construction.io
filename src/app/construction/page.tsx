@@ -89,7 +89,7 @@ export default function ConstructionPage() {
       />
 
       <div className="bg-tamay-accent text-white text-center py-3 text-sm font-semibold tracking-wide">
-        7-Year Warranty + Finance on new Renovations
+        7-Year Warranty + Finance on New Renovations
       </div>
 
       <section className="py-14 max-w-4xl mx-auto px-4">
