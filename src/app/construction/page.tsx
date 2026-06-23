@@ -159,7 +159,7 @@ export default function ConstructionPage() {
         <div className="max-w-3xl mx-auto text-center">
           <SectionHeading
             light
-            eyebrow="Licensed & Established"
+            eyebrow="Licensed & Insured"
             title={`Connecticut License ${SITE.license}`}
           />
           <p className="text-gray-200 leading-relaxed -mt-4">
