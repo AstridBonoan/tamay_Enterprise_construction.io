@@ -83,7 +83,7 @@ export default function RealEstatePage() {
         <figure className="mt-10 relative aspect-[2/1] max-w-3xl mx-auto overflow-hidden rounded-sm">
           <Image
             src={IMAGES.realEstate.agent}
-            alt="Real Estate Agent"
+            alt="Real estate and development team reviewing architectural plans in a planning meeting"
             fill
             className="object-cover"
             sizes="768px"

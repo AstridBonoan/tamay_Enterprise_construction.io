@@ -70,7 +70,7 @@ export const ONLINE_APPOINTMENT_SERVICES: readonly OnlineAppointmentService[] = 
     priceLabel: "Free",
     description: "A one-on-one session to discuss your specific needs and goals.",
     image: IMAGES.realEstate.agent,
-    imageAlt: "Happy couple holding house keys after a real estate closing",
+    imageAlt: "Real estate and development team reviewing architectural plans in a planning meeting",
     scheduleLabel: "Available consultation times",
     scheduleCtaLabel: "Book a real estate consultation",
     scheduleSlots: slots([
