@@ -13,7 +13,6 @@ type HeroVideoBannerProps = {
   titleLine2?: string;
   subtitle?: string;
   cta?: { label: string; href: string };
-  posterImage?: string;
 };
 
 export function HeroVideoBanner({
@@ -23,44 +22,45 @@ export function HeroVideoBanner({
   titleLine2,
   subtitle,
   cta,
-  posterImage,
 }: HeroVideoBannerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoReady, setVideoReady] = useState(false);
   const videoSrc = assetUrl("/homepage/HomePageVideo.mp4");
-  const poster = posterImage
-    ? assetUrl(posterImage)
-    : assetUrl("/homepage/HomePageImage1.webp");
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
+    const markReady = () => setVideoReady(true);
+
     const play = async () => {
       try {
         video.muted = true;
         await video.play();
-        setVideoReady(true);
+        markReady();
       } catch {
-        setVideoReady(false);
+        if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+          markReady();
+        }
       }
     };
 
-    play();
+    video.addEventListener("canplay", markReady, { once: true });
+    video.addEventListener("loadeddata", markReady, { once: true });
+    void play();
+
+    return () => {
+      video.removeEventListener("canplay", markReady);
+      video.removeEventListener("loadeddata", markReady);
+    };
   }, [videoSrc]);
 
   return (
     <section
-      className={`relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex justify-center overflow-hidden ${
+      className={`relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex justify-center overflow-hidden bg-black ${
         withMessage ? "items-start pt-14 sm:items-center sm:pt-0" : "items-center"
       }`}
     >
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${poster})` }}
-        aria-hidden
-      />
-
       <video
         ref={videoRef}
         src={videoSrc}
@@ -72,7 +72,6 @@ export function HeroVideoBanner({
         loop
         playsInline
         preload="auto"
-        poster={poster}
       />
 
       <div
