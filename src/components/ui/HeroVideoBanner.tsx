@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { assetUrl } from "@/lib/assetUrl";
 import { HERO_VIDEO, SITE } from "@/lib/site";
 
@@ -24,49 +24,28 @@ export function HeroVideoBanner({
   cta,
 }: HeroVideoBannerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoReady, setVideoReady] = useState(false);
   const videoSrc = assetUrl("/homepage/HomePageVideo.mp4");
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const markReady = () => setVideoReady(true);
-
-    const play = async () => {
-      try {
-        video.muted = true;
-        await video.play();
-        markReady();
-      } catch {
-        if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
-          markReady();
-        }
-      }
-    };
-
-    video.addEventListener("canplay", markReady, { once: true });
-    video.addEventListener("loadeddata", markReady, { once: true });
-    void play();
-
-    return () => {
-      video.removeEventListener("canplay", markReady);
-      video.removeEventListener("loadeddata", markReady);
-    };
+    video.muted = true;
+    void video.play().catch(() => {
+      // Autoplay may be blocked until user interaction; video element stays visible.
+    });
   }, [videoSrc]);
 
   return (
     <section
-      className={`relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex justify-center overflow-hidden bg-black ${
+      className={`relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex justify-center overflow-hidden ${
         withMessage ? "items-start pt-14 sm:items-center sm:pt-0" : "items-center"
       }`}
     >
       <video
         ref={videoRef}
         src={videoSrc}
-        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-          videoReady ? "opacity-100" : "opacity-0"
-        }`}
+        className="absolute inset-0 h-full w-full object-cover"
         autoPlay
         muted
         loop
