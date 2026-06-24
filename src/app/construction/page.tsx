@@ -84,7 +84,9 @@ export default function ConstructionPage() {
         image={IMAGES.heroConstruction}
         title="Construction & Home Renovation Services"
         subtitle="Your dream space starts here."
-        height="medium"
+        height="tall"
+        imagePosition="center top"
+        imageZoom={1.2}
       />
 
       <div className="bg-tamay-accent text-white text-center py-3 text-sm font-semibold tracking-wide">
