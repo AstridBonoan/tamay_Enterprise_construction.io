@@ -220,7 +220,7 @@ export default function ConstructionPage() {
         />
         <div className="text-center mt-8">
           <Button href="/reviews" variant="primary">
-            More reviews
+            See More Reviews
           </Button>
         </div>
       </section>
