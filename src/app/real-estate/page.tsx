@@ -58,6 +58,8 @@ export default function RealEstatePage() {
         image={IMAGES.realEstate.hero}
         title="Real Estate Services"
         height="medium"
+        imagePosition="center center"
+        imageZoom={1.2}
       />
 
       <section className="py-14 max-w-4xl mx-auto px-4">
