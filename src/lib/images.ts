@@ -45,7 +45,7 @@ export const IMAGES = {
     logistics: home("logistics-division.png"),
   },
   realEstate: {
-    hero: assetUrl("/real-estate/hero-banner.png"),
+    hero: assetUrl("/real-estate/hero-banner-waterfront.png"),
     agent: assetUrl("/real-estate/real-estate-planning-board.png"),
     longTermValue:
       "https://img1.wsimg.com/isteam/getty/2170553469/:/cr=t:5.56%25,l:0%25,w:100%25,h:88.88%25/rs=w:1200,h:600,cg:true",
