@@ -12,7 +12,7 @@ export const IMAGES = {
   og: home("HomePageImage1.webp"),
   heroHome: home("HomePageImage1.webp"),
   reviewsBackground: assetUrl("/reviews/reviews-background.png"),
-  heroConstruction: assetUrl("/construction/hero-banner.png"),
+  heroConstruction: home("HomePageImage1.webp"),
   /** Interior photo only — no text baked in (avoids duplicate copy in modal) */
   estimateModalPhoto: home("HomePageImage4.webp"),
   estimatePromoPhoto: assetUrl("/images/homepage/estimate-flooring-install.png"),
