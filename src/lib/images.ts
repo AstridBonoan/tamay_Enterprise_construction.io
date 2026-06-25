@@ -5,6 +5,8 @@ const BASE =
 
 const home = (file: string) => assetUrl(`/homepage/${file}`);
 
+const logisticsFleetVans = assetUrl("/logistics/tamay-fleet-vans-hd.webp");
+
 /** Local homepage assets + CDN fallbacks for other pages */
 export const IMAGES = {
   logo: `${BASE}/blob-cd2cf72.png/:/rs=w:400,h:98,m`,
@@ -42,7 +44,7 @@ export const IMAGES = {
   divisions: {
     construction: home("HomePageImage2.webp"),
     realEstate: home("real-estate-division.png"),
-    logistics: home("logistics-division.png"),
+    logistics: logisticsFleetVans,
   },
   realEstate: {
     hero: assetUrl("/real-estate/hero-banner-coastal-estate.png"),
@@ -60,8 +62,8 @@ export const IMAGES = {
     serviceExterior: assetUrl("/home-preventive-services/service-exterior.png"),
   },
   logistics: {
-    hero: assetUrl("/logistics/hero-banner.png"),
-    warehouseFleet: assetUrl("/logistics/warehouse-fleet-docks-hd.webp"),
+    hero: logisticsFleetVans,
+    warehouseFleet: logisticsFleetVans,
     routeMap: assetUrl("/logistics/route-map.png"),
     whyChoose: {
       professional: assetUrl("/logistics/why-choose-professional.png"),
