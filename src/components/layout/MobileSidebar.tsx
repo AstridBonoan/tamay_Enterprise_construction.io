@@ -54,7 +54,7 @@ export function MobileSidebar({ open, onClose }: MobileSidebarProps) {
   if (!mounted || !open) return null;
 
   const panel = (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <div
         role="presentation"
         className="fixed inset-0 z-[200] bg-black/50 backdrop-blur-[2px]"
