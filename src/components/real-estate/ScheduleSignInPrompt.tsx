@@ -7,7 +7,7 @@ type ScheduleSignInPromptProps = {
 };
 
 export function ScheduleSignInPrompt({ schedulePath, actionLabel }: ScheduleSignInPromptProps) {
-  const loginHref = sitePath(`/m/login?r=${encodeURIComponent(schedulePath)}`);
+  const loginHref = `/m/login?r=${encodeURIComponent(schedulePath)}`;
 
   return (
     <div className="rounded-sm border border-tamay-primary/20 bg-tamay-primary/5 px-5 py-6 text-center">
@@ -23,7 +23,7 @@ export function ScheduleSignInPrompt({ schedulePath, actionLabel }: ScheduleSign
           Sign in
         </Link>
         <Link
-          href={sitePath(`/m/create-account?r=${encodeURIComponent(schedulePath)}`)}
+          href={`/m/create-account?r=${encodeURIComponent(schedulePath)}`}
           className="inline-block font-bold text-sm tracking-wide px-6 py-3 border-2 border-tamay-primary text-tamay-primary hover:bg-tamay-primary hover:text-white transition-colors"
         >
           Create account

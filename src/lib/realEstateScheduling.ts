@@ -44,5 +44,5 @@ export function getSchedulingBookingUrl(listing: PropertyListing): string | null
 }
 
 export function realEstateSectionHref(kind: ListingKind): string {
-  return kind === "sale" ? "/real-estate#houses-for-sale" : "/real-estate#houses-for-rent";
+  return kind === "sale" ? "/real-estate/#houses-for-sale" : "/real-estate/#houses-for-rent";
 }

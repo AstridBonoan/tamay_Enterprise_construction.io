@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { PropertyShowingRequestForm } from "@/components/real-estate/PropertyShowingRequestForm";
 import type { PropertyListing } from "@/lib/realEstateListings";
-import { sitePath } from "@/lib/paths";
 import {
   getSchedulingBookingUrl,
   getSchedulingEmbedUrl,
@@ -113,7 +112,7 @@ export function PropertyScheduleCalendar({ listing, kind, kindLabel }: PropertyS
       </div>
 
       <p className="text-center">
-        <Link href={sitePath("/real-estate")} className="text-tamay-primary font-semibold hover:underline text-sm">
+        <Link href="/real-estate/" className="text-tamay-primary font-semibold hover:underline text-sm">
           ← Back to Real Estate
         </Link>
       </p>

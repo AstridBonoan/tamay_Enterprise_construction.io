@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { PropertyScheduleCalendar } from "@/components/real-estate/PropertyScheduleCalendar";
-import { sitePath } from "@/lib/paths";
 import {
   getAllListingIds,
   getListingById,
@@ -40,7 +39,7 @@ export default async function PropertySchedulePage({ params }: SchedulePageProps
     <section className="py-14 px-4 bg-gray-50 min-h-[70vh]">
       <div className="max-w-3xl mx-auto">
         <p className="text-sm text-gray-500 mb-6 text-center">
-          <Link href={sitePath(realEstateSectionHref(kind))} className="text-tamay-primary hover:underline">
+          <Link href={realEstateSectionHref(kind)} className="text-tamay-primary hover:underline">
             ← Back to {kind === "sale" ? "Houses For Sale" : "Houses For Rent"}
           </Link>
         </p>
