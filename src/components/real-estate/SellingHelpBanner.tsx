@@ -1,14 +1,16 @@
 import { FloatingPromoBanner } from "@/components/ui/FloatingPromoBanner";
 
-/** Fixed bottom-right promo on the Real Estate page — text only, no buttons. */
+/** Fixed bottom-right promo on the Real Estate page. */
 export function SellingHelpBanner() {
   return (
     <FloatingPromoBanner
       floatId="real-estate-selling"
-      collapsedLabel="Selling"
-      ariaLabel="Selling your home"
-      headline="Are You Selling A House?"
-      body="We Can Help You Prepare Your House For The Market"
+      collapsedLabel="Advisor"
+      ariaLabel="Talk to a real estate advisor"
+      headline="Talk To A Real Estate Advisor"
+      body="Connect with our team about buying, selling, or investing in Connecticut real estate."
+      ctaLabel="Talk To A Real Estate Advisor"
+      ctaHref="#contact"
     />
   );
 }
