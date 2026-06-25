@@ -11,9 +11,9 @@ const slides = [
   { src: IMAGES.homepage.image6, alt: "Tamay Enterprises project 6" },
   { src: IMAGES.homepage.image7, alt: "Tamay Enterprises project 7" },
   { src: IMAGES.homepage.image8, alt: "Tamay Enterprises project 8" },
-  { src: IMAGES.homepage.image9, alt: "Tamay Enterprises project 9" },
-  { src: IMAGES.homepage.image10, alt: "Tamay Enterprises project 10" },
-  { src: IMAGES.homepage.image11, alt: "Tamay Enterprises project 11" },
+  { src: IMAGES.homepage.image9, alt: "Tamay Enterprises van serving Connecticut communities" },
+  { src: IMAGES.homepage.image10, alt: "Tamay Enterprises company garage and fleet maintenance" },
+  { src: IMAGES.homepage.image11, alt: "Tamay Enterprises fleet at company headquarters" },
 ];
 
 export function HomeImageShowcase() {

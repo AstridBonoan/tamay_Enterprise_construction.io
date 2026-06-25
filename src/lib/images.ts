@@ -29,9 +29,9 @@ export const IMAGES = {
     image6: home("HomePageImage6.webp"),
     image7: home("HomePageImage7.webp"),
     image8: home("HomePageImage8.webp"),
-    image9: home("HomePageImage9.webp"),
-    image10: home("HomePageImage10.webp"),
-    image11: home("HomePageImage11.webp"),
+    image9: assetUrl("/homepage/community-connecticut-town.webp"),
+    image10: assetUrl("/homepage/fleet-garage-maintenance.webp"),
+    image11: assetUrl("/homepage/fleet-headquarters-line.webp"),
   },
   construction: {
     renovation: assetUrl("/construction/core-renovation.png"),
