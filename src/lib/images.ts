@@ -61,7 +61,7 @@ export const IMAGES = {
   },
   logistics: {
     hero: assetUrl("/logistics/hero-banner.png"),
-    warehouseFleet: assetUrl("/logistics/warehouse-fleet-docks.png"),
+    warehouseFleet: assetUrl("/logistics/warehouse-fleet-docks-hd.webp"),
     routeMap: assetUrl("/logistics/route-map.png"),
     whyChoose: {
       professional: assetUrl("/logistics/why-choose-professional.png"),

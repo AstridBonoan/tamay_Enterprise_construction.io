@@ -59,7 +59,7 @@ function LogisticsPhoto({
 }) {
   return (
     <figure className={`relative ${className} max-w-5xl mx-auto overflow-hidden rounded-sm`}>
-      <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 1024px" unoptimized />
+      <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 1280px" unoptimized />
     </figure>
   );
 }
