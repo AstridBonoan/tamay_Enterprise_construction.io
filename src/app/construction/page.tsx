@@ -85,8 +85,8 @@ export default function ConstructionPage() {
         title="Construction & Home Renovation Services"
         subtitle="Your dream space starts here."
         height="medium"
-        imagePosition="center top"
-        imageZoom={1.45}
+        imagePosition="center center"
+        imageZoom={1.05}
       />
 
       <div className="bg-tamay-accent text-white text-center py-3 text-sm font-semibold tracking-wide">
