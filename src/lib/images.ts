@@ -62,7 +62,7 @@ export const IMAGES = {
     serviceExterior: assetUrl("/home-preventive-services/service-exterior.png"),
   },
   logistics: {
-    hero: logisticsFleetVans,
+    hero: assetUrl("/logistics/hero-banner.png"),
     warehouseFleet: logisticsFleetVans,
     routeMap: assetUrl("/logistics/route-map.png"),
     whyChoose: {
