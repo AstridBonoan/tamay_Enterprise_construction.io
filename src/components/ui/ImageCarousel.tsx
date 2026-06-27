@@ -21,6 +21,8 @@ type ImageCarouselProps = {
   autoplayIntervalMs?: number;
   /** Render slides inside an ornate gallery-style frame */
   framed?: boolean;
+  /** Show previous/next arrow buttons on the main slide */
+  showNavArrows?: boolean;
 };
 
 export function ImageCarousel({
@@ -30,6 +32,7 @@ export function ImageCarousel({
   showCaption = false,
   autoplayIntervalMs,
   framed = false,
+  showNavArrows = true,
 }: ImageCarouselProps) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -71,24 +74,34 @@ export function ImageCarousel({
     <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       {framed ? (
         <div className="max-w-3xl mx-auto">
-          <div className="flex items-center justify-center gap-2 sm:gap-4 px-1">
-            <button type="button" onClick={prev} className={navButtonClass} aria-label="Previous image">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <div className="min-w-0 flex-1">
+          <div
+            className={
+              showNavArrows
+                ? "flex items-center justify-center gap-2 sm:gap-4 px-1"
+                : "px-1"
+            }
+          >
+            {showNavArrows && (
+              <button type="button" onClick={prev} className={navButtonClass} aria-label="Previous image">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+            )}
+            <div className={showNavArrows ? "min-w-0 flex-1" : "w-full"}>
               <GalleryPictureFrame
                 src={mainSlide.src}
                 alt={mainSlide.alt}
                 priority={index === 0}
               />
             </div>
-            <button type="button" onClick={next} className={navButtonClass} aria-label="Next image">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+            {showNavArrows && (
+              <button type="button" onClick={next} className={navButtonClass} aria-label="Next image">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            )}
           </div>
           <p className="text-center text-sm text-gray-600 font-medium mt-4">
             {index + 1} / {slides.length}
