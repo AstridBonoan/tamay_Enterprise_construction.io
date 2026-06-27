@@ -39,6 +39,35 @@
   line-height: 1.5;
 }
 
+.tamay-progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tamay-progress-step {
+  flex: 1;
+  min-width: 72px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 8px 4px;
+  border-bottom: 3px solid var(--border);
+  line-height: 1.3;
+}
+
+.tamay-progress-step.is-active {
+  color: var(--navy);
+  border-bottom-color: var(--gold);
+}
+
+.tamay-progress-step.is-done {
+  color: var(--navy);
+  border-bottom-color: var(--navy);
+}
+
 .tamay-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -155,7 +184,18 @@
   cursor: not-allowed;
 }
 
+.tamay-btn-secondary {
+  background: #fff;
+  color: var(--navy);
+  border: 2px solid var(--navy);
+  box-shadow: none;
+}
+
 .tamay-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
   margin-top: 18px;
 }
 

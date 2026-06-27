@@ -5,20 +5,27 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { syncContactFromForm, fetchAddresses } from "@/lib/account-data";
 import {
   FORMSPREE_JOB_APPLICATION,
+  JOB_APPLICATION_STEPS,
   PRIMARY_INTEREST_OPTIONS,
   TRADE_ROLE_OPTIONS,
   emptyJobApplicationForm,
   validateJobApplication,
+  validateJobApplicationStep,
   type JobApplicationFormData,
 } from "@/lib/jobApplication";
 import "@/styles/job-application-form.css";
 
 export function JobApplicationForm() {
   const { user, refreshUser } = useAuth();
+  const [step, setStep] = useState(0);
   const [data, setData] = useState<JobApplicationFormData>(() => emptyJobApplicationForm());
   const [status, setStatus] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -56,9 +63,24 @@ export function JobApplicationForm() {
     [],
   );
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const goNext = () => {
+    const error = validateJobApplicationStep(step, data);
+    if (error) {
+      setStatus(error);
+      return;
+    }
+    setStep((current) => Math.min(current + 1, JOB_APPLICATION_STEPS.length - 1));
+    setStatus("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
+  const goBack = () => {
+    setStep((current) => Math.max(current - 1, 0));
+    setStatus("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleSubmit = async () => {
     const error = validateJobApplication(data);
     if (error) {
       setStatus(error);
@@ -157,335 +179,364 @@ export function JobApplicationForm() {
     );
   }
 
+  const current = JOB_APPLICATION_STEPS[step];
+  const isLastStep = step === JOB_APPLICATION_STEPS.length - 1;
+
   return (
     <div className="tamay-wrap">
       <div className="tamay-header">
         <h2>Job Application – Tamay Enterprises Inc.</h2>
-        <p>Please complete the application. Fields marked with * are required.</p>
+        <p>
+          Step {step + 1} of {JOB_APPLICATION_STEPS.length}. Fields marked with * are required.
+        </p>
       </div>
 
-      <form onSubmit={handleSubmit}>
-        <div className="tamay-card">
-          <div className="tamay-legend">1) Personal Information</div>
-
-          <label>
-            Full Name *
-            <input
-              type="text"
-              required
-              value={data.full_name}
-              onChange={(e) => update("full_name", e.target.value)}
-            />
-          </label>
-
-          <div className="tamay-grid">
-            <div className="tamay-col">
-              <label>
-                Phone *
-                <input
-                  type="tel"
-                  required
-                  placeholder="(###) ###-####"
-                  value={data.phone}
-                  onChange={(e) => update("phone", e.target.value)}
-                />
-              </label>
-            </div>
-            <div className="tamay-col">
-              <label>
-                Email *
-                <input
-                  type="email"
-                  required
-                  value={data.email}
-                  onChange={(e) => update("email", e.target.value)}
-                />
-              </label>
-            </div>
+      <nav className="tamay-progress" aria-label="Application steps">
+        {JOB_APPLICATION_STEPS.map((item, index) => (
+          <div
+            key={item.id}
+            className={`tamay-progress-step ${index === step ? "is-active" : ""} ${index < step ? "is-done" : ""}`}
+          >
+            {item.label}
           </div>
+        ))}
+      </nav>
 
-          <label>
-            Address *
-            <input
-              type="text"
-              required
-              placeholder="Street address"
-              value={data.address_line1}
-              onChange={(e) => update("address_line1", e.target.value)}
-            />
-          </label>
+      <div className="tamay-card">
+        <div className="tamay-legend">{current.title}</div>
 
-          <div className="tamay-grid">
-            <div className="tamay-col">
-              <label>
-                Apt / Suite (optional)
-                <input
-                  type="text"
-                  placeholder="Apt, suite, unit, etc."
-                  value={data.address_line2}
-                  onChange={(e) => update("address_line2", e.target.value)}
-                />
-              </label>
+        {step === 0 && (
+          <>
+            <label>
+              Full Name *
+              <input
+                type="text"
+                required
+                value={data.full_name}
+                onChange={(e) => update("full_name", e.target.value)}
+              />
+            </label>
+
+            <div className="tamay-grid">
+              <div className="tamay-col">
+                <label>
+                  Phone *
+                  <input
+                    type="tel"
+                    required
+                    placeholder="(###) ###-####"
+                    value={data.phone}
+                    onChange={(e) => update("phone", e.target.value)}
+                  />
+                </label>
+              </div>
+              <div className="tamay-col">
+                <label>
+                  Email *
+                  <input
+                    type="email"
+                    required
+                    value={data.email}
+                    onChange={(e) => update("email", e.target.value)}
+                  />
+                </label>
+              </div>
             </div>
-            <div className="tamay-col">
-              <label>
-                Zip Code *
-                <input
-                  type="text"
-                  required
-                  placeholder="#####"
-                  value={data.zip}
-                  onChange={(e) => update("zip", e.target.value)}
-                />
-              </label>
+
+            <label>
+              Address *
+              <input
+                type="text"
+                required
+                placeholder="Street address"
+                value={data.address_line1}
+                onChange={(e) => update("address_line1", e.target.value)}
+              />
+            </label>
+
+            <div className="tamay-grid">
+              <div className="tamay-col">
+                <label>
+                  Apt / Suite (optional)
+                  <input
+                    type="text"
+                    placeholder="Apt, suite, unit, etc."
+                    value={data.address_line2}
+                    onChange={(e) => update("address_line2", e.target.value)}
+                  />
+                </label>
+              </div>
+              <div className="tamay-col">
+                <label>
+                  Zip Code *
+                  <input
+                    type="text"
+                    required
+                    placeholder="#####"
+                    value={data.zip}
+                    onChange={(e) => update("zip", e.target.value)}
+                  />
+                </label>
+              </div>
             </div>
-          </div>
 
-          <div className="tamay-grid">
-            <div className="tamay-col">
-              <label>
-                City *
-                <input
-                  type="text"
-                  required
-                  value={data.city}
-                  onChange={(e) => update("city", e.target.value)}
-                />
-              </label>
+            <div className="tamay-grid">
+              <div className="tamay-col">
+                <label>
+                  City *
+                  <input
+                    type="text"
+                    required
+                    value={data.city}
+                    onChange={(e) => update("city", e.target.value)}
+                  />
+                </label>
+              </div>
+              <div className="tamay-col">
+                <label>
+                  State *
+                  <input
+                    type="text"
+                    required
+                    value={data.state}
+                    onChange={(e) => update("state", e.target.value)}
+                  />
+                </label>
+              </div>
             </div>
-            <div className="tamay-col">
-              <label>
-                State *
-                <input
-                  type="text"
-                  required
-                  value={data.state}
-                  onChange={(e) => update("state", e.target.value)}
-                />
-              </label>
+          </>
+        )}
+
+        {step === 1 && (
+          <>
+            <label>
+              Primary Interest *
+              <select
+                required
+                value={data.primary_interest}
+                onChange={(e) => update("primary_interest", e.target.value)}
+              >
+                <option value="">Select one</option>
+                {PRIMARY_INTEREST_OPTIONS.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              Trade / Role Applying For *
+              <select
+                required
+                value={data.position}
+                onChange={(e) => update("position", e.target.value)}
+              >
+                <option value="">Select one</option>
+                {TRADE_ROLE_OPTIONS.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              If &quot;Other&quot;, please specify
+              <input
+                type="text"
+                value={data.position_other}
+                onChange={(e) => update("position_other", e.target.value)}
+              />
+            </label>
+
+            <div className="tamay-grid">
+              <div className="tamay-col">
+                <label>
+                  Available Start Date *
+                  <input
+                    type="date"
+                    required
+                    value={data.start_date}
+                    onChange={(e) => update("start_date", e.target.value)}
+                  />
+                </label>
+              </div>
+              <div className="tamay-col">
+                <label>
+                  Employment Type *
+                  <select
+                    required
+                    value={data.employment_type}
+                    onChange={(e) => update("employment_type", e.target.value)}
+                  >
+                    <option value="">Select one</option>
+                    <option>Full-time</option>
+                    <option>Part-time</option>
+                    <option>Temporary</option>
+                    <option>On-call</option>
+                  </select>
+                </label>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div className="tamay-card">
-          <div className="tamay-legend">2) Position &amp; Availability</div>
+            <label>
+              Days / Hours Available *
+              <textarea
+                required
+                rows={3}
+                placeholder="Example: Mon–Fri 7am–4pm, weekends as needed"
+                value={data.availability_details}
+                onChange={(e) => update("availability_details", e.target.value)}
+              />
+            </label>
+          </>
+        )}
 
-          <label>
-            Primary Interest *
-            <select
-              required
-              value={data.primary_interest}
-              onChange={(e) => update("primary_interest", e.target.value)}
-            >
-              <option value="">Select one</option>
-              {PRIMARY_INTEREST_OPTIONS.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-          </label>
+        {step === 2 && (
+          <>
+            <label>
+              Resume Upload (Recommended)
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={(e) => update("resume_file", e.target.files?.[0] ?? null)}
+              />
+            </label>
 
-          <label>
-            Trade / Role Applying For *
-            <select
-              required
-              value={data.position}
-              onChange={(e) => update("position", e.target.value)}
-            >
-              <option value="">Select one</option>
-              {TRADE_ROLE_OPTIONS.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-          </label>
+            <p className="tamay-note">
+              Applicants who submit a resume will receive stronger consideration.
+            </p>
+            <p className="tamay-note">Accepted formats: PDF, DOC, DOCX.</p>
+          </>
+        )}
 
-          <label>
-            If &quot;Other&quot;, please specify
-            <input
-              type="text"
-              value={data.position_other}
-              onChange={(e) => update("position_other", e.target.value)}
-            />
-          </label>
+        {step === 3 && (
+          <>
+            <label>
+              Valid Driver&apos;s License? *
+              <select
+                required
+                value={data.drivers_license}
+                onChange={(e) => update("drivers_license", e.target.value)}
+              >
+                <option value="">Select one</option>
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </label>
 
-          <div className="tamay-grid">
-            <div className="tamay-col">
-              <label>
-                Available Start Date *
-                <input
-                  type="date"
-                  required
-                  value={data.start_date}
-                  onChange={(e) => update("start_date", e.target.value)}
-                />
-              </label>
-            </div>
-            <div className="tamay-col">
-              <label>
-                Employment Type *
-                <select
-                  required
-                  value={data.employment_type}
-                  onChange={(e) => update("employment_type", e.target.value)}
-                >
-                  <option value="">Select one</option>
-                  <option>Full-time</option>
-                  <option>Part-time</option>
-                  <option>Temporary</option>
-                  <option>On-call</option>
-                </select>
-              </label>
-            </div>
-          </div>
+            <label>
+              Last 3 years: points / suspension / serious tickets? *
+              <select
+                required
+                value={data.driving_issues}
+                onChange={(e) => update("driving_issues", e.target.value)}
+              >
+                <option value="">Select one</option>
+                <option>No</option>
+                <option>Yes (explain)</option>
+              </select>
+            </label>
 
-          <label>
-            Days / Hours Available *
-            <textarea
-              required
-              rows={3}
-              placeholder="Example: Mon–Fri 7am–4pm, weekends as needed"
-              value={data.availability_details}
-              onChange={(e) => update("availability_details", e.target.value)}
-            />
-          </label>
-        </div>
+            <label>
+              If Yes, brief explanation
+              <input
+                type="text"
+                placeholder="Short explanation"
+                value={data.driving_issues_notes}
+                onChange={(e) => update("driving_issues_notes", e.target.value)}
+              />
+            </label>
+          </>
+        )}
 
-        <div className="tamay-card">
-          <div className="tamay-legend">3) Resume Upload</div>
+        {step === 4 && (
+          <>
+            <label>
+              Authorized to work in the U.S.? *
+              <select
+                required
+                value={data.work_authorized}
+                onChange={(e) => update("work_authorized", e.target.value)}
+              >
+                <option value="">Select one</option>
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </label>
 
-          <label>
-            Resume Upload (Recommended)
-            <input
-              type="file"
-              accept=".pdf,.doc,.docx"
-              onChange={(e) => update("resume_file", e.target.files?.[0] ?? null)}
-            />
-          </label>
+            <label>
+              Agree to background check if required? *
+              <select
+                required
+                value={data.agree_background}
+                onChange={(e) => update("agree_background", e.target.value)}
+              >
+                <option value="">Select one</option>
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </label>
+          </>
+        )}
 
-          <p className="tamay-note">
-            Applicants who submit a resume will receive stronger consideration.
-          </p>
-          <p className="tamay-note">Accepted formats: PDF, DOC, DOCX.</p>
-        </div>
+        {step === 5 && (
+          <>
+            <label className="tamay-check">
+              <input
+                type="checkbox"
+                checked={data.confirm_truth}
+                onChange={(e) => update("confirm_truth", e.target.checked)}
+              />
+              I confirm that the information provided is accurate and complete. *
+            </label>
 
-        <div className="tamay-card">
-          <div className="tamay-legend">4) Driving</div>
+            <label>
+              Signature (Type Full Name) *
+              <input
+                type="text"
+                required
+                value={data.signature}
+                onChange={(e) => update("signature", e.target.value)}
+              />
+            </label>
 
-          <label>
-            Valid Driver&apos;s License? *
-            <select
-              required
-              value={data.drivers_license}
-              onChange={(e) => update("drivers_license", e.target.value)}
-            >
-              <option value="">Select one</option>
-              <option>Yes</option>
-              <option>No</option>
-            </select>
-          </label>
+            <label>
+              Date *
+              <input
+                type="date"
+                required
+                value={data.signature_date}
+                onChange={(e) => update("signature_date", e.target.value)}
+              />
+            </label>
 
-          <label>
-            Last 3 years: points / suspension / serious tickets? *
-            <select
-              required
-              value={data.driving_issues}
-              onChange={(e) => update("driving_issues", e.target.value)}
-            >
-              <option value="">Select one</option>
-              <option>No</option>
-              <option>Yes (explain)</option>
-            </select>
-          </label>
+            <p className="tamay-note">
+              By submitting this form, you agree that Tamay Enterprises Inc. may contact you regarding
+              employment opportunities.
+            </p>
+          </>
+        )}
+      </div>
 
-          <label>
-            If Yes, brief explanation
-            <input
-              type="text"
-              placeholder="Short explanation"
-              value={data.driving_issues_notes}
-              onChange={(e) => update("driving_issues_notes", e.target.value)}
-            />
-          </label>
-        </div>
-
-        <div className="tamay-card">
-          <div className="tamay-legend">5) Work Eligibility</div>
-
-          <label>
-            Authorized to work in the U.S.? *
-            <select
-              required
-              value={data.work_authorized}
-              onChange={(e) => update("work_authorized", e.target.value)}
-            >
-              <option value="">Select one</option>
-              <option>Yes</option>
-              <option>No</option>
-            </select>
-          </label>
-
-          <label>
-            Agree to background check if required? *
-            <select
-              required
-              value={data.agree_background}
-              onChange={(e) => update("agree_background", e.target.value)}
-            >
-              <option value="">Select one</option>
-              <option>Yes</option>
-              <option>No</option>
-            </select>
-          </label>
-        </div>
-
-        <div className="tamay-card">
-          <div className="tamay-legend">6) Confirmation</div>
-
-          <label className="tamay-check">
-            <input
-              type="checkbox"
-              checked={data.confirm_truth}
-              onChange={(e) => update("confirm_truth", e.target.checked)}
-            />
-            I confirm that the information provided is accurate and complete. *
-          </label>
-
-          <label>
-            Signature (Type Full Name) *
-            <input
-              type="text"
-              required
-              value={data.signature}
-              onChange={(e) => update("signature", e.target.value)}
-            />
-          </label>
-
-          <label>
-            Date *
-            <input
-              type="date"
-              required
-              value={data.signature_date}
-              onChange={(e) => update("signature_date", e.target.value)}
-            />
-          </label>
-        </div>
-
-        <div className="tamay-actions">
-          <button className="tamay-btn" type="submit" disabled={submitting}>
+      <div className="tamay-actions">
+        {step > 0 && (
+          <button type="button" className="tamay-btn tamay-btn-secondary" onClick={goBack}>
+            Back
+          </button>
+        )}
+        {!isLastStep ? (
+          <button type="button" className="tamay-btn" onClick={goNext}>
+            Next
+          </button>
+        ) : (
+          <button type="button" className="tamay-btn" onClick={handleSubmit} disabled={submitting}>
             {submitting ? "Submitting..." : "Submit Application"}
           </button>
-          {status && <div className="tamay-status">{status}</div>}
-        </div>
-
-        <p className="tamay-note">
-          By submitting this form, you agree that Tamay Enterprises Inc. may contact you regarding
-          employment opportunities.
-        </p>
-      </form>
+        )}
+        {status && <div className="tamay-status">{status}</div>}
+      </div>
     </div>
   );
 }

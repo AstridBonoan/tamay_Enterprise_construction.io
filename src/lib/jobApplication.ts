@@ -24,6 +24,15 @@ export const TRADE_ROLE_OPTIONS = [
   "Other",
 ] as const;
 
+export const JOB_APPLICATION_STEPS = [
+  { id: "personal", label: "Personal", title: "1) Personal Information" },
+  { id: "position", label: "Position", title: "2) Position & Availability" },
+  { id: "resume", label: "Resume", title: "3) Resume Upload" },
+  { id: "driving", label: "Driving", title: "4) Driving" },
+  { id: "eligibility", label: "Eligibility", title: "5) Work Eligibility" },
+  { id: "confirm", label: "Confirm", title: "6) Confirmation" },
+] as const;
+
 export type JobApplicationFormData = {
   full_name: string;
   phone: string;
@@ -78,28 +87,51 @@ export function emptyJobApplicationForm(stateDefault = "CT"): JobApplicationForm
   };
 }
 
-export function validateJobApplication(data: JobApplicationFormData): string | null {
-  if (!data.full_name.trim()) return "Full name is required.";
-  if (!data.phone.trim()) return "Phone is required.";
-  if (!data.email.trim()) return "Email is required.";
-  if (!data.address_line1.trim()) return "Address is required.";
-  if (!data.zip.trim()) return "Zip code is required.";
-  if (!data.city.trim()) return "City is required.";
-  if (!data.state.trim()) return "State is required.";
-  if (!data.primary_interest) return "Primary interest is required.";
-  if (!data.position) return "Trade / role applying for is required.";
-  if (data.position === "Other" && !data.position_other.trim()) {
-    return "Please specify your trade / role.";
+export function validateJobApplicationStep(step: number, data: JobApplicationFormData): string | null {
+  switch (step) {
+    case 0:
+      if (!data.full_name.trim()) return "Full name is required.";
+      if (!data.phone.trim()) return "Phone is required.";
+      if (!data.email.trim()) return "Email is required.";
+      if (!data.address_line1.trim()) return "Address is required.";
+      if (!data.zip.trim()) return "Zip code is required.";
+      if (!data.city.trim()) return "City is required.";
+      if (!data.state.trim()) return "State is required.";
+      return null;
+    case 1:
+      if (!data.primary_interest) return "Primary interest is required.";
+      if (!data.position) return "Trade / role applying for is required.";
+      if (data.position === "Other" && !data.position_other.trim()) {
+        return "Please specify your trade / role.";
+      }
+      if (!data.start_date) return "Available start date is required.";
+      if (!data.employment_type) return "Employment type is required.";
+      if (!data.availability_details.trim()) return "Days / hours available is required.";
+      return null;
+    case 2:
+      return null;
+    case 3:
+      if (!data.drivers_license) return "Driver's license status is required.";
+      if (!data.driving_issues) return "Driving history question is required.";
+      return null;
+    case 4:
+      if (!data.work_authorized) return "Work authorization is required.";
+      if (!data.agree_background) return "Background check agreement is required.";
+      return null;
+    case 5:
+      if (!data.confirm_truth) return "Please confirm your information is accurate.";
+      if (!data.signature.trim()) return "Signature is required.";
+      if (!data.signature_date) return "Date is required.";
+      return null;
+    default:
+      return null;
   }
-  if (!data.start_date) return "Available start date is required.";
-  if (!data.employment_type) return "Employment type is required.";
-  if (!data.availability_details.trim()) return "Days / hours available is required.";
-  if (!data.drivers_license) return "Driver's license status is required.";
-  if (!data.driving_issues) return "Driving history question is required.";
-  if (!data.work_authorized) return "Work authorization is required.";
-  if (!data.agree_background) return "Background check agreement is required.";
-  if (!data.confirm_truth) return "Please confirm your information is accurate.";
-  if (!data.signature.trim()) return "Signature is required.";
-  if (!data.signature_date) return "Date is required.";
+}
+
+export function validateJobApplication(data: JobApplicationFormData): string | null {
+  for (let step = 0; step < JOB_APPLICATION_STEPS.length; step += 1) {
+    const error = validateJobApplicationStep(step, data);
+    if (error) return error;
+  }
   return null;
 }
