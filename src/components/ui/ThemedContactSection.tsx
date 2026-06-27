@@ -1,17 +1,10 @@
 import { ContactBlock } from "@/components/ui/ContactBlock";
-import { ContactForm } from "@/components/ui/ContactForm";
+import { ContactForm, type ContactFormField } from "@/components/ui/ContactForm";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SITE } from "@/lib/site";
 
-type ContactField = {
-  name: string;
-  label: string;
-  type?: "text" | "email" | "tel" | "textarea" | "select" | "hidden";
-  required?: boolean;
-  options?: string[];
-  optionLabels?: string[];
-};
+type ContactField = ContactFormField;
 
 type ThemedContactSectionProps = {
   bannerImage: string;

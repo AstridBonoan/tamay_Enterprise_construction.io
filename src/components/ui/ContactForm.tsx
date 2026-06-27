@@ -11,7 +11,19 @@ type Field = {
   options?: string[];
   /** Display labels for select options (same order as options) */
   optionLabels?: string[];
+  /** Show this field only when another field has a specific value. */
+  showWhen?: {
+    field: string;
+    value: string;
+  };
 };
+
+export type ContactFormField = Field;
+
+function isFieldVisible(field: Field, values: Record<string, string>) {
+  if (!field.showWhen) return true;
+  return values[field.showWhen.field] === field.showWhen.value;
+}
 
 type ContactFormProps = {
   fields: Field[];
@@ -39,6 +51,11 @@ export function ContactForm({
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [values, setValues] = useState<Record<string, string>>(() => ({ ...defaultValues }));
+
+  const updateValue = (name: string, value: string) => {
+    setValues((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -70,6 +87,7 @@ export function ContactForm({
       } else {
         setSubmitted(true);
         form.reset();
+        setValues({ ...defaultValues });
       }
     } catch (submitError) {
       setError(
@@ -101,16 +119,22 @@ export function ContactForm({
 
   return (
     <form className="space-y-4 max-w-md" onSubmit={handleSubmit}>
-      {fields.map((field) =>
-        field.type === "hidden" ? (
-          <input
-            key={field.name}
-            type="hidden"
-            name={field.name}
-            value={defaultValues?.[field.name] ?? ""}
-            readOnly
-          />
-        ) : (
+      {fields.map((field) => {
+        if (field.type === "hidden") {
+          return (
+            <input
+              key={field.name}
+              type="hidden"
+              name={field.name}
+              value={defaultValues?.[field.name] ?? ""}
+              readOnly
+            />
+          );
+        }
+
+        if (!isFieldVisible(field, values)) return null;
+
+        return (
         <div key={field.name}>
           <label htmlFor={field.name} className="block text-sm font-semibold text-gray-700 mb-1">
             {field.label}
@@ -130,7 +154,8 @@ export function ContactForm({
               id={field.name}
               name={field.name}
               required={field.required}
-              defaultValue={defaultValues?.[field.name] ?? ""}
+              value={values[field.name] ?? defaultValues?.[field.name] ?? ""}
+              onChange={(event) => updateValue(field.name, event.target.value)}
               className="w-full border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tamay-primary bg-white"
             >
               <option value="">Select...</option>
@@ -151,8 +176,8 @@ export function ContactForm({
             />
           )}
         </div>
-        ),
-      )}
+        );
+      })}
 
       {error && (
         <p className="text-sm text-red-600" role="alert">

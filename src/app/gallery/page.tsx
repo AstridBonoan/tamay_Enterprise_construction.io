@@ -92,6 +92,13 @@ export default function GalleryPage() {
               "Other project",
             ],
           },
+          {
+            name: "otherProjectDetails",
+            label: "Please describe your project",
+            type: "text",
+            required: true,
+            showWhen: { field: "projectInterest", value: "Other project" },
+          },
           { name: "name", label: "Name", required: true },
           { name: "email", label: "Email", type: "email", required: true },
           { name: "phone", label: "Phone", type: "tel", required: true },
