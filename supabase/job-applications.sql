@@ -37,11 +37,18 @@ create index if not exists job_applications_created_idx
 
 alter table public.job_applications enable row level security;
 
+grant insert on table public.job_applications to anon, authenticated;
+
+drop policy if exists "Anyone can submit a job application" on public.job_applications;
 create policy "Anyone can submit a job application"
   on public.job_applications
   for insert
+  to anon, authenticated
   with check (true);
 
+alter table storage.objects enable row level security;
+
+drop policy if exists "Applicants can upload signatures" on storage.objects;
 create policy "Applicants can upload signatures"
   on storage.objects
   for insert

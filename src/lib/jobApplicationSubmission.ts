@@ -35,39 +35,37 @@ export async function saveJobApplication(
   userId?: string | null,
 ): Promise<string> {
   const supabase = createClient();
+  const applicationId = crypto.randomUUID();
 
-  const { data: row, error } = await supabase
-    .from("job_applications")
-    .insert({
-      user_id: userId ?? null,
-      full_name: data.full_name.trim(),
-      phone: data.phone.trim(),
-      email: data.email.trim(),
-      address_line1: data.address_line1.trim(),
-      address_line2: data.address_line2.trim() || null,
-      zip: data.zip.trim(),
-      city: data.city.trim(),
-      state: data.state.trim(),
-      primary_interest: data.primary_interest,
-      position: data.position,
-      position_other: data.position_other.trim() || null,
-      start_date: data.start_date,
-      employment_type: data.employment_type,
-      availability_details: data.availability_details.trim(),
-      drivers_license: data.drivers_license,
-      driving_issues: data.driving_issues,
-      driving_issues_notes: data.driving_issues_notes.trim() || null,
-      work_authorized: data.work_authorized,
-      agree_background: data.agree_background,
-      signature_storage_path: signaturePath,
-      signature_date: data.signature_date,
-      status: "pending",
-    })
-    .select("id")
-    .single();
+  const { error } = await supabase.from("job_applications").insert({
+    id: applicationId,
+    user_id: userId ?? null,
+    full_name: data.full_name.trim(),
+    phone: data.phone.trim(),
+    email: data.email.trim(),
+    address_line1: data.address_line1.trim(),
+    address_line2: data.address_line2.trim() || null,
+    zip: data.zip.trim(),
+    city: data.city.trim(),
+    state: data.state.trim(),
+    primary_interest: data.primary_interest,
+    position: data.position,
+    position_other: data.position_other.trim() || null,
+    start_date: data.start_date,
+    employment_type: data.employment_type,
+    availability_details: data.availability_details.trim(),
+    drivers_license: data.drivers_license,
+    driving_issues: data.driving_issues,
+    driving_issues_notes: data.driving_issues_notes.trim() || null,
+    work_authorized: data.work_authorized,
+    agree_background: data.agree_background,
+    signature_storage_path: signaturePath,
+    signature_date: data.signature_date,
+    status: "pending",
+  });
 
   if (error) throw error;
-  return row.id as string;
+  return applicationId;
 }
 
 export function jobApplicationSignatureReference(path: string): string {
