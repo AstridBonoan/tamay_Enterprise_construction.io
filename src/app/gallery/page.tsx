@@ -3,7 +3,6 @@ import { GalleryPhotoCarousel } from "@/components/gallery/GalleryPhotoCarousel"
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ThemedContactSection } from "@/components/ui/ThemedContactSection";
 import { assetUrl } from "@/lib/assetUrl";
 import { GALLERY_PROMOTION_VIDEO, GALLERY_VIDEO_PROJECTS } from "@/lib/galleryVideos";
 import { IMAGES } from "@/lib/images";
@@ -70,44 +69,15 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      <ThemedContactSection
-        bannerImage={IMAGES.heroHome}
-        bannerTitle="Our Work Across Connecticut"
-        bannerSubtitle="Every home has a story — tell us yours and we'll help you plan the next chapter."
-        bannerCtaLabel="Start a Conversation"
-        formName="Tamay - Gallery Contact"
-        formEyebrow="Contact Us"
-        formTitle="Inspired by What You've Seen?"
-        fields={[
-          {
-            name: "projectInterest",
-            label: "What caught your eye?",
-            type: "select",
-            required: true,
-            options: [
-              "Kitchen renovation",
-              "Bathroom remodel",
-              "Full home renovation",
-              "Installation or assembly",
-              "Other project",
-            ],
-          },
-          {
-            name: "otherProjectDetails",
-            label: "Please describe your project",
-            type: "text",
-            required: true,
-            showWhen: { field: "projectInterest", value: "Other project" },
-          },
-          { name: "name", label: "Name", required: true },
-          { name: "email", label: "Email", type: "email", required: true },
-          { name: "phone", label: "Phone", type: "tel", required: true },
-          { name: "message", label: "Tell us about your project", type: "textarea" },
-        ]}
-        submitLabel="Start a Conversation"
-        contactTitle="Let's Build Your Connecticut Story"
-        contactDescription="From kitchen remodels to full renovations, our portfolio shows what careful planning and skilled execution look like across Connecticut. Share your goals and we'll connect you with the right team."
-      />
+      <section id="contact">
+        <HeroBanner
+          image={IMAGES.heroHome}
+          title="Our Work Across Connecticut"
+          subtitle="Every home has a story — tell us yours and we'll help you plan the next chapter."
+          cta={{ label: "Start a Conversation", href: "/#contact" }}
+          height="medium"
+        />
+      </section>
     </>
   );
 }
