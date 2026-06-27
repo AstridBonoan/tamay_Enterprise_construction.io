@@ -46,8 +46,8 @@ create policy "Anyone can submit a job application"
   to anon, authenticated
   with check (true);
 
-alter table storage.objects enable row level security;
-
+-- Storage RLS is already enabled on storage.objects in Supabase.
+-- Do not ALTER that table here (requires storage admin ownership).
 drop policy if exists "Applicants can upload signatures" on storage.objects;
 create policy "Applicants can upload signatures"
   on storage.objects
