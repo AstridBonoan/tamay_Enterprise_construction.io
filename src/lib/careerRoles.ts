@@ -6,6 +6,15 @@ export type CareerRoleGroup = {
 
 export const CAREER_ROLE_GROUPS: CareerRoleGroup[] = [
   {
+    id: "career-opportunities",
+    category: "Career Opportunities",
+    items: [
+      "Entry-level and experienced construction roles",
+      "Office, sales, and project coordination openings",
+      "Partnership and subcontractor opportunities",
+    ],
+  },
+  {
     id: "leadership-field-management",
     category: "Leadership & Field Management",
     items: ["Crew Leads / Foremen", "Project Coordinators"],
