@@ -3,7 +3,7 @@ import type { ReviewVideoProject } from "./reviewVideos";
 /** New year promotion video — edit video ID in videos[] */
 export const GALLERY_PROMOTION_VIDEO: ReviewVideoProject = {
   id: "new-year-promotion-2026",
-  title: "2026 🎉New year promotion 🎉",
+  title: "Promotions",
   videos: ["l26oQaGBskk"],
 };
 
