@@ -6,6 +6,9 @@ import { sitePath } from "@/lib/paths";
 const SUBCONTRACTOR_APPLY_PATH = "/careers-partnerships/subcontractor-apply";
 const DEFAULT_EMPLOYEE_APPLY_PATH = "/careers-partnerships/apply";
 
+const choiceButtonClass =
+  "block w-full text-center font-bold text-sm tracking-wide px-6 py-3 transition-colors";
+
 type JoinTeamChoiceDialogProps = {
   open: boolean;
   onClose: () => void;
@@ -37,11 +40,6 @@ export function JoinTeamChoiceDialog({
 
   if (!open) return null;
 
-  const goTo = (path: string) => {
-    onClose();
-    window.location.assign(sitePath(path));
-  };
-
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/55"
@@ -63,20 +61,20 @@ export function JoinTeamChoiceDialog({
         </p>
 
         <div className="mt-6 flex flex-col gap-3">
-          <button
-            type="button"
-            className="w-full bg-tamay-accent hover:bg-tamay-accent-hover text-white font-bold text-sm tracking-wide px-6 py-3 transition-colors"
-            onClick={() => goTo(employeeHref)}
+          <a
+            href={sitePath(employeeHref)}
+            className={`${choiceButtonClass} bg-tamay-accent hover:bg-tamay-accent-hover text-white`}
+            onClick={onClose}
           >
             Employee
-          </button>
-          <button
-            type="button"
-            className="w-full bg-tamay-primary hover:bg-tamay-primary-dark text-white font-bold text-sm tracking-wide px-6 py-3 transition-colors"
-            onClick={() => goTo(SUBCONTRACTOR_APPLY_PATH)}
+          </a>
+          <a
+            href={sitePath(SUBCONTRACTOR_APPLY_PATH)}
+            className={`${choiceButtonClass} bg-tamay-primary hover:bg-tamay-primary-dark text-white`}
+            onClick={onClose}
           >
             Subcontractor
-          </button>
+          </a>
         </div>
 
         <button
