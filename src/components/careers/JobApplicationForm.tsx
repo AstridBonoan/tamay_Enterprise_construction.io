@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { syncContactFromForm, fetchAddresses } from "@/lib/account-data";
@@ -13,7 +14,21 @@ import {
   validateJobApplicationStep,
   type JobApplicationFormData,
 } from "@/lib/jobApplication";
+import {
+  jobApplicationSignatureReference,
+  saveJobApplication,
+  uploadJobApplicationSignature,
+} from "@/lib/jobApplicationSubmission";
 import "@/styles/job-application-form.css";
+
+const SignatureCanvasField = dynamic(
+  () =>
+    import("@/components/careers/SignatureCanvasField").then((mod) => mod.SignatureCanvasField),
+  {
+    ssr: false,
+    loading: () => <p className="tamay-note">Loading signature pad…</p>,
+  },
+);
 
 export function JobApplicationForm() {
   const { user, refreshUser } = useAuth();
@@ -90,6 +105,18 @@ export function JobApplicationForm() {
     setSubmitting(true);
     setStatus("");
 
+    let applicationId: string;
+    let signaturePath: string;
+
+    try {
+      signaturePath = await uploadJobApplicationSignature(data.signature_data_url);
+      applicationId = await saveJobApplication(data, signaturePath, user?.id);
+    } catch {
+      setStatus("Unable to save your signature right now. Please try again.");
+      setSubmitting(false);
+      return;
+    }
+
     const body = new FormData();
     body.append("form_name", "Tamay - Job Application");
     body.append("_subject", "New Job Application Submission - Tamay Enterprises Inc.");
@@ -113,7 +140,8 @@ export function JobApplicationForm() {
     body.append("work_authorized", data.work_authorized);
     body.append("agree_background", data.agree_background);
     body.append("confirm_truth", data.confirm_truth ? "Yes" : "No");
-    body.append("signature", data.signature);
+    body.append("application_id", applicationId);
+    body.append("signature_storage_path", jobApplicationSignatureReference(signaturePath));
     body.append("signature_date", data.signature_date);
     if (data.resume_file) {
       body.append("resume_file", data.resume_file);
@@ -492,15 +520,10 @@ export function JobApplicationForm() {
               I confirm that the information provided is accurate and complete. *
             </label>
 
-            <label>
-              Signature (Type Full Name) *
-              <input
-                type="text"
-                required
-                value={data.signature}
-                onChange={(e) => update("signature", e.target.value)}
-              />
-            </label>
+            <SignatureCanvasField
+              value={data.signature_data_url}
+              onChange={(dataUrl) => update("signature_data_url", dataUrl)}
+            />
 
             <label>
               Date *

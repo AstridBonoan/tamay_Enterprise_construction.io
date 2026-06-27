@@ -205,6 +205,46 @@
   color: var(--muted);
 }
 
+.tamay-signature-field {
+  margin-top: 10px;
+}
+
+.tamay-signature-field > label {
+  margin-top: 0;
+}
+
+.tamay-signature-pad {
+  margin-top: 6px;
+  border: 1px solid #cfd3da;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.tamay-signature-canvas {
+  display: block;
+  width: 100%;
+  height: 160px;
+  cursor: crosshair;
+}
+
+.tamay-signature-clear {
+  margin-top: 8px;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.tamay-signature-clear:hover {
+  color: var(--gold);
+}
+
 .tamay-success {
   background: var(--success-bg);
   border: 1px solid var(--success-border);

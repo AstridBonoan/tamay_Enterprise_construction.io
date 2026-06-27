@@ -55,7 +55,7 @@ export type JobApplicationFormData = {
   work_authorized: string;
   agree_background: string;
   confirm_truth: boolean;
-  signature: string;
+  signature_data_url: string;
   signature_date: string;
 };
 
@@ -82,7 +82,7 @@ export function emptyJobApplicationForm(stateDefault = "CT"): JobApplicationForm
     work_authorized: "",
     agree_background: "",
     confirm_truth: false,
-    signature: "",
+    signature_data_url: "",
     signature_date: new Date().toISOString().slice(0, 10),
   };
 }
@@ -120,7 +120,7 @@ export function validateJobApplicationStep(step: number, data: JobApplicationFor
       return null;
     case 5:
       if (!data.confirm_truth) return "Please confirm your information is accurate.";
-      if (!data.signature.trim()) return "Signature is required.";
+      if (!data.signature_data_url) return "Please sign in the signature box.";
       if (!data.signature_date) return "Date is required.";
       return null;
     default:
