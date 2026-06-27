@@ -3,12 +3,10 @@ import { GalleryPhotoCarousel } from "@/components/gallery/GalleryPhotoCarousel"
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ContactForm } from "@/components/ui/ContactForm";
-import { ContactBlock } from "@/components/ui/ContactBlock";
+import { ThemedContactSection } from "@/components/ui/ThemedContactSection";
 import { assetUrl } from "@/lib/assetUrl";
 import { GALLERY_PROMOTION_VIDEO, GALLERY_VIDEO_PROJECTS } from "@/lib/galleryVideos";
 import { IMAGES } from "@/lib/images";
-import { HOME_CONTACT_SERVICE_CATEGORIES, SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "GALLERY",
@@ -72,37 +70,37 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      <section id="contact" className="py-16">
-        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12">
-          <div>
-            <SectionHeading align="left" eyebrow="CONTACT US" title="Explore our Services" />
-            <ContactForm
-              formName="Tamay - Homepage Contact"
-              fields={[
-                {
-                  name: "category",
-                  label: "Category of Service",
-                  type: "select",
-                  required: true,
-                  options: [...HOME_CONTACT_SERVICE_CATEGORIES],
-                },
-                { name: "name", label: "Name", required: true },
-                { name: "email", label: "Email", type: "email", required: true },
-                { name: "phone", label: "Phone", type: "tel", required: true },
-              ]}
-              submitLabel="Send"
-            />
-            <p className="text-xs text-gray-500 mt-4 max-w-md">
-              By submitting this form, you agree to receive text messages and calls from{" "}
-              <strong>{SITE.legalName}</strong> related to your inquiry. Reply <strong>STOP</strong> to cancel. Reply{" "}
-              <strong>HELP</strong> for help.
-            </p>
-          </div>
-          <ContactBlock
-            description="Whether you're planning a construction project, need real estate support, or require dependable logistics services, Tamay Enterprises is ready to help."
-          />
-        </div>
-      </section>
+      <ThemedContactSection
+        bannerImage={IMAGES.heroHome}
+        bannerTitle="Our Work Across Connecticut"
+        bannerSubtitle="Every home has a story — tell us yours and we'll help you plan the next chapter."
+        bannerCtaLabel="Start a Conversation"
+        formName="Tamay - Gallery Contact"
+        formEyebrow="Contact Us"
+        formTitle="Inspired by What You've Seen?"
+        fields={[
+          {
+            name: "projectInterest",
+            label: "What caught your eye?",
+            type: "select",
+            required: true,
+            options: [
+              "Kitchen renovation",
+              "Bathroom remodel",
+              "Full home renovation",
+              "Installation or assembly",
+              "Other project",
+            ],
+          },
+          { name: "name", label: "Name", required: true },
+          { name: "email", label: "Email", type: "email", required: true },
+          { name: "phone", label: "Phone", type: "tel", required: true },
+          { name: "message", label: "Tell us about your project", type: "textarea" },
+        ]}
+        submitLabel="Start a Conversation"
+        contactTitle="Let's Build Your Connecticut Story"
+        contactDescription="From kitchen remodels to full renovations, our portfolio shows what careful planning and skilled execution look like across Connecticut. Share your goals and we'll connect you with the right team."
+      />
     </>
   );
 }
