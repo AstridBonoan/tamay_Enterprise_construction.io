@@ -13,7 +13,7 @@ export function GalleryPhotoCarousel({ photos }: GalleryPhotoCarouselProps) {
   }));
 
   return (
-    <div className="max-w-4xl mx-auto -mt-2">
+    <div className="max-w-6xl mx-auto -mt-2">
       <ImageCarousel slides={slides} showThumbnails showCaption framed />
     </div>
   );

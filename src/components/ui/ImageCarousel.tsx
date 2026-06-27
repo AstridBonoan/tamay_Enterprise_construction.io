@@ -124,7 +124,13 @@ export function ImageCarousel({
       )}
 
       {showThumbnails && (
-        <div className="flex gap-3 overflow-x-auto px-4 py-4 sm:justify-center scrollbar-hide">
+        <div
+          className={
+            framed
+              ? "flex flex-wrap justify-center gap-2 sm:gap-3 px-4 py-4"
+              : "flex gap-3 overflow-x-auto px-4 py-4 justify-start scrollbar-hide scroll-px-4"
+          }
+        >
           {slides.map((slide, i) => (
             <button
               key={slide.src}
@@ -134,7 +140,7 @@ export function ImageCarousel({
               }}
               onClick={() => goTo(i)}
               className={`relative shrink-0 transition-opacity ${
-                framed ? "w-28" : "h-14 w-20 overflow-hidden border-2"
+                framed ? "w-20 sm:w-[4.75rem]" : "h-14 w-20 overflow-hidden border-2"
               } ${i === index ? (framed ? "opacity-100" : "border-tamay-accent") : framed ? "opacity-65 hover:opacity-90" : "border-transparent opacity-70"}`}
               aria-label={`View image ${i + 1}`}
               aria-current={i === index ? "true" : undefined}
@@ -145,7 +151,7 @@ export function ImageCarousel({
                   alt=""
                   compact
                   active={i === index}
-                  sizes="112px"
+                  sizes="80px"
                 />
               ) : (
                 <Image src={slide.src} alt="" fill className="object-cover" sizes="80px" unoptimized />
