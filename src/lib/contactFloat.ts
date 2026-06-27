@@ -22,7 +22,7 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   },
   "/gallery": {
     floatId: "gallery-contact",
-    collapsedLabel: "Project?",
+    collapsedLabel: "Inspired?",
     ariaLabel: "Contact us about a project",
     headline: "See Something You Love?",
     body: "Let's talk about bringing that same quality to your space — reach out below.",
