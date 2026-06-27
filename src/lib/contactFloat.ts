@@ -49,11 +49,11 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   },
   "/logistics": {
     floatId: "logistics-contact",
-    collapsedLabel: "Quote",
-    ariaLabel: "Logistics contact",
-    headline: "Need It Moved?",
-    body: "Request a logistics quote — scroll down to our contact form and we will follow up.",
-    ctaLabel: "Request Support",
+    collapsedLabel: "Dispatch",
+    ariaLabel: "Talk to a dispatcher",
+    headline: "Talk To A Dispatcher",
+    body: "Need a delivery coordinated or a quote fast? Jump to our contact form and our dispatch team will follow up.",
+    ctaLabel: "Contact Us",
     ctaHref: "#contact",
   },
   "/assembly-installation": {
