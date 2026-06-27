@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
 import { JobApplicationForm } from "@/components/careers/JobApplicationForm";
 
 export const metadata: Metadata = {
@@ -21,9 +20,7 @@ export default function CareerApplyPage() {
           ← Back to Careers & Partnerships
         </Link>
 
-        <Suspense fallback={<p className="text-gray-600 text-sm">Loading application form…</p>}>
-          <JobApplicationForm />
-        </Suspense>
+        <JobApplicationForm />
       </div>
     </div>
   );

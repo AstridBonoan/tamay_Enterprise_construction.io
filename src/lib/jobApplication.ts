@@ -1,34 +1,27 @@
 export { FORMSPREE_JOB_APPLICATION } from "./formspree";
 
-export const PRIMARY_INTEREST_OPTIONS = ["Construction", "Driving", "Both"] as const;
+export const PRIMARY_INTEREST_OPTIONS = ["Construction", "Both (Construction + Driving)"] as const;
 
-export const POSITION_OPTIONS = ["Employee", "Sub Contractor"] as const;
-
-const POSITION_PARAM_ALIASES: Record<string, (typeof POSITION_OPTIONS)[number]> = {
-  employee: "Employee",
-  "sub-contractor": "Sub Contractor",
-  subcontractor: "Sub Contractor",
-  "sub contractor": "Sub Contractor",
-};
-
-export function positionFromParam(param: string | null | undefined): string {
-  if (!param) return "";
-  const normalized = param.trim().toLowerCase();
-  if (POSITION_PARAM_ALIASES[normalized]) return POSITION_PARAM_ALIASES[normalized];
-  return POSITION_OPTIONS.find((option) => option.toLowerCase() === normalized) ?? "";
-}
-
-export function positionToApplyParam(position: (typeof POSITION_OPTIONS)[number]): string {
-  return position === "Sub Contractor" ? "sub-contractor" : "employee";
-}
-
-export const JOB_APPLICATION_STEPS = [
-  { id: "personal", label: "Personal", title: "1) Personal Information" },
-  { id: "position", label: "Position", title: "2) Position & Availability" },
-  { id: "resume", label: "Resume", title: "3) Resume Upload" },
-  { id: "driving", label: "Driving", title: "4) Driving" },
-  { id: "eligibility", label: "Eligibility", title: "5) Work Eligibility" },
-  { id: "confirm", label: "Confirm", title: "6) Confirmation" },
+export const TRADE_ROLE_OPTIONS = [
+  "General Construction Worker",
+  "Helper / General Labor",
+  "Carpenter",
+  "Painter",
+  "Drywall",
+  "Tile Installer",
+  "Flooring Installer",
+  "Plumber",
+  "Electrician",
+  "HVAC Technician",
+  "Handyman",
+  "Crew Lead",
+  "Foreman",
+  "Project Coordinator",
+  "Kitchen Renovation Specialist",
+  "Bathroom Renovation Specialist",
+  "Construction Sales Representative",
+  "Sales-Minded Field Technician",
+  "Other",
 ] as const;
 
 export type JobApplicationFormData = {
@@ -42,8 +35,6 @@ export type JobApplicationFormData = {
   state: string;
   primary_interest: string;
   position: string;
-  role_category: string;
-  role_applying_for: string;
   position_other: string;
   start_date: string;
   employment_type: string;
@@ -71,8 +62,6 @@ export function emptyJobApplicationForm(stateDefault = "CT"): JobApplicationForm
     state: stateDefault,
     primary_interest: "",
     position: "",
-    role_category: "",
-    role_applying_for: "",
     position_other: "",
     start_date: "",
     employment_type: "",
@@ -87,4 +76,30 @@ export function emptyJobApplicationForm(stateDefault = "CT"): JobApplicationForm
     signature: "",
     signature_date: new Date().toISOString().slice(0, 10),
   };
+}
+
+export function validateJobApplication(data: JobApplicationFormData): string | null {
+  if (!data.full_name.trim()) return "Full name is required.";
+  if (!data.phone.trim()) return "Phone is required.";
+  if (!data.email.trim()) return "Email is required.";
+  if (!data.address_line1.trim()) return "Address is required.";
+  if (!data.zip.trim()) return "Zip code is required.";
+  if (!data.city.trim()) return "City is required.";
+  if (!data.state.trim()) return "State is required.";
+  if (!data.primary_interest) return "Primary interest is required.";
+  if (!data.position) return "Trade / role applying for is required.";
+  if (data.position === "Other" && !data.position_other.trim()) {
+    return "Please specify your trade / role.";
+  }
+  if (!data.start_date) return "Available start date is required.";
+  if (!data.employment_type) return "Employment type is required.";
+  if (!data.availability_details.trim()) return "Days / hours available is required.";
+  if (!data.drivers_license) return "Driver's license status is required.";
+  if (!data.driving_issues) return "Driving history question is required.";
+  if (!data.work_authorized) return "Work authorization is required.";
+  if (!data.agree_background) return "Background check agreement is required.";
+  if (!data.confirm_truth) return "Please confirm your information is accurate.";
+  if (!data.signature.trim()) return "Signature is required.";
+  if (!data.signature_date) return "Date is required.";
+  return null;
 }
