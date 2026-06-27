@@ -27,7 +27,7 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
     headline: "See Something You Love?",
     body: "Let's talk about bringing that same quality to your space — reach out below.",
     ctaLabel: "Start a Conversation",
-    ctaHref: "/#contact",
+    ctaHref: "#contact",
   },
   "/reviews": {
     floatId: "reviews-contact",
