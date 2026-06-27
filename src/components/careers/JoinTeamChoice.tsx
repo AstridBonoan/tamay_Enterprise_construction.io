@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
-import { useRouter } from "next/navigation";
 import { sitePath } from "@/lib/paths";
 
 const SUBCONTRACTOR_APPLY_PATH = "/careers-partnerships/subcontractor-apply";
@@ -18,7 +17,6 @@ export function JoinTeamChoiceDialog({
   onClose,
   employeeHref = DEFAULT_EMPLOYEE_APPLY_PATH,
 }: JoinTeamChoiceDialogProps) {
-  const router = useRouter();
   const titleId = useId();
 
   useEffect(() => {
@@ -41,7 +39,7 @@ export function JoinTeamChoiceDialog({
 
   const goTo = (path: string) => {
     onClose();
-    router.push(sitePath(path));
+    window.location.assign(sitePath(path));
   };
 
   return (
