@@ -7,7 +7,6 @@ import { syncContactFromForm, fetchAddresses } from "@/lib/account-data";
 import {
   BUSINESS_STRUCTURE_OPTIONS,
   ENGAGEMENT_TYPE_OPTIONS,
-  FORMSPREE_SUBCONTRACTOR_APPLICATION,
   SUBCONTRACTOR_APPLICATION_STEPS,
   TRADE_ROLE_OPTIONS,
   emptySubcontractorApplicationForm,
@@ -15,6 +14,7 @@ import {
   validateSubcontractorApplicationStep,
   type SubcontractorApplicationFormData,
 } from "@/lib/subcontractorApplication";
+import { FORMSPREE_JOB_APPLICATION } from "@/lib/formspree";
 import {
   saveSubcontractorApplication,
   subcontractorApplicationSignatureReference,
@@ -162,7 +162,7 @@ export function SubcontractorApplicationForm() {
     }
 
     try {
-      const response = await fetch(FORMSPREE_SUBCONTRACTOR_APPLICATION, {
+      const response = await fetch(FORMSPREE_JOB_APPLICATION, {
         method: "POST",
         body,
         headers: { Accept: "application/json" },

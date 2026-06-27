@@ -1,4 +1,3 @@
-export { FORMSPREE_SUBCONTRACTOR_APPLICATION } from "./formspree";
 export { TRADE_ROLE_OPTIONS } from "./jobApplication";
 
 export const BUSINESS_STRUCTURE_OPTIONS = [
