@@ -2,6 +2,8 @@ export type CareerRoleGroup = {
   id: string;
   category: string;
   items: string[];
+  applyHref?: string;
+  applyLabel?: string;
 };
 
 export const CAREER_ROLE_GROUPS: CareerRoleGroup[] = [
@@ -11,8 +13,19 @@ export const CAREER_ROLE_GROUPS: CareerRoleGroup[] = [
     items: [
       "Entry-level and experienced construction roles",
       "Office, sales, and project coordination openings",
-      "Partnership and subcontractor opportunities",
+      "Long-term employment with growth paths",
     ],
+  },
+  {
+    id: "subcontractor-partnerships",
+    category: "Subcontractor Partnerships",
+    items: [
+      "Licensed trade contractors and specialty crews",
+      "Project-based or ongoing partnership opportunities",
+      "Professionals with insurance and proper documentation",
+    ],
+    applyHref: "/careers-partnerships/subcontractor-apply",
+    applyLabel: "Apply as Subcontractor",
   },
   {
     id: "leadership-field-management",
@@ -53,7 +66,13 @@ export const CAREER_ROLE_GROUPS: CareerRoleGroup[] = [
 ];
 
 export function careerApplyHref(roleId: string): string {
+  const group = findCareerRoleGroup(roleId);
+  if (group?.applyHref) return group.applyHref;
   return `/careers-partnerships/apply?role=${encodeURIComponent(roleId)}`;
+}
+
+export function careerApplyLabel(group: CareerRoleGroup): string {
+  return group.applyLabel ?? "Join Our Team";
 }
 
 export function findCareerRoleGroup(roleId: string | null | undefined): CareerRoleGroup | undefined {

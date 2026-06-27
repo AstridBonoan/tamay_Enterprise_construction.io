@@ -32,9 +32,14 @@ export default function CareersPage() {
           title="Construction Jobs & Trade Opportunities"
           subtitle="We believe strong companies are built by strong people and strong relationships. We don't just hire for today, we build long-term careers, partnerships, and leadership opportunities for professionals who take pride in craftsmanship, communication, and growth."
         />
-        <Button href="/careers-partnerships/apply" variant="accent">
-          Join our team
-        </Button>
+        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          <Button href="/careers-partnerships/apply" variant="accent">
+            Apply for employment
+          </Button>
+          <Button href="/careers-partnerships/subcontractor-apply" variant="primary">
+            Apply as subcontractor
+          </Button>
+        </div>
       </section>
 
       <section className="py-14 px-4">

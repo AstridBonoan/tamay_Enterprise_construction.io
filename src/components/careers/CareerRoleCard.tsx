@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import type { CareerRoleGroup } from "@/lib/careerRoles";
-import { careerApplyHref } from "@/lib/careerRoles";
+import { careerApplyHref, careerApplyLabel } from "@/lib/careerRoles";
 
 type CareerRoleCardProps = {
   group: CareerRoleGroup;
@@ -18,7 +18,7 @@ export function CareerRoleCard({ group }: CareerRoleCardProps) {
         ))}
       </ol>
       <Button href={careerApplyHref(group.id)} variant="primary" className="w-full sm:w-auto">
-        Join Our Team
+        {careerApplyLabel(group)}
       </Button>
     </article>
   );
