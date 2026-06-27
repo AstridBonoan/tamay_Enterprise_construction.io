@@ -37,7 +37,7 @@ export default function GalleryPage() {
         image={IMAGES.heroHome}
         title="Our Work Across Connecticut"
         subtitle="Every home has a story, and every project we complete becomes part of it."
-        cta={{ label: "Find out more", href: "#gallery" }}
+        cta={{ label: "Find out more", href: "#contact" }}
         height="medium"
       />
 
