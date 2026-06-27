@@ -7,33 +7,27 @@ import { syncContactFromForm, fetchAddresses } from "@/lib/account-data";
 import {
   FORMSPREE_JOB_APPLICATION,
   JOB_APPLICATION_STEPS,
-  POSITION_OPTIONS,
   PRIMARY_INTEREST_OPTIONS,
   emptyJobApplicationForm,
-  positionFromParam,
   type JobApplicationFormData,
 } from "@/lib/jobApplication";
-import { CAREER_ROLE_GROUPS, findCareerRoleGroup } from "@/lib/careerRoles";
+import { CAREER_APPLICATION_ROLE_GROUPS, findCareerRoleGroup } from "@/lib/careerRoles";
 import "@/styles/job-application-form.css";
 
 function readApplyPrefill(search: string) {
   const params = new URLSearchParams(search);
   const roleId = params.get("role");
-  const position = positionFromParam(params.get("position"));
   const group = findCareerRoleGroup(roleId);
   const prefill: Partial<JobApplicationFormData> = {};
 
-  if (group) {
+  if (group && group.id !== "career-opportunities") {
     prefill.role_category = group.id;
     prefill.role_applying_for = "";
-  }
-  if (position) {
-    prefill.position = position;
   }
 
   return {
     prefill,
-    initialStep: group && !position ? 1 : 0,
+    initialStep: group && group.id !== "career-opportunities" ? 1 : 0,
   };
 }
 
@@ -57,7 +51,6 @@ function validateStep(step: number, data: JobApplicationFormData): string | null
       return null;
     case 1:
       if (!data.primary_interest) return "Primary interest is required.";
-      if (!data.position) return "Position is required.";
       if (!data.role_category) return "Role category is required.";
       if (!data.role_applying_for) return "Role applying for is required.";
       if (!data.start_date) return "Available start date is required.";
@@ -97,7 +90,7 @@ export function JobApplicationForm() {
   const [submitted, setSubmitted] = useState(false);
 
   const selectedRoleGroup = useMemo(
-    () => CAREER_ROLE_GROUPS.find((group) => group.id === data.role_category),
+    () => CAREER_APPLICATION_ROLE_GROUPS.find((group) => group.id === data.role_category),
     [data.role_category],
   );
 
@@ -131,22 +124,16 @@ export function JobApplicationForm() {
 
   useEffect(() => {
     const roleId = searchParams.get("role");
-    const position = positionFromParam(searchParams.get("position"));
     const group = findCareerRoleGroup(roleId);
 
-    if (!group && !position) return;
+    if (!group || group.id === "career-opportunities") return;
 
     setData((prev) => ({
       ...prev,
-      ...(group
-        ? {
-            role_category: group.id,
-            role_applying_for: "",
-          }
-        : {}),
-      ...(position ? { position } : {}),
+      role_category: group.id,
+      role_applying_for: "",
     }));
-    setStep(group && !position ? 1 : 0);
+    setStep(1);
     setStatus("");
   }, [searchParams]);
 
@@ -197,7 +184,6 @@ export function JobApplicationForm() {
     body.append("city", data.city);
     body.append("state", data.state);
     body.append("primary_interest", data.primary_interest);
-    body.append("position", data.position);
     body.append("role_category", selectedRoleGroup?.category ?? data.role_category);
     body.append("role_applying_for", data.role_applying_for);
     body.append("position_other", data.position_other);
@@ -417,21 +403,6 @@ export function JobApplicationForm() {
               </select>
             </label>
             <label>
-              Position *
-              <select
-                required
-                value={data.position}
-                onChange={(e) => update("position", e.target.value)}
-              >
-                <option value="">Select one</option>
-                {POSITION_OPTIONS.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
               Role Category *
               <select
                 required
@@ -447,7 +418,7 @@ export function JobApplicationForm() {
                 }}
               >
                 <option value="">Select one</option>
-                {CAREER_ROLE_GROUPS.map((group) => (
+                {CAREER_APPLICATION_ROLE_GROUPS.map((group) => (
                   <option key={group.id} value={group.id}>
                     {group.category}
                   </option>

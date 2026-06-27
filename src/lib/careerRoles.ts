@@ -61,6 +61,11 @@ export function findCareerRoleGroup(roleId: string | null | undefined): CareerRo
   return CAREER_ROLE_GROUPS.find((g) => g.id === roleId);
 }
 
+/** Role categories shown on the job application (excludes overview cards). */
+export const CAREER_APPLICATION_ROLE_GROUPS = CAREER_ROLE_GROUPS.filter(
+  (group) => group.id !== "career-opportunities",
+);
+
 export const CAREER_ROLE_SELECT_OPTIONS = CAREER_ROLE_GROUPS.flatMap((group) =>
   group.items.map((item) => ({
     value: `${group.id}::${item}`,
