@@ -68,11 +68,11 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   "/home-preventive-services": {
     floatId: "preventive-contact",
     collapsedLabel: "Tune-Up",
-    ariaLabel: "Preventive services contact",
+    ariaLabel: "Schedule preventive services",
     headline: "Stay Ahead of Repairs",
-    body: "Schedule preventive care for your home — contact us at the bottom of this page.",
+    body: "Schedule preventive care for your home — pick a time that works for you.",
     ctaLabel: "Schedule Now",
-    ctaHref: "#contact",
+    ctaHref: "/online-appointments/schedule?service=prevention-services#book",
   },
   "/careers-partnerships/apply": {
     floatId: "careers-apply-contact",
