@@ -116,7 +116,7 @@ export default function CareersPage() {
 
       <section className="py-14 bg-gray-50 px-4">
         <div className="max-w-6xl mx-auto">
-          <SectionHeading title="Career Opportunities & Construction Trade Roles" />
+          <SectionHeading title="Careers & Partnerships Opportunities" />
           <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {CAREER_ROLE_GROUPS.map((group) => (
               <CareerRoleCard key={group.id} group={group} />
