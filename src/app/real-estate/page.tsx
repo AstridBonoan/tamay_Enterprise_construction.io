@@ -95,16 +95,6 @@ export default function RealEstatePage() {
       </section>
 
       <section className="py-14 max-w-4xl mx-auto px-4 text-center">
-        <figure className="relative aspect-[2/1] max-w-3xl mx-auto overflow-hidden rounded-sm mb-10">
-          <Image
-            src={IMAGES.realEstate.longTermValue}
-            alt=""
-            fill
-            className="object-cover"
-            sizes="768px"
-            unoptimized
-          />
-        </figure>
         <SectionHeading title="A Different Way to Think About Real Estate" />
         <p className="text-gray-600 leading-relaxed -mt-4">
           Real estate decisions don&apos;t end at closing — they shape what a property can become. Beyond the
@@ -114,6 +104,16 @@ export default function RealEstatePage() {
           others overlook. Our role is not just to facilitate transactions, but to help clients understand what
           is possible.
         </p>
+        <figure className="mt-10 relative aspect-[2/1] max-w-3xl mx-auto overflow-hidden rounded-sm">
+          <Image
+            src={IMAGES.realEstate.longTermValue}
+            alt="Model house balanced on wooden planks representing long-term property value"
+            fill
+            className="object-cover"
+            sizes="768px"
+            unoptimized
+          />
+        </figure>
       </section>
 
       <section className="py-14 bg-gray-50">
