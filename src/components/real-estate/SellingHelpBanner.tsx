@@ -6,7 +6,7 @@ export function SellingHelpBanner() {
   return (
     <FloatingPromoBanner
       floatId="real-estate-selling"
-      collapsedLabel="Book Now"
+      collapsedLabel="Want A Consultation?"
       ariaLabel="Book a real estate consultation"
       headline="Book a Real Estate Consultation"
       body="Schedule a free one-hour session with our team to discuss buying, selling, or investing in Connecticut real estate."
