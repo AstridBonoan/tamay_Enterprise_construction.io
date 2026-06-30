@@ -94,7 +94,7 @@ export default function RealEstatePage() {
         </figure>
       </section>
 
-      <section className="py-14 max-w-4xl mx-auto px-4">
+      <section className="py-14 max-w-4xl mx-auto px-4 text-center">
         <figure className="relative aspect-[2/1] max-w-3xl mx-auto overflow-hidden rounded-sm mb-10">
           <Image
             src={IMAGES.realEstate.longTermValue}
@@ -105,9 +105,14 @@ export default function RealEstatePage() {
             unoptimized
           />
         </figure>
-        <SectionHeading title="Beyond the Closing: We help building Long-Term Property Value" />
-        <p className="text-gray-600 text-center leading-relaxed -mt-4">
-          Real estate decisions don&apos;t end at closing — they shape what a property can become.
+        <SectionHeading title="A Different Way to Think About Real Estate" />
+        <p className="text-gray-600 leading-relaxed -mt-4">
+          Real estate decisions don&apos;t end at closing — they shape what a property can become. Beyond the
+          Closing: We help build long-term property value by helping clients see beyond what a property is — and
+          recognize what it can become. Not every dream home is found — many are created. At Tamay Enterprises,
+          we believe the right property combined with the right vision and execution can unlock opportunities
+          others overlook. Our role is not just to facilitate transactions, but to help clients understand what
+          is possible.
         </p>
       </section>
 
@@ -123,18 +128,6 @@ export default function RealEstatePage() {
             ))}
           </div>
         </div>
-      </section>
-
-      <section className="py-14 max-w-4xl mx-auto px-4 text-center">
-        <SectionHeading
-          title="A Different Way to Think About Real Estate"
-          subtitle="Helping clients see beyond what a property is — and recognize what it can become."
-        />
-        <p className="text-gray-600 leading-relaxed -mt-4">
-          Not every dream home is found — many are created. At Tamay Enterprises, we believe the right property
-          combined with the right vision and execution can unlock opportunities others overlook. Our role is not
-          just to facilitate transactions, but to help clients understand what is possible.
-        </p>
       </section>
 
       <PropertyListingsSection
