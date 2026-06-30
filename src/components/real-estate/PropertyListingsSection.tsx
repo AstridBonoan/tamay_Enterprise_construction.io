@@ -112,7 +112,7 @@ export function PropertyListingsSection({
         ) : (
           <div className="text-center bg-white border border-gray-200 shadow-sm px-6 py-12 -mt-2">
             <p className="text-gray-600 leading-relaxed mb-6">{emptyMessage}</p>
-            <Button href="#contact" variant="primary">
+            <Button href="#consultation" variant="primary">
               Contact an agent
             </Button>
           </div>

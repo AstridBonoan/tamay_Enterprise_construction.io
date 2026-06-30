@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ContactForm } from "@/components/ui/ContactForm";
-import { ContactBlock } from "@/components/ui/ContactBlock";
 import { Button } from "@/components/ui/Button";
 import { PropertyListingsSection } from "@/components/real-estate/PropertyListingsSection";
 import { SellingHelpBanner } from "@/components/real-estate/SellingHelpBanner";
@@ -176,34 +174,13 @@ export default function RealEstatePage() {
           ))}
         </ul>
         <div className="text-center">
-          <Button href="#contact" variant="primary">
+          <Button href="#consultation" variant="primary">
             Find out more
           </Button>
         </div>
       </section>
 
-      <ServiceAppointmentSection serviceId="real-estate" />
-
-      <section id="contact" className="py-16 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12">
-          <div>
-            <SectionHeading align="left" eyebrow="Find Your Home" title="Talk to an Agent" />
-            <ContactForm
-              formName="Tamay - Real Estate Contact"
-              fields={[
-                { name: "name", label: "Name", required: true },
-                { name: "email", label: "Email", type: "email", required: true },
-                { name: "phone", label: "Phone", type: "tel", required: true },
-              ]}
-            />
-          </div>
-          <ContactBlock
-            title="Ready to Explore What a Property Can Become?"
-            description="Whether you're buying, selling, or investing, Tamay Enterprises offers real estate services supported by real construction insight. Contact our team to discuss your goals and explore opportunities with a group that understands both property and potential."
-            hours="Open today 09:00 am – 05:00 pm"
-          />
-        </div>
-      </section>
+      <ServiceAppointmentSection serviceId="real-estate" id="consultation" />
 
       <SellingHelpBanner />
     </>

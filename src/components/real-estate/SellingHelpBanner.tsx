@@ -10,7 +10,7 @@ export function SellingHelpBanner() {
       headline="What's Your Next Move?"
       body="Connect with our team about buying, selling, or investing in Connecticut real estate."
       ctaLabel="Start The Conversation"
-      ctaHref="#contact"
+      ctaHref="#consultation"
     />
   );
 }

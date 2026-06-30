@@ -52,7 +52,7 @@ export default function HomePage() {
         bullets={["Helping first-time homeowners and investors buy, sell, and grow with confidence"]}
         discoverHref="/real-estate"
         ctaLabel="Talk to a Real Estate Advisor"
-        ctaHref="/real-estate#contact"
+        ctaHref="/real-estate#consultation"
         reverse
       />
 

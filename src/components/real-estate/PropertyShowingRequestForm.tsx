@@ -82,7 +82,7 @@ export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingReq
         <p className="text-gray-700 font-medium">No viewing times are available right now.</p>
         <p className="text-sm text-gray-600 mt-2">
           Please check back later or{" "}
-          <Link href="/real-estate/#contact" className="text-tamay-primary font-semibold hover:underline">
+          <Link href="/real-estate/#consultation" className="text-tamay-primary font-semibold hover:underline">
             contact our team
           </Link>
           .
