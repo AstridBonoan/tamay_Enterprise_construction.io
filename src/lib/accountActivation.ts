@@ -48,7 +48,7 @@ export function formatAuthError(error: unknown): string {
     return "Too many email attempts. Wait a few minutes, then try Resend again.";
   }
   if (message.includes("email not confirmed") || message.includes("not confirmed")) {
-    return "Please confirm your email before signing in.";
+    return "Unable to sign in with this account. Please contact Tamay Enterprises for help.";
   }
 
   return error.message;

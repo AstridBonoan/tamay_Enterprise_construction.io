@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { navigateToSitePath } from "@/lib/paths";
 
 function UserIcon({ className = "w-6 h-6" }: { className?: string }) {
   return (
@@ -31,7 +31,6 @@ function greetingName(firstName: string, lastName: string): string {
 }
 
 export function AccountMenu({ compact = false, open, onToggle, onClose }: AccountMenuProps) {
-  const router = useRouter();
   const { user, loading, signOut } = useAuth();
   const iconClass = compact ? "w-6 h-6" : "w-7 h-7";
   const signedIn = !loading && !!user;
@@ -40,7 +39,7 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
   const handleSignOut = async () => {
     onClose();
     await signOut();
-    router.push("/");
+    navigateToSitePath("/");
   };
 
   return (
@@ -103,12 +102,7 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
             ) : (
               <>
                 <li role="none">
-                  <Link
-                    href="/m/login/?r=%2Fm%2Faccount"
-                    role="menuitem"
-                    onClick={onClose}
-                    className={menuItemClass}
-                  >
+                  <Link href="/m/login/" role="menuitem" onClick={onClose} className={menuItemClass}>
                     Sign In
                   </Link>
                 </li>
@@ -119,22 +113,12 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
                 </li>
                 <li role="separator" className="my-1 border-t border-gray-200" />
                 <li role="none">
-                  <Link
-                    href={`/m/login/?r=${encodeURIComponent("/m/bookings/")}`}
-                    role="menuitem"
-                    onClick={onClose}
-                    className={menuItemClass}
-                  >
+                  <Link href="/m/login/?r=%2Fm%2Fbookings%2F" role="menuitem" onClick={onClose} className={menuItemClass}>
                     Bookings
                   </Link>
                 </li>
                 <li role="none">
-                  <Link
-                    href={`/m/login/?r=${encodeURIComponent("/m/account/")}`}
-                    role="menuitem"
-                    onClick={onClose}
-                    className={menuItemClass}
-                  >
+                  <Link href="/m/login/" role="menuitem" onClick={onClose} className={menuItemClass}>
                     My Account
                   </Link>
                 </li>

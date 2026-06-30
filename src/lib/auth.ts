@@ -1,7 +1,10 @@
 import type { Session, User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
-import { getAuthConfirmUrl, getAuthLoginUrl } from "@/lib/authUrls";
+import { getAuthLoginUrl } from "@/lib/authUrls";
 import { profileDisplayName, type UserProfile } from "@/lib/profile";
+
+/** Default destination after sign-up or sign-in when no ?r= query is present. */
+export const AUTH_DEFAULT_REDIRECT = "/";
 
 export type AuthUser = {
   id: string;
@@ -78,7 +81,6 @@ export function isEmailNotConfirmedError(error: unknown): boolean {
 
 export type SignUpResult =
   | { status: "success"; user: AuthUser }
-  | { status: "needs_confirmation" }
   | { status: "already_exists" };
 
 function isExistingAccountError(error: { message?: string; code?: string }): boolean {
@@ -97,16 +99,18 @@ function isExistingAccountResponse(user: User): boolean {
 
 export async function signUpWithEmail(input: SignUpInput): Promise<SignUpResult> {
   const supabase = createClient();
+  const email = input.email.trim();
+  const firstName = input.firstName.trim();
+  const lastName = input.lastName.trim();
 
   const { data, error } = await supabase.auth.signUp({
-    email: input.email.trim(),
+    email,
     password: input.password,
     options: {
       data: {
-        first_name: input.firstName.trim(),
-        last_name: input.lastName.trim(),
+        first_name: firstName,
+        last_name: lastName,
       },
-      emailRedirectTo: getAuthConfirmUrl(),
     },
   });
 
@@ -123,13 +127,24 @@ export async function signUpWithEmail(input: SignUpInput): Promise<SignUpResult>
     return { status: "already_exists" };
   }
 
-  // Only write profile when we have a session — otherwise RLS blocks the insert.
-  // With email confirmation on, the DB trigger creates the profile instead.
-  if (data.session) {
+  let user = data.user;
+  let session = data.session;
+
+  if (!session) {
+    const signIn = await supabase.auth.signInWithPassword({
+      email,
+      password: input.password,
+    });
+    if (signIn.error) throw signIn.error;
+    user = signIn.data.user ?? user;
+    session = signIn.data.session;
+  }
+
+  if (session) {
     const { error: profileError } = await supabase.from("profiles").upsert({
-      id: data.user.id,
-      first_name: input.firstName.trim(),
-      last_name: input.lastName.trim(),
+      id: user.id,
+      first_name: firstName,
+      last_name: lastName,
     });
 
     if (profileError) {
@@ -138,28 +153,16 @@ export async function signUpWithEmail(input: SignUpInput): Promise<SignUpResult>
 
     return {
       status: "success",
-      user: await resolveAuthUser(data.user),
+      user: await resolveAuthUser(user),
     };
   }
 
-  return { status: "needs_confirmation" };
+  throw new Error("Account created but sign-in failed. Try signing in from the login page.");
 }
 
 export async function signOut() {
   const supabase = createClient();
   const { error } = await supabase.auth.signOut();
-  if (error) throw error;
-}
-
-export async function resendSignUpConfirmation(email: string) {
-  const supabase = createClient();
-  const { error } = await supabase.auth.resend({
-    type: "signup",
-    email: email.trim(),
-    options: {
-      emailRedirectTo: getAuthConfirmUrl(),
-    },
-  });
   if (error) throw error;
 }
 

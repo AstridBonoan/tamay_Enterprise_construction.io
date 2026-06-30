@@ -1,20 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { navigateToSitePath } from "@/lib/paths";
 
 export default function AuthOptionsPage() {
-  const router = useRouter();
   const { user, loading } = useAuth();
 
   const goToProtected = (target: string) => {
     if (loading) return;
     if (user) {
-      router.push(target);
+      navigateToSitePath(target);
       return;
     }
-    router.push(`/m/login?r=${encodeURIComponent(target)}`);
+    navigateToSitePath(`/m/login?r=${encodeURIComponent(target)}`);
   };
 
   return (
@@ -28,7 +27,7 @@ export default function AuthOptionsPage() {
 
         <div className="grid gap-4 max-w-xl mx-auto">
           <Link
-            href="/m/login?r=%2Fm%2Faccount"
+            href="/m/login/"
             className="inline-flex items-center justify-center bg-white text-gray-900 font-bold tracking-wide rounded-full px-8 py-3 hover:bg-gray-100 transition-colors"
           >
             SIGN IN

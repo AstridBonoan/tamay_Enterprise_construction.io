@@ -1,24 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
-import { LegacyAccountHelp } from "@/components/auth/LegacyAccountHelp";
-import { formatAuthError, requestAccountActivation } from "@/lib/accountActivation";
-import { isEmailNotConfirmedError, resetPassword, signInWithEmail } from "@/lib/auth";
+import { formatAuthError } from "@/lib/accountActivation";
+import { AUTH_DEFAULT_REDIRECT, resetPassword, signInWithEmail } from "@/lib/auth";
+import { navigateToSitePath } from "@/lib/paths";
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [redirectTarget, setRedirectTarget] = useState("/m/account");
+  const [redirectTarget, setRedirectTarget] = useState(AUTH_DEFAULT_REDIRECT);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [resetMessage, setResetMessage] = useState<string | null>(null);
-  const [info, setInfo] = useState<string | null>(null);
-  const [activationLoading, setActivationLoading] = useState(false);
-  const [activationSent, setActivationSent] = useState(false);
-  const [needsLegacyUnlock, setNeedsLegacyUnlock] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -33,20 +27,12 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
     setResetMessage(null);
-    setInfo(null);
-    setNeedsLegacyUnlock(false);
-    setActivationSent(false);
 
     try {
       await signInWithEmail(email.trim(), password);
-      router.push(redirectTarget);
+      navigateToSitePath(redirectTarget);
     } catch (err) {
-      if (isEmailNotConfirmedError(err)) {
-        setNeedsLegacyUnlock(true);
-        setError("This account still needs a one-time unlock from our team.");
-      } else {
-        setError(formatAuthError(err));
-      }
+      setError(formatAuthError(err));
     } finally {
       setLoading(false);
     }
@@ -61,7 +47,6 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
     setResetMessage(null);
-    setInfo(null);
 
     try {
       await resetPassword(email.trim());
@@ -70,29 +55,6 @@ export default function LoginPage() {
       setError(formatAuthError(err));
     } finally {
       setLoading(false);
-    }
-  };
-
-  const onRequestActivation = async () => {
-    if (!email.trim()) {
-      setError("Enter your email address first.");
-      return;
-    }
-
-    setActivationLoading(true);
-    setError(null);
-
-    try {
-      await requestAccountActivation({
-        email: email.trim(),
-        source: "login",
-      });
-      setActivationSent(true);
-      setInfo("We notified our team. You can sign in once your account is unlocked.");
-    } catch (err) {
-      setError(formatAuthError(err));
-    } finally {
-      setActivationLoading(false);
     }
   };
 
@@ -127,11 +89,6 @@ export default function LoginPage() {
             className="w-full bg-transparent border border-white/55 rounded-md px-4 py-3 text-base placeholder:text-white/90 focus:outline-none focus:ring-2 focus:ring-white/60"
           />
 
-          {info && (
-            <p className="text-sm text-green-200 text-center" role="status">
-              {info}
-            </p>
-          )}
           {error && (
             <p className="text-sm text-red-200 text-center" role="alert">
               {error}
@@ -141,15 +98,6 @@ export default function LoginPage() {
             <p className="text-sm text-green-200 text-center" role="status">
               {resetMessage}
             </p>
-          )}
-
-          {needsLegacyUnlock && (
-            <LegacyAccountHelp
-              email={email}
-              onRequestActivation={onRequestActivation}
-              activationLoading={activationLoading}
-              activationSent={activationSent}
-            />
           )}
 
           <div className="text-center pt-1.5">

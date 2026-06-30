@@ -69,6 +69,29 @@ export function sitePath(path: string): string {
   return `${ensureTrailingSlash(result)}${search}${hash}`;
 }
 
+/** Full-page navigation that works on GitHub Pages static export. */
+export function navigateToSitePath(path: string): void {
+  if (typeof window === "undefined") return;
+  window.location.assign(sitePath(path));
+}
+
+/** Origin + GitHub Pages base path for auth redirects and canonical URLs. */
+export function getSiteOrigin(): string {
+  const trim = (url: string) => url.replace(/\/$/, "");
+
+  if (typeof window !== "undefined") {
+    return trim(`${window.location.origin}${resolveBasePath()}`);
+  }
+
+  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL;
+  if (fromEnv) return trim(fromEnv);
+
+  const base = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
+  if (base) return trim(`https://astridbonoan.github.io${base}`);
+
+  return "";
+}
+
 /** True when the current route is the homepage (works with GitHub Pages basePath). */
 export function isHomePath(pathname: string): boolean {
   const normalized = normalizeSitePath(pathname);

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { ScheduleSignInPrompt } from "@/components/real-estate/ScheduleSignInPrompt";
@@ -15,7 +14,7 @@ import {
 import { buildPropertyShowingEvent, formatSlotLabel } from "@/lib/googleCalendar";
 import type { PropertyListing } from "@/lib/realEstateListings";
 import { schedulePagePath, type ListingKind } from "@/lib/realEstateScheduling";
-import { sitePath } from "@/lib/paths";
+import { navigateToSitePath, sitePath } from "@/lib/paths";
 import { SCHEDULING } from "@/lib/schedulingConfig";
 
 type PropertyShowingRequestFormProps = {
@@ -24,7 +23,6 @@ type PropertyShowingRequestFormProps = {
 };
 
 export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingRequestFormProps) {
-  const router = useRouter();
   const { user, loading: authLoading } = useAuth();
   const [bookedStarts, setBookedStarts] = useState<string[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(true);
@@ -107,7 +105,7 @@ export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingReq
         preferredTime: slotLabel,
         notes: notes || undefined,
       });
-      router.push(sitePath("/m/bookings"));
+      navigateToSitePath("/m/bookings");
     } catch (err) {
       if (err instanceof SlotAlreadyBookedError) {
         await loadBookedSlots();

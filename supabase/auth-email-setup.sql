@@ -1,6 +1,10 @@
 -- Supabase Auth setup (Dashboard — reference only)
 --
--- Email confirmation is DISABLED — new users sign in immediately after sign-up.
+-- REQUIRED: Disable email confirmation so users sign in immediately after sign-up.
+--   Authentication → Providers → Email → turn OFF "Confirm email"
+--
+-- After sign-up or sign-in, the site sends users to the homepage (unless ?r= is set,
+-- e.g. when booking a showing).
 --
 -- =============================================================================
 -- LEGACY USERS (signed up while confirmation was ON)

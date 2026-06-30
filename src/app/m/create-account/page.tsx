@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { FormEvent, Suspense, useState } from "react";
 import { formatAuthError } from "@/lib/accountActivation";
-import { signUpWithEmail } from "@/lib/auth";
+import { AUTH_DEFAULT_REDIRECT, signUpWithEmail } from "@/lib/auth";
+import { navigateToSitePath } from "@/lib/paths";
 
 function CreateAccountForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTarget = searchParams.get("r") ?? "/m/account";
+  const redirectTarget = searchParams.get("r") ?? AUTH_DEFAULT_REDIRECT;
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -48,12 +48,7 @@ function CreateAccountForm() {
         return;
       }
 
-      if (result.status === "needs_confirmation") {
-        router.push(`/m/login?r=${encodeURIComponent(redirectTarget)}`);
-        return;
-      }
-
-      router.push(redirectTarget);
+      navigateToSitePath(redirectTarget);
     } catch (err) {
       setError(formatAuthError(err));
     } finally {

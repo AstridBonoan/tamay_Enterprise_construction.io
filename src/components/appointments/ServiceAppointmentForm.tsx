@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AppointmentCalendarActions } from "@/components/appointments/AppointmentCalendarActions";
 import { useAuth } from "@/components/auth/AuthProvider";
@@ -19,7 +18,7 @@ import {
 } from "@/lib/googleCalendar";
 import type { OnlineAppointmentService } from "@/lib/onlineAppointments";
 import { appointmentScheduleHref, appointmentSchedulePath } from "@/lib/onlineAppointments";
-import { sitePath } from "@/lib/paths";
+import { navigateToSitePath, sitePath } from "@/lib/paths";
 import { SCHEDULING } from "@/lib/schedulingConfig";
 import { SITE } from "@/lib/site";
 
@@ -28,7 +27,6 @@ type ServiceAppointmentFormProps = {
 };
 
 export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps) {
-  const router = useRouter();
   const { user, loading: authLoading } = useAuth();
   const [bookedStarts, setBookedStarts] = useState<string[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(true);
@@ -113,7 +111,7 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
         preferredTime: slotLabel,
         notes: notes || undefined,
       });
-      router.push(sitePath("/m/bookings"));
+      navigateToSitePath("/m/bookings");
     } catch (err) {
       if (err instanceof SlotAlreadyBookedError) {
         await loadBookedSlots();
