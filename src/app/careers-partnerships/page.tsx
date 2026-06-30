@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { JoinTeamButton } from "@/components/careers/JoinTeamChoice";
+import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { CareerRoleCard } from "@/components/careers/CareerRoleCard";
 import { CareersJoinFloat } from "@/components/careers/CareersJoinFloat";
 import { CareersAboutPhoto } from "@/components/careers/CareersAboutPhoto";
@@ -123,6 +124,8 @@ export default function CareersPage() {
           </div>
         </div>
       </section>
+
+      <SiteContactSection />
 
       <CareersJoinFloat />
     </>

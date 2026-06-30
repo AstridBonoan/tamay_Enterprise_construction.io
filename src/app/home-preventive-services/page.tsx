@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ContactForm } from "@/components/ui/ContactForm";
-import { ContactBlock } from "@/components/ui/ContactBlock";
+import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { Button } from "@/components/ui/Button";
 import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
 import { IMAGES } from "@/lib/images";
@@ -347,35 +346,7 @@ export default function HomePreventiveServicesPage() {
 
       <ServiceAppointmentSection serviceId="prevention-services" />
 
-      <section id="contact" className="py-16 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4">
-          <SectionHeading title="Contact Us" />
-          <div className="grid md:grid-cols-2 gap-12 mt-8">
-            <div>
-              <h3 className="font-heading text-xl text-tamay-primary font-semibold mb-6">
-                Request Membership Information
-              </h3>
-              <ContactForm
-                formName="Tamay - Preventive Services Contact"
-                fields={[
-                  {
-                    name: "services",
-                    label: "Services of Interested",
-                    type: "select",
-                    required: true,
-                    options: preventiveServices.map((s) => s.title),
-                  },
-                  { name: "name", label: "Name" },
-                  { name: "email", label: "Email", type: "email", required: true },
-                  { name: "phone", label: "Phone", type: "tel" },
-                ]}
-                submitLabel="Send"
-              />
-            </div>
-            <ContactBlock title="Explore Memberships" showAddress={false} />
-          </div>
-        </div>
-      </section>
+      <SiteContactSection />
     </>
   );
 }

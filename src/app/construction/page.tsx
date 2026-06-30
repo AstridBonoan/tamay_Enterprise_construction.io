@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ContactForm } from "@/components/ui/ContactForm";
-import { ContactBlock } from "@/components/ui/ContactBlock";
+import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { Button } from "@/components/ui/Button";
 import { VideoTestimonialCarousel } from "@/components/home/VideoTestimonialCarousel";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
@@ -241,30 +240,7 @@ export default function ConstructionPage() {
         </p>
       </section>
 
-      <section id="contact" className="py-16 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12">
-          <div>
-            <SectionHeading align="left" eyebrow="Contact Us" title="Start Your Project the Right Way" />
-            <ContactForm
-              formName="Tamay - Construction Contact"
-              fields={[
-                {
-                  name: "projectType",
-                  label: "Project Type",
-                  type: "select",
-                  options: ["Full Renovation", "Addition", "Kitchen", "Bathroom", "Commercial", "Other"],
-                },
-                { name: "name", label: "Name", required: true },
-                { name: "email", label: "Email", type: "email", required: true },
-                { name: "phone", label: "Phone", type: "tel", required: true },
-                { name: "city", label: "City" },
-              ]}
-              submitLabel="Request My Consultation"
-            />
-          </div>
-          <ContactBlock showAddress={false} />
-        </div>
-      </section>
+      <SiteContactSection />
 
       <ConstructionEstimateBanner />
     </>

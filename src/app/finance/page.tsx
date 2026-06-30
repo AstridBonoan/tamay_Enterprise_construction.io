@@ -3,6 +3,7 @@ import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { FinancingPromoCard } from "@/components/finance/FinancingPromoCard";
+import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { IMAGES } from "@/lib/images";
 import { FINANCE, SITE } from "@/lib/site";
 
@@ -51,11 +52,13 @@ export default function FinancePage() {
           <Button href={SITE.financingUrl} variant="primary" external>
             Check Financing Options
           </Button>
-          <Button href="/#contact" variant="outline">
+          <Button href="#contact" variant="outline">
             Contact Us
           </Button>
         </div>
       </section>
+
+      <SiteContactSection />
     </>
   );
 }

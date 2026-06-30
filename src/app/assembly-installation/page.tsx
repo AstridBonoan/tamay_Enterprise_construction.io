@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ContactForm } from "@/components/ui/ContactForm";
-import { ContactBlock } from "@/components/ui/ContactBlock";
+import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { Button } from "@/components/ui/Button";
 import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
 import { ASSEMBLY_HERO_BANNER } from "@/lib/assemblyImages";
@@ -211,32 +210,7 @@ export default function AssemblyInstallationPage() {
 
       <ServiceAppointmentSection serviceId="assembly-installation" />
 
-      <section id="contact" className="py-16 px-4 border-t border-gray-200">
-        <div className="max-w-6xl mx-auto">
-          <SectionHeading
-            title="Ready to Work With a Professional Assembly Partner?"
-            subtitle="Let's Connect and Put Our Team to Work"
-          />
-          <p className="text-gray-600 text-center max-w-2xl mx-auto -mt-4 mb-10 leading-relaxed">
-            We collaborate with service platforms, logistics partners, and project coordinators looking for
-            professional assembly and installation support at scale.
-          </p>
-          <div className="grid md:grid-cols-2 gap-12 items-start">
-            <div>
-              <h3 className="font-heading text-lg text-tamay-primary font-semibold mb-4">Contact us</h3>
-              <ContactForm
-                formName="Tamay - Assembly & Installation Contact"
-                fields={[
-                  { name: "name", label: "Name" },
-                  { name: "phone", label: "Phone Number", type: "tel" },
-                  { name: "email", label: "Email", type: "email", required: true },
-                ]}
-              />
-            </div>
-            <ContactBlock hours="Open today 09:00 am – 08:00 pm" />
-          </div>
-        </div>
-      </section>
+      <SiteContactSection />
     </>
   );
 }

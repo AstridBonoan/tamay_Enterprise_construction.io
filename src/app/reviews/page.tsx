@@ -3,6 +3,7 @@ import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
 import { WriteReviewSection } from "@/components/reviews/WriteReviewSection";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { REVIEW_VIDEO_PROJECTS } from "@/lib/reviewVideos";
 
 export const metadata: Metadata = {
@@ -21,6 +22,8 @@ export default function ReviewsPage() {
         <SectionHeading title="Video Testimonials" />
         <TamayVideoGallery projects={REVIEW_VIDEO_PROJECTS} />
       </section>
+
+      <SiteContactSection />
     </>
   );
 }
