@@ -9,10 +9,15 @@ type CareerRoleCardProps = {
 
 export function CareerRoleCard({ group }: CareerRoleCardProps) {
   const label = careerApplyLabel(group);
+  const isSubcontractorCard = group.id === "subcontractor-partnerships";
 
   return (
     <article className="border border-gray-200 bg-white p-6 md:p-8 shadow-sm flex flex-col h-full">
-      <h3 className="font-heading text-lg md:text-xl text-tamay-primary font-semibold mb-4">
+      <h3
+        className={`font-heading text-lg md:text-xl font-semibold mb-4 ${
+          isSubcontractorCard ? "text-tamay-accent" : "text-tamay-primary"
+        }`}
+      >
         {group.category}
       </h3>
       <ol className="list-decimal list-inside text-gray-700 space-y-2 text-sm leading-relaxed flex-1 mb-6">
@@ -21,13 +26,17 @@ export function CareerRoleCard({ group }: CareerRoleCardProps) {
         ))}
       </ol>
       {group.applyHref ? (
-        <Button href={group.applyHref} variant="primary" className="w-full sm:w-auto">
+        <Button
+          href={group.applyHref}
+          variant={isSubcontractorCard ? "accent" : "primary"}
+          className="w-full sm:w-auto"
+        >
           {label}
         </Button>
       ) : (
         <JoinTeamButton
           employeeHref={careerApplyHref(group.id)}
-          variant="primary"
+          variant={isSubcontractorCard ? "accent" : "primary"}
           className="w-full sm:w-auto"
         >
           {label}
