@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/Button";
 import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
 import { IMAGES } from "@/lib/images";
 
+const PREVENTIVE_SCHEDULE_HREF = "/online-appointments/schedule?service=prevention-services#book";
+
 export const metadata: Metadata = {
   title: "Preventive Home Services in West Haven, CT",
   description:
@@ -269,7 +271,7 @@ export default function HomePreventiveServicesPage() {
             {preventiveServices.map((service) => (
               <article
                 key={service.title}
-                className="bg-white p-6 md:p-8 shadow-sm border border-gray-100 border-t-4 border-t-tamay-accent h-full"
+                className="bg-white p-6 md:p-8 shadow-sm border border-gray-100 border-t-4 border-t-tamay-accent h-full flex flex-col"
               >
                 <h3 className="font-heading text-lg md:text-xl text-tamay-primary font-semibold mb-6 pb-4 border-b border-gray-100">
                   {service.title}
@@ -287,11 +289,16 @@ export default function HomePreventiveServicesPage() {
                     ))}
                   </div>
                 )}
-                {service.moreInfoHref && (
-                  <Button href={service.moreInfoHref} variant="outline" className="mt-8">
-                    More info
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <Button href={PREVENTIVE_SCHEDULE_HREF} variant="accent">
+                    Schedule Now
                   </Button>
-                )}
+                  {service.moreInfoHref && (
+                    <Button href={service.moreInfoHref} variant="outline">
+                      More info
+                    </Button>
+                  )}
+                </div>
               </article>
             ))}
           </div>
