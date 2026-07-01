@@ -26,6 +26,21 @@ type ServiceAppointmentFormProps = {
   service: OnlineAppointmentService;
 };
 
+const slotSelectClass =
+  "w-full border border-gray-300 rounded-md px-4 py-3 text-base text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-tamay-primary/40 focus:border-tamay-primary";
+
+function SelectedTimePreview({ date, time }: { date: string; time: string }) {
+  return (
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 border border-tamay-primary bg-tamay-primary/5 ring-1 ring-tamay-primary/30">
+      <div>
+        <p className="font-medium text-gray-800">{date}</p>
+        <p className="text-sm text-gray-600 mt-0.5">{time}</p>
+      </div>
+      <span className="shrink-0 text-xs font-bold uppercase tracking-wide text-tamay-primary">Selected</span>
+    </div>
+  );
+}
+
 export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps) {
   const { user, loading: authLoading } = useAuth();
   const [bookedStarts, setBookedStarts] = useState<string[]>([]);
@@ -123,34 +138,26 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
 
   return (
     <div className="space-y-6">
-      <fieldset className="space-y-3">
-        <legend className="text-sm font-semibold text-tamay-primary mb-1">Select an available time</legend>
-        {availableSlots.map((slot, index) => {
-          const inputId = `appointment-slot-${service.id}-${index}`;
-          return (
-            <label
-              key={slot.start}
-              htmlFor={inputId}
-              className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 py-3 px-4 border cursor-pointer transition-colors ${
-                selectedIndex === index
-                  ? "border-tamay-primary bg-tamay-primary/5"
-                  : "border-gray-100 bg-gray-50 hover:border-gray-300"
-              }`}
-            >
-              <span className="font-medium text-gray-800">{slot.date}</span>
-              <span className="text-gray-600 text-sm sm:text-base">{slot.time}</span>
-              <input
-                id={inputId}
-                type="radio"
-                name="preferred-appointment-time"
-                checked={selectedIndex === index}
-                onChange={() => setSelectedIndex(index)}
-                className="sr-only"
-              />
-            </label>
-          );
-        })}
-      </fieldset>
+      <div className="space-y-4">
+        <div>
+          <label htmlFor={`appointment-slot-${service.id}`} className="block text-sm font-semibold text-gray-700 mb-2">
+            Available time
+          </label>
+          <select
+            id={`appointment-slot-${service.id}`}
+            value={selectedIndex}
+            onChange={(event) => setSelectedIndex(Number(event.target.value))}
+            className={slotSelectClass}
+          >
+            {availableSlots.map((slot, index) => (
+              <option key={slot.start} value={index}>
+                {slot.date} — {slot.time}
+              </option>
+            ))}
+          </select>
+        </div>
+        <SelectedTimePreview date={selectedSlot.date} time={selectedSlot.time} />
+      </div>
 
       <AppointmentCalendarActions event={calendarEvent} icsFilename={icsFilename} compact />
 
