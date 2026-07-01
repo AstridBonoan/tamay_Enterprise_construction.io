@@ -17,25 +17,12 @@ type ConsultationScheduleCalendarProps = {
   initialServiceId: string;
 };
 
-function ServicePickerOption({
-  service,
-  selected,
-  onSelect,
-}: {
-  service: OnlineAppointmentService;
-  selected: boolean;
-  onSelect: () => void;
-}) {
+const serviceSelectClass =
+  "w-full border border-gray-300 rounded-md px-4 py-3 text-base text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-tamay-primary/40 focus:border-tamay-primary";
+
+function SelectedServicePreview({ service }: { service: OnlineAppointmentService }) {
   return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className={`w-full text-left flex gap-4 p-4 border transition-colors ${
-        selected
-          ? "border-tamay-primary bg-tamay-primary/5 ring-1 ring-tamay-primary/30"
-          : "border-gray-100 bg-gray-50 hover:border-gray-300"
-      }`}
-    >
+    <div className="flex gap-4 p-4 border border-tamay-primary bg-tamay-primary/5 ring-1 ring-tamay-primary/30">
       <figure className="relative w-24 sm:w-28 aspect-[3/2] shrink-0 bg-gray-100 overflow-hidden">
         <Image
           src={service.image}
@@ -47,18 +34,16 @@ function ServicePickerOption({
         />
       </figure>
       <div className="min-w-0 flex-1">
-        <p className="font-heading text-base sm:text-lg font-semibold text-tamay-primary">{service.title}</p>
+        <div className="flex items-start justify-between gap-3">
+          <p className="font-heading text-base sm:text-lg font-semibold text-tamay-primary">{service.title}</p>
+          <span className="shrink-0 text-xs font-bold uppercase tracking-wide text-tamay-primary">Selected</span>
+        </div>
         <p className="text-sm text-gray-600 mt-0.5">
           {service.durationLabel} | {service.priceLabel}
         </p>
-        <p className="text-sm text-gray-600 mt-1 line-clamp-2">{service.description}</p>
+        <p className="text-sm text-gray-600 mt-1">{service.description}</p>
       </div>
-      {selected && (
-        <span className="self-start shrink-0 text-xs font-bold uppercase tracking-wide text-tamay-primary">
-          Selected
-        </span>
-      )}
-    </button>
+    </div>
   );
 }
 
@@ -108,15 +93,25 @@ export function ConsultationScheduleCalendar({ initialServiceId }: ConsultationS
           The service you chose on Online Appointments is selected below. Switch to another consultation type if
           needed — your booking form updates automatically.
         </p>
-        <div className="space-y-3">
-          {ONLINE_APPOINTMENT_SERVICES.map((item) => (
-            <ServicePickerOption
-              key={item.id}
-              service={item}
-              selected={item.id === selectedServiceId}
-              onSelect={() => selectService(item.id)}
-            />
-          ))}
+        <div className="space-y-4">
+          <div>
+            <label htmlFor="consultation-service" className="block text-sm font-semibold text-gray-700 mb-2">
+              Consultation type
+            </label>
+            <select
+              id="consultation-service"
+              value={selectedServiceId}
+              onChange={(event) => selectService(event.target.value)}
+              className={serviceSelectClass}
+            >
+              {ONLINE_APPOINTMENT_SERVICES.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.title} — {item.durationLabel} | {item.priceLabel}
+                </option>
+              ))}
+            </select>
+          </div>
+          <SelectedServicePreview service={service} />
         </div>
       </div>
 
