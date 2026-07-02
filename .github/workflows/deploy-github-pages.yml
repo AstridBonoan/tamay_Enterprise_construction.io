@@ -32,8 +32,8 @@ jobs:
         run: npm run build
         env:
           GITHUB_PAGES: "true"
-          NEXT_PUBLIC_BASE_PATH: /TamayEnterprisesOffical.io
-          NEXT_PUBLIC_SITE_URL: https://tamayenterprises.github.io/TamayEnterprisesOffical.io
+          NEXT_PUBLIC_BASE_PATH: /tamay_Enterprise_construction.io
+          NEXT_PUBLIC_SITE_URL: https://astridbonoan.github.io/tamay_Enterprise_construction.io
           NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}

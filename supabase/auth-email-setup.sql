@@ -24,6 +24,6 @@
 -- URL Configuration (still used for password reset)
 -- =============================================================================
 -- Site URL:
---   https://tamayenterprises.github.io/TamayEnterprisesOffical.io
+--   https://astridbonoan.github.io/tamay_Enterprise_construction.io
 -- Redirect URLs:
---   https://tamayenterprises.github.io/TamayEnterprisesOffical.io/m/login/**
+--   https://astridbonoan.github.io/tamay_Enterprise_construction.io/m/login/**
