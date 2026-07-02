@@ -7,6 +7,7 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { ScheduleSignInPrompt } from "@/components/real-estate/ScheduleSignInPrompt";
 import { ContactForm } from "@/components/ui/ContactForm";
 import {
+  createGuestServiceBooking,
   createServiceBooking,
   fetchBookedAppointmentStarts,
   SlotAlreadyBookedError,
@@ -17,7 +18,7 @@ import {
   icsFilenameForAppointment,
 } from "@/lib/googleCalendar";
 import type { OnlineAppointmentService } from "@/lib/onlineAppointments";
-import { appointmentScheduleHref, appointmentSchedulePath } from "@/lib/onlineAppointments";
+import { appointmentSchedulePath } from "@/lib/onlineAppointments";
 import { navigateToSitePath, sitePath } from "@/lib/paths";
 import { SCHEDULING } from "@/lib/schedulingConfig";
 import { SITE } from "@/lib/site";
@@ -43,11 +44,14 @@ function SelectedTimePreview({ date, time }: { date: string; time: string }) {
 
 export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps) {
   const { user, loading: authLoading } = useAuth();
+  const [guestMode, setGuestMode] = useState(false);
+  const [guestBookingComplete, setGuestBookingComplete] = useState(false);
   const [bookedStarts, setBookedStarts] = useState<string[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const schedulePath = sitePath(`${appointmentSchedulePath(service.id)}#book`);
+  const canBook = Boolean(user) || guestMode;
 
   const availableSlots = useMemo(
     () => service.scheduleSlots.filter((slot) => !bookedStarts.includes(slot.start)),
@@ -83,9 +87,24 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
     return <p className="text-sm text-gray-600">Loading...</p>;
   }
 
-  if (!user) {
+  if (!canBook) {
     return (
-      <ScheduleSignInPrompt schedulePath={schedulePath} actionLabel={service.scheduleCtaLabel} />
+      <ScheduleSignInPrompt
+        schedulePath={schedulePath}
+        actionLabel={service.scheduleCtaLabel}
+        onContinueAsGuest={() => setGuestMode(true)}
+      />
+    );
+  }
+
+  if (guestBookingComplete) {
+    return (
+      <div className="max-w-md rounded-sm border border-green-200 bg-green-50 px-5 py-6 text-center">
+        <p className="font-heading text-lg font-semibold text-tamay-primary">Thank you!</p>
+        <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+          Your appointment request was sent. Our team will confirm your booking by email or phone.
+        </p>
+      </div>
     );
   }
 
@@ -113,19 +132,36 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
 
   const handleBookingSuccess = async (formData: FormData) => {
     const notes = String(formData.get("message") ?? "").trim();
+    const bookingInput = {
+      bookingType: "consultation" as const,
+      serviceCategory: service.serviceCategory,
+      serviceId: service.id,
+      title: `${service.title} consultation`,
+      subtitle: SITE.address,
+      appointmentStart: selectedSlot.start,
+      appointmentEnd: selectedSlot.end,
+      preferredTime: slotLabel,
+      notes: notes || undefined,
+    };
 
     try {
-      await createServiceBooking(user.id, {
-        bookingType: "consultation",
-        serviceCategory: service.serviceCategory,
-        serviceId: service.id,
-        title: `${service.title} consultation`,
-        subtitle: SITE.address,
-        appointmentStart: selectedSlot.start,
-        appointmentEnd: selectedSlot.end,
-        preferredTime: slotLabel,
-        notes: notes || undefined,
-      });
+      if (guestMode) {
+        try {
+          await createGuestServiceBooking(bookingInput);
+        } catch (err) {
+          if (err instanceof SlotAlreadyBookedError) {
+            await loadBookedSlots();
+            throw err;
+          }
+          console.warn("Guest booking saved via email only:", err);
+        }
+        setGuestBookingComplete(true);
+        return;
+      }
+
+      if (!user) return;
+
+      await createServiceBooking(user.id, bookingInput);
       navigateToSitePath("/m/bookings");
     } catch (err) {
       if (err instanceof SlotAlreadyBookedError) {
@@ -162,8 +198,8 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
       <AppointmentCalendarActions event={calendarEvent} icsFilename={icsFilename} compact />
 
       <ContactForm
-        key={`${service.id}-${selectedSlot.start}`}
-        formName={`Tamay - ${service.title} Consultation`}
+        key={`${service.id}-${selectedSlot.start}-${guestMode ? "guest" : "member"}`}
+        formName={`Tamay - ${service.title} Consultation${guestMode ? " (Guest)" : ""}`}
         submitLabel={service.scheduleCtaLabel}
         showRecaptchaNote={false}
         onSuccess={handleBookingSuccess}
@@ -174,9 +210,10 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
           appointment_start: selectedSlot.start,
           appointment_end: selectedSlot.end,
           appointment_timezone: SCHEDULING.timezone,
-          name: [user.firstName, user.lastName].filter(Boolean).join(" ").trim(),
-          email: user.email,
-          phone: user.phone ?? "",
+          booking_as_guest: guestMode ? "Yes" : "No",
+          name: user ? [user.firstName, user.lastName].filter(Boolean).join(" ").trim() : "",
+          email: user?.email ?? "",
+          phone: user?.phone ?? "",
         }}
         fields={[
           { name: "service", label: "Consultation service", type: "hidden" },
@@ -185,6 +222,7 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
           { name: "appointment_start", label: "Appointment start (ISO)", type: "hidden" },
           { name: "appointment_end", label: "Appointment end (ISO)", type: "hidden" },
           { name: "appointment_timezone", label: "Appointment timezone", type: "hidden" },
+          { name: "booking_as_guest", label: "Guest booking", type: "hidden" },
           { name: "name", label: "Name", required: true },
           { name: "email", label: "Email", type: "email", required: true },
           { name: "phone", label: "Phone", type: "tel", required: true },

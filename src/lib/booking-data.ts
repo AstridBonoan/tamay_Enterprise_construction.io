@@ -143,6 +143,30 @@ export async function createServiceBooking(
   });
 }
 
+/** Guest bookings (no account). Requires guest-bookings.sql in Supabase. */
+export async function createGuestServiceBooking(input: CreateServiceBookingInput): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase.rpc("create_guest_service_booking", {
+    p_booking_type: input.bookingType,
+    p_service_category: input.serviceCategory,
+    p_service_id: input.serviceId,
+    p_title: input.title,
+    p_subtitle: input.subtitle?.trim() || null,
+    p_appointment_start: input.appointmentStart,
+    p_appointment_end: input.appointmentEnd,
+    p_appointment_timezone: input.appointmentTimezone ?? SCHEDULING.timezone,
+    p_preferred_time: input.preferredTime,
+    p_notes: input.notes?.trim() || null,
+  });
+
+  if (error) {
+    if (error.code === "23505") {
+      throw new SlotAlreadyBookedError();
+    }
+    throw error;
+  }
+}
+
 async function createBooking(
   userId: string,
   row: Omit<Booking, "id" | "user_id" | "created_at">,
