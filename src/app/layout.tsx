@@ -24,9 +24,10 @@ const sourceSans = Source_Sans_3({
 });
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_BASE_PATH
-    ? `https://astridbonoan.github.io${process.env.NEXT_PUBLIC_BASE_PATH}`
-    : "https://tamayenterprises.com";
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.NEXT_PUBLIC_BASE_PATH
+    ? `https://tamayenterprises.github.io${process.env.NEXT_PUBLIC_BASE_PATH}`
+    : "https://tamayenterprises.com");
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

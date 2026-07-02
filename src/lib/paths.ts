@@ -87,7 +87,7 @@ export function getSiteOrigin(): string {
   if (fromEnv) return trim(fromEnv);
 
   const base = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
-  if (base) return trim(`https://astridbonoan.github.io${base}`);
+  if (base) return trim(`https://tamayenterprises.github.io${base}`);
 
   return "";
 }
