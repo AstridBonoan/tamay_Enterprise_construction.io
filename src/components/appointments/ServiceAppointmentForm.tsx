@@ -129,6 +129,35 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
 
   const slotLabel = formatSlotLabel(selectedSlot);
   const icsFilename = icsFilenameForAppointment(service.id, selectedSlot);
+  const memberName = user ? [user.firstName, user.lastName].filter(Boolean).join(" ").trim() : "";
+  const memberEmail = user?.email ?? "";
+  const memberPhone = user?.phone ?? "";
+
+  const bookingFields = [
+    { name: "service", label: "Consultation service", type: "hidden" as const },
+    { name: "service_category", label: "Service category", type: "hidden" as const },
+    { name: "preferred_time", label: "Preferred time", type: "hidden" as const },
+    { name: "appointment_start", label: "Appointment start (ISO)", type: "hidden" as const },
+    { name: "appointment_end", label: "Appointment end (ISO)", type: "hidden" as const },
+    { name: "appointment_timezone", label: "Appointment timezone", type: "hidden" as const },
+    { name: "booking_as_guest", label: "Guest booking", type: "hidden" as const },
+    ...(guestMode
+      ? [
+          { name: "name", label: "Name", required: true as const },
+          { name: "email", label: "Email", type: "email" as const, required: true as const },
+          { name: "phone", label: "Phone", type: "tel" as const, required: true as const },
+        ]
+      : [
+          { name: "name", label: "Name", type: "hidden" as const },
+          { name: "email", label: "Email", type: "hidden" as const },
+          { name: "phone", label: "Phone", type: "hidden" as const },
+        ]),
+    {
+      name: "message",
+      label: "Additional details (optional)",
+      type: "textarea" as const,
+    },
+  ];
 
   const handleBookingSuccess = async (formData: FormData) => {
     const notes = String(formData.get("message") ?? "").trim();
@@ -211,27 +240,11 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
           appointment_end: selectedSlot.end,
           appointment_timezone: SCHEDULING.timezone,
           booking_as_guest: guestMode ? "Yes" : "No",
-          name: user ? [user.firstName, user.lastName].filter(Boolean).join(" ").trim() : "",
-          email: user?.email ?? "",
-          phone: user?.phone ?? "",
+          name: guestMode ? "" : memberName,
+          email: guestMode ? "" : memberEmail,
+          phone: guestMode ? "" : memberPhone,
         }}
-        fields={[
-          { name: "service", label: "Consultation service", type: "hidden" },
-          { name: "service_category", label: "Service category", type: "hidden" },
-          { name: "preferred_time", label: "Preferred time", type: "hidden" },
-          { name: "appointment_start", label: "Appointment start (ISO)", type: "hidden" },
-          { name: "appointment_end", label: "Appointment end (ISO)", type: "hidden" },
-          { name: "appointment_timezone", label: "Appointment timezone", type: "hidden" },
-          { name: "booking_as_guest", label: "Guest booking", type: "hidden" },
-          { name: "name", label: "Name", required: true },
-          { name: "email", label: "Email", type: "email", required: true },
-          { name: "phone", label: "Phone", type: "tel", required: true },
-          {
-            name: "message",
-            label: "Additional details (optional)",
-            type: "textarea",
-          },
-        ]}
+        fields={bookingFields}
       />
     </div>
   );
