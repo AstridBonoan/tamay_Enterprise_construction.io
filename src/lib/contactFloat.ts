@@ -62,11 +62,11 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   "/assembly-installation": {
     floatId: "assembly-contact",
     collapsedLabel: "Install",
-    ariaLabel: "Assembly and installation contact",
+    ariaLabel: "Schedule assembly and installation",
     headline: "Something Need Assembling?",
-    body: "Book a professional install — head to our contact form and share the details.",
-    ctaLabel: "Book Service",
-    ctaHref: "#contact",
+    body: "Book a professional install — pick a time that works for you.",
+    ctaLabel: "Schedule Now",
+    ctaHref: "/online-appointments/schedule?service=assembly-installation#book",
   },
   "/home-preventive-services": {
     floatId: "preventive-contact",
