@@ -17,9 +17,10 @@ type PropertyScheduleCalendarProps = {
 };
 
 export function PropertyScheduleCalendar({ listing, kind, kindLabel }: PropertyScheduleCalendarProps) {
-  const appointmentScheduleEnabled = isAppointmentScheduleEnabled(listing);
-  const embedUrl = appointmentScheduleEnabled ? getSchedulingEmbedUrl(listing) : null;
+  const googleScheduling = isAppointmentScheduleEnabled(listing);
+  const embedUrl = googleScheduling ? getSchedulingEmbedUrl(listing) : null;
   const bookingUrl = embedUrl ? getSchedulingBookingUrl(listing) : null;
+  const legacySlots = !googleScheduling && listing.scheduleSlots.length > 0;
 
   return (
     <div className="space-y-8">
@@ -33,7 +34,7 @@ export function PropertyScheduleCalendar({ listing, kind, kindLabel }: PropertyS
         <p className="text-tamay-primary font-bold text-xl sm:text-2xl mt-4">{listing.price}</p>
       </div>
 
-      {listing.scheduleSlots.length > 0 && (
+      {legacySlots && (
         <div className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
           <h2 className="font-heading text-lg text-tamay-primary font-semibold mb-4">
             {listing.scheduleLabel}
@@ -50,9 +51,7 @@ export function PropertyScheduleCalendar({ listing, kind, kindLabel }: PropertyS
             ))}
           </ul>
           <p className="text-sm text-gray-500 mt-4">
-            {appointmentScheduleEnabled
-              ? "Choose a time below to book directly through Google Calendar."
-              : "Select a time below — your date and time will pre-fill a Google Calendar event when you book."}
+            Select a time below — your appointment will be saved to your Bookings dashboard.
           </p>
         </div>
       )}
@@ -62,10 +61,11 @@ export function PropertyScheduleCalendar({ listing, kind, kindLabel }: PropertyS
           Choose an available time
         </h2>
 
-        {appointmentScheduleEnabled && embedUrl ? (
+        {googleScheduling && embedUrl ? (
           <>
             <p className="text-gray-600 text-sm leading-relaxed mb-6">
-              Book a showing through our Google Calendar appointment schedule. You&apos;ll receive a
+              Pick a date and time below. Availability comes from our Google Calendar — when we add
+              open houses or showing windows, they appear here automatically. You&apos;ll receive a
               confirmation email after booking.
             </p>
             <div className="space-y-4">
@@ -92,12 +92,11 @@ export function PropertyScheduleCalendar({ listing, kind, kindLabel }: PropertyS
               </div>
             </div>
           </>
-        ) : (
+        ) : legacySlots ? (
           <>
             <p className="text-gray-600 text-sm leading-relaxed mb-6">
               Pick a time and confirm your request. Your appointment will be saved to your Bookings
-              dashboard with any other consultations or services you schedule. Booked times are removed
-              automatically for other visitors.
+              dashboard. Booked times are removed automatically for other visitors.
             </p>
             <div className="space-y-6">
               <PropertyShowingRequestForm listing={listing} kind={kind} />
@@ -108,6 +107,21 @@ export function PropertyScheduleCalendar({ listing, kind, kindLabel }: PropertyS
               </div>
             </div>
           </>
+        ) : (
+          <div className="rounded-sm border border-gray-200 bg-gray-50 px-5 py-6 text-center space-y-4">
+            <p className="text-gray-700 font-medium">Online scheduling is being set up for this property.</p>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Please call or email our team and we&apos;ll find a showing time that works for you.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+              <Button href={SITE.phoneTel} variant="primary">
+                Call {SITE.phone}
+              </Button>
+              <Button href="/#contact" variant="outline">
+                Contact us
+              </Button>
+            </div>
+          </div>
         )}
       </div>
 

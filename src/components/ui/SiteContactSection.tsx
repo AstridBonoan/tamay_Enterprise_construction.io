@@ -22,6 +22,12 @@ export function SiteContactSection() {
               { name: "name", label: "Name", required: true },
               { name: "email", label: "Email", type: "email", required: true },
               { name: "phone", label: "Phone", type: "tel", required: true },
+              {
+                name: "project_description",
+                label: "Project Description",
+                type: "textarea",
+                required: true,
+              },
             ]}
             submitLabel="Send"
           />
