@@ -21,6 +21,7 @@ export function PageContactFloat() {
       ariaLabel={config.ariaLabel}
       ctaLabel={config.ctaLabel}
       ctaHref={config.ctaHref}
+      ctaExternal={config.ctaExternal}
     />
   );
 }

@@ -1,4 +1,5 @@
 import { normalizeSitePath } from "./paths";
+import { SITE } from "./site";
 
 export type ContactFloatConfig = {
   floatId: string;
@@ -8,6 +9,7 @@ export type ContactFloatConfig = {
   ariaLabel: string;
   ctaLabel: string;
   ctaHref: string;
+  ctaExternal?: boolean;
 };
 
 const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
@@ -40,12 +42,13 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   },
   "/finance": {
     floatId: "finance-contact",
-    collapsedLabel: "Questions?",
-    ariaLabel: "Financing questions",
+    collapsedLabel: "Finance",
+    ariaLabel: "Check financing options",
     headline: "Financing Feel Complicated?",
-    body: "Our team can help you understand your options — contact us with any questions.",
-    ctaLabel: "Ask Us Anything",
-    ctaHref: "/#contact",
+    body: "Apply through our secure financing partner to see what plans may be available for your project.",
+    ctaLabel: "Check Financing Options",
+    ctaHref: SITE.financingUrl,
+    ctaExternal: true,
   },
   "/logistics": {
     floatId: "logistics-contact",
