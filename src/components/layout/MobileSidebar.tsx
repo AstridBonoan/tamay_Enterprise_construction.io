@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { JoinTeamChoiceDialog } from "@/components/careers/JoinTeamChoice";
 import { NAV_LINKS, SITE } from "@/lib/site";
 import { IMAGES } from "@/lib/images";
 
@@ -17,6 +18,7 @@ export function MobileSidebar({ open, onClose }: MobileSidebarProps) {
   const pathname = usePathname();
   const pathnameRef = useRef(pathname);
   const [mounted, setMounted] = useState(false);
+  const [joinChoiceOpen, setJoinChoiceOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -51,9 +53,9 @@ export function MobileSidebar({ open, onClose }: MobileSidebarProps) {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, onClose]);
 
-  if (!mounted || !open) return null;
+  if (!mounted) return null;
 
-  const panel = (
+  const panel = open ? (
     <div className="xl:hidden">
       <div
         role="presentation"
@@ -134,17 +136,25 @@ export function MobileSidebar({ open, onClose }: MobileSidebarProps) {
           >
             WhatsApp
           </a>
-          <Link
-            href={SITE.hiringUrl}
-            onClick={onClose}
+          <button
+            type="button"
+            onClick={() => {
+              onClose();
+              setJoinChoiceOpen(true);
+            }}
             className="block w-full text-center border-2 border-tamay-primary text-tamay-primary font-bold py-2.5 text-sm"
           >
             WE ARE HIRING
-          </Link>
+          </button>
         </div>
       </aside>
     </div>
-  );
+  ) : null;
 
-  return createPortal(panel, document.body);
+  return (
+    <>
+      {panel ? createPortal(panel, document.body) : null}
+      <JoinTeamChoiceDialog open={joinChoiceOpen} onClose={() => setJoinChoiceOpen(false)} />
+    </>
+  );
 }
