@@ -71,7 +71,7 @@ export const NAV_PRIMARY = [
   { href: "/construction", label: "CONSTRUCTION" },
   { href: "/real-estate", label: "REAL ESTATE" },
   { href: "/logistics", label: "LOGISTICS" },
-  { href: "/home-preventive-services", label: "HOME PREVENTIVE SERVICES" },
+  { href: "/assembly-installation", label: "ASSEMBLY & INSTALLATION" },
 ] as const;
 
 /** MORE dropdown — order matches live site */
@@ -81,7 +81,7 @@ export const NAV_MORE = [
   { href: "/reviews", label: "REVIEWS" },
   { href: "/gallery", label: "GALLERY" },
   { href: "/careers-partnerships", label: "CAREERS & PARTNERSHIPS" },
-  { href: "/assembly-installation", label: "ASSSEMBLY & INSTALLATION" },
+  { href: "/home-preventive-services", label: "HOME PREVENTIVE SERVICES" },
 ] as const;
 
 export const NAV_LINKS = [...NAV_PRIMARY, ...NAV_MORE] as const;
