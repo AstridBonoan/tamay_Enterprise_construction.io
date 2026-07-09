@@ -14,7 +14,7 @@ import {
 import { buildPropertyShowingEvent, formatSlotLabel } from "@/lib/googleCalendar";
 import type { PropertyListing } from "@/lib/realEstateListings";
 import { schedulePagePath, type ListingKind } from "@/lib/realEstateScheduling";
-import { navigateToSitePath, sitePath } from "@/lib/paths";
+import { sitePath } from "@/lib/paths";
 import { SCHEDULING } from "@/lib/schedulingConfig";
 import { syncBookingToGoogleCalendar } from "@/lib/syncBookingCalendar";
 import { useScheduleSlots } from "@/hooks/useScheduleSlots";
@@ -24,6 +24,36 @@ type PropertyShowingRequestFormProps = {
   kind: ListingKind;
 };
 
+function ShowingSentConfirmation({
+  listingTitle,
+  preferredTime,
+}: {
+  listingTitle: string;
+  preferredTime: string;
+}) {
+  return (
+    <div className="max-w-md rounded-sm border border-green-200 bg-green-50 px-5 py-6 text-center space-y-4">
+      <p className="font-heading text-lg font-semibold text-tamay-primary">Request sent</p>
+      <p className="text-sm text-gray-600 leading-relaxed">
+        Your showing request for <span className="font-medium text-gray-800">{listingTitle}</span> on{" "}
+        <span className="font-medium text-gray-800">{preferredTime}</span> was sent. Our team will confirm by
+        email or phone.
+      </p>
+      <Link
+        href={sitePath("/m/bookings")}
+        className="inline-flex items-center justify-center rounded-full bg-tamay-primary hover:bg-tamay-primary-dark text-white font-bold text-sm tracking-widest px-8 py-3 transition-colors"
+      >
+        View my bookings
+      </Link>
+      <p className="text-sm">
+        <Link href={sitePath("/real-estate")} className="text-tamay-primary font-semibold hover:underline">
+          ← Back to Real Estate
+        </Link>
+      </p>
+    </div>
+  );
+}
+
 export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingRequestFormProps) {
   const { user, loading: authLoading } = useAuth();
   const { slots: scheduleSlots, loading: loadingScheduleSlots, reload: reloadScheduleSlots } =
@@ -31,6 +61,8 @@ export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingReq
   const [bookedStarts, setBookedStarts] = useState<string[]>([]);
   const [loadingBooked, setLoadingBooked] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [bookingComplete, setBookingComplete] = useState(false);
+  const [confirmedTimeLabel, setConfirmedTimeLabel] = useState("");
 
   const schedulePath = schedulePagePath(listing.id);
   const loadingSlots = loadingScheduleSlots || loadingBooked;
@@ -83,6 +115,15 @@ export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingReq
     return <p className="text-sm text-gray-600">Loading available times...</p>;
   }
 
+  if (bookingComplete) {
+    return (
+      <ShowingSentConfirmation
+        listingTitle={listing.title}
+        preferredTime={confirmedTimeLabel || "your selected time"}
+      />
+    );
+  }
+
   if (!selectedSlot || !calendarEvent || availableSlots.length === 0) {
     return (
       <div className="rounded-sm border border-gray-200 bg-gray-50 px-5 py-6 text-center">
@@ -115,13 +156,14 @@ export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingReq
         notes: notes || undefined,
       });
       if (calendarEvent) {
-        await syncBookingToGoogleCalendar({
+        void syncBookingToGoogleCalendar({
           ...calendarEvent,
           customerName: [user.firstName, user.lastName].filter(Boolean).join(" ").trim() || undefined,
           customerEmail: user.email || undefined,
         });
       }
-      navigateToSitePath("/m/bookings");
+      setConfirmedTimeLabel(slotLabel);
+      setBookingComplete(true);
     } catch (err) {
       if (err instanceof SlotAlreadyBookedError) {
         await loadSlots();

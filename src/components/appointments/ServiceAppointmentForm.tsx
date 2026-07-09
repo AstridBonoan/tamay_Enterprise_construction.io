@@ -19,7 +19,7 @@ import {
 } from "@/lib/googleCalendar";
 import type { OnlineAppointmentService } from "@/lib/onlineAppointments";
 import { appointmentSchedulePath } from "@/lib/onlineAppointments";
-import { navigateToSitePath, sitePath } from "@/lib/paths";
+import { sitePath } from "@/lib/paths";
 import { SCHEDULING } from "@/lib/schedulingConfig";
 import { SITE } from "@/lib/site";
 import { syncBookingToGoogleCalendar } from "@/lib/syncBookingCalendar";
@@ -44,10 +44,44 @@ function SelectedTimePreview({ date, time }: { date: string; time: string }) {
   );
 }
 
+function BookingSentConfirmation({
+  serviceTitle,
+  preferredTime,
+  showBookingsLink,
+}: {
+  serviceTitle: string;
+  preferredTime: string;
+  showBookingsLink: boolean;
+}) {
+  return (
+    <div className="max-w-md rounded-sm border border-green-200 bg-green-50 px-5 py-6 text-center space-y-4">
+      <p className="font-heading text-lg font-semibold text-tamay-primary">Request sent</p>
+      <p className="text-sm text-gray-600 leading-relaxed">
+        Your {serviceTitle} consultation request for <span className="font-medium text-gray-800">{preferredTime}</span>{" "}
+        was sent. Our team will confirm by email or phone.
+      </p>
+      {showBookingsLink && (
+        <Link
+          href={sitePath("/m/bookings")}
+          className="inline-flex items-center justify-center rounded-full bg-tamay-primary hover:bg-tamay-primary-dark text-white font-bold text-sm tracking-widest px-8 py-3 transition-colors"
+        >
+          View my bookings
+        </Link>
+      )}
+      <p className="text-sm">
+        <Link href={sitePath("/online-appointments")} className="text-tamay-primary font-semibold hover:underline">
+          ← Back to Online Appointments
+        </Link>
+      </p>
+    </div>
+  );
+}
+
 export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps) {
   const { user, loading: authLoading } = useAuth();
   const [guestMode, setGuestMode] = useState(false);
-  const [guestBookingComplete, setGuestBookingComplete] = useState(false);
+  const [bookingComplete, setBookingComplete] = useState(false);
+  const [confirmedTimeLabel, setConfirmedTimeLabel] = useState("");
   const { slots: scheduleSlots, loading: loadingScheduleSlots, reload: reloadScheduleSlots } =
     useScheduleSlots(service.id);
   const [bookedStarts, setBookedStarts] = useState<string[]>([]);
@@ -106,14 +140,13 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
     );
   }
 
-  if (guestBookingComplete) {
+  if (bookingComplete) {
     return (
-      <div className="max-w-md rounded-sm border border-green-200 bg-green-50 px-5 py-6 text-center">
-        <p className="font-heading text-lg font-semibold text-tamay-primary">Thank you!</p>
-        <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-          Your appointment request was sent. Our team will confirm your booking by email or phone.
-        </p>
-      </div>
+      <BookingSentConfirmation
+        serviceTitle={service.title}
+        preferredTime={confirmedTimeLabel || "your selected time"}
+        showBookingsLink={Boolean(user) && !guestMode}
+      />
     );
   }
 
@@ -194,13 +227,14 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
           console.warn("Guest booking saved via email only:", err);
         }
         if (calendarEvent) {
-          await syncBookingToGoogleCalendar({
+          void syncBookingToGoogleCalendar({
             ...calendarEvent,
             customerName: String(formData.get("name") ?? "").trim() || undefined,
             customerEmail: String(formData.get("email") ?? "").trim() || undefined,
           });
         }
-        setGuestBookingComplete(true);
+        setConfirmedTimeLabel(slotLabel);
+        setBookingComplete(true);
         return;
       }
 
@@ -208,13 +242,14 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
 
       await createServiceBooking(user.id, bookingInput);
       if (calendarEvent) {
-        await syncBookingToGoogleCalendar({
+        void syncBookingToGoogleCalendar({
           ...calendarEvent,
           customerName: memberName || undefined,
           customerEmail: memberEmail || undefined,
         });
       }
-      navigateToSitePath("/m/bookings");
+      setConfirmedTimeLabel(slotLabel);
+      setBookingComplete(true);
     } catch (err) {
       if (err instanceof SlotAlreadyBookedError) {
         await loadSlots();
