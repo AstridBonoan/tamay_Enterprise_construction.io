@@ -213,7 +213,7 @@ export function appointmentSchedulePath(serviceId: string): string {
   return `/online-appointments/schedule?service=${encodeURIComponent(serviceId)}`;
 }
 
-/** Full href for schedule page (GitHub Pages–safe trailing slash + #book). */
+/** Full href for schedule page (trailing slash + #book). */
 export function appointmentScheduleHref(serviceId: string): string {
   return sitePath(`${appointmentSchedulePath(serviceId)}#book`);
 }

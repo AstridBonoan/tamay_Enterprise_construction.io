@@ -1,6 +1,4 @@
-/** Prefix for static assets when deployed to GitHub Pages subpath */
+/** Public asset path (leading slash). */
 export function assetUrl(path: string): string {
-  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-  const normalized = path.startsWith("/") ? path : `/${path}`;
-  return `${base}${normalized}`;
+  return path.startsWith("/") ? path : `/${path}`;
 }

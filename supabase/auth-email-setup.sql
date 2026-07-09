@@ -23,7 +23,12 @@
 -- =============================================================================
 -- URL Configuration (still used for password reset)
 -- =============================================================================
--- Site URL:
---   https://astridbonoan.github.io/tamay_Enterprise_construction.io
--- Redirect URLs:
---   https://astridbonoan.github.io/tamay_Enterprise_construction.io/m/login/**
+-- Set these in Supabase → Authentication → URL Configuration for your Vercel URL.
+--
+-- Site URL (production example):
+--   https://your-project.vercel.app
+--   or https://tamayenterprises.com when using a custom domain
+--
+-- Redirect URLs (add each environment you use):
+--   https://your-project.vercel.app/m/login/**
+--   https://tamayenterprises.com/m/login/**
