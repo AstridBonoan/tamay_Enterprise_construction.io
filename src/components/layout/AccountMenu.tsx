@@ -92,6 +92,13 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
                     Bookings
                   </Link>
                 </li>
+                {user.isStaff && (
+                  <li role="none">
+                    <Link href="/m/staff/schedule/" role="menuitem" onClick={onClose} className={menuItemClass}>
+                      Manage schedule
+                    </Link>
+                  </li>
+                )}
                 <li role="separator" className="my-1 border-t border-gray-200" />
                 <li role="none">
                   <button type="button" role="menuitem" onClick={handleSignOut} className={menuItemClass}>

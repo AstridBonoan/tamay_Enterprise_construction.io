@@ -16,6 +16,8 @@ import type { PropertyListing } from "@/lib/realEstateListings";
 import { schedulePagePath, type ListingKind } from "@/lib/realEstateScheduling";
 import { navigateToSitePath, sitePath } from "@/lib/paths";
 import { SCHEDULING } from "@/lib/schedulingConfig";
+import { syncBookingToGoogleCalendar } from "@/lib/syncBookingCalendar";
+import { useScheduleSlots } from "@/hooks/useScheduleSlots";
 
 type PropertyShowingRequestFormProps = {
   listing: PropertyListing;
@@ -24,25 +26,32 @@ type PropertyShowingRequestFormProps = {
 
 export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingRequestFormProps) {
   const { user, loading: authLoading } = useAuth();
+  const { slots: scheduleSlots, loading: loadingScheduleSlots, reload: reloadScheduleSlots } =
+    useScheduleSlots(listing.id);
   const [bookedStarts, setBookedStarts] = useState<string[]>([]);
-  const [loadingSlots, setLoadingSlots] = useState(true);
+  const [loadingBooked, setLoadingBooked] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const schedulePath = schedulePagePath(listing.id);
+  const loadingSlots = loadingScheduleSlots || loadingBooked;
 
   const availableSlots = useMemo(
-    () => listing.scheduleSlots.filter((slot) => !bookedStarts.includes(slot.start)),
-    [bookedStarts, listing.scheduleSlots],
+    () => scheduleSlots.filter((slot) => !bookedStarts.includes(slot.start)),
+    [bookedStarts, scheduleSlots],
   );
 
   const loadBookedSlots = useCallback(async () => {
-    setLoadingSlots(true);
+    setLoadingBooked(true);
     try {
       setBookedStarts(await fetchBookedSlotStarts(listing.id));
     } finally {
-      setLoadingSlots(false);
+      setLoadingBooked(false);
     }
   }, [listing.id]);
+
+  const loadSlots = useCallback(async () => {
+    await Promise.all([reloadScheduleSlots(), loadBookedSlots()]);
+  }, [loadBookedSlots, reloadScheduleSlots]);
 
   useEffect(() => {
     void loadBookedSlots();
@@ -105,10 +114,17 @@ export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingReq
         preferredTime: slotLabel,
         notes: notes || undefined,
       });
+      if (calendarEvent) {
+        await syncBookingToGoogleCalendar({
+          ...calendarEvent,
+          customerName: [user.firstName, user.lastName].filter(Boolean).join(" ").trim() || undefined,
+          customerEmail: user.email || undefined,
+        });
+      }
       navigateToSitePath("/m/bookings");
     } catch (err) {
       if (err instanceof SlotAlreadyBookedError) {
-        await loadBookedSlots();
+        await loadSlots();
         throw err;
       }
       throw err;

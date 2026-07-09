@@ -1,4 +1,3 @@
-import type { PropertyListing, PropertyScheduleSlot } from "./realEstateListings";
 import type { AppointmentSlot } from "./onlineAppointments";
 import type { ListingKind } from "./realEstateScheduling";
 import { SCHEDULING } from "./schedulingConfig";
@@ -110,7 +109,7 @@ export function downloadIcsFile(content: string, filename: string): void {
   URL.revokeObjectURL(url);
 }
 
-export function formatSlotLabel(slot: PropertyScheduleSlot | AppointmentSlot): string {
+export function formatSlotLabel(slot: AppointmentSlot): string {
   return `${slot.date} · ${slot.time}`;
 }
 
@@ -141,8 +140,8 @@ export function icsFilenameForAppointment(serviceId: string, slot: AppointmentSl
 }
 
 export function buildPropertyShowingEvent(
-  listing: PropertyListing,
-  slot: PropertyScheduleSlot,
+  listing: { title: string; address: string; price: string; scheduleCtaLabel: string },
+  slot: AppointmentSlot,
   kind: ListingKind,
 ): CalendarEventInput {
   const eventLabel = kind === "sale" ? "Private showing" : "Property viewing";
@@ -165,7 +164,10 @@ export function buildPropertyShowingEvent(
   };
 }
 
-export function icsFilenameForShowing(listing: PropertyListing, slot: PropertyScheduleSlot): string {
+export function icsFilenameForShowing(
+  listing: { id: string },
+  slot: AppointmentSlot,
+): string {
   const slug = listing.id.replace(/[^a-z0-9]+/gi, "-").toLowerCase();
   const date = slot.start.slice(0, 10);
   return `tamay-showing-${slug}-${date}.ics`;

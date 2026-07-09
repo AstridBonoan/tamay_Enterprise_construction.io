@@ -8,12 +8,13 @@ import {
   type CalendarEventInput,
   icsFilenameForShowing,
 } from "@/lib/googleCalendar";
-import type { PropertyListing, PropertyScheduleSlot } from "@/lib/realEstateListings";
+import type { AppointmentSlot } from "@/lib/onlineAppointments";
+import type { PropertyListing } from "@/lib/realEstateListings";
 
 type ShowingCalendarActionsProps = {
   event: CalendarEventInput;
   listing: PropertyListing;
-  slot: PropertyScheduleSlot;
+  slot: AppointmentSlot;
   compact?: boolean;
 };
 

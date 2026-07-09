@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { ScheduleSlotPreview } from "@/components/scheduling/ScheduleSlotPreview";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { PropertyListing } from "@/lib/realEstateListings";
 import { sitePath } from "@/lib/paths";
-import { isAppointmentScheduleEnabled, schedulePagePath } from "@/lib/realEstateScheduling";
+import { schedulePagePath } from "@/lib/realEstateScheduling";
 
 type PropertyListingsSectionProps = {
   id: string;
@@ -22,7 +23,7 @@ function PropertyListingCard({
   listing: PropertyListing;
   badgeLabel: "For Sale" | "For Rent";
 }) {
-  const googleScheduling = isAppointmentScheduleEnabled(listing);
+  const bookHref = sitePath(`${schedulePagePath(listing.id)}#book`);
   const specs = [
     `${listing.beds} bed`,
     `${listing.baths} bath`,
@@ -58,43 +59,20 @@ function PropertyListingCard({
         </div>
 
         <div className="border-t border-gray-100 pt-5">
-          <h4 className="text-sm font-semibold tracking-widest uppercase text-tamay-primary mb-3">Details</h4>
-          <p className="text-gray-600 leading-relaxed">{listing.details}</p>
-        </div>
-
-        <div className="border-t border-gray-100 pt-5">
           <h4 className="text-sm font-semibold tracking-widest uppercase text-tamay-primary mb-3">
             {listing.scheduleLabel}
           </h4>
-          {googleScheduling ? (
-            <p className="text-gray-600 leading-relaxed">
-              Available dates and times are shown on our live booking calendar — updated whenever we
-              add open houses or private showing windows.
-            </p>
-          ) : listing.scheduleSlots.length > 0 ? (
-            <ul className="space-y-3">
-              {listing.scheduleSlots.map((slot) => (
-                <li key={slot.start}>
-                  <a
-                    href={sitePath(`${schedulePagePath(listing.id)}#book`)}
-                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 py-3 px-4 bg-gray-50 border border-gray-100 hover:border-tamay-primary hover:bg-tamay-primary/5 transition-colors"
-                  >
-                    <span className="font-medium text-gray-800">{slot.date}</span>
-                    <span className="text-gray-600 text-sm sm:text-base">{slot.time}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-600 leading-relaxed">
-              Contact our team to schedule a showing for this property.
-            </p>
-          )}
+          <ScheduleSlotPreview
+            serviceKey={listing.id}
+            scheduleLabel={listing.scheduleLabel}
+            bookHref={bookHref}
+            emptyMessage="Contact our team to schedule a showing for this property."
+          />
         </div>
 
         <div className="pt-2 text-center sm:text-left">
           <Button href={`${schedulePagePath(listing.id)}#book`} variant="primary">
-            {googleScheduling ? "See available times" : listing.scheduleCtaLabel}
+            {listing.scheduleCtaLabel}
           </Button>
         </div>
       </div>

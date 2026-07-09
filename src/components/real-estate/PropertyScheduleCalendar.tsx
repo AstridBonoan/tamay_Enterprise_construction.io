@@ -1,13 +1,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { PropertyShowingRequestForm } from "@/components/real-estate/PropertyShowingRequestForm";
-import type { PropertyListing } from "@/lib/realEstateListings";
 import {
-  getSchedulingBookingUrl,
-  getSchedulingEmbedUrl,
-  isAppointmentScheduleEnabled,
-  type ListingKind,
-} from "@/lib/realEstateScheduling";
+  ScheduleSlotBookLink,
+  ScheduleSlotPreviewInline,
+} from "@/components/scheduling/ScheduleSlotPreview";
+import type { PropertyListing } from "@/lib/realEstateListings";
+import { schedulePagePath, type ListingKind } from "@/lib/realEstateScheduling";
 import { SITE } from "@/lib/site";
 
 type PropertyScheduleCalendarProps = {
@@ -17,10 +16,7 @@ type PropertyScheduleCalendarProps = {
 };
 
 export function PropertyScheduleCalendar({ listing, kind, kindLabel }: PropertyScheduleCalendarProps) {
-  const googleScheduling = isAppointmentScheduleEnabled(listing);
-  const embedUrl = googleScheduling ? getSchedulingEmbedUrl(listing) : null;
-  const bookingUrl = embedUrl ? getSchedulingBookingUrl(listing) : null;
-  const legacySlots = !googleScheduling && listing.scheduleSlots.length > 0;
+  const bookPath = `${schedulePagePath(listing.id)}#book`;
 
   return (
     <div className="space-y-8">
@@ -34,95 +30,30 @@ export function PropertyScheduleCalendar({ listing, kind, kindLabel }: PropertyS
         <p className="text-tamay-primary font-bold text-xl sm:text-2xl mt-4">{listing.price}</p>
       </div>
 
-      {legacySlots && (
-        <div className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
-          <h2 className="font-heading text-lg text-tamay-primary font-semibold mb-4">
-            {listing.scheduleLabel}
-          </h2>
-          <ul className="space-y-3">
-            {listing.scheduleSlots.map((slot) => (
-              <li
-                key={slot.start}
-                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 py-3 px-4 bg-gray-50 border border-gray-100"
-              >
-                <span className="font-medium text-gray-800">{slot.date}</span>
-                <span className="text-gray-600 text-sm sm:text-base">{slot.time}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="text-sm text-gray-500 mt-4">
-            Select a time below — your appointment will be saved to your Bookings dashboard.
-          </p>
-        </div>
-      )}
+      <div className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
+        <ScheduleSlotPreviewInline serviceKey={listing.id} scheduleLabel={listing.scheduleLabel} />
+        <ScheduleSlotBookLink serviceKey={listing.id} bookHref={bookPath} />
+        <p className="text-sm text-gray-500 mt-4">
+          Select a time below — your appointment will be saved to your Bookings dashboard.
+        </p>
+      </div>
 
       <div id="book" className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8 scroll-mt-24">
         <h2 className="font-heading text-lg text-tamay-primary font-semibold mb-2">
           Choose an available time
         </h2>
-
-        {googleScheduling && embedUrl ? (
-          <>
-            <p className="text-gray-600 text-sm leading-relaxed mb-6">
-              Pick a date and time below. Availability comes from our Google Calendar — when we add
-              open houses or showing windows, they appear here automatically. You&apos;ll receive a
-              confirmation email after booking.
-            </p>
-            <div className="space-y-4">
-              {bookingUrl && (
-                <p className="text-sm text-gray-600">
-                  Prefer to book in a new tab?{" "}
-                  <a
-                    href={bookingUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-tamay-primary font-semibold hover:underline"
-                  >
-                    Open Google Calendar scheduling
-                  </a>
-                </p>
-              )}
-              <div className="rounded-sm overflow-hidden border border-gray-200 bg-gray-50">
-                <iframe
-                  title={`Schedule a showing for ${listing.title}`}
-                  src={embedUrl}
-                  className="w-full min-h-[600px] border-0"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          </>
-        ) : legacySlots ? (
-          <>
-            <p className="text-gray-600 text-sm leading-relaxed mb-6">
-              Pick a time and confirm your request. Your appointment will be saved to your Bookings
-              dashboard. Booked times are removed automatically for other visitors.
-            </p>
-            <div className="space-y-6">
-              <PropertyShowingRequestForm listing={listing} kind={kind} />
-              <div className="border-t border-gray-100 pt-6 flex flex-col sm:flex-row gap-3 justify-center">
-                <Button href={SITE.phoneTel} variant="outline">
-                  Call {SITE.phone}
-                </Button>
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="rounded-sm border border-gray-200 bg-gray-50 px-5 py-6 text-center space-y-4">
-            <p className="text-gray-700 font-medium">Online scheduling is being set up for this property.</p>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Please call or email our team and we&apos;ll find a showing time that works for you.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-              <Button href={SITE.phoneTel} variant="primary">
-                Call {SITE.phone}
-              </Button>
-              <Button href="/#contact" variant="outline">
-                Contact us
-              </Button>
-            </div>
+        <p className="text-gray-600 text-sm leading-relaxed mb-6">
+          Pick a time and confirm your request. Your appointment will be saved to your Bookings
+          dashboard. Booked times are removed automatically for other visitors.
+        </p>
+        <div className="space-y-6">
+          <PropertyShowingRequestForm listing={listing} kind={kind} />
+          <div className="border-t border-gray-100 pt-6 flex flex-col sm:flex-row gap-3 justify-center">
+            <Button href={SITE.phoneTel} variant="outline">
+              Call {SITE.phone}
+            </Button>
           </div>
-        )}
+        </div>
       </div>
 
       <p className="text-center">

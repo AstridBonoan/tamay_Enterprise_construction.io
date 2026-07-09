@@ -3,6 +3,7 @@ export type UserProfile = {
   first_name: string;
   last_name: string;
   phone: string | null;
+  is_staff?: boolean;
 };
 
 export function profileDisplayName(profile: Pick<UserProfile, "first_name" | "last_name">): string {

@@ -22,6 +22,8 @@ import { appointmentSchedulePath } from "@/lib/onlineAppointments";
 import { navigateToSitePath, sitePath } from "@/lib/paths";
 import { SCHEDULING } from "@/lib/schedulingConfig";
 import { SITE } from "@/lib/site";
+import { syncBookingToGoogleCalendar } from "@/lib/syncBookingCalendar";
+import { useScheduleSlots } from "@/hooks/useScheduleSlots";
 
 type ServiceAppointmentFormProps = {
   service: OnlineAppointmentService;
@@ -46,26 +48,33 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
   const { user, loading: authLoading } = useAuth();
   const [guestMode, setGuestMode] = useState(false);
   const [guestBookingComplete, setGuestBookingComplete] = useState(false);
+  const { slots: scheduleSlots, loading: loadingScheduleSlots, reload: reloadScheduleSlots } =
+    useScheduleSlots(service.id);
   const [bookedStarts, setBookedStarts] = useState<string[]>([]);
-  const [loadingSlots, setLoadingSlots] = useState(true);
+  const [loadingBooked, setLoadingBooked] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const schedulePath = sitePath(`${appointmentSchedulePath(service.id)}#book`);
   const canBook = Boolean(user) || guestMode;
+  const loadingSlots = loadingScheduleSlots || loadingBooked;
 
   const availableSlots = useMemo(
-    () => service.scheduleSlots.filter((slot) => !bookedStarts.includes(slot.start)),
-    [bookedStarts, service.scheduleSlots],
+    () => scheduleSlots.filter((slot) => !bookedStarts.includes(slot.start)),
+    [bookedStarts, scheduleSlots],
   );
 
   const loadBookedSlots = useCallback(async () => {
-    setLoadingSlots(true);
+    setLoadingBooked(true);
     try {
       setBookedStarts(await fetchBookedAppointmentStarts(service.id));
     } finally {
-      setLoadingSlots(false);
+      setLoadingBooked(false);
     }
   }, [service.id]);
+
+  const loadSlots = useCallback(async () => {
+    await Promise.all([reloadScheduleSlots(), loadBookedSlots()]);
+  }, [loadBookedSlots, reloadScheduleSlots]);
 
   useEffect(() => {
     void loadBookedSlots();
@@ -179,10 +188,17 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
           await createGuestServiceBooking(bookingInput);
         } catch (err) {
           if (err instanceof SlotAlreadyBookedError) {
-            await loadBookedSlots();
+            await loadSlots();
             throw err;
           }
           console.warn("Guest booking saved via email only:", err);
+        }
+        if (calendarEvent) {
+          await syncBookingToGoogleCalendar({
+            ...calendarEvent,
+            customerName: String(formData.get("name") ?? "").trim() || undefined,
+            customerEmail: String(formData.get("email") ?? "").trim() || undefined,
+          });
         }
         setGuestBookingComplete(true);
         return;
@@ -191,10 +207,17 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
       if (!user) return;
 
       await createServiceBooking(user.id, bookingInput);
+      if (calendarEvent) {
+        await syncBookingToGoogleCalendar({
+          ...calendarEvent,
+          customerName: memberName || undefined,
+          customerEmail: memberEmail || undefined,
+        });
+      }
       navigateToSitePath("/m/bookings");
     } catch (err) {
       if (err instanceof SlotAlreadyBookedError) {
-        await loadBookedSlots();
+        await loadSlots();
         throw err;
       }
       throw err;

@@ -12,6 +12,7 @@ export type AuthUser = {
   firstName: string;
   lastName: string;
   phone: string | null;
+  isStaff: boolean;
 };
 
 export type SignUpInput = {
@@ -33,6 +34,7 @@ function mapProfileToAuthUser(user: User, profile: UserProfile | null): AuthUser
     firstName,
     lastName,
     phone,
+    isStaff: profile?.is_staff ?? false,
   };
 }
 
@@ -46,7 +48,7 @@ export async function fetchProfile(userId: string): Promise<UserProfile | null> 
   const supabase = createClient();
   const { data, error } = await supabase
     .from("profiles")
-    .select("id, first_name, last_name, phone")
+    .select("id, first_name, last_name, phone, is_staff")
     .eq("id", userId)
     .maybeSingle();
 

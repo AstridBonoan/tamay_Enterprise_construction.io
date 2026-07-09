@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ScheduleSlotPreview } from "@/components/scheduling/ScheduleSlotPreview";
 import type { OnlineAppointmentService } from "@/lib/onlineAppointments";
 import { appointmentScheduleHref } from "@/lib/onlineAppointments";
 
@@ -33,28 +34,15 @@ export function AppointmentServiceCard({
         </p>
         <p className="text-gray-600 mt-3 text-sm md:text-base leading-relaxed">{service.description}</p>
 
-        {service.scheduleSlots.length > 0 && (
-          <div className="mt-5 border-t border-gray-100 pt-5">
-            {showScheduleLabel && (
-              <h4 className="text-sm font-semibold tracking-widest uppercase text-tamay-primary mb-3">
-                {service.scheduleLabel}
-              </h4>
-            )}
-            <ul className="space-y-3">
-              {service.scheduleSlots.map((slot) => (
-                <li key={slot.start}>
-                  <a
-                    href={scheduleHref}
-                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 py-3 px-4 bg-white border border-gray-100 hover:border-tamay-primary hover:bg-tamay-primary/5 transition-colors"
-                  >
-                    <span className="font-medium text-gray-800">{slot.date}</span>
-                    <span className="text-gray-600 text-sm sm:text-base">{slot.time}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <div className="mt-5 border-t border-gray-100 pt-5">
+          <ScheduleSlotPreview
+            serviceKey={service.id}
+            scheduleLabel={service.scheduleLabel}
+            bookHref={scheduleHref}
+            showLabel={showScheduleLabel}
+            emptyMessage="No times listed yet. Contact our team or check back soon."
+          />
+        </div>
       </div>
 
       <div className="flex md:items-start shrink-0">
