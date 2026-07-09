@@ -1,6 +1,14 @@
 import { createClient } from "@/lib/supabase/client";
 import { GOOGLE_RATING, type Review, type ReviewSource } from "@/lib/reviews";
 
+export type ReviewStatus = "pending" | "published" | "rejected";
+
+export const REVIEW_STATUS_OPTIONS: readonly ReviewStatus[] = [
+  "pending",
+  "published",
+  "rejected",
+] as const;
+
 export type ReviewSubmission = {
   name: string;
   email: string;
@@ -8,15 +16,17 @@ export type ReviewSubmission = {
   text: string;
 };
 
-type SiteReviewRow = {
+export type StaffSiteReview = {
   id: string;
   author_name: string;
   email: string | null;
   rating: number;
   text: string;
-  status: string;
+  status: ReviewStatus;
   created_at: string;
 };
+
+type SiteReviewRow = StaffSiteReview;
 
 const SITE_AVATAR_COLORS = [
   "bg-orange-500",
@@ -120,6 +130,30 @@ export async function submitReview(input: ReviewSubmission): Promise<void> {
     text: input.text.trim(),
     status: "pending",
   });
+
+  if (error) throw error;
+}
+
+export async function fetchStaffSiteReviews(): Promise<StaffSiteReview[]> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("site_reviews")
+    .select("id, author_name, email, rating, text, status, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return (data ?? []) as StaffSiteReview[];
+}
+
+export async function updateSiteReviewStatus(
+  reviewId: string,
+  status: ReviewStatus,
+): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("site_reviews")
+    .update({ status })
+    .eq("id", reviewId);
 
   if (error) throw error;
 }

@@ -1,4 +1,5 @@
 -- Run in Supabase Dashboard → SQL Editor
+-- After this file, run review-status-enum.sql for a status dropdown + staff moderation policies.
 
 create table if not exists public.site_reviews (
   id uuid primary key default gen_random_uuid(),
