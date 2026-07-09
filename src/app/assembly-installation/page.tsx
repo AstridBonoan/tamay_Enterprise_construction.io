@@ -45,7 +45,7 @@ function ServiceCard({ title, image, imageAlt, items }: ServiceCardProps) {
           ))}
         </ul>
         <div className="mt-6 pt-4 border-t border-gray-100">
-          <Button href={appointmentScheduleHref("assembly-installation")} variant="primary" className="w-full">
+          <Button href={appointmentScheduleHref("assembly-installation")} variant="accent" className="w-full">
             Book Now
           </Button>
         </div>
