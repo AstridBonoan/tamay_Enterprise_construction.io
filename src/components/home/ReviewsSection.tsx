@@ -3,13 +3,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useCarouselAutoplay } from "@/hooks/useCarouselAutoplay";
 import { assetUrl } from "@/lib/assetUrl";
+import { fetchPublishedSiteReviews, mergeCarouselReviews } from "@/lib/reviewSubmission";
 import {
-  computeCombinedRating,
-  fetchPublishedSiteReviews,
-  mergeCarouselReviews,
-} from "@/lib/reviewSubmission";
-import {
-  GOOGLE_RATING,
+  GOOGLE_BUSINESS_NAME,
   GOOGLE_REVIEWS_URL,
   REVIEWS,
   type Review,
@@ -147,8 +143,6 @@ export function ReviewsSection({ showVideoTestimonials = false }: ReviewsSection
     [siteReviews],
   );
 
-  const combinedRating = useMemo(() => computeCombinedRating(siteReviews), [siteReviews]);
-
   const pageCount = Math.max(1, Math.ceil(allReviews.length / cardsPerPage));
 
   const updateCardsPerPage = useCallback(() => {
@@ -214,11 +208,9 @@ export function ReviewsSection({ showVideoTestimonials = false }: ReviewsSection
           className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10 sm:mb-12 text-white hover:opacity-95 transition-opacity"
         >
           <GoogleIcon className="w-8 h-8 bg-white rounded-full p-1 shrink-0" />
-          <span className="text-3xl sm:text-4xl font-bold">{combinedRating.score}</span>
           <div className="text-center sm:text-left">
-            <StarRating rating={combinedRating.displayStars} light />
-            <p className="font-semibold mt-1">{GOOGLE_RATING.businessName}</p>
-            <p className="text-sm text-white/85">{combinedRating.count} Reviews</p>
+            <p className="font-semibold">{GOOGLE_BUSINESS_NAME}</p>
+            <p className="text-sm text-white/85 mt-1">See our reviews on Google</p>
           </div>
         </a>
 

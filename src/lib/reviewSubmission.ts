@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/client";
-import { GOOGLE_RATING, type Review, type ReviewSource } from "@/lib/reviews";
+import type { Review, ReviewSource } from "@/lib/reviews";
 
 export type ReviewStatus = "pending" | "published" | "rejected";
 
@@ -82,31 +82,6 @@ export function mergeCarouselReviews(staticReviews: Review[], siteReviews: Revie
   return [...google, ...siteReviews].sort(
     (a, b) => parseReviewDate(b.date) - parseReviewDate(a.date),
   );
-}
-
-export type CombinedRating = {
-  score: number;
-  count: number;
-  displayStars: number;
-};
-
-export function computeCombinedRating(siteReviews: { rating: number }[]): CombinedRating {
-  const siteCount = siteReviews.length;
-  const siteSum = siteReviews.reduce((sum, review) => sum + review.rating, 0);
-  const totalCount = GOOGLE_RATING.count + siteCount;
-
-  if (totalCount === 0) {
-    return { score: 0, count: 0, displayStars: 0 };
-  }
-
-  const totalScore = GOOGLE_RATING.score * GOOGLE_RATING.count + siteSum;
-  const score = Math.round((totalScore / totalCount) * 10) / 10;
-
-  return {
-    score,
-    count: totalCount,
-    displayStars: Math.min(5, Math.max(1, Math.round(score))),
-  };
 }
 
 export async function fetchPublishedSiteReviews(): Promise<Review[]> {

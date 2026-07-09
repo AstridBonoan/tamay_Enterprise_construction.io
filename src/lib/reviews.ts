@@ -7,11 +7,7 @@ export const GOOGLE_REVIEWS_URL =
 export const GOOGLE_WRITE_REVIEW_URL =
   process.env.NEXT_PUBLIC_GOOGLE_WRITE_REVIEW_URL ?? GOOGLE_REVIEWS_URL;
 
-export const GOOGLE_RATING = {
-  score: 4.9,
-  count: 65,
-  businessName: SITE.legalName,
-} as const;
+export const GOOGLE_BUSINESS_NAME = SITE.legalName;
 
 export type ReviewSource = "google" | "site";
 
