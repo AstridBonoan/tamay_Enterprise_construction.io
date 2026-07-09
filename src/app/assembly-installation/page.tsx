@@ -137,7 +137,7 @@ export default function AssemblyInstallationPage() {
             Important
           </p>
           <p className="text-gray-700 leading-relaxed">{ASSEMBLY_IMPORTANT_NOTE}</p>
-          <Button href="#contact" variant="primary" className="mt-8">
+          <Button href={appointmentScheduleHref("assembly-installation")} variant="accent" className="mt-8">
             Request Assembly Support
           </Button>
         </div>
