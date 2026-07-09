@@ -16,6 +16,7 @@ import {
   ASSEMBLY_WHO_WE_SUPPORT,
   ASSEMBLY_WHY_PARTNERS,
 } from "@/lib/assemblyInstallation";
+import { appointmentScheduleHref } from "@/lib/onlineAppointments";
 
 export const metadata: Metadata = {
   title: "Professional Furniture Assembly and Installation Services | Tamay Enterprises",
@@ -43,6 +44,11 @@ function ServiceCard({ title, image, imageAlt, items }: ServiceCardProps) {
             <li key={item}>{item}</li>
           ))}
         </ul>
+        <div className="mt-6 pt-4 border-t border-gray-100">
+          <Button href={appointmentScheduleHref("assembly-installation")} variant="primary" className="w-full">
+            Book Now
+          </Button>
+        </div>
       </div>
     </article>
   );
