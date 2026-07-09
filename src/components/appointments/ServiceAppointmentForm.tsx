@@ -11,6 +11,7 @@ import {
   createServiceBooking,
   fetchBookedAppointmentStarts,
   SlotAlreadyBookedError,
+  userHasActiveServiceBooking,
 } from "@/lib/booking-data";
 import {
   buildServiceConsultationEvent,
@@ -240,7 +241,22 @@ export function ServiceAppointmentForm({ service }: ServiceAppointmentFormProps)
 
       if (!user) return;
 
-      await createServiceBooking(user.id, bookingInput);
+      try {
+        await createServiceBooking(user.id, bookingInput);
+      } catch (err) {
+        if (err instanceof SlotAlreadyBookedError) {
+          // Same user re-submitting an already-saved booking should still see success.
+          if (await userHasActiveServiceBooking(user.id, service.id, selectedSlot.start)) {
+            setConfirmedTimeLabel(slotLabel);
+            setBookingComplete(true);
+            return;
+          }
+          await loadSlots();
+          throw err;
+        }
+        throw err;
+      }
+
       if (calendarEvent) {
         void syncBookingToGoogleCalendar({
           ...calendarEvent,

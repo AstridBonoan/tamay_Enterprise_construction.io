@@ -74,12 +74,9 @@ export async function fetchPropertyBookings(userId: string): Promise<Booking[]> 
 
 export async function fetchBookedAppointmentStarts(serviceId: string): Promise<string[]> {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from("bookings")
-    .select("appointment_start")
-    .eq("listing_id", serviceId)
-    .in("booking_type", ["consultation", "service"])
-    .in("status", ["pending", "confirmed"]);
+  const { data, error } = await supabase.rpc("get_booked_appointment_starts", {
+    p_service_id: serviceId,
+  });
 
   if (error) {
     console.warn("Could not load booked appointment slots:", error.message);
@@ -87,6 +84,31 @@ export async function fetchBookedAppointmentStarts(serviceId: string): Promise<s
   }
 
   return (data ?? []).map((row: { appointment_start: string }) => row.appointment_start);
+}
+
+/** True when this signed-in user already has an active booking for the slot. */
+export async function userHasActiveServiceBooking(
+  userId: string,
+  serviceId: string,
+  appointmentStart: string,
+): Promise<boolean> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("listing_id", serviceId)
+    .eq("appointment_start", appointmentStart)
+    .in("booking_type", ["consultation", "service"])
+    .in("status", ["pending", "confirmed"])
+    .limit(1);
+
+  if (error) {
+    console.warn("Could not check existing booking:", error.message);
+    return false;
+  }
+
+  return (data?.length ?? 0) > 0;
 }
 
 export async function fetchBookedSlotStarts(listingId: string): Promise<string[]> {

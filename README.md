@@ -31,7 +31,7 @@ Copy `.env.example` to `.env.local` and add your Supabase keys.
 | `GOOGLE_CALENDAR_REFRESH_TOKEN` | Server-only — manager Google account |
 | `GOOGLE_CALENDAR_ID` | Usually `primary` |
 
-5. In **Supabase → SQL Editor**, run (in order): `supabase/schedule-slots.sql`, `supabase/staff-role.sql` (grants staff to **A Tamay**).
+5. In **Supabase → SQL Editor**, run (in order): `supabase/schedule-slots.sql`, `supabase/staff-role.sql` (grants staff to **A Tamay**), and `supabase/booked-appointment-starts.sql` (hides taken consultation times for everyone).
 
 6. In **Supabase → Authentication → URL Configuration**, set:
    - **Site URL** → your Vercel production URL
