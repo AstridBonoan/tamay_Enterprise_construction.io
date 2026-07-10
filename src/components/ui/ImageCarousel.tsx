@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
-import { GalleryPictureFrame } from "@/components/gallery/GalleryPictureFrame";
 import { useCarouselAutoplay } from "@/hooks/useCarouselAutoplay";
 
 export type ImageCarouselSlide = {
@@ -19,8 +18,6 @@ type ImageCarouselProps = {
   /** Show active slide title below thumbnails */
   showCaption?: boolean;
   autoplayIntervalMs?: number;
-  /** Render slides inside an ornate gallery-style frame */
-  framed?: boolean;
   /** Show previous/next arrow buttons on the main slide */
   showNavArrows?: boolean;
 };
@@ -31,7 +28,6 @@ export function ImageCarousel({
   showThumbnails = true,
   showCaption = false,
   autoplayIntervalMs,
-  framed = false,
   showNavArrows = true,
 }: ImageCarouselProps) {
   const [index, setIndex] = useState(0);
@@ -72,78 +68,43 @@ export function ImageCarousel({
 
   return (
     <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-      {framed ? (
-        <div className="max-w-3xl mx-auto">
-          <div
-            className={
-              showNavArrows
-                ? "flex items-center justify-center gap-2 sm:gap-4 px-1"
-                : "px-1"
-            }
-          >
-            {showNavArrows && (
-              <button type="button" onClick={prev} className={navButtonClass} aria-label="Previous image">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-            )}
-            <div className={showNavArrows ? "min-w-0 flex-1" : "w-full"}>
-              <GalleryPictureFrame
-                src={mainSlide.src}
-                alt={mainSlide.alt}
-                priority={index === 0}
-              />
-            </div>
-            {showNavArrows && (
-              <button type="button" onClick={next} className={navButtonClass} aria-label="Next image">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            )}
-          </div>
-          <p className="text-center text-sm text-gray-600 font-medium mt-4">
-            {index + 1} / {slides.length}
-          </p>
-        </div>
-      ) : (
-        <div className={`relative overflow-hidden bg-gray-100 ${aspectClassName}`}>
-          <Image
-            src={mainSlide.src}
-            alt={mainSlide.alt}
-            fill
-            className="object-cover transition-opacity duration-500"
-            sizes="100vw"
-            unoptimized
-            priority={index === 0}
-          />
-          <div className="absolute inset-x-0 bottom-0 flex justify-between items-center p-3 sm:p-4 bg-gradient-to-t from-black/60 to-transparent">
+      <div className={`relative overflow-hidden rounded-sm bg-gray-100 ${aspectClassName}`}>
+        <Image
+          src={mainSlide.src}
+          alt={mainSlide.alt}
+          fill
+          className="object-cover transition-opacity duration-500"
+          sizes="100vw"
+          unoptimized
+          priority={index === 0}
+        />
+        <div className="absolute inset-x-0 bottom-0 flex justify-between items-center p-3 sm:p-4 bg-gradient-to-t from-black/60 to-transparent">
+          {showNavArrows ? (
             <button type="button" onClick={prev} className={navButtonClass} aria-label="Previous image">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <span className="text-white text-sm font-semibold">
-              {index + 1} / {slides.length}
-            </span>
+          ) : (
+            <span className="w-9" aria-hidden />
+          )}
+          <span className="text-white text-sm font-semibold">
+            {index + 1} / {slides.length}
+          </span>
+          {showNavArrows ? (
             <button type="button" onClick={next} className={navButtonClass} aria-label="Next image">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
-          </div>
+          ) : (
+            <span className="w-9" aria-hidden />
+          )}
         </div>
-      )}
+      </div>
 
       {showThumbnails && (
-        <div
-          className={
-            framed
-              ? "flex flex-wrap justify-center gap-2 sm:gap-3 px-4 py-4"
-              : "flex gap-3 overflow-x-auto px-4 py-4 justify-start scrollbar-hide scroll-px-4"
-          }
-        >
+        <div className="flex gap-3 overflow-x-auto px-4 py-4 justify-start scrollbar-hide scroll-px-4">
           {slides.map((slide, i) => (
             <button
               key={slide.src}
@@ -152,23 +113,13 @@ export function ImageCarousel({
                 thumbRefs.current[i] = el;
               }}
               onClick={() => goTo(i)}
-              className={`relative shrink-0 transition-opacity ${
-                framed ? "w-20 sm:w-[4.75rem]" : "h-14 w-20 overflow-hidden border-2"
-              } ${i === index ? (framed ? "opacity-100" : "border-tamay-accent") : framed ? "opacity-65 hover:opacity-90" : "border-transparent opacity-70"}`}
+              className={`relative h-14 w-20 shrink-0 overflow-hidden border-2 transition-opacity ${
+                i === index ? "border-tamay-accent opacity-100" : "border-transparent opacity-70 hover:opacity-90"
+              }`}
               aria-label={`View image ${i + 1}`}
               aria-current={i === index ? "true" : undefined}
             >
-              {framed ? (
-                <GalleryPictureFrame
-                  src={slide.src}
-                  alt=""
-                  compact
-                  active={i === index}
-                  sizes="80px"
-                />
-              ) : (
-                <Image src={slide.src} alt="" fill className="object-cover" sizes="80px" unoptimized />
-              )}
+              <Image src={slide.src} alt="" fill className="object-cover" sizes="80px" unoptimized />
             </button>
           ))}
         </div>
