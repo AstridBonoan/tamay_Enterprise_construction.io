@@ -7,17 +7,26 @@ export const GALLERY_PROMOTION_VIDEO: ReviewVideoProject = {
   videos: ["l26oQaGBskk"],
 };
 
-/** YouTube project embeds for the gallery page — edit videos[] per project */
+/**
+ * YouTube project embeds for the gallery page — edit videos[] per project.
+ * Testimonial-only clips stay on the Reviews page and are omitted here.
+ */
 export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
   {
     id: "full-bathroom-renovation",
     title: "Full Bathroom Renovation",
-    videos: [],
+    videos: ["VpU0K7fnrAY"],
   },
   {
     id: "coop-apartment-renovation",
     title: "Co-op apartment Renovation",
-    videos: [],
+    // Skip _eEQVb19zHA (Lucas testimonial — Reviews page)
+    videos: ["TO9giHibYL4"],
+  },
+  {
+    id: "custom-closet-monroe",
+    title: "Custom Closet : Monroe, Connecticut",
+    videos: ["cftN8lzsoeQ"],
   },
   {
     id: "retaining-wall",
@@ -25,19 +34,38 @@ export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
     videos: ["9KakXUv9-kE"],
   },
   {
+    id: "bathroom-renovation-wilton",
+    title: "Bathroom Renovation",
+    // Skip xhyHDnt_G8g (Marie-Paul testimonial — Reviews page)
+    videos: ["vpFlLodGcWI"],
+  },
+  {
     id: "full-basement-transformation",
     title: "Full basement transformation",
-    videos: [],
+    // Skip 08Ks5xBkHNY (Mike testimonial — Reviews page)
+    videos: ["uDI5DCx2Fl4", "X4SXVcduADY"],
+  },
+  {
+    id: "apartment-relayout-new-haven",
+    title: "Apartment Re-Layout & Renovation",
+    videos: ["ksDoozeoqh4"],
   },
   {
     id: "full-home-lighting",
     title: "Full Home Lighting Installation",
-    videos: [],
+    // Skip 2NTfW0PZAIo (Maryse testimonial — Reviews page)
+    videos: ["1XRrNeVIdZU"],
+  },
+  {
+    id: "vinyl-fences-west-haven",
+    title: "Vinyl Fences Installation",
+    videos: ["XXwx92Zxows"],
   },
   {
     id: "bathroom-remodel",
     title: "Bathroom Remodel",
-    videos: [],
+    // Skip XTKenyMkdks (Rosemary testimonial — Reviews page)
+    videos: ["Sshs4ik5Bik"],
   },
   {
     id: "complete-basement-renovation",
@@ -47,7 +75,7 @@ export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
   {
     id: "ada-bathroom-construction",
     title: "ADA BATHROOM CONSTRUCTION",
-    // Last video (af5JYQe6ltY) is a testimonial — kept on Reviews page only
+    // Skip af5JYQe6ltY (Chris Yoon testimonial — Reviews page)
     videos: ["EXIut76IUDU", "hg34-f2Qfok"],
   },
 ];
