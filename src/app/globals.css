@@ -92,21 +92,13 @@ body {
   }
 }
 
-/* Tawk.to chat bubble — bottom-left sitewide */
+/* Tawk.to default bubble — hidden; site uses Tamay logo launcher instead */
 #tawk-bubble-container,
 .tawk-min-container {
-  left: 16px !important;
-  right: auto !important;
-  bottom: calc(0.75rem + var(--cookie-banner-offset, 0px) + env(safe-area-inset-bottom, 0px)) !important;
-  top: auto !important;
-}
-
-@media (min-width: 640px) {
-  #tawk-bubble-container,
-  .tawk-min-container {
-    bottom: calc(1.5rem + var(--cookie-banner-offset, 0px)) !important;
-    left: 16px !important;
-  }
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
 }
 
 body.cookie-banner-visible #tawk-bubble-container,

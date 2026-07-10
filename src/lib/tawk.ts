@@ -4,15 +4,31 @@ export const TAWK = {
   widgetId: "1jq2so8p7",
 } as const;
 
+type TawkVisibilityPosition = {
+  position?: string;
+  xOffset?: number;
+  yOffset?: number;
+};
+
 declare global {
   interface Window {
     Tawk_API?: {
       customStyle?: {
+        zIndex?: number | string;
         visibility?: {
-          desktop?: { position?: string; xOffset?: number; yOffset?: number };
-          mobile?: { position?: string; xOffset?: number; yOffset?: number };
+          desktop?: TawkVisibilityPosition;
+          mobile?: TawkVisibilityPosition;
+          bubble?: { rotate?: string; xOffset?: number; yOffset?: number };
         };
       };
+      onLoad?: () => void;
+      onChatMaximized?: () => void;
+      onChatMinimized?: () => void;
+      maximize?: () => void;
+      minimize?: () => void;
+      showWidget?: () => void;
+      hideWidget?: () => void;
+      isChatMaximized?: () => boolean;
     };
     Tawk_LoadStart?: Date;
   }

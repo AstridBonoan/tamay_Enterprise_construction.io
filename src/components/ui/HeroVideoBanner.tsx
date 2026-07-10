@@ -15,6 +15,17 @@ type HeroVideoBannerProps = {
   cta?: { label: string; href: string };
 };
 
+function tryPlay(video: HTMLVideoElement) {
+  video.muted = true;
+  video.defaultMuted = true;
+  video.setAttribute("muted", "");
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "");
+  return video.play().catch(() => {
+    // Autoplay may be blocked until user interaction; keep retrying below.
+  });
+}
+
 export function HeroVideoBanner({
   withMessage = false,
   tagline,
@@ -30,10 +41,40 @@ export function HeroVideoBanner({
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = true;
-    void video.play().catch(() => {
-      // Autoplay may be blocked until user interaction; video element stays visible.
-    });
+    const play = () => {
+      void tryPlay(video);
+    };
+
+    play();
+
+    const onReady = () => play();
+    video.addEventListener("loadeddata", onReady);
+    video.addEventListener("canplay", onReady);
+    video.addEventListener("loadedmetadata", onReady);
+
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") play();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    // iOS / mobile browsers often require a user gesture; retry once on first interaction.
+    const onFirstGesture = () => play();
+    window.addEventListener("touchstart", onFirstGesture, { once: true, passive: true });
+    window.addEventListener("click", onFirstGesture, { once: true });
+    window.addEventListener("scroll", onFirstGesture, { once: true, passive: true });
+
+    const retryTimers = [250, 750, 1500].map((ms) => window.setTimeout(play, ms));
+
+    return () => {
+      video.removeEventListener("loadeddata", onReady);
+      video.removeEventListener("canplay", onReady);
+      video.removeEventListener("loadedmetadata", onReady);
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("touchstart", onFirstGesture);
+      window.removeEventListener("click", onFirstGesture);
+      window.removeEventListener("scroll", onFirstGesture);
+      retryTimers.forEach((id) => window.clearTimeout(id));
+    };
   }, [videoSrc]);
 
   return (
