@@ -70,21 +70,21 @@ export function MobileSidebar({ open, onClose }: MobileSidebarProps) {
           animation: "slideInLeft 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards",
         }}
       >
-        <div className="flex items-center justify-between border-b border-gray-100 px-4 py-4 bg-tamay-primary shrink-0">
+        <div className="flex items-center justify-between border-b border-gray-100 px-4 py-4 bg-white shrink-0">
           <Link href="/" onClick={onClose} className="shrink-0">
             <Image
               src={IMAGES.logo}
               alt="Tamay Enterprises"
               width={200}
               height={70}
-              className="h-12 w-auto object-contain brightness-0 invert"
+              className="h-12 w-auto object-contain"
               unoptimized
             />
           </Link>
           <button
             type="button"
             onClick={onClose}
-            className="p-2 text-white hover:bg-white/10 rounded transition-colors"
+            className="p-2 text-tamay-primary hover:bg-gray-100 rounded transition-colors"
             aria-label="Close menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
