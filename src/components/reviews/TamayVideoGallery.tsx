@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, type ReactNode } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import type { ReviewVideoProject } from "@/lib/reviewVideos";
 import { initTamayGallery } from "./initTamayGallery";
 import { TestimonialProjectHeader } from "./TestimonialProjectHeader";
@@ -12,7 +12,7 @@ type TamayVideoGalleryProps = {
   showTitle?: boolean;
   /** Unique prefix for element ids when multiple galleries share a page */
   instanceId?: string;
-  /** Single-video projects in a 2-column row; multi-video projects full-width below */
+  /** Each project in its own full-width row (no empty 2-column gaps) */
   grouped?: boolean;
 };
 
@@ -66,36 +66,22 @@ export function TamayVideoGallery({
     </div>
   );
 
-  // Keep document order: title-only + singles share the singles grid; multi stay full-width.
-  const renderGrouped = () => {
-    const segments: ReactNode[] = [];
-    let singlesBatch: ReviewVideoProject[] = [];
-
-    const flushSingles = () => {
-      if (singlesBatch.length === 0) return;
-      segments.push(
-        <div key={`singles-${segments.length}`} className="tamay-gallery-row tamay-gallery-row--singles">
-          {singlesBatch.map(renderProject)}
-        </div>,
-      );
-      singlesBatch = [];
-    };
-
-    for (const project of displayProjects) {
-      if (project.videos.length > 1) {
-        flushSingles();
-        segments.push(
-          <div key={project.id} className="tamay-gallery-row tamay-gallery-row--multi">
-            {renderProject(project)}
-          </div>,
-        );
-      } else {
-        singlesBatch.push(project);
-      }
-    }
-    flushSingles();
-    return segments;
-  };
+  // Full-width rows for every project so single-video sections never leave an empty column.
+  const renderGrouped = () =>
+    displayProjects.map((project) => (
+      <div
+        key={project.id}
+        className={`tamay-gallery-row${
+          project.videos.length === 1
+            ? " tamay-gallery-row--single"
+            : project.videos.length > 1
+              ? " tamay-gallery-row--multi"
+              : " tamay-gallery-row--title-only"
+        }`}
+      >
+        {renderProject(project)}
+      </div>
+    ));
 
   return (
     <>
