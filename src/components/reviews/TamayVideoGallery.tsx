@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, type ReactNode } from "react";
 import type { ReviewVideoProject } from "@/lib/reviewVideos";
 import { initTamayGallery } from "./initTamayGallery";
 import { TestimonialProjectHeader } from "./TestimonialProjectHeader";
@@ -27,9 +27,18 @@ export function TamayVideoGallery({
   const playerRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLDivElement>(null);
 
-  const activeProjects = useMemo(
-    () => projects.filter((p) => p.videos.length > 0),
-    [projects]
+  // Keep title-only sections when showTitle is on; otherwise only projects with videos.
+  const displayProjects = useMemo(
+    () =>
+      showTitle
+        ? projects.filter((p) => Boolean(p.title) || p.videos.length > 0)
+        : projects.filter((p) => p.videos.length > 0),
+    [projects, showTitle],
+  );
+
+  const projectsWithVideos = useMemo(
+    () => displayProjects.filter((p) => p.videos.length > 0),
+    [displayProjects],
   );
 
   useEffect(() => {
@@ -37,34 +46,56 @@ export function TamayVideoGallery({
     const modal = modalRef.current;
     const player = playerRef.current;
     const closeBtn = closeRef.current;
-    if (!gallery || !modal || !player || !closeBtn || activeProjects.length === 0) return;
+    if (!gallery || !modal || !player || !closeBtn || projectsWithVideos.length === 0) return;
 
     return initTamayGallery(gallery, modal, player, closeBtn);
-  }, [activeProjects]);
+  }, [projectsWithVideos]);
 
-  const singleVideoProjects = useMemo(
-    () => activeProjects.filter((p) => p.videos.length === 1),
-    [activeProjects]
-  );
-  const multiVideoProjects = useMemo(
-    () => activeProjects.filter((p) => p.videos.length > 1),
-    [activeProjects]
-  );
-
-  if (activeProjects.length === 0) {
+  if (displayProjects.length === 0) {
     return null;
   }
 
   const renderProject = (project: ReviewVideoProject) => (
     <div
       key={project.id}
-      className="tamay-project"
+      className={`tamay-project${project.videos.length === 0 ? " tamay-project--title-only" : ""}`}
       data-videos={project.videos.join(",")}
     >
       {showTitle && project.title ? <TestimonialProjectHeader title={project.title} /> : null}
-      <div className="tamay-project-mount" />
+      {project.videos.length > 0 ? <div className="tamay-project-mount" /> : null}
     </div>
   );
+
+  // Keep document order: title-only + singles share the singles grid; multi stay full-width.
+  const renderGrouped = () => {
+    const segments: ReactNode[] = [];
+    let singlesBatch: ReviewVideoProject[] = [];
+
+    const flushSingles = () => {
+      if (singlesBatch.length === 0) return;
+      segments.push(
+        <div key={`singles-${segments.length}`} className="tamay-gallery-row tamay-gallery-row--singles">
+          {singlesBatch.map(renderProject)}
+        </div>,
+      );
+      singlesBatch = [];
+    };
+
+    for (const project of displayProjects) {
+      if (project.videos.length > 1) {
+        flushSingles();
+        segments.push(
+          <div key={project.id} className="tamay-gallery-row tamay-gallery-row--multi">
+            {renderProject(project)}
+          </div>,
+        );
+      } else {
+        singlesBatch.push(project);
+      }
+    }
+    flushSingles();
+    return segments;
+  };
 
   return (
     <>
@@ -73,22 +104,7 @@ export function TamayVideoGallery({
         id={`${instanceId}-gallery`}
         ref={galleryRef}
       >
-        {grouped ? (
-          <>
-            {singleVideoProjects.length > 0 && (
-              <div className="tamay-gallery-row tamay-gallery-row--singles">
-                {singleVideoProjects.map(renderProject)}
-              </div>
-            )}
-            {multiVideoProjects.length > 0 && (
-              <div className="tamay-gallery-row tamay-gallery-row--multi">
-                {multiVideoProjects.map(renderProject)}
-              </div>
-            )}
-          </>
-        ) : (
-          activeProjects.map(renderProject)
-        )}
+        {grouped ? renderGrouped() : displayProjects.map(renderProject)}
       </div>
 
       <div

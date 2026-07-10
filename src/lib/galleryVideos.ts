@@ -12,12 +12,12 @@ export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
   {
     id: "full-bathroom-renovation",
     title: "Full Bathroom Renovation",
-    videos: ["xhyHDnt_G8g"],
+    videos: [],
   },
   {
     id: "coop-apartment-renovation",
     title: "Co-op apartment Renovation",
-    videos: ["_eEQVb19zHA"],
+    videos: [],
   },
   {
     id: "retaining-wall",
@@ -27,17 +27,17 @@ export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
   {
     id: "full-basement-transformation",
     title: "Full basement transformation",
-    videos: ["08Ks5xBkHNY"],
+    videos: [],
   },
   {
     id: "full-home-lighting",
     title: "Full Home Lighting Installation",
-    videos: ["2NTfW0PZAIo"],
+    videos: [],
   },
   {
     id: "bathroom-remodel",
     title: "Bathroom Remodel",
-    videos: ["NLQKQ6vYPeI"],
+    videos: [],
   },
   {
     id: "complete-basement-renovation",
@@ -47,6 +47,7 @@ export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
   {
     id: "ada-bathroom-construction",
     title: "ADA BATHROOM CONSTRUCTION",
-    videos: ["EXIut76IUDU", "hg34-f2Qfok", "af5JYQe6ltY"],
+    // Last video (af5JYQe6ltY) is a testimonial — kept on Reviews page only
+    videos: ["EXIut76IUDU", "hg34-f2Qfok"],
   },
 ];

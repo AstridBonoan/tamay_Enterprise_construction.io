@@ -48,6 +48,14 @@
   font-size: 1.05rem;
 }
 
+.tamay-project--title-only .tamay-project-heading {
+  margin-bottom: 0;
+}
+
+.tamay-gallery-row--singles .tamay-project--title-only {
+  padding-block: 1.25rem;
+}
+
 .tamay-gallery-promo .tamay-gallery {
   grid-template-columns: 1fr;
   max-width: 100%;
