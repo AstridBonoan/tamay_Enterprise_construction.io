@@ -1,14 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
-
-function ChatIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z" />
-    </svg>
-  );
-}
+import { IMAGES } from "@/lib/images";
 
 /** Visible stand-in until NEXT_PUBLIC_TAWK_PROPERTY_ID is configured. */
 export function TawkChatPlaceholder() {
@@ -49,11 +43,18 @@ export function TawkChatPlaceholder() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-tamay-primary text-white shadow-lg hover:bg-tamay-primary-dark transition-colors border-2 border-tamay-accent"
+        className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-white shadow-lg border-2 border-tamay-accent hover:scale-105 transition-transform"
         aria-label={open ? "Close live chat preview" : "Open live chat preview"}
         aria-expanded={open}
       >
-        <ChatIcon className="w-7 h-7" />
+        <Image
+          src={IMAGES.logoSmall}
+          alt="Tamay Enterprises"
+          width={48}
+          height={48}
+          className="h-10 w-10 object-contain"
+          unoptimized
+        />
       </button>
     </div>
   );
