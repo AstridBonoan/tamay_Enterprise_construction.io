@@ -13,9 +13,9 @@ export const GALLERY_PROMOTION_VIDEO: ReviewVideoProject = {
  */
 export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
   {
-    id: "home-exterior-upgrade-fairfield",
-    title: "Home Exterior Upgrade",
-    videos: ["VGCl00gR_pY"],
+    id: "complete-basement-renovation",
+    title: "Complete basement Renovation",
+    videos: ["8rvPhBm1mo8", "d90U6tv0JtU", "OLpVtJWZDdg"],
   },
   {
     id: "full-bathroom-renovation",
@@ -23,26 +23,9 @@ export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
     videos: ["VpU0K7fnrAY"],
   },
   {
-    id: "coop-apartment-renovation",
-    title: "Co-op apartment Renovation",
-    // Skip _eEQVb19zHA (Lucas testimonial — Reviews page)
-    videos: ["TO9giHibYL4"],
-  },
-  {
-    id: "custom-closet-monroe",
-    title: "Custom Closet : Monroe, Connecticut",
-    videos: ["cftN8lzsoeQ"],
-  },
-  {
     id: "retaining-wall",
     title: "Retaining wall",
     videos: ["9KakXUv9-kE"],
-  },
-  {
-    id: "bathroom-renovation-wilton",
-    title: "Bathroom Renovation",
-    // Skip xhyHDnt_G8g (Marie-Paul testimonial — Reviews page)
-    videos: ["vpFlLodGcWI"],
   },
   {
     id: "full-basement-transformation",
@@ -51,9 +34,31 @@ export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
     videos: ["uDI5DCx2Fl4", "X4SXVcduADY"],
   },
   {
+    id: "home-exterior-upgrade-fairfield",
+    title: "Home Exterior Upgrade",
+    videos: ["VGCl00gR_pY"],
+  },
+  {
+    id: "custom-closet-monroe",
+    title: "Custom Closet : Monroe, Connecticut",
+    videos: ["cftN8lzsoeQ"],
+  },
+  {
     id: "apartment-relayout-new-haven",
     title: "Apartment Re-Layout & Renovation",
     videos: ["ksDoozeoqh4"],
+  },
+  {
+    id: "coop-apartment-renovation",
+    title: "Co-op apartment Renovation",
+    // Skip _eEQVb19zHA (Lucas testimonial — Reviews page)
+    videos: ["TO9giHibYL4"],
+  },
+  {
+    id: "bathroom-renovation-wilton",
+    title: "Bathroom Renovation",
+    // Skip xhyHDnt_G8g (Marie-Paul testimonial — Reviews page)
+    videos: ["vpFlLodGcWI"],
   },
   {
     id: "full-home-lighting",
@@ -71,11 +76,6 @@ export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
     title: "Bathroom Remodel",
     // Skip XTKenyMkdks (Rosemary testimonial — Reviews page)
     videos: ["Sshs4ik5Bik"],
-  },
-  {
-    id: "complete-basement-renovation",
-    title: "Complete basement Renovation",
-    videos: ["8rvPhBm1mo8", "d90U6tv0JtU", "OLpVtJWZDdg"],
   },
   {
     id: "ada-bathroom-construction",
