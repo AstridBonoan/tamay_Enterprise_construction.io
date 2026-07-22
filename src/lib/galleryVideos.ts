@@ -14,7 +14,7 @@ export const GALLERY_PROMOTION_VIDEO: ReviewVideoProject = {
 export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
   {
     id: "home-exterior-upgrade-fairfield",
-    title: "Complete Home Exterior Upgrade : Fairfield, Connecticut",
+    title: "Home Exterior Upgrade",
     videos: ["VGCl00gR_pY"],
   },
   {
