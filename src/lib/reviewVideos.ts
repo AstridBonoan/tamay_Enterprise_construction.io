@@ -9,6 +9,11 @@ export type ReviewVideoProject = {
 
 export const REVIEW_VIDEO_PROJECTS: ReviewVideoProject[] = [
   {
+    id: "joe-testimonial",
+    videos: ["h6SrSb-LzBQ"],
+    title: "Joe Testimonial",
+  },
+  {
     id: "commercial-bridgeport",
     videos: ["JGxUJl-r2Nk"],
     title: "Abir - testimonial",
