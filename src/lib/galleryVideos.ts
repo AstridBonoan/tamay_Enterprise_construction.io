@@ -39,6 +39,11 @@ export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
     videos: ["VGCl00gR_pY"],
   },
   {
+    id: "garage-restore-paint-west-haven",
+    title: "Restoring & Painting A Damaged Garage : West Haven, CT",
+    videos: ["5nTWmLdlK3o"],
+  },
+  {
     id: "custom-closet-monroe",
     title: "Custom Closet : Monroe, Connecticut",
     videos: ["cftN8lzsoeQ"],
