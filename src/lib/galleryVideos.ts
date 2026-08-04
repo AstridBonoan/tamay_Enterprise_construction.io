@@ -40,7 +40,7 @@ export const GALLERY_VIDEO_PROJECTS: ReviewVideoProject[] = [
   },
   {
     id: "garage-restore-paint-west-haven",
-    title: "Restoring & Painting A Damaged Garage : West Haven, CT",
+    title: "Garage Makeover",
     videos: ["5nTWmLdlK3o"],
   },
   {
