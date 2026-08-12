@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { HeroVideoBanner } from "@/components/ui/HeroVideoBanner";
 import { AboutUsSection } from "@/components/about/AboutUsSection";
 import { ServicesSectionTitle } from "@/components/home/ServicesSectionTitle";
@@ -11,6 +12,9 @@ import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { DivisionCard } from "@/components/ui/DivisionCard";
 import { IMAGES } from "@/lib/images";
 import { SERVICE_AREAS, SITE } from "@/lib/site";
+import { buildSocialMetadata } from "@/lib/socialMetadata";
+
+export const metadata: Metadata = buildSocialMetadata("home");
 
 export default function HomePage() {
   return (

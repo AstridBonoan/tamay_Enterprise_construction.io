@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ConsultationSchedulePageContent } from "@/components/appointments/ConsultationSchedulePageContent";
 import { sitePath } from "@/lib/paths";
+import { buildSocialMetadata } from "@/lib/socialMetadata";
 
-export const metadata: Metadata = {
-  title: "Book a Consultation",
+export const metadata: Metadata = buildSocialMetadata("appointments", {
+  path: "/online-appointments/schedule/",
+  title: "Book a Consultation | Tamay Enterprises",
   description:
     "Schedule a free consultation with Tamay Enterprises for construction, real estate, logistics, prevention services, or assembly.",
-};
+  absoluteTitle: true,
+});
 
 export default function ConsultationSchedulePage() {
   return (

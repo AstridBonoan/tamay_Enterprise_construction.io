@@ -15,12 +15,9 @@ import { REVIEW_VIDEO_PROJECTS } from "@/lib/reviewVideos";
 import { ConstructionEstimateBanner } from "@/components/construction/ConstructionEstimateBanner";
 import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
 import { SITE } from "@/lib/site";
+import { buildSocialMetadata } from "@/lib/socialMetadata";
 
-export const metadata: Metadata = {
-  title: "General Contractor in West Haven, CT",
-  description:
-    "Tamay Enterprises delivers construction and home renovation services in West Haven, CT including full renovations, additions, and kitchen & bathroom remodeling.",
-};
+export const metadata: Metadata = buildSocialMetadata("construction");
 
 const coreServices = [
   {

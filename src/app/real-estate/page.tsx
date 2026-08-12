@@ -8,12 +8,9 @@ import { SellingHelpBanner } from "@/components/real-estate/SellingHelpBanner";
 import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
 import { IMAGES } from "@/lib/images";
 import { RENT_LISTINGS, SALE_LISTINGS } from "@/lib/realEstateListings";
+import { buildSocialMetadata } from "@/lib/socialMetadata";
 
-export const metadata: Metadata = {
-  title: "Real Estate Services in West Haven, CT",
-  description:
-    "Real estate services backed by construction expertise for buyers, sellers, and investors in West Haven, CT.",
-};
+export const metadata: Metadata = buildSocialMetadata("realEstate");
 
 const audiences = [
   {

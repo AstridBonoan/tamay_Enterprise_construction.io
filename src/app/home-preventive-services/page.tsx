@@ -6,14 +6,11 @@ import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { Button } from "@/components/ui/Button";
 import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
 import { IMAGES } from "@/lib/images";
+import { buildSocialMetadata } from "@/lib/socialMetadata";
 
 const PREVENTIVE_SCHEDULE_HREF = "/online-appointments/schedule?service=prevention-services#book";
 
-export const metadata: Metadata = {
-  title: "Preventive Home Services in West Haven, CT",
-  description:
-    "Seasonal and year-round preventive home maintenance services in West Haven, CT. Kitchen tune-ups, HVAC prep, plumbing care, and more.",
-};
+export const metadata: Metadata = buildSocialMetadata("preventive");
 
 const benefits = [
   "Extend equipment lifespan",

@@ -6,11 +6,9 @@ import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { Button } from "@/components/ui/Button";
 import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
 import { IMAGES } from "@/lib/images";
+import { buildSocialMetadata } from "@/lib/socialMetadata";
 
-export const metadata: Metadata = {
-  title: "Logistics & Delivery Services in West Haven, CT",
-  description: "Professional local and regional logistics and delivery services in West Haven, CT.",
-};
+export const metadata: Metadata = buildSocialMetadata("logistics");
 
 const deliveryServices = [
   "Local and regional delivery services",

@@ -17,12 +17,9 @@ import {
   ASSEMBLY_WHY_PARTNERS,
 } from "@/lib/assemblyInstallation";
 import { appointmentScheduleHref } from "@/lib/onlineAppointments";
+import { buildSocialMetadata } from "@/lib/socialMetadata";
 
-export const metadata: Metadata = {
-  title: "Professional Furniture Assembly and Installation Services | Tamay Enterprises",
-  description:
-    "Scalable furniture assembly and installation for retailers, platforms, property managers, and multi-unit properties in West Haven, CT.",
-};
+export const metadata: Metadata = buildSocialMetadata("assembly");
 
 type ServiceCardProps = {
   title: string;

@@ -8,12 +8,9 @@ import { CareersJoinFloat } from "@/components/careers/CareersJoinFloat";
 import { CareersAboutPhoto } from "@/components/careers/CareersAboutPhoto";
 import { CAREER_ROLE_GROUPS } from "@/lib/careerRoles";
 import { CAREERS_ABOUT_IMAGES, CAREERS_HERO_BANNER } from "@/lib/careerImages";
+import { buildSocialMetadata } from "@/lib/socialMetadata";
 
-export const metadata: Metadata = {
-  title: "Careers & Partnerships | Tamay Enterprises West Haven CT",
-  description:
-    "Construction jobs and trade opportunities at Tamay Enterprises in West Haven, CT. Build long-term careers in residential construction.",
-};
+export const metadata: Metadata = buildSocialMetadata("careers");
 
 export default function CareersPage() {
   return (

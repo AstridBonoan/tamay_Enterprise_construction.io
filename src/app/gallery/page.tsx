@@ -7,12 +7,9 @@ import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { assetUrl } from "@/lib/assetUrl";
 import { GALLERY_PROMOTION_VIDEO, GALLERY_VIDEO_PROJECTS } from "@/lib/galleryVideos";
 import { IMAGES } from "@/lib/images";
+import { buildSocialMetadata } from "@/lib/socialMetadata";
 
-export const metadata: Metadata = {
-  title: "GALLERY",
-  description:
-    "Project video gallery of construction and renovation work by Tamay Enterprises across Connecticut.",
-};
+export const metadata: Metadata = buildSocialMetadata("gallery");
 
 const PHOTO_GALLERY_ITEMS = [
   { title: "Modern Kitchen Renovation", src: assetUrl("/gallery/photos/photo-1.png") },

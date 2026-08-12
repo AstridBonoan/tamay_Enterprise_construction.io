@@ -9,7 +9,7 @@ import { CookieBanner } from "@/components/layout/CookieBanner";
 import { PageContactFloat } from "@/components/layout/PageContactFloat";
 import { TawkWidget } from "@/components/layout/TawkWidget";
 import { Providers } from "@/components/layout/Providers";
-import { IMAGES as IMG } from "@/lib/images";
+import { SOCIAL_IMAGE } from "@/lib/socialMetadata";
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -36,8 +36,22 @@ export const metadata: Metadata = {
   description:
     "Tamay Enterprises is a West Haven, CT–based multi-service company providing construction, real estate, and logistics services.",
   referrer: "strict-origin-when-cross-origin",
+  // Fallback only for pages without dedicated social metadata.
+  // The seven mapped public pages override this via buildSocialMetadata().
   openGraph: {
-    images: [IMG.og],
+    type: "website",
+    images: [
+      {
+        url: SOCIAL_IMAGE.home,
+        width: 1536,
+        height: 807,
+        alt: "Tamay Enterprises",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [SOCIAL_IMAGE.home],
   },
 };
 

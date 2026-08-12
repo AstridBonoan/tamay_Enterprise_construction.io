@@ -6,12 +6,9 @@ import { FinancingPromoCard } from "@/components/finance/FinancingPromoCard";
 import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { IMAGES } from "@/lib/images";
 import { FINANCE, SITE } from "@/lib/site";
+import { buildSocialMetadata } from "@/lib/socialMetadata";
 
-export const metadata: Metadata = {
-  title: "Financing Options | Tamay Enterprises West Haven CT",
-  description:
-    "Flexible financing for construction and home renovation projects in West Haven, CT. Build now and pay over time with Tamay Enterprises.",
-};
+export const metadata: Metadata = buildSocialMetadata("finance");
 
 export default function FinancePage() {
   return (

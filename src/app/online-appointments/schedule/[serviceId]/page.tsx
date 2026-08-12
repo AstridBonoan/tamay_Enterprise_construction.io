@@ -5,6 +5,7 @@ import {
   getAllAppointmentServiceIds,
   getAppointmentServiceById,
 } from "@/lib/onlineAppointments";
+import { buildSocialMetadata } from "@/lib/socialMetadata";
 
 type LegacyAppointmentSchedulePageProps = {
   params: Promise<{ serviceId: string }>;
@@ -17,12 +18,20 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: LegacyAppointmentSchedulePageProps): Promise<Metadata> {
   const { serviceId } = await params;
   const service = getAppointmentServiceById(serviceId);
-  if (!service) return { title: "Book a Consultation" };
+  if (!service) {
+    return buildSocialMetadata("appointments", {
+      path: "/online-appointments/schedule/",
+      title: "Book a Consultation | Tamay Enterprises",
+      absoluteTitle: true,
+    });
+  }
 
-  return {
-    title: service.scheduleCtaLabel,
+  return buildSocialMetadata("appointments", {
+    path: `/online-appointments/schedule/${serviceId}/`,
+    title: `${service.scheduleCtaLabel} | Tamay Enterprises`,
     description: `Schedule a free ${service.title.toLowerCase()} consultation with Tamay Enterprises in West Haven, CT.`,
-  };
+    absoluteTitle: true,
+  });
 }
 
 /** Legacy path — redirects to /online-appointments/schedule?service=... */

@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import { AppointmentServiceRow } from "@/components/appointments/AppointmentServiceRow";
 import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { ONLINE_APPOINTMENT_SERVICES } from "@/lib/onlineAppointments";
+import { buildSocialMetadata } from "@/lib/socialMetadata";
 
-export const metadata: Metadata = {
-  title: "Schedule an Appointment",
-  description:
-    "Schedule a free online appointment with Tamay Enterprises in West Haven, CT to discuss construction, real estate, preventive, logistics, or assembly services.",
-};
+export const metadata: Metadata = buildSocialMetadata("appointments");
 
 export default function OnlineAppointmentsPage() {
   return (
