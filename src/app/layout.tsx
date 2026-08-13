@@ -2,11 +2,11 @@ import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 import { Cinzel, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
-import { HiringBanner } from "@/components/layout/HiringBanner";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { CookieBanner } from "@/components/layout/CookieBanner";
 import { PageContactFloat } from "@/components/layout/PageContactFloat";
+import { EstimatorPromoFloat } from "@/components/layout/EstimatorPromoFloat";
 import { TawkWidget } from "@/components/layout/TawkWidget";
 import { Providers } from "@/components/layout/Providers";
 import { SOCIAL_IMAGE } from "@/lib/socialMetadata";
@@ -70,13 +70,13 @@ export default function RootLayout({
     <html lang="en-US" className={`${cinzel.variable} ${sourceSans.variable}`}>
       <body className="min-h-screen flex flex-col antialiased text-base">
         <Providers>
-          <HiringBanner />
           <SiteHeader />
           <main className="flex-1">{children}</main>
           <SiteFooter />
           <CookieBanner />
           <Suspense fallback={null}>
             <PageContactFloat />
+            <EstimatorPromoFloat />
           </Suspense>
           <TawkWidget />
         </Providers>

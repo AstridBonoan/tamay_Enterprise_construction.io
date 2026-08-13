@@ -15,7 +15,7 @@ export function CollapsedFloatButton({ label, side, onClick, ariaLabel }: Collap
       type="button"
       onClick={onClick}
       aria-label={ariaLabel}
-      className={`fixed ${horizontal} ${FLOAT_ROW_BOTTOM_CLASS} z-[75] flex h-10 items-center justify-center rounded-full bg-tamay-primary text-white text-xs font-bold tracking-wide shadow-lg border border-tamay-accent px-3.5 hover:bg-tamay-primary-dark transition-colors`}
+      className={`fixed ${horizontal} ${FLOAT_ROW_BOTTOM_CLASS} z-[75] flex min-h-11 items-center justify-center rounded-full bg-tamay-primary text-white text-xs font-bold tracking-wide shadow-lg border border-tamay-accent px-3.5 hover:bg-tamay-primary-dark transition-colors`}
     >
       {label}
     </button>
@@ -28,7 +28,7 @@ export function FloatCloseButton({ onClick, ariaLabel }: { onClick: () => void; 
       type="button"
       onClick={onClick}
       aria-label={ariaLabel}
-      className="absolute top-1.5 right-1.5 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-white/95 text-gray-700 text-lg leading-none shadow hover:bg-white transition-colors"
+      className="absolute top-1.5 right-1.5 z-10 flex h-9 w-9 min-h-9 min-w-9 items-center justify-center rounded-full bg-white/95 text-gray-700 text-lg leading-none shadow hover:bg-white transition-colors"
     >
       ×
     </button>

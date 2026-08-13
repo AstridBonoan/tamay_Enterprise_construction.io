@@ -6,6 +6,7 @@ type ButtonProps = {
   variant?: "primary" | "accent" | "outline";
   external?: boolean;
   className?: string;
+  onClick?: () => void;
 };
 
 export function Button({
@@ -14,6 +15,7 @@ export function Button({
   variant = "primary",
   external,
   className = "",
+  onClick,
 }: ButtonProps) {
   const base =
     "inline-block font-bold text-sm tracking-wide px-6 py-3 transition-colors text-center";
@@ -27,14 +29,14 @@ export function Button({
 
   if (external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
+      <a href={href} target="_blank" rel="noopener noreferrer" className={classes} onClick={onClick}>
         {children}
       </a>
     );
   }
 
   return (
-    <a href={sitePath(href)} className={classes}>
+    <a href={sitePath(href)} className={classes} onClick={onClick}>
       {children}
     </a>
   );

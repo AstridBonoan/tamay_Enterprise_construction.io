@@ -94,7 +94,7 @@ export function WriteReviewSection() {
   };
 
   return (
-    <section className="py-14 bg-gray-50 px-4">
+    <section id="write-review" className="py-14 bg-gray-50 px-4">
       <div className="max-w-2xl mx-auto">
         <SectionHeading
           title="Write A Review"

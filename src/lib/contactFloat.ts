@@ -1,4 +1,5 @@
-import { normalizeSitePath } from "./paths";
+import { appointmentScheduleHref } from "./onlineAppointments";
+import { normalizeSitePath, sitePath } from "./paths";
 import { SITE } from "./site";
 
 export type ContactFloatConfig = {
@@ -15,30 +16,39 @@ export type ContactFloatConfig = {
 const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   "/": {
     floatId: "home-contact",
-    collapsedLabel: "Contact",
-    ariaLabel: "Contact us",
-    headline: "Ready to Start Something Great?",
-    body: "Skip the scroll — jump straight to our contact form and tell us what you need.",
-    ctaLabel: "Contact Us",
-    ctaHref: "#contact",
+    collapsedLabel: "Book",
+    ariaLabel: "Schedule an online appointment",
+    headline: "Ready to Get Started?",
+    body: "Choose the department you need and book a free consultation online.",
+    ctaLabel: "Online Appointments",
+    ctaHref: sitePath("/online-appointments"),
+  },
+  "/construction": {
+    floatId: "construction-consult",
+    collapsedLabel: "Consult",
+    ariaLabel: "Schedule a construction consultation",
+    headline: "Talk With a Project Advisor",
+    body: "Book a free construction consultation to discuss renovations, remodeling, or additions.",
+    ctaLabel: "Schedule Now",
+    ctaHref: appointmentScheduleHref("construction"),
   },
   "/gallery": {
-    floatId: "gallery-contact",
-    collapsedLabel: "Inspired?",
-    ariaLabel: "Contact us about a project",
+    floatId: "gallery-consult",
+    collapsedLabel: "Consult",
+    ariaLabel: "Schedule a project consultation",
     headline: "See Something You Love?",
-    body: "Let's talk about bringing that same quality to your space — reach out below.",
-    ctaLabel: "Start a Conversation",
-    ctaHref: "#contact",
+    body: "Schedule a project consultation and we will help you plan the next step.",
+    ctaLabel: "Schedule a Project Consultation",
+    ctaHref: sitePath("/online-appointments"),
   },
   "/reviews": {
-    floatId: "reviews-contact",
-    collapsedLabel: "Reach Out",
-    ariaLabel: "Contact Tamay Enterprises",
-    headline: "Convinced Yet?",
-    body: "We would love to earn your review next — get in touch and tell us about your project.",
-    ctaLabel: "Get in Touch",
-    ctaHref: "/#contact",
+    floatId: "reviews-write",
+    collapsedLabel: "Review",
+    ariaLabel: "Leave a review",
+    headline: "Leave Us a Review",
+    body: "Share your experience with Tamay Enterprises — it only takes a minute.",
+    ctaLabel: "Leave Us a Review",
+    ctaHref: "#write-review",
   },
   "/finance": {
     floatId: "finance-contact",
@@ -57,7 +67,7 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
     headline: "Talk To A Dispatcher",
     body: "Need a delivery coordinated or a quote fast? Schedule a logistics consultation and our dispatch team will follow up.",
     ctaLabel: "Schedule Now",
-    ctaHref: "/online-appointments/schedule?service=logistics#book",
+    ctaHref: appointmentScheduleHref("logistics"),
   },
   "/assembly-installation": {
     floatId: "assembly-contact",
@@ -66,7 +76,7 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
     headline: "Something Need Assembling?",
     body: "Book a professional install — pick a time that works for you.",
     ctaLabel: "Schedule Now",
-    ctaHref: "/online-appointments/schedule?service=assembly-installation#book",
+    ctaHref: appointmentScheduleHref("assembly-installation"),
   },
   "/home-preventive-services": {
     floatId: "preventive-contact",
@@ -75,7 +85,7 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
     headline: "Stay Ahead of Repairs",
     body: "Schedule preventive care for your home — pick a time that works for you.",
     ctaLabel: "Schedule Now",
-    ctaHref: "/online-appointments/schedule?service=prevention-services#book",
+    ctaHref: appointmentScheduleHref("prevention-services"),
   },
   "/careers-partnerships/apply": {
     floatId: "careers-apply-contact",
@@ -88,8 +98,8 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   },
 };
 
-/** Paths that already show a dedicated bottom-right promo float. */
-export const PAGES_WITH_PROMO_FLOAT = ["/construction", "/real-estate", "/careers-partnerships"] as const;
+/** Pages with a dedicated right-side float (not driven by PAGE_CONTACT_FLOATS). */
+export const PAGES_WITH_PROMO_FLOAT = ["/real-estate", "/careers-partnerships"] as const;
 
 export function getContactFloatConfig(pathname: string): ContactFloatConfig | null {
   return PAGE_CONTACT_FLOATS[normalizeSitePath(pathname)] ?? null;

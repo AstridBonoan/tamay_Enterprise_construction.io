@@ -12,7 +12,6 @@ import {
   CONSTRUCTION_PROJECT_VIDEOS,
 } from "@/lib/constructionVideos";
 import { REVIEW_VIDEO_PROJECTS } from "@/lib/reviewVideos";
-import { ConstructionEstimateBanner } from "@/components/construction/ConstructionEstimateBanner";
 import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
 import { SITE } from "@/lib/site";
 import { buildSocialMetadata } from "@/lib/socialMetadata";
@@ -238,8 +237,6 @@ export default function ConstructionPage() {
       </section>
 
       <SiteContactSection />
-
-      <ConstructionEstimateBanner />
     </>
   );
 }

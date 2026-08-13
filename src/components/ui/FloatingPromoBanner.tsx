@@ -1,12 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { CollapsedFloatButton, FloatCloseButton } from "@/components/ui/FloatingFloatControls";
-import { useDismissibleFloat } from "@/hooks/useDismissibleFloat";
+import { useContextualFloat } from "@/hooks/useContextualFloat";
 import { FLOAT_ROW_BOTTOM_CLASS } from "@/lib/floatDock";
-
-const AUTO_CLOSE_MS = 5_000;
 
 type FloatingPromoBannerProps = {
   floatId: string;
@@ -17,13 +14,9 @@ type FloatingPromoBannerProps = {
   ctaLabel?: string;
   ctaHref?: string;
   ctaExternal?: boolean;
-  bannerImage?: {
-    src: string;
-    alt: string;
-  };
 };
 
-/** Fixed bottom-right promo — bottom-aligned with chat bubble on the left. */
+/** Right-side contextual CTA — starts collapsed, expands once after a delay. */
 export function FloatingPromoBanner({
   floatId,
   collapsedLabel,
@@ -33,26 +26,18 @@ export function FloatingPromoBanner({
   ctaLabel,
   ctaHref,
   ctaExternal = false,
-  bannerImage,
 }: FloatingPromoBannerProps) {
-  const { dismissed, dismiss, restore, ready } = useDismissibleFloat(floatId);
+  const { ready, expanded, collapse, expandManually, blockAutoExpand } = useContextualFloat(floatId);
   const hasCta = Boolean(ctaLabel && ctaHref);
-
-  useEffect(() => {
-    if (!ready || dismissed) return;
-
-    const timer = window.setTimeout(dismiss, AUTO_CLOSE_MS);
-    return () => window.clearTimeout(timer);
-  }, [ready, dismissed, dismiss]);
 
   if (!ready) return null;
 
-  if (dismissed) {
+  if (!expanded) {
     return (
       <CollapsedFloatButton
         label={collapsedLabel}
         side="right"
-        onClick={restore}
+        onClick={expandManually}
         ariaLabel={`Show ${ariaLabel}`}
       />
     );
@@ -60,32 +45,23 @@ export function FloatingPromoBanner({
 
   return (
     <aside
-      className={`fixed right-3 sm:right-5 ${FLOAT_ROW_BOTTOM_CLASS} z-[75] max-w-[min(18rem,calc(100vw-2rem))] sm:max-w-[19rem]`}
+      className={`fixed right-3 sm:right-5 ${FLOAT_ROW_BOTTOM_CLASS} z-[75] w-[min(18rem,calc(100vw-5.5rem))] sm:max-w-[19rem] max-h-[min(40vh,22rem)] overflow-y-auto`}
       aria-label={ariaLabel}
+      role="dialog"
+      aria-modal="false"
     >
       <div className="relative overflow-hidden bg-tamay-primary text-white shadow-xl">
-        {bannerImage && (
-          <div className="relative h-24 sm:h-28 w-full overflow-hidden">
-            <img
-              src={bannerImage.src}
-              alt={bannerImage.alt}
-              className="absolute inset-0 h-full w-full min-w-full max-w-none object-cover object-[center_22%] scale-110"
-              loading="lazy"
-              decoding="async"
-            />
-            <FloatCloseButton onClick={dismiss} ariaLabel={`Close ${ariaLabel}`} />
-          </div>
-        )}
-        <div className="relative border-l-4 border-tamay-accent px-3.5 py-4 sm:px-4 sm:py-4">
-          {!bannerImage && <FloatCloseButton onClick={dismiss} ariaLabel={`Close ${ariaLabel}`} />}
-          <p className="font-heading text-[0.9375rem] sm:text-base font-semibold leading-snug pr-5">{headline}</p>
+        <div className="relative border-l-4 border-tamay-accent px-3.5 py-3.5 sm:px-4 sm:py-4">
+          <FloatCloseButton onClick={collapse} ariaLabel={`Close ${ariaLabel}`} />
+          <p className="font-heading text-sm sm:text-base font-semibold leading-snug pr-8">{headline}</p>
           <p className="text-xs sm:text-sm text-gray-100 leading-relaxed mt-2">{body}</p>
           {hasCta && (
             <div className="mt-3">
               <Button
                 href={ctaHref!}
                 external={ctaExternal}
-                className="w-full !bg-white !text-gray-900 hover:!bg-gray-100 !px-3 !py-2.5 !text-xs !tracking-widest !uppercase"
+                onClick={blockAutoExpand}
+                className="w-full !bg-white !text-gray-900 hover:!bg-gray-100 !px-3 !py-2.5 !text-xs !tracking-widest !uppercase min-h-11"
               >
                 {ctaLabel}
               </Button>
