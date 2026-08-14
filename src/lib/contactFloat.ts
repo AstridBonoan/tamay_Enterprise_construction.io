@@ -16,8 +16,8 @@ export type ContactFloatConfig = {
 const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   "/": {
     floatId: "home-contact",
-    collapsedLabel: "Book",
-    ariaLabel: "Schedule an online appointment",
+    collapsedLabel: "Book Online",
+    ariaLabel: "Book an online appointment",
     headline: "Ready to Get Started?",
     body: "Choose the department you need and book a free consultation online.",
     ctaLabel: "Online Appointments",
@@ -25,8 +25,8 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   },
   "/construction": {
     floatId: "construction-consult",
-    collapsedLabel: "Consult",
-    ariaLabel: "Schedule a construction consultation",
+    collapsedLabel: "Book Consultation",
+    ariaLabel: "Book a construction consultation",
     headline: "Talk With a Project Advisor",
     body: "Book a free construction consultation to discuss renovations, remodeling, or additions.",
     ctaLabel: "Schedule Now",
@@ -34,7 +34,7 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   },
   "/gallery": {
     floatId: "gallery-consult",
-    collapsedLabel: "Consult",
+    collapsedLabel: "Book Online",
     ariaLabel: "Schedule a project consultation",
     headline: "See Something You Love?",
     body: "Schedule a project consultation and we will help you plan the next step.",
@@ -43,7 +43,7 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   },
   "/reviews": {
     floatId: "reviews-write",
-    collapsedLabel: "Review",
+    collapsedLabel: "Leave a Review",
     ariaLabel: "Leave a review",
     headline: "Leave Us a Review",
     body: "Share your experience with Tamay Enterprises — it only takes a minute.",
@@ -52,7 +52,7 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   },
   "/finance": {
     floatId: "finance-contact",
-    collapsedLabel: "Finance",
+    collapsedLabel: "Check Financing",
     ariaLabel: "Check financing options",
     headline: "Financing Feel Complicated?",
     body: "Apply through our secure financing partner to see what plans may be available for your project.",
@@ -62,7 +62,7 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   },
   "/logistics": {
     floatId: "logistics-contact",
-    collapsedLabel: "Dispatch",
+    collapsedLabel: "Book Consultation",
     ariaLabel: "Schedule a logistics consultation",
     headline: "Talk To A Dispatcher",
     body: "Need a delivery coordinated or a quote fast? Schedule a logistics consultation and our dispatch team will follow up.",
@@ -71,7 +71,7 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   },
   "/assembly-installation": {
     floatId: "assembly-contact",
-    collapsedLabel: "Install",
+    collapsedLabel: "Book Consultation",
     ariaLabel: "Schedule assembly and installation",
     headline: "Something Need Assembling?",
     body: "Book a professional install — pick a time that works for you.",
@@ -80,7 +80,7 @@ const PAGE_CONTACT_FLOATS: Record<string, ContactFloatConfig> = {
   },
   "/home-preventive-services": {
     floatId: "preventive-contact",
-    collapsedLabel: "Tune-Up",
+    collapsedLabel: "Book Consultation",
     ariaLabel: "Schedule preventive services",
     headline: "Stay Ahead of Repairs",
     body: "Schedule preventive care for your home — pick a time that works for you.",

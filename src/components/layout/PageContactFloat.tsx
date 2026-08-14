@@ -5,7 +5,7 @@ import { FloatingPromoBanner } from "@/components/ui/FloatingPromoBanner";
 import { getContactFloatConfig } from "@/lib/contactFloat";
 import { normalizeSitePath } from "@/lib/paths";
 
-/** Sitewide contact floater for pages without a dedicated promo float. */
+/** Sitewide compact contextual CTA for pages without a dedicated promo float. */
 export function PageContactFloat() {
   const pathname = normalizeSitePath(usePathname());
   const config = getContactFloatConfig(pathname);
@@ -14,12 +14,8 @@ export function PageContactFloat() {
 
   return (
     <FloatingPromoBanner
-      floatId={config.floatId}
       collapsedLabel={config.collapsedLabel}
-      headline={config.headline}
-      body={config.body}
       ariaLabel={config.ariaLabel}
-      ctaLabel={config.ctaLabel}
       ctaHref={config.ctaHref}
       ctaExternal={config.ctaExternal}
     />
