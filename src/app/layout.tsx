@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
-import { Cinzel, Source_Sans_3 } from "next/font/google";
+import localFont from "next/font/local";
+import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -11,10 +12,14 @@ import { TawkWidget } from "@/components/layout/TawkWidget";
 import { Providers } from "@/components/layout/Providers";
 import { SOCIAL_IMAGE } from "@/lib/socialMetadata";
 
-const cinzel = Cinzel({
+const cinzel = localFont({
+  src: [
+    { path: "../fonts/Cinzel-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/Cinzel-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/Cinzel-Bold.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-cinzel",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  display: "swap",
 });
 
 const sourceSans = Source_Sans_3({
