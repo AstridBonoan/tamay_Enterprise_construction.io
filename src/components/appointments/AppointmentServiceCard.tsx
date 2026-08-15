@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { ScheduleSlotPreview } from "@/components/scheduling/ScheduleSlotPreview";
 import type { OnlineAppointmentService } from "@/lib/onlineAppointments";
@@ -6,11 +8,17 @@ import { appointmentScheduleHref } from "@/lib/onlineAppointments";
 type AppointmentServiceCardProps = {
   service: OnlineAppointmentService;
   showScheduleLabel?: boolean;
+  collapseAvailability?: boolean;
+  availabilityOpen?: boolean;
+  onToggleAvailability?: () => void;
 };
 
 export function AppointmentServiceCard({
   service,
   showScheduleLabel = false,
+  collapseAvailability = false,
+  availabilityOpen = false,
+  onToggleAvailability,
 }: AppointmentServiceCardProps) {
   const scheduleHref = appointmentScheduleHref(service.id);
 
@@ -35,13 +43,43 @@ export function AppointmentServiceCard({
         <p className="text-gray-600 mt-3 text-sm md:text-base leading-relaxed">{service.description}</p>
 
         <div className="mt-5 border-t border-gray-100 pt-5">
-          <ScheduleSlotPreview
-            serviceKey={service.id}
-            scheduleLabel={service.scheduleLabel}
-            bookHref={scheduleHref}
-            showLabel={showScheduleLabel}
-            emptyMessage="No times listed yet. Contact our team or check back soon."
-          />
+          {collapseAvailability ? (
+            <div>
+              <button
+                type="button"
+                onClick={onToggleAvailability}
+                aria-expanded={availabilityOpen}
+                className="w-full min-h-11 inline-flex items-center justify-between gap-3 px-4 py-3 border border-tamay-primary text-tamay-primary font-bold text-sm tracking-wide hover:bg-tamay-primary/5 transition-colors"
+              >
+                <span>{availabilityOpen ? "Hide available times" : "View available times"}</span>
+                <span
+                  aria-hidden="true"
+                  className={`text-base leading-none transition-transform ${availabilityOpen ? "rotate-180" : ""}`}
+                >
+                  ▼
+                </span>
+              </button>
+              {availabilityOpen ? (
+                <div className="mt-4">
+                  <ScheduleSlotPreview
+                    serviceKey={service.id}
+                    scheduleLabel={service.scheduleLabel}
+                    bookHref={scheduleHref}
+                    showLabel={showScheduleLabel}
+                    emptyMessage="No times listed yet. Contact our team or check back soon."
+                  />
+                </div>
+              ) : null}
+            </div>
+          ) : (
+            <ScheduleSlotPreview
+              serviceKey={service.id}
+              scheduleLabel={service.scheduleLabel}
+              bookHref={scheduleHref}
+              showLabel={showScheduleLabel}
+              emptyMessage="No times listed yet. Contact our team or check back soon."
+            />
+          )}
         </div>
       </div>
 

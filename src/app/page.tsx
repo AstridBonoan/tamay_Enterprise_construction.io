@@ -42,7 +42,7 @@ export default function HomePage() {
         ]}
         discoverHref="/construction"
         ctaLabel="Talk to a Project Advisor"
-        ctaHref="/construction#contact"
+        ctaOpensLiveChat
       />
 
       <DivisionCard
@@ -55,7 +55,7 @@ export default function HomePage() {
         bullets={["Helping first-time homeowners and investors buy, sell, and grow with confidence"]}
         discoverHref="/real-estate"
         ctaLabel="Talk to a Real Estate Advisor"
-        ctaHref="/real-estate#consultation"
+        ctaOpensLiveChat
         reverse
       />
 
@@ -69,7 +69,7 @@ export default function HomePage() {
         bullets={["Fleet of ProMaster vans and a hands-on team ready to serve you"]}
         discoverHref="/logistics"
         ctaLabel="Talk to Dispatch"
-        ctaHref="/logistics#contact"
+        ctaOpensLiveChat
       />
 
       <section className="py-16 bg-tamay-primary text-white">

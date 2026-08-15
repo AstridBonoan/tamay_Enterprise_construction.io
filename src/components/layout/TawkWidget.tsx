@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { IMAGES } from "@/lib/images";
-import { TAWK } from "@/lib/tawk";
+import { markTawkApiReady, TAWK } from "@/lib/tawk";
 import { TawkChatPlaceholder } from "@/components/layout/TawkChatPlaceholder";
 
 const propertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID ?? TAWK.propertyId;
@@ -62,7 +62,10 @@ export function TawkWidget() {
     if (!propertyId) return;
 
     const onLoad = () => {
-      loadTawkScript(() => setReady(true));
+      loadTawkScript(() => {
+        markTawkApiReady();
+        setReady(true);
+      });
     };
 
     if (document.readyState === "complete") {

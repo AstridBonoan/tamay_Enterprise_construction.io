@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AppointmentServiceRow } from "@/components/appointments/AppointmentServiceRow";
+import { AppointmentServiceList } from "@/components/appointments/AppointmentServiceList";
 import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { ONLINE_APPOINTMENT_SERVICES } from "@/lib/onlineAppointments";
 import { buildSocialMetadata } from "@/lib/socialMetadata";
@@ -16,11 +16,7 @@ export default function OnlineAppointmentsPage() {
           </h1>
           <hr className="section-divider max-w-[120px] mx-auto mt-4 mb-2" />
 
-          <div className="mt-8">
-            {ONLINE_APPOINTMENT_SERVICES.map((service) => (
-              <AppointmentServiceRow key={service.id} service={service} />
-            ))}
-          </div>
+          <AppointmentServiceList services={ONLINE_APPOINTMENT_SERVICES} />
         </div>
       </section>
 

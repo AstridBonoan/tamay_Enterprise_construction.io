@@ -33,3 +33,27 @@ declare global {
     Tawk_LoadStart?: Date;
   }
 }
+
+const pendingTawkOpen: Array<() => void> = [];
+
+function maximizeExistingTawk(): boolean {
+  if (typeof window === "undefined") return false;
+  const api = window.Tawk_API;
+  if (!api?.maximize) return false;
+  api.showWidget?.();
+  api.maximize();
+  return true;
+}
+
+/** Called after the existing Tawk widget is ready. Does not create a new instance. */
+export function markTawkApiReady(): void {
+  pendingTawkOpen.splice(0).forEach((open) => open());
+}
+
+/** Opens the already-loaded Tawk widget using showWidget + maximize. */
+export function openExistingTawkChat(): void {
+  if (maximizeExistingTawk()) return;
+  pendingTawkOpen.push(() => {
+    maximizeExistingTawk();
+  });
+}

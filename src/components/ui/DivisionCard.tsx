@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { OpenLiveChatButton } from "@/components/layout/OpenLiveChatButton";
 import { Button } from "./Button";
 
 type DivisionCardProps = {
@@ -10,7 +11,8 @@ type DivisionCardProps = {
   bullets: string[];
   discoverHref: string;
   ctaLabel: string;
-  ctaHref: string;
+  ctaHref?: string;
+  ctaOpensLiveChat?: boolean;
   reverse?: boolean;
   /** Each service block fills one viewport height */
   fullScreen?: boolean;
@@ -28,6 +30,7 @@ export function DivisionCard({
   discoverHref,
   ctaLabel,
   ctaHref,
+  ctaOpensLiveChat = false,
   reverse,
   fullScreen = false,
   alignTop = false,
@@ -91,9 +94,15 @@ export function DivisionCard({
               <Button href={discoverHref} variant="outline">
                 Discover More
               </Button>
-              <Button href={ctaHref} variant="primary">
-                {ctaLabel}
-              </Button>
+              {ctaOpensLiveChat ? (
+                <OpenLiveChatButton className="inline-block font-bold text-sm tracking-wide px-6 py-3 transition-colors text-center bg-tamay-primary hover:bg-tamay-primary-dark text-white">
+                  {ctaLabel}
+                </OpenLiveChatButton>
+              ) : (
+                <Button href={ctaHref ?? discoverHref} variant="primary">
+                  {ctaLabel}
+                </Button>
+              )}
             </div>
           </div>
         </div>
