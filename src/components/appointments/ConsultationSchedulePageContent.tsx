@@ -2,17 +2,19 @@
 
 import { useSearchParams } from "next/navigation";
 import { ConsultationScheduleCalendar } from "@/components/appointments/ConsultationScheduleCalendar";
-import {
-  getAppointmentServiceById,
-  ONLINE_APPOINTMENT_SERVICES,
-  resolveAppointmentServiceId,
-} from "@/lib/onlineAppointments";
+import { getAppointmentServiceById } from "@/lib/onlineAppointments";
 
 export function ConsultationSchedulePageContent() {
   const searchParams = useSearchParams();
-  const serviceId = resolveAppointmentServiceId(searchParams.get("service"));
+  const requestedService = searchParams.get("service");
+  const matched = requestedService ? getAppointmentServiceById(requestedService) : undefined;
 
-  return <ConsultationScheduleCalendar initialServiceId={serviceId} />;
+  return (
+    <ConsultationScheduleCalendar
+      initialServiceId={matched?.id ?? null}
+      serviceLocked={Boolean(matched)}
+    />
+  );
 }
 
 /** Used by legacy /schedule/[serviceId] routes. */
@@ -21,6 +23,11 @@ export function ConsultationSchedulePageContentWithService({
 }: {
   serviceId: string;
 }) {
-  const resolved = getAppointmentServiceById(serviceId)?.id ?? ONLINE_APPOINTMENT_SERVICES[0].id;
-  return <ConsultationScheduleCalendar initialServiceId={resolved} />;
+  const matched = getAppointmentServiceById(serviceId);
+  return (
+    <ConsultationScheduleCalendar
+      initialServiceId={matched?.id ?? null}
+      serviceLocked={Boolean(matched)}
+    />
+  );
 }

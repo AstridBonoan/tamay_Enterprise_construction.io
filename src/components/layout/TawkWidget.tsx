@@ -8,12 +8,12 @@ import { TawkChatPlaceholder } from "@/components/layout/TawkChatPlaceholder";
 
 const propertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID ?? TAWK.propertyId;
 const widgetId = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID ?? TAWK.widgetId;
+const TAWK_SCRIPT_ID = "tawk-widget";
 
 function loadTawkScript(onReady: () => void) {
   if (!propertyId) return;
 
   window.Tawk_API = window.Tawk_API || {};
-  window.Tawk_LoadStart = new Date();
   window.Tawk_API.customStyle = {
     zIndex: "9997",
     visibility: {
@@ -29,7 +29,7 @@ function loadTawkScript(onReady: () => void) {
     onReady();
   };
 
-  if (document.getElementById("tawk-widget")) {
+  if (document.getElementById(TAWK_SCRIPT_ID)) {
     if (window.Tawk_API.hideWidget) {
       window.Tawk_API.hideWidget();
       onReady();
@@ -37,8 +37,10 @@ function loadTawkScript(onReady: () => void) {
     return;
   }
 
+  window.Tawk_LoadStart = new Date();
+
   const script = document.createElement("script");
-  script.id = "tawk-widget";
+  script.id = TAWK_SCRIPT_ID;
   script.async = true;
   script.charset = "UTF-8";
   script.src = `https://embed.tawk.to/${propertyId}/${widgetId}`;
@@ -98,7 +100,7 @@ export function TawkWidget() {
     <button
       type="button"
       onClick={openChat}
-      className={`fixed left-3 z-[85] flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-white shadow-lg border-2 border-tamay-accent hover:scale-105 transition-transform bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px)+var(--cookie-banner-offset,0px))] sm:left-4 sm:bottom-[calc(1.5rem+var(--cookie-banner-offset,0px))] ${
+      className={`fixed left-3 z-[85] flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-white shadow-lg border-2 border-tamay-accent hover:scale-105 transition-transform bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px)+var(--cookie-banner-offset,0px))] sm:left-4 sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))] ${
         chatOpen ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
       aria-label="Open live chat"

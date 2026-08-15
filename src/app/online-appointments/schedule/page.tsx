@@ -4,6 +4,8 @@ import { ConsultationSchedulePageContent } from "@/components/appointments/Consu
 import { sitePath } from "@/lib/paths";
 import { buildSocialMetadata } from "@/lib/socialMetadata";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = buildSocialMetadata("appointments", {
   path: "/online-appointments/schedule/",
   title: "Book a Consultation | Tamay Enterprises",

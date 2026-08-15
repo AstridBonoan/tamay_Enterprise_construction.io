@@ -14,7 +14,8 @@ import { sitePath } from "@/lib/paths";
 import { SITE } from "@/lib/site";
 
 type ConsultationScheduleCalendarProps = {
-  initialServiceId: string;
+  initialServiceId: string | null;
+  serviceLocked?: boolean;
 };
 
 const serviceSelectClass =
@@ -47,7 +48,10 @@ function SelectedServicePreview({ service }: { service: OnlineAppointmentService
   );
 }
 
-export function ConsultationScheduleCalendar({ initialServiceId }: ConsultationScheduleCalendarProps) {
+export function ConsultationScheduleCalendar({
+  initialServiceId,
+  serviceLocked = false,
+}: ConsultationScheduleCalendarProps) {
   const [selectedServiceId, setSelectedServiceId] = useState(initialServiceId);
 
   useEffect(() => {
@@ -55,85 +59,111 @@ export function ConsultationScheduleCalendar({ initialServiceId }: ConsultationS
   }, [initialServiceId]);
 
   const selectService = useCallback((serviceId: string) => {
+    if (!getAppointmentServiceById(serviceId)) return;
     setSelectedServiceId(serviceId);
     const nextUrl = sitePath(`${appointmentSchedulePath(serviceId)}#book`);
     window.history.replaceState(null, "", nextUrl);
   }, []);
 
-  const service =
-    getAppointmentServiceById(selectedServiceId) ?? ONLINE_APPOINTMENT_SERVICES[0];
+  const service = selectedServiceId ? getAppointmentServiceById(selectedServiceId) : undefined;
 
   return (
     <div className="space-y-8">
       <div className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
-        <figure className="relative w-full max-w-md aspect-[3/2] bg-gray-100 overflow-hidden mb-5">
-          <Image
-            src={service.image}
-            alt={service.imageAlt}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 448px"
-            unoptimized
-          />
-        </figure>
+        {service && !serviceLocked ? (
+          <figure className="relative w-full max-w-md aspect-[3/2] bg-gray-100 overflow-hidden mb-5">
+            <Image
+              src={service.image}
+              alt={service.imageAlt}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 448px"
+              unoptimized
+            />
+          </figure>
+        ) : null}
         <p className="text-xs font-bold uppercase tracking-widest text-tamay-accent mb-2">Free consultation</p>
         <h1 className="font-heading text-2xl sm:text-3xl text-tamay-primary font-semibold leading-snug">
-          {service.scheduleCtaLabel}
+          {service ? service.scheduleCtaLabel : "Book a consultation"}
         </h1>
-        <p className="text-gray-700 mt-2">{service.title}</p>
-        <p className="text-gray-600 mt-1">
-          {service.durationLabel} | {service.priceLabel}
-        </p>
-        <p className="text-gray-600 mt-3 text-sm leading-relaxed">{service.description}</p>
+        {service && !serviceLocked ? <p className="text-gray-700 mt-2">{service.title}</p> : null}
+        {service ? (
+          <>
+            <p className="text-gray-600 mt-1">
+              {service.durationLabel} | {service.priceLabel}
+            </p>
+            <p className="text-gray-600 mt-3 text-sm leading-relaxed">{service.description}</p>
+          </>
+        ) : (
+          <p className="text-gray-600 mt-3 text-sm leading-relaxed">
+            Choose a consultation type below to continue. Availability is shown after you select a service.
+          </p>
+        )}
       </div>
 
-      <div className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
-        <h2 className="font-heading text-lg text-tamay-primary font-semibold mb-2">Consultation services</h2>
-        <p className="text-sm text-gray-600 leading-relaxed mb-4">
-          The service you chose on Online Appointments is selected below. Switch to another consultation type if
-          needed — your booking form updates automatically.
-        </p>
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="consultation-service" className="block text-sm font-semibold text-gray-700 mb-2">
-              Consultation type
-            </label>
-            <select
-              id="consultation-service"
-              value={selectedServiceId}
-              onChange={(event) => selectService(event.target.value)}
-              className={serviceSelectClass}
-            >
-              {ONLINE_APPOINTMENT_SERVICES.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.title} — {item.durationLabel} | {item.priceLabel}
+      {!serviceLocked ? (
+        <div className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
+          <h2 className="font-heading text-lg text-tamay-primary font-semibold mb-2">Consultation services</h2>
+          <p className="text-sm text-gray-600 leading-relaxed mb-4">
+            Choose the consultation you want to book. Availability is shown after you select a service.
+          </p>
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="consultation-service" className="block text-sm font-semibold text-gray-700 mb-2">
+                Consultation type
+              </label>
+              <select
+                id="consultation-service"
+                value={selectedServiceId ?? ""}
+                onChange={(event) => selectService(event.target.value)}
+                className={serviceSelectClass}
+              >
+                <option value="" disabled>
+                  Select a consultation type
                 </option>
-              ))}
-            </select>
+                {ONLINE_APPOINTMENT_SERVICES.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.title} — {item.durationLabel} | {item.priceLabel}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {service ? <SelectedServicePreview service={service} /> : null}
           </div>
-          <SelectedServicePreview service={service} />
         </div>
-      </div>
+      ) : null}
 
       <div id="book" className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8 scroll-mt-24">
         <h2 className="font-heading text-lg text-tamay-primary font-semibold mb-2">
           Choose an available time
         </h2>
-        <p className="text-gray-600 text-sm leading-relaxed mb-4">
-          Pick a time and confirm your consultation. Your appointment will be saved to your Bookings dashboard.
-          Booked times are removed automatically for other visitors.
-        </p>
-
-        <div className="rounded-sm border border-tamay-primary/20 bg-tamay-primary/5 px-4 py-3 mb-6">
-          <p className="text-xs font-bold uppercase tracking-wide text-tamay-accent">Selected consultation</p>
-          <p className="font-heading text-lg font-semibold text-tamay-primary mt-1">{service.title}</p>
-          <p className="text-sm text-gray-600 mt-0.5">
-            {service.durationLabel} | {service.priceLabel}
+        {service ? (
+          <p className="text-gray-600 text-sm leading-relaxed mb-4">
+            Pick a time and confirm your consultation. Your appointment will be saved to your Bookings dashboard.
+            Booked times are removed automatically for other visitors.
           </p>
-        </div>
+        ) : (
+          <p className="text-gray-600 text-sm leading-relaxed mb-4">
+            Select a consultation type above to see available times.
+          </p>
+        )}
+
+        {!serviceLocked && service ? (
+          <div className="rounded-sm border border-tamay-primary/20 bg-tamay-primary/5 px-4 py-3 mb-6">
+            <p className="text-xs font-bold uppercase tracking-wide text-tamay-accent">Selected consultation</p>
+            <p className="font-heading text-lg font-semibold text-tamay-primary mt-1">{service.title}</p>
+            <p className="text-sm text-gray-600 mt-0.5">
+              {service.durationLabel} | {service.priceLabel}
+            </p>
+          </div>
+        ) : null}
 
         <div className="space-y-6">
-          <ServiceAppointmentForm key={service.id} service={service} />
+          {service ? (
+            <ServiceAppointmentForm key={service.id} service={service} />
+          ) : (
+            <p className="text-sm text-gray-500">Booking cannot continue until a consultation type is selected.</p>
+          )}
           <div className="border-t border-gray-100 pt-6 flex flex-col sm:flex-row gap-3 justify-center">
             <Button href={SITE.phoneTel} variant="outline">
               Call {SITE.phone}
