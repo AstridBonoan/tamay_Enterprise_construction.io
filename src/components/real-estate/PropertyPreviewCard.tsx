@@ -33,10 +33,10 @@ export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPre
       <div className="px-4 sm:px-5 py-4 space-y-3">
         <div className="flex flex-wrap gap-2">
           <span className="bg-tamay-accent text-white text-[11px] font-bold tracking-wide uppercase px-2.5 py-1">
-            {listing.kindLabel}
+            <SiteText k={listingCopyKey(listing.id, "kindLabel")}>{listing.kindLabel}</SiteText>
           </span>
           <span className="bg-tamay-primary text-white text-[11px] font-bold tracking-wide uppercase px-2.5 py-1">
-            {listing.statusLabel}
+            <SiteText k={listingCopyKey(listing.id, "statusLabel")}>{listing.statusLabel}</SiteText>
           </span>
         </div>
         <SiteText k={listingCopyKey(listing.id, "price")} as="p" className="text-tamay-primary font-bold text-xl">
@@ -48,8 +48,14 @@ export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPre
         <SiteText k={listingCopyKey(listing.id, "address")} as="p" className="text-sm text-gray-600">
           {listing.address}
         </SiteText>
-        {typeLine ? <p className="text-sm text-gray-500">{typeLine}</p> : null}
-        <p className="text-sm text-gray-700">{basics}</p>
+        {typeLine ? (
+          <SiteText k={listingCopyKey(listing.id, "typeLine")} as="p" className="text-sm text-gray-500">
+            {typeLine}
+          </SiteText>
+        ) : null}
+        <SiteText k={listingCopyKey(listing.id, "basics")} as="p" className="text-sm text-gray-700">
+          {basics}
+        </SiteText>
         <SiteText k={listingCopyKey(listing.id, "overview")} as="p" className="text-sm text-gray-600 leading-relaxed" multiline>
           {listing.overview}
         </SiteText>
@@ -80,7 +86,7 @@ export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPre
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link href={sitePath(detailsHref)} className={realEstatePrimaryLinkClass}>
-              View Full Property
+              <SiteText k="realEstate.properties.viewFull">View Full Property</SiteText>
             </Link>
             <Link href={bookHref} className={realEstateOutlineLinkClass}>
               <SiteText k={listingCopyKey(listing.id, "scheduleCta")}>{listing.scheduleCtaLabel}</SiteText>

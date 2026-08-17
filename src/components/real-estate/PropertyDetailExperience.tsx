@@ -44,10 +44,10 @@ export function PropertyDetailExperience({ listing }: PropertyDetailPageProps) {
 
         <div className="mt-6 flex flex-wrap gap-2">
           <span className="bg-tamay-accent text-white text-[11px] font-bold tracking-wide uppercase px-2.5 py-1">
-            {listing.kindLabel}
+            <SiteText k={listingCopyKey(listing.id, "kindLabel")}>{listing.kindLabel}</SiteText>
           </span>
           <span className="bg-tamay-primary text-white text-[11px] font-bold tracking-wide uppercase px-2.5 py-1">
-            {listing.statusLabel}
+            <SiteText k={listingCopyKey(listing.id, "statusLabel")}>{listing.statusLabel}</SiteText>
           </span>
         </div>
 
@@ -61,7 +61,9 @@ export function PropertyDetailExperience({ listing }: PropertyDetailPageProps) {
           {listing.price}
         </SiteText>
         {typeLine ? (
-          <p className="mt-2 text-sm text-gray-500">{typeLine}</p>
+          <SiteText k={listingCopyKey(listing.id, "typeLine")} as="p" className="mt-2 text-sm text-gray-500">
+            {typeLine}
+          </SiteText>
         ) : null}
         <PropertySnapshot listing={listing} />
 

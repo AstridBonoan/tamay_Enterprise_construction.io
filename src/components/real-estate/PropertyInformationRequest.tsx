@@ -1,15 +1,18 @@
 "use client";
 
 import { ContactForm } from "@/components/ui/ContactForm";
+import { SiteText } from "@/components/copy/SiteText";
 import type { PublicPropertyListing } from "@/lib/realEstateScheduling";
 
 export function PropertyInformationRequest({ listing }: { listing: PublicPropertyListing }) {
   return (
     <div>
-      <h2 className="font-heading text-xl text-tamay-primary font-semibold mb-2">Request Property Information</h2>
-      <p className="text-sm text-gray-600 mb-4">
+      <SiteText k="realEstate.property.requestTitle" as="h2" className="font-heading text-xl text-tamay-primary font-semibold mb-2">
+        Request Property Information
+      </SiteText>
+      <SiteText k="realEstate.property.requestIntro" as="p" className="text-sm text-gray-600 mb-4" multiline>
         Ask our Real Estate team about this property. The listing is included automatically with your message.
-      </p>
+      </SiteText>
       <ContactForm
         formName={`Tamay - Property Information Request - ${listing.title}`}
         submitLabel="Request Property Information"

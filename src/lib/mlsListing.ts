@@ -52,11 +52,11 @@ export function listingTypeLine(listing: PropertyListing): string {
 export function listingSnapshot(listing: PropertyListing) {
   const mls = listing.mls;
   return [
-    { label: "Beds", value: String(listing.beds) },
-    { label: "Baths", value: formatBaths(listing.baths) },
-    listing.sqft ? { label: "Square feet", value: listing.sqft.toLocaleString() } : null,
-    mls?.acres != null ? { label: "Lot size", value: `${mls.acres} acres` } : null,
-    mls?.yearBuilt ? { label: "Year built", value: String(mls.yearBuilt) } : null,
-    mls?.parking ? { label: "Parking", value: mls.parking } : null,
-  ].filter((item): item is { label: string; value: string } => Boolean(item));
+    { id: "beds", label: "Beds", value: String(listing.beds) },
+    { id: "baths", label: "Baths", value: formatBaths(listing.baths) },
+    listing.sqft ? { id: "sqft", label: "Square feet", value: listing.sqft.toLocaleString() } : null,
+    mls?.acres != null ? { id: "lot", label: "Lot size", value: `${mls.acres} acres` } : null,
+    mls?.yearBuilt ? { id: "yearBuilt", label: "Year built", value: String(mls.yearBuilt) } : null,
+    mls?.parking ? { id: "parking", label: "Parking", value: mls.parking } : null,
+  ].filter((item): item is { id: string; label: string; value: string } => Boolean(item));
 }
