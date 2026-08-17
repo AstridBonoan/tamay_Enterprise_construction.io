@@ -38,9 +38,9 @@ export function ListingPhotoHoverPreview({
 
   return createPortal(
     <div className="pointer-events-none fixed inset-0 z-[130] flex items-center justify-center p-4 sm:p-8">
-      <div className="pointer-events-none absolute inset-0 bg-black/50" />
+      <div className="pointer-events-none absolute inset-0 bg-black/50 animate-[listingPreviewBackdrop_1.4s_ease-out]" />
       <div
-        className="pointer-events-auto relative z-10 w-full max-w-4xl origin-center animate-[fadeIn_0.2s_ease-out] overflow-hidden rounded-sm bg-white shadow-2xl"
+        className="pointer-events-auto relative z-10 w-full max-w-4xl origin-center animate-[listingPreviewIn_1.4s_ease-out] overflow-hidden rounded-sm bg-white shadow-2xl"
         onMouseEnter={onStay}
         onMouseLeave={onLeave}
         role="dialog"
