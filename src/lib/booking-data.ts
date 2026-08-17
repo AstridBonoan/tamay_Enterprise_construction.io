@@ -194,6 +194,29 @@ export async function createGuestServiceBooking(input: CreateServiceBookingInput
   }
 }
 
+/** Guest property showings (no account). Requires guest-bookings.sql in Supabase. */
+export async function createGuestPropertyBooking(input: CreatePropertyBookingInput): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase.rpc("create_guest_property_booking", {
+    p_listing_id: input.listingId,
+    p_listing_kind: input.listingKind,
+    p_title: input.listingTitle,
+    p_subtitle: input.listingAddress,
+    p_appointment_start: input.appointmentStart,
+    p_appointment_end: input.appointmentEnd,
+    p_appointment_timezone: input.appointmentTimezone ?? SCHEDULING.timezone,
+    p_preferred_time: input.preferredTime,
+    p_notes: input.notes?.trim() || null,
+  });
+
+  if (error) {
+    if (isUnavailableSlotError(error)) {
+      throw new SlotAlreadyBookedError();
+    }
+    throw error;
+  }
+}
+
 async function createBooking(
   userId: string,
   row: Omit<Booking, "id" | "user_id" | "created_at">,

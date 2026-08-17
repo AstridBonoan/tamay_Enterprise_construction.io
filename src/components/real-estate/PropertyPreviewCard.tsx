@@ -88,7 +88,13 @@ export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPre
             </Link>
           </div>
         </div>
-      ) : null}
+      ) : (
+        <div className="px-4 sm:px-5 pb-5">
+          <Link href={bookHref} className={realEstateOutlineLinkClass}>
+            <SiteText k={listingCopyKey(listing.id, "scheduleCta")}>{listing.scheduleCtaLabel}</SiteText>
+          </Link>
+        </div>
+      )}
     </article>
   );
 }

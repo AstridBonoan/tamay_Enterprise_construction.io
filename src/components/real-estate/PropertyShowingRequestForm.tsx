@@ -7,6 +7,7 @@ import { ScheduleSignInPrompt } from "@/components/real-estate/ScheduleSignInPro
 import { ShowingCalendarActions } from "@/components/real-estate/ShowingCalendarActions";
 import { ContactForm } from "@/components/ui/ContactForm";
 import {
+  createGuestPropertyBooking,
   createPropertyBooking,
   fetchBookedSlotStarts,
   SlotAlreadyBookedError,
@@ -27,9 +28,11 @@ type PropertyShowingRequestFormProps = {
 function ShowingSentConfirmation({
   listingTitle,
   preferredTime,
+  showBookingsLink,
 }: {
   listingTitle: string;
   preferredTime: string;
+  showBookingsLink: boolean;
 }) {
   return (
     <div className="max-w-md rounded-sm border border-green-200 bg-green-50 px-5 py-6 text-center space-y-4">
@@ -39,12 +42,14 @@ function ShowingSentConfirmation({
         <span className="font-medium text-gray-800">{preferredTime}</span> was sent. Our team will confirm by
         email or phone.
       </p>
-      <Link
-        href={sitePath("/m/bookings")}
-        className="inline-flex items-center justify-center rounded-full bg-tamay-primary hover:bg-tamay-primary-dark text-white font-bold text-sm tracking-widest px-8 py-3 transition-colors"
-      >
-        View my bookings
-      </Link>
+      {showBookingsLink ? (
+        <Link
+          href={sitePath("/m/bookings")}
+          className="inline-flex items-center justify-center rounded-full bg-tamay-primary hover:bg-tamay-primary-dark text-white font-bold text-sm tracking-widest px-8 py-3 transition-colors"
+        >
+          View my bookings
+        </Link>
+      ) : null}
       <p className="text-sm">
         <Link href={sitePath("/real-estate")} className="text-tamay-primary font-semibold hover:underline">
           ← Back to Real Estate
@@ -58,13 +63,15 @@ export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingReq
   const { user, loading: authLoading } = useAuth();
   const { slots: scheduleSlots, loading: loadingScheduleSlots, reload: reloadScheduleSlots } =
     useScheduleSlots(listing.id);
+  const [guestMode, setGuestMode] = useState(false);
   const [bookedStarts, setBookedStarts] = useState<string[]>([]);
   const [loadingBooked, setLoadingBooked] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [bookingComplete, setBookingComplete] = useState(false);
   const [confirmedTimeLabel, setConfirmedTimeLabel] = useState("");
 
-  const schedulePath = schedulePagePath(listing.id);
+  const schedulePath = sitePath(`${schedulePagePath(listing.id)}#book`);
+  const canBook = Boolean(user) || guestMode;
   const loadingSlots = loadingScheduleSlots || loadingBooked;
 
   const availableSlots = useMemo(
@@ -105,9 +112,13 @@ export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingReq
     return <p className="text-sm text-gray-600">Loading...</p>;
   }
 
-  if (!user) {
+  if (!canBook) {
     return (
-      <ScheduleSignInPrompt schedulePath={sitePath(schedulePath)} actionLabel={listing.scheduleCtaLabel} />
+      <ScheduleSignInPrompt
+        schedulePath={schedulePath}
+        actionLabel={listing.scheduleCtaLabel}
+        onContinueAsGuest={() => setGuestMode(true)}
+      />
     );
   }
 
@@ -120,6 +131,7 @@ export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingReq
       <ShowingSentConfirmation
         listingTitle={listing.title}
         preferredTime={confirmedTimeLabel || "your selected time"}
+        showBookingsLink={Boolean(user) && !guestMode}
       />
     );
   }
@@ -144,17 +156,43 @@ export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingReq
   const handleBookingSuccess = async (formData: FormData) => {
     const notes = String(formData.get("message") ?? "").trim();
 
+    const bookingInput = {
+      listingId: listing.id,
+      listingKind: kind,
+      listingTitle: listing.title,
+      listingAddress: listing.address,
+      appointmentStart: selectedSlot.start,
+      appointmentEnd: selectedSlot.end,
+      preferredTime: slotLabel,
+      notes: notes || undefined,
+    };
+
     try {
-      await createPropertyBooking(user.id, {
-        listingId: listing.id,
-        listingKind: kind,
-        listingTitle: listing.title,
-        listingAddress: listing.address,
-        appointmentStart: selectedSlot.start,
-        appointmentEnd: selectedSlot.end,
-        preferredTime: slotLabel,
-        notes: notes || undefined,
-      });
+      if (guestMode) {
+        try {
+          await createGuestPropertyBooking(bookingInput);
+        } catch (err) {
+          if (err instanceof SlotAlreadyBookedError) {
+            await loadSlots();
+            throw err;
+          }
+          console.warn("Guest showing saved via email only:", err);
+          setConfirmedTimeLabel(slotLabel);
+          setBookingComplete(true);
+          return;
+        }
+        void syncBookingToGoogleCalendar({
+          listingId: listing.id,
+          appointmentStart: selectedSlot.start,
+        });
+        setConfirmedTimeLabel(slotLabel);
+        setBookingComplete(true);
+        return;
+      }
+
+      if (!user) return;
+
+      await createPropertyBooking(user.id, bookingInput);
       if (calendarEvent) {
         void syncBookingToGoogleCalendar({
           listingId: listing.id,
@@ -206,8 +244,8 @@ export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingReq
       <ShowingCalendarActions event={calendarEvent} listing={listing} slot={selectedSlot} compact />
 
       <ContactForm
-        key={`${listing.id}-${selectedSlot.start}`}
-        formName={`Tamay - ${listing.scheduleCtaLabel}`}
+        key={`${listing.id}-${selectedSlot.start}-${guestMode ? "guest" : "member"}`}
+        formName={`Tamay - ${listing.scheduleCtaLabel}${guestMode ? " (Guest)" : ""}`}
         submitLabel={listing.scheduleCtaLabel}
         showRecaptchaNote={false}
         onSuccess={handleBookingSuccess}
@@ -218,9 +256,9 @@ export function PropertyShowingRequestForm({ listing, kind }: PropertyShowingReq
           appointment_start: selectedSlot.start,
           appointment_end: selectedSlot.end,
           appointment_timezone: SCHEDULING.timezone,
-          name: [user.firstName, user.lastName].filter(Boolean).join(" ").trim(),
-          email: user.email,
-          phone: user.phone ?? "",
+          name: guestMode ? "" : [user?.firstName, user?.lastName].filter(Boolean).join(" ").trim(),
+          email: guestMode ? "" : (user?.email ?? ""),
+          phone: guestMode ? "" : (user?.phone ?? ""),
         }}
         fields={[
           { name: "property", label: "Property", type: "hidden" },
