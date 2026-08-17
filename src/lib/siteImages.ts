@@ -9,6 +9,21 @@ import {
 } from "@/lib/siteImageSlots";
 
 const SITE_MEDIA_BUCKET = "site-media";
+const SITE_IMAGE_REVALIDATE_SECONDS = 60;
+
+type NextFetchInit = RequestInit & {
+  next?: { revalidate?: number; tags?: string[] };
+};
+
+function fetchSiteImageApi(input: RequestInfo | URL, init?: RequestInit) {
+  const nextInit: NextFetchInit = {
+    ...init,
+    cache: "force-cache",
+    next: { revalidate: SITE_IMAGE_REVALIDATE_SECONDS, tags: ["site-images"] },
+  };
+  return fetch(input, nextInit);
+}
+
 const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
 
@@ -115,7 +130,7 @@ export const getResolvedSiteMedia = cache(async (): Promise<ResolvedSiteMedia> =
     const { createClient } = await import("@supabase/supabase-js");
     const supabase = createClient(url, key, {
       global: {
-        fetch: (input, init) => fetch(input, { ...init, cache: "no-store" }),
+        fetch: fetchSiteImageApi,
       },
     });
     const overrides = await fetchOverridesWithClient(supabase as never);

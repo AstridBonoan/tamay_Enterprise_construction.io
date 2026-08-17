@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
+import { revalidateSiteImages } from "@/app/actions/revalidateSiteImages";
 import {
   restoreSiteImageDefault,
   replaceSiteImage,
@@ -33,8 +34,9 @@ export function StaffImagesManager({ userId, initialOverrides }: StaffImagesMana
       setSuccess(null);
       try {
         const saved = await replaceSiteImage(userId, key, file, overrides[key]?.storage_path);
+        await revalidateSiteImages();
         setOverrides((prev) => ({ ...prev, [key]: saved }));
-        setSuccess("Photo updated. Refresh the public page if you still see the old image.");
+        setSuccess("Photo updated. Public pages will pick up the new image shortly.");
       } catch (err) {
         setError(err instanceof Error ? err.message : "Could not upload photo.");
       } finally {
@@ -51,6 +53,7 @@ export function StaffImagesManager({ userId, initialOverrides }: StaffImagesMana
       setSuccess(null);
       try {
         await restoreSiteImageDefault(key, overrides[key]?.storage_path);
+        await revalidateSiteImages();
         setOverrides((prev) => {
           const next = { ...prev };
           delete next[key];
