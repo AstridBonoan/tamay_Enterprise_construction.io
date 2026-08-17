@@ -3,6 +3,7 @@
 import { OpenLiveChatButton } from "@/components/layout/OpenLiveChatButton";
 import { realEstateChatButtonClass } from "@/components/real-estate/realEstateCtaStyles";
 import { SitePhoto } from "@/components/images/SitePhoto";
+import { SiteText } from "@/components/copy/SiteText";
 
 const AREAS = [
   {
@@ -42,14 +43,12 @@ export function BuildersEyesSection() {
     <section className="py-16 md:py-20 bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="max-w-3xl">
-          <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold leading-tight">
+          <SiteText k="realEstate.builders.title" as="h2" className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold leading-tight">
             See the Property Through a Builder’s Eyes
-          </h2>
-          <p className="mt-4 text-gray-600 leading-relaxed">
-            When we look at a property, we don’t only see finishes, square footage, and curb appeal. We also think
-            about how the home is built, how its major systems may age, what can realistically be changed, and where
-            future opportunities may exist.
-          </p>
+          </SiteText>
+          <SiteText k="realEstate.builders.body" as="p" className="mt-4 text-gray-600 leading-relaxed" multiline>
+            When we look at a property, we don’t only see finishes, square footage, and curb appeal. We also think about how the home is built, how its major systems may age, what can realistically be changed, and where future opportunities may exist.
+          </SiteText>
         </div>
 
         <figure className="relative mt-10 aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-gray-100">
@@ -64,20 +63,27 @@ export function BuildersEyesSection() {
           {AREAS.map((area, index) => (
             <article key={area.title} className="bg-white p-5 sm:p-6 border-t-4 border-tamay-primary">
               <p className="text-tamay-accent text-xs font-bold tracking-widest uppercase mb-2">{index + 1}</p>
-              <h3 className="font-heading text-lg text-tamay-primary font-semibold">{area.title}</h3>
-              <p className="mt-2 text-sm font-semibold text-gray-800">{area.question}</p>
-              <p className="mt-2 text-sm text-gray-600 leading-relaxed">{area.text}</p>
+              <SiteText k={`realEstate.builders.item${index + 1}.title`} as="h3" className="font-heading text-lg text-tamay-primary font-semibold">
+                {area.title}
+              </SiteText>
+              <SiteText k={`realEstate.builders.item${index + 1}.question`} as="p" className="mt-2 text-sm font-semibold text-gray-800">
+                {area.question}
+              </SiteText>
+              <SiteText k={`realEstate.builders.item${index + 1}.text`} as="p" className="mt-2 text-sm text-gray-600 leading-relaxed" multiline>
+                {area.text}
+              </SiteText>
             </article>
           ))}
         </div>
 
-        <p className="mt-8 text-xs sm:text-sm text-gray-500 leading-relaxed max-w-3xl">
-          Construction insight is not a substitute for a licensed home inspection. We encourage clients to obtain all
-          appropriate professional inspections and evaluations before purchasing a property.
-        </p>
+        <SiteText k="realEstate.builders.disclaimer" as="p" className="mt-8 text-xs sm:text-sm text-gray-500 leading-relaxed max-w-3xl" multiline>
+          Construction insight is not a substitute for a licensed home inspection. We encourage clients to obtain all appropriate professional inspections and evaluations before purchasing a property.
+        </SiteText>
 
         <div className="mt-6">
-          <OpenLiveChatButton className={realEstateChatButtonClass}>Talk to a Real Estate Advisor</OpenLiveChatButton>
+          <OpenLiveChatButton className={realEstateChatButtonClass}>
+            <SiteText k="realEstate.builders.chat">Talk to a Real Estate Advisor</SiteText>
+          </OpenLiveChatButton>
         </div>
       </div>
     </section>

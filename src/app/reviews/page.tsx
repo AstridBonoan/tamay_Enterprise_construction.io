@@ -17,7 +17,7 @@ export default function ReviewsPage() {
       <WriteReviewSection />
 
       <section className="py-14 max-w-6xl mx-auto px-4 w-full">
-        <SectionHeading title="Video Testimonials" />
+        <SectionHeading copyKey="reviews.videos" title="Video Testimonials" />
         <TamayVideoGallery projects={REVIEW_VIDEO_PROJECTS} />
       </section>
 

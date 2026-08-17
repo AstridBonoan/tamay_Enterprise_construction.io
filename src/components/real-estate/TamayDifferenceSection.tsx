@@ -1,6 +1,7 @@
 "use client";
 
 import { SitePhoto } from "@/components/images/SitePhoto";
+import { SiteText } from "@/components/copy/SiteText";
 
 const AREAS = [
   {
@@ -34,19 +35,21 @@ export function TamayDifferenceSection() {
             />
           </figure>
           <div>
-            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold leading-tight">
+            <SiteText k="realEstate.difference.title" as="h2" className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold leading-tight">
               We Help You Look Beyond the Listing
-            </h2>
-            <p className="mt-4 text-gray-600 leading-relaxed">
-              A home is more than its price, finishes, and number of bedrooms. We help you think about how the
-              property fits your life today, what it may require over time, and what opportunities it may offer in
-              the future.
-            </p>
+            </SiteText>
+            <SiteText k="realEstate.difference.body" as="p" className="mt-4 text-gray-600 leading-relaxed" multiline>
+              A home is more than its price, finishes, and number of bedrooms. We help you think about how the property fits your life today, what it may require over time, and what opportunities it may offer in the future.
+            </SiteText>
             <div className="mt-8 space-y-6">
-              {AREAS.map((area) => (
+              {AREAS.map((area, index) => (
                 <div key={area.title} className="border-l-4 border-tamay-accent pl-4">
-                  <h3 className="font-heading text-lg text-tamay-primary font-semibold">{area.title}</h3>
-                  <p className="mt-1 text-sm sm:text-base text-gray-600 leading-relaxed">{area.text}</p>
+                  <SiteText k={`realEstate.difference.item${index + 1}.title`} as="h3" className="font-heading text-lg text-tamay-primary font-semibold">
+                    {area.title}
+                  </SiteText>
+                  <SiteText k={`realEstate.difference.item${index + 1}.text`} as="p" className="mt-1 text-sm sm:text-base text-gray-600 leading-relaxed" multiline>
+                    {area.text}
+                  </SiteText>
                 </div>
               ))}
             </div>

@@ -7,6 +7,7 @@ import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { FINANCE, SITE } from "@/lib/site";
 import { getResolvedSiteMedia } from "@/lib/siteImages";
 import { buildSocialMetadata } from "@/lib/socialMetadata";
+import { SiteText } from "@/components/copy/SiteText";
 
 export const metadata: Metadata = buildSocialMetadata("finance");
 
@@ -17,20 +18,21 @@ export default async function FinancePage() {
       <HeroBanner
         image={images.financeHero}
         slotKey="financeHero"
+        copyKey="finance.hero"
         title={FINANCE.title}
         subtitle="Build now. Pay over time."
         height="medium"
       />
 
       <section className="py-14 max-w-4xl mx-auto px-4 text-center">
-        <SectionHeading title={FINANCE.headline} subtitle={FINANCE.intro} />
+        <SectionHeading copyKey="finance.intro" title={FINANCE.headline} subtitle={FINANCE.intro} />
         <ul className="mt-8 text-left text-gray-600 space-y-3 max-w-2xl mx-auto leading-relaxed">
-          {FINANCE.highlights.map((item) => (
-            <li key={item} className="flex gap-3">
+          {FINANCE.highlights.map((item, index) => (
+            <li key={`finance.highlight${index + 1}`} className="flex gap-3">
               <span className="text-tamay-accent font-bold shrink-0" aria-hidden>
                 •
               </span>
-              <span>{item}</span>
+              <SiteText k={`finance.highlight${index + 1}`}>{item}</SiteText>
             </li>
           ))}
         </ul>
@@ -44,15 +46,16 @@ export default async function FinancePage() {
 
       <section className="py-14 max-w-3xl mx-auto px-4 text-center">
         <SectionHeading
+          copyKey="finance.ready"
           title="Ready to Check Your Options?"
           subtitle="Apply through our secure financing partner to see what plans may be available for your project."
         />
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-2">
           <Button href={SITE.financingUrl} variant="primary" external>
-            Check Financing Options
+            <SiteText k="finance.ready.apply">Check Financing Options</SiteText>
           </Button>
           <Button href="#contact" variant="outline">
-            Contact Us
+            <SiteText k="finance.ready.contact">Contact Us</SiteText>
           </Button>
         </div>
       </section>

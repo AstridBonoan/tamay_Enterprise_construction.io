@@ -13,6 +13,7 @@ import {
 import { sitePath } from "@/lib/paths";
 import { SITE } from "@/lib/site";
 import { APPOINTMENT_SERVICE_IMAGE_KEYS } from "@/lib/siteImageSlots";
+import { SiteText } from "@/components/copy/SiteText";
 
 type ConsultationScheduleCalendarProps = {
   initialServiceId: string | null;
@@ -31,7 +32,9 @@ function SelectedServicePreview({ service }: { service: OnlineAppointmentService
       </figure>
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-3">
-          <p className="font-heading text-base sm:text-lg font-semibold text-tamay-primary">{service.title}</p>
+          <SiteText k={`appointments.${service.id}.title`} as="p" className="font-heading text-base sm:text-lg font-semibold text-tamay-primary">
+            {service.title}
+          </SiteText>
           <span className="shrink-0 text-xs font-bold uppercase tracking-wide text-tamay-primary">Selected</span>
         </div>
         <p className="text-sm text-gray-600 mt-0.5">
@@ -71,10 +74,12 @@ export function ConsultationScheduleCalendar({
             <SitePhoto slot={serviceSlot} alt={service.imageAlt} sizes="(max-width: 768px) 100vw, 448px" />
           </figure>
         ) : null}
-        <p className="text-xs font-bold uppercase tracking-widest text-tamay-accent mb-2">Free consultation</p>
-        <h1 className="font-heading text-2xl sm:text-3xl text-tamay-primary font-semibold leading-snug">
+        <SiteText k="appointments.schedule.eyebrow" as="p" className="text-xs font-bold uppercase tracking-widest text-tamay-accent mb-2">
+          Free consultation
+        </SiteText>
+        <SiteText k={service ? `appointments.${service.id}.scheduleCta` : "appointments.schedule.title"} as="h1" className="font-heading text-2xl sm:text-3xl text-tamay-primary font-semibold leading-snug">
           {service ? service.scheduleCtaLabel : "Book a consultation"}
-        </h1>
+        </SiteText>
         {service && !serviceLocked ? <p className="text-gray-700 mt-2">{service.title}</p> : null}
         {service ? (
           <>
@@ -92,10 +97,12 @@ export function ConsultationScheduleCalendar({
 
       {!serviceLocked ? (
         <div className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
-          <h2 className="font-heading text-lg text-tamay-primary font-semibold mb-2">Consultation services</h2>
-          <p className="text-sm text-gray-600 leading-relaxed mb-4">
+          <SiteText k="appointments.schedule.servicesTitle" as="h2" className="font-heading text-lg text-tamay-primary font-semibold mb-2">
+            Consultation services
+          </SiteText>
+          <SiteText k="appointments.schedule.servicesIntro" as="p" className="text-sm text-gray-600 leading-relaxed mb-4" multiline>
             Choose the consultation you want to book. Availability is shown after you select a service.
-          </p>
+          </SiteText>
           <div className="space-y-4">
             <div>
               <label htmlFor="consultation-service" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -123,9 +130,9 @@ export function ConsultationScheduleCalendar({
       ) : null}
 
       <div id="book" className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8 scroll-mt-24">
-        <h2 className="font-heading text-lg text-tamay-primary font-semibold mb-2">
+        <SiteText k="appointments.schedule.chooseTitle" as="h2" className="font-heading text-lg text-tamay-primary font-semibold mb-2">
           Choose an available time
-        </h2>
+        </SiteText>
         {service ? (
           <p className="text-gray-600 text-sm leading-relaxed mb-4">
             Pick a time and confirm your consultation. Your appointment will be saved to your Bookings dashboard.

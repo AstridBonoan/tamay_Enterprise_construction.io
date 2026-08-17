@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { VideoTestimonialCarousel } from "@/components/home/VideoTestimonialCarousel";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
 import { SitePhoto } from "@/components/images/SitePhoto";
+import { SiteText } from "@/components/copy/SiteText";
 import {
   ADA_RESTROOM_PROJECT_VIDEOS,
   CONSTRUCTION_PROJECT_VIDEOS,
@@ -82,6 +83,7 @@ export default async function ConstructionPage() {
       <HeroBanner
         image={images.heroConstruction}
         slotKey="heroConstruction"
+        copyKey="construction.hero"
         title="Construction & Home Renovation Services"
         subtitle="Your dream space starts here."
         height="medium"
@@ -90,43 +92,40 @@ export default async function ConstructionPage() {
       />
 
       <div className="bg-tamay-accent text-white text-center py-3 text-sm font-semibold tracking-wide">
-        7-Year Warranty + Finance on New Renovations
+        <SiteText k="construction.warranty.banner">7-Year Warranty + Finance on New Renovations</SiteText>
       </div>
 
       <section className="py-14 max-w-4xl mx-auto px-4">
-        <SectionHeading title="Construction & Home Renovation Services in West Haven, CT" />
+        <SectionHeading copyKey="construction.intro" title="Construction & Home Renovation Services in West Haven, CT" />
         <div className="space-y-4 text-gray-600 text-center leading-relaxed">
-          <p>
-            With over ten years of proven experience, Tamay Enterprises is a fully insured construction
-            company delivering complete residential and commercial construction solutions through its Tamay
-            Construction Department. Based in West Haven, CT, our core services include full home
-            renovations, home additions, kitchen and bathroom remodeling, and quality-driven property
-            improvements. We offer a streamlined design, supply, and build approach using premium materials
-            and expert craftsmanship, supported by a trusted team of licensed professionals committed to
-            safety, efficiency, and long-term performance.
-          </p>
-          <p>
-            In addition to our renovation and construction work, we also offer preventive home services
-            designed to help clients protect and maintain their investment over time.
-          </p>
+          <SiteText k="construction.intro.body1" as="p" multiline>
+            With over ten years of proven experience, Tamay Enterprises is a fully insured construction company delivering complete residential and commercial construction solutions through its Tamay Construction Department. Based in West Haven, CT, our core services include full home renovations, home additions, kitchen and bathroom remodeling, and quality-driven property improvements. We offer a streamlined design, supply, and build approach using premium materials and expert craftsmanship, supported by a trusted team of licensed professionals committed to safety, efficiency, and long-term performance.
+          </SiteText>
+          <SiteText k="construction.intro.body2" as="p" multiline>
+            In addition to our renovation and construction work, we also offer preventive home services designed to help clients protect and maintain their investment over time.
+          </SiteText>
           <Button href="/home-preventive-services" variant="outline" className="mt-2">
-            more information →
+            <SiteText k="construction.intro.more">more information →</SiteText>
           </Button>
         </div>
       </section>
 
       <section className="py-14 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">
-          <SectionHeading title="OUR CORE SERVICES" />
+          <SectionHeading copyKey="construction.core" title="OUR CORE SERVICES" />
           <div className="grid md:grid-cols-3 gap-8">
-            {coreServices.map((s) => (
-              <article key={s.title} className="bg-white shadow-md overflow-hidden">
+            {coreServices.map((s, index) => (
+              <article key={s.slot} className="bg-white shadow-md overflow-hidden">
                 <div className="relative h-52 sm:h-56">
                   <SitePhoto slot={s.slot} alt={s.alt} sizes="400px" />
                 </div>
                 <div className="p-6">
-                  <h3 className="font-heading text-lg text-tamay-primary font-semibold mb-3">{s.title}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">{s.text}</p>
+                  <SiteText k={`construction.core.item${index + 1}.title`} as="h3" className="font-heading text-lg text-tamay-primary font-semibold mb-3">
+                    {s.title}
+                  </SiteText>
+                  <SiteText k={`construction.core.item${index + 1}.text`} as="p" className="text-sm text-gray-600 leading-relaxed" multiline>
+                    {s.text}
+                  </SiteText>
                 </div>
               </article>
             ))}
@@ -136,36 +135,34 @@ export default async function ConstructionPage() {
 
       <section className="py-14 max-w-3xl mx-auto px-4 text-center">
         <SectionHeading
+          copyKey="construction.warranty"
           title="7-Year Warranty & Complimentary Tune-Ups For New Renovations"
           subtitle="Renovate Once. Enjoy It Longer."
         />
         <ol className="text-left text-gray-700 space-y-2 max-w-md mx-auto">
-          <li>1. 7-year workmanship warranty on eligible renovations</li>
-          <li>2. Bathroom rejuvenation tune-ups (only on full/ new renovations)</li>
-          <li>3. Kitchen tune-ups (only on full/new renovations)</li>
-          <li>4. Transferable (1 year if unused)</li>
+          <SiteText k="construction.warranty.item1" as="li">1. 7-year workmanship warranty on eligible renovations</SiteText>
+          <SiteText k="construction.warranty.item2" as="li">2. Bathroom rejuvenation tune-ups (only on full/ new renovations)</SiteText>
+          <SiteText k="construction.warranty.item3" as="li">3. Kitchen tune-ups (only on full/new renovations)</SiteText>
+          <SiteText k="construction.warranty.item4" as="li">4. Transferable (1 year if unused)</SiteText>
         </ol>
       </section>
 
       <section className="py-14 bg-tamay-primary text-white px-4">
         <div className="max-w-3xl mx-auto text-center">
           <SectionHeading
+            copyKey="construction.license"
             light
             eyebrow="Licensed & Insured"
             title={`Connecticut License ${SITE.license}`}
           />
-          <p className="text-gray-200 leading-relaxed -mt-4">
-            Tamay Enterprises operates as a licensed Connecticut contractor (License No. {SITE.license}),
-            meeting state requirements for professional construction and renovation services. The company
-            originally operated as a construction-only business, building its foundation through hands-on
-            renovation and remodeling work. That experience continues to guide our standards today, with a
-            strong focus on craftsmanship, accountability, and long-term client relationships.
-          </p>
+          <SiteText k="construction.license.body" as="p" className="text-gray-200 leading-relaxed -mt-4" multiline>
+            {`Tamay Enterprises operates as a licensed Connecticut contractor (License No. ${SITE.license}), meeting state requirements for professional construction and renovation services. The company originally operated as a construction-only business, building its foundation through hands-on renovation and remodeling work. That experience continues to guide our standards today, with a strong focus on craftsmanship, accountability, and long-term client relationships.`}
+          </SiteText>
         </div>
       </section>
 
       <section className="py-14 max-w-6xl mx-auto px-4">
-        <SectionHeading title="Residential Projects" />
+        <SectionHeading copyKey="construction.residential" title="Residential Projects" />
         <TamayVideoGallery
           projects={CONSTRUCTION_PROJECT_VIDEOS}
           showTitle={false}
@@ -173,7 +170,7 @@ export default async function ConstructionPage() {
         />
 
         <div className="mt-16">
-          <SectionHeading title="Commercial Projects" />
+          <SectionHeading copyKey="construction.commercial" title="Commercial Projects" />
           <TamayVideoGallery
             projects={ADA_RESTROOM_PROJECT_VIDEOS}
             showTitle={false}
@@ -183,20 +180,24 @@ export default async function ConstructionPage() {
 
         <div className="text-center mt-8">
           <Button href="/gallery" variant="primary">
-            More projects
+            <SiteText k="construction.projects.more">More projects</SiteText>
           </Button>
         </div>
       </section>
 
       <section className="py-14 bg-gray-50">
         <div className="max-w-5xl mx-auto px-4">
-          <SectionHeading title="Our Construction Process — From Vision to Long-Term Support" />
+          <SectionHeading copyKey="construction.process" title="Our Construction Process — From Vision to Long-Term Support" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {processSteps.map((p) => (
               <div key={p.step} className="bg-white p-6 border-t-4 border-tamay-accent shadow-sm">
                 <span className="text-tamay-accent font-bold text-2xl">{p.step}</span>
-                <h4 className="font-heading text-tamay-primary font-semibold mt-2 mb-2">{p.title}</h4>
-                <p className="text-sm text-gray-600 leading-relaxed">{p.text}</p>
+                <SiteText k={`construction.process.step${p.step}.title`} as="h4" className="font-heading text-tamay-primary font-semibold mt-2 mb-2">
+                  {p.title}
+                </SiteText>
+                <SiteText k={`construction.process.step${p.step}.text`} as="p" className="text-sm text-gray-600 leading-relaxed" multiline>
+                  {p.text}
+                </SiteText>
               </div>
             ))}
           </div>
@@ -206,7 +207,7 @@ export default async function ConstructionPage() {
       <ServiceAppointmentSection serviceId="construction" />
 
       <section className="py-14 max-w-6xl mx-auto px-4">
-        <SectionHeading title="Client Testimonials" />
+        <SectionHeading copyKey="construction.testimonials" title="Client Testimonials" />
         <VideoTestimonialCarousel
           projects={REVIEW_VIDEO_PROJECTS}
           showHeading={false}
@@ -215,23 +216,20 @@ export default async function ConstructionPage() {
         />
         <div className="text-center mt-8">
           <Button href="/reviews" variant="primary">
-            See More Reviews
+            <SiteText k="construction.testimonials.more">See More Reviews</SiteText>
           </Button>
         </div>
       </section>
 
       <section className="py-14 px-4 max-w-4xl mx-auto text-center">
         <SectionHeading
+          copyKey="construction.area"
           eyebrow="Serving West Haven & Nearby Connecticut Communities"
           title="Local Renovation Services You Can Trust"
         />
-        <p className="text-gray-600 leading-relaxed -mt-4">
-          Based in West Haven, Connecticut, Tamay Enterprises proudly serves homeowners, investors, and real
-          estate professionals throughout nearby communities, including New Haven, Milford, Orange, Hamden,
-          East Haven, Branford, Shelton, and Stratford. Our local focus allows us to deliver responsive
-          service, clear communication, and renovation solutions tailored to the needs of homes throughout
-          the greater West Haven and New Haven County area.
-        </p>
+        <SiteText k="construction.area.body" as="p" className="text-gray-600 leading-relaxed -mt-4" multiline>
+          Based in West Haven, Connecticut, Tamay Enterprises proudly serves homeowners, investors, and real estate professionals throughout nearby communities, including New Haven, Milford, Orange, Hamden, East Haven, Branford, Shelton, and Stratford. Our local focus allows us to deliver responsive service, clear communication, and renovation solutions tailored to the needs of homes throughout the greater West Haven and New Haven County area.
+        </SiteText>
       </section>
 
       <SiteContactSection />

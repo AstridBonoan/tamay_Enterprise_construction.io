@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { PropertyPreviewCard } from "@/components/real-estate/PropertyPreviewCard";
 import { getPublicPropertyListings, type ListingKind } from "@/lib/realEstateScheduling";
+import { SiteText } from "@/components/copy/SiteText";
 
 type FilterValue = "all" | ListingKind;
 
@@ -39,12 +40,12 @@ export function AvailablePropertiesSection() {
         Houses for rent
       </span>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold leading-tight">
+        <SiteText k="realEstate.properties.title" as="h2" className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold leading-tight">
           Explore Available Properties
-        </h2>
-        <p className="mt-3 text-gray-600 leading-relaxed max-w-2xl">
+        </SiteText>
+        <SiteText k="realEstate.properties.intro" as="p" className="mt-3 text-gray-600 leading-relaxed max-w-2xl" multiline>
           Look beyond the listing and discover the potential behind each property.
-        </p>
+        </SiteText>
 
         <div className="mt-8 flex flex-wrap gap-2" role="tablist" aria-label="Property filters">
           {FILTERS.map((item) => {
@@ -62,7 +63,7 @@ export function AvailablePropertiesSection() {
                 }`}
                 onClick={() => setFilter(item.id)}
               >
-                {item.label}
+                <SiteText k={`realEstate.properties.filter.${item.id}`}>{item.label}</SiteText>
               </button>
             );
           })}

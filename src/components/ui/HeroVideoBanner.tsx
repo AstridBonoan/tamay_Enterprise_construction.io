@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { assetUrl } from "@/lib/assetUrl";
 import { HERO_VIDEO, SITE } from "@/lib/site";
+import { SiteText } from "@/components/copy/SiteText";
+import { useSiteCopy } from "@/components/copy/SiteCopyProvider";
 
 type HeroVideoBannerProps = {
   /** Video hero with headline + message overlay (homepage) */
@@ -36,6 +38,8 @@ export function HeroVideoBanner({
 }: HeroVideoBannerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoSrc = assetUrl("/homepage/HomePageVideo.mp4");
+  const phone = useSiteCopy("site.phone", SITE.phone);
+  const phoneHref = `tel:${phone.replace(/\D/g, "") || "2032206678"}`;
 
   useEffect(() => {
     const video = videoRef.current;
@@ -104,16 +108,16 @@ export function HeroVideoBanner({
 
       {withMessage ? (
         <div className="relative z-10 w-full max-w-3xl mx-auto px-4 sm:px-6 pt-2 sm:pt-0 text-center text-white">
-          <h1 className="font-heading text-3xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-bold leading-tight mb-6 sm:mb-8 text-balance drop-shadow-md">
+          <SiteText k="home.hero.headline" as="h1" className="font-heading text-3xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-bold leading-tight mb-6 sm:mb-8 text-balance drop-shadow-md">
             {HERO_VIDEO.headline}
-          </h1>
+          </SiteText>
           <p>
-            <span className="block text-sm sm:text-sm font-semibold tracking-[0.15em] uppercase mb-3 text-tamay-accent drop-shadow-sm">
+            <SiteText k="home.hero.eyebrow" as="span" className="block text-sm sm:text-sm font-semibold tracking-[0.15em] uppercase mb-3 text-tamay-accent drop-shadow-sm">
               {HERO_VIDEO.eyebrow}
-            </span>
+            </SiteText>
             <a
-              href={SITE.phoneTel}
-              aria-label={`Call Tamay Enterprises at ${SITE.phone}`}
+              href={phoneHref}
+              aria-label={`Call Tamay Enterprises at ${phone}`}
               className="inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-white/40 bg-white/10 px-6 py-3.5 text-xl sm:text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-md transition-colors hover:bg-white/20 hover:border-white/60 active:bg-white/25 min-h-[52px] min-w-[220px]"
             >
               <svg className="w-6 h-6 sm:w-7 sm:h-7 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
@@ -124,11 +128,11 @@ export function HeroVideoBanner({
                   d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                 />
               </svg>
-              {SITE.phone}
+              <SiteText k="site.phone">{SITE.phone}</SiteText>
             </a>
-            <span className="block mt-3 text-sm sm:text-sm text-white/75 tracking-[0.12em] uppercase">
+            <SiteText k="site.tagline" as="span" className="block mt-3 text-sm sm:text-sm text-white/75 tracking-[0.12em] uppercase">
               {tagline ?? SITE.tagline}
-            </span>
+            </SiteText>
           </p>
         </div>
       ) : (

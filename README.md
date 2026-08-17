@@ -31,7 +31,7 @@ Copy `.env.example` to `.env.local` and add your Supabase keys.
 | `GOOGLE_CALENDAR_REFRESH_TOKEN` | Server-only — manager Google account |
 | `GOOGLE_CALENDAR_ID` | Usually `primary` |
 
-5. In **Supabase → SQL Editor**, run (in order): `supabase/schedule-slots.sql`, `supabase/staff-role.sql` (grants staff to **A Tamay**), `supabase/booked-appointment-starts.sql` (hides taken consultation times for everyone), `supabase/review-status-enum.sql` (review status dropdown + staff moderation), `supabase/security-hardening.sql` (locks staff flag, booking updates, guest slots, calendar sync, and signature uploads), and `supabase/site-images.sql` (staff photo library).
+5. In **Supabase → SQL Editor**, run (in order): `supabase/schedule-slots.sql`, `supabase/staff-role.sql` (grants staff to **A Tamay**), `supabase/booked-appointment-starts.sql` (hides taken consultation times for everyone), `supabase/review-status-enum.sql` (review status dropdown + staff moderation), `supabase/security-hardening.sql` (locks staff flag, booking updates, guest slots, calendar sync, and signature uploads), `supabase/site-images.sql` (staff photo library), and `supabase/site-text.sql` (staff text/copy library).
 
 If the site is already deployed, run any new SQL files once in the SQL Editor, then redeploy the app.
 
@@ -44,6 +44,10 @@ If the site is already deployed, run any new SQL files once in the SQL Editor, t
 ## Staff photo library
 
 Staff can open **Account → Manage photos** (`/m/staff/images/`) to replace website images (homepage, gallery, heroes, logos). Uploads go to the Supabase `site-media` bucket. Restore original to go back to the built-in file. Requires `supabase/site-images.sql`.
+
+## Staff text library
+
+Staff can open **Account → Manage text** (`/m/staff/copy/`) to review saved copy changes. On any public page while signed in as staff, click the dashed outline around a heading, paragraph, or button label to edit it in place. Original restores the built-in wording. Requires `supabase/site-text.sql`.
 
 ## Staff schedule management
 

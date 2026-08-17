@@ -8,11 +8,9 @@ import {
   realEstatePrimaryLinkClass,
 } from "@/components/real-estate/realEstateCtaStyles";
 import { sitePath } from "@/lib/paths";
-import {
-  propertyPagePath,
-  schedulePagePath,
-  type PublicPropertyListing,
-} from "@/lib/realEstateScheduling";
+import { propertyPagePath, schedulePagePath, type PublicPropertyListing } from "@/lib/realEstateScheduling";
+import { SiteText } from "@/components/copy/SiteText";
+import { listingCopyKey } from "@/lib/siteCopy";
 
 type PropertyPreviewCardProps = {
   listing: PublicPropertyListing;
@@ -45,9 +43,15 @@ export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPre
             {listing.statusLabel}
           </span>
         </div>
-        <p className="text-tamay-primary font-bold text-xl">{listing.price}</p>
-        <h3 className="font-heading text-lg text-tamay-primary font-semibold leading-snug">{listing.title}</h3>
-        <p className="text-sm text-gray-600">{listing.address}</p>
+        <SiteText k={listingCopyKey(listing.id, "price")} as="p" className="text-tamay-primary font-bold text-xl">
+          {listing.price}
+        </SiteText>
+        <SiteText k={listingCopyKey(listing.id, "title")} as="h3" className="font-heading text-lg text-tamay-primary font-semibold leading-snug">
+          {listing.title}
+        </SiteText>
+        <SiteText k={listingCopyKey(listing.id, "address")} as="p" className="text-sm text-gray-600">
+          {listing.address}
+        </SiteText>
         <p className="text-sm text-gray-500">{specs}</p>
 
         <button
@@ -57,17 +61,19 @@ export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPre
           aria-controls={panelId}
           onClick={onToggle}
         >
-          View More Details {expanded ? "▴" : "▾"}
+          <SiteText k="realEstate.properties.viewMore">View More Details</SiteText> {expanded ? "▴" : "▾"}
         </button>
       </div>
 
       {expanded ? (
         <div id={panelId} className="px-4 sm:px-5 pb-5 space-y-4 border-t border-gray-100 pt-4">
-          <p className="text-sm text-gray-600 leading-relaxed">{listing.details}</p>
+          <SiteText k={listingCopyKey(listing.id, "details")} as="p" className="text-sm text-gray-600 leading-relaxed" multiline>
+            {listing.details}
+          </SiteText>
           <div>
-            <h4 className="text-xs font-semibold tracking-widest uppercase text-tamay-primary mb-2">
+            <SiteText k={listingCopyKey(listing.id, "scheduleLabel")} as="h4" className="text-xs font-semibold tracking-widest uppercase text-tamay-primary mb-2">
               {listing.scheduleLabel}
-            </h4>
+            </SiteText>
             <ScheduleSlotPreview
               serviceKey={listing.id}
               scheduleLabel={listing.scheduleLabel}
@@ -80,7 +86,7 @@ export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPre
               View Full Property
             </Link>
             <Link href={bookHref} className={realEstateOutlineLinkClass}>
-              {listing.scheduleCtaLabel}
+              <SiteText k={listingCopyKey(listing.id, "scheduleCta")}>{listing.scheduleCtaLabel}</SiteText>
             </Link>
           </div>
         </div>

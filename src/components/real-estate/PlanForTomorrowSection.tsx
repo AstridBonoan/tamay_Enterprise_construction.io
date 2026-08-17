@@ -3,6 +3,7 @@
 import { OpenLiveChatButton } from "@/components/layout/OpenLiveChatButton";
 import { realEstateChatButtonClass } from "@/components/real-estate/realEstateCtaStyles";
 import { SitePhoto } from "@/components/images/SitePhoto";
+import { SiteText } from "@/components/copy/SiteText";
 
 const SCENARIOS = [
   {
@@ -58,14 +59,12 @@ export function PlanForTomorrowSection() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold leading-tight">
+            <SiteText k="realEstate.tomorrow.title" as="h2" className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold leading-tight">
               Buy for Today. Plan for Tomorrow.
-            </h2>
-            <p className="mt-4 text-gray-600 leading-relaxed">
-              The right home should work for your life today — and still make sense as your needs change. We help you
-              think beyond the immediate purchase and consider how the property may support your plans over the next
-              five, ten, or even fifteen years.
-            </p>
+            </SiteText>
+            <SiteText k="realEstate.tomorrow.body" as="p" className="mt-4 text-gray-600 leading-relaxed" multiline>
+              The right home should work for your life today — and still make sense as your needs change. We help you think beyond the immediate purchase and consider how the property may support your plans over the next five, ten, or even fifteen years.
+            </SiteText>
           </div>
           <figure className="relative aspect-[4/3] overflow-hidden bg-gray-100">
             <SitePhoto
@@ -77,45 +76,63 @@ export function PlanForTomorrowSection() {
         </div>
 
         <div className="mt-12 grid md:grid-cols-3 gap-6">
-          {SCENARIOS.map((scenario) => (
+          {SCENARIOS.map((scenario, index) => (
             <article key={scenario.title} className="bg-gray-50 p-6 border-t-4 border-tamay-accent">
-              <p className="text-xs font-bold tracking-widest uppercase text-tamay-accent">Today → Tomorrow</p>
-              <h3 className="font-heading text-xl text-tamay-primary font-semibold mt-2">{scenario.title}</h3>
-              <p className="mt-2 text-sm font-semibold text-gray-800">{scenario.message}</p>
+              <p className="text-xs font-bold tracking-widest uppercase text-tamay-accent">
+                <SiteText k={`realEstate.tomorrow.item${index + 1}.ribbon`}>Today → Tomorrow</SiteText>
+              </p>
+              <SiteText k={`realEstate.tomorrow.item${index + 1}.title`} as="h3" className="font-heading text-xl text-tamay-primary font-semibold mt-2">
+                {scenario.title}
+              </SiteText>
+              <SiteText k={`realEstate.tomorrow.item${index + 1}.message`} as="p" className="mt-2 text-sm font-semibold text-gray-800">
+                {scenario.message}
+              </SiteText>
               {"today" in scenario && scenario.today ? (
                 <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="font-bold text-tamay-primary mb-2">Today</p>
+                    <SiteText k={`realEstate.tomorrow.item${index + 1}.todayLabel`} as="p" className="font-bold text-tamay-primary mb-2">
+                      Today
+                    </SiteText>
                     <ul className="space-y-1 text-gray-600">
-                      {scenario.today.map((item) => (
-                        <li key={item}>{item}</li>
+                      {scenario.today.map((item, itemIndex) => (
+                        <SiteText k={`realEstate.tomorrow.item${index + 1}.today${itemIndex + 1}`} as="li" key={`${index}-today-${itemIndex}`}>
+                          {item}
+                        </SiteText>
                       ))}
                     </ul>
                   </div>
                   <div>
-                    <p className="font-bold text-tamay-primary mb-2">Tomorrow</p>
+                    <SiteText k={`realEstate.tomorrow.item${index + 1}.tomorrowLabel`} as="p" className="font-bold text-tamay-primary mb-2">
+                      Tomorrow
+                    </SiteText>
                     <ul className="space-y-1 text-gray-600">
-                      {scenario.tomorrow?.map((item) => (
-                        <li key={item}>{item}</li>
+                      {scenario.tomorrow?.map((item, itemIndex) => (
+                        <SiteText k={`realEstate.tomorrow.item${index + 1}.tomorrow${itemIndex + 1}`} as="li" key={`${index}-tomorrow-${itemIndex}`}>
+                          {item}
+                        </SiteText>
                       ))}
                     </ul>
                   </div>
                 </div>
               ) : (
                 <ul className="mt-4 space-y-1 text-sm text-gray-600">
-                  {scenario.consider?.map((item) => (
-                    <li key={item}>{item}</li>
+                  {scenario.consider?.map((item, itemIndex) => (
+                    <SiteText k={`realEstate.tomorrow.item${index + 1}.consider${itemIndex + 1}`} as="li" key={`${index}-consider-${itemIndex}`}>
+                      {item}
+                    </SiteText>
                   ))}
                 </ul>
               )}
-              <p className="mt-4 text-sm text-gray-600 leading-relaxed">{scenario.support}</p>
+              <SiteText k={`realEstate.tomorrow.item${index + 1}.support`} as="p" className="mt-4 text-sm text-gray-600 leading-relaxed" multiline>
+                {scenario.support}
+              </SiteText>
             </article>
           ))}
         </div>
 
         <div className="mt-10">
           <OpenLiveChatButton className={realEstateChatButtonClass}>
-            Tell Us What You’re Planning For
+            <SiteText k="realEstate.tomorrow.chat">Tell Us What You’re Planning For</SiteText>
           </OpenLiveChatButton>
         </div>
       </div>

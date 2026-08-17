@@ -109,6 +109,11 @@ export function AccountMenu({ compact = false, open, onToggle, onClose }: Accoun
                         Manage photos
                       </Link>
                     </li>
+                    <li role="none">
+                      <Link href="/m/staff/copy/" role="menuitem" onClick={onClose} className={menuItemClass}>
+                        Manage text
+                      </Link>
+                    </li>
                   </>
                 )}
                 <li role="separator" className="my-1 border-t border-gray-200" />

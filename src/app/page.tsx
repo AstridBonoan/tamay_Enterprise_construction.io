@@ -13,6 +13,7 @@ import { DivisionCard } from "@/components/ui/DivisionCard";
 import { SERVICE_AREAS, SITE } from "@/lib/site";
 import { getResolvedSiteMedia } from "@/lib/siteImages";
 import { buildSocialMetadata } from "@/lib/socialMetadata";
+import { SiteText } from "@/components/copy/SiteText";
 
 export const metadata: Metadata = buildSocialMetadata("home");
 
@@ -33,6 +34,7 @@ export default async function HomePage() {
         alignTop
         image={images.divisions.construction}
         slotKey="divisions.construction"
+        copyKey="home.division.construction"
         eyebrow="RELIABLE. EXPERIENCED. FULLY INSURED"
         title="Construction & Home Renovation"
         tagline="We Design, Supply, Build & Maintain"
@@ -51,6 +53,7 @@ export default async function HomePage() {
         fullScreen
         image={images.divisions.realEstate}
         slotKey="divisions.realEstate"
+        copyKey="home.division.realEstate"
         eyebrow="YOUR TRUSTED PARTNER IN REAL ESTATE"
         title="Real Estate Services & Property Solutions"
         tagline="Experience. Network. Results."
@@ -66,6 +69,7 @@ export default async function HomePage() {
         fullScreen
         image={images.divisions.logistics}
         slotKey="divisions.logistics"
+        copyKey="home.division.logistics"
         eyebrow="DELIVERING MORE THAN MILES -- WE DELIVER TRUST."
         title="Local & Regional Logistics Services"
         tagline="Proudly serving Connecticut and nearby regions."
@@ -79,15 +83,18 @@ export default async function HomePage() {
       <section className="py-16 bg-tamay-primary text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <SectionHeading
+            copyKey="home.why"
             eyebrow="WHY CHOOSE US?"
             title="One Enterprise. Multiple Solutions."
             subtitle="Tamay Enterprises was built to simplify services for our clients. Instead of coordinating multiple vendors, our customers benefit from one organized team with experience across construction, real estate, and logistics."
             light
           />
-          <h3 className="font-heading text-xl font-semibold mb-4">WHY TAMAY ENTERPRISES</h3>
-          <p className="text-gray-200 leading-relaxed max-w-2xl mx-auto">
+          <SiteText k="home.why.heading" as="h3" className="font-heading text-xl font-semibold mb-4">
+            WHY TAMAY ENTERPRISES
+          </SiteText>
+          <SiteText k="home.why.body" as="p" className="text-gray-200 leading-relaxed max-w-2xl mx-auto" multiline>
             This integrated approach helps projects move more efficiently while maintaining accountability, quality, and clear communication.
-          </p>
+          </SiteText>
         </div>
       </section>
 
@@ -96,6 +103,7 @@ export default async function HomePage() {
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <SectionHeading
+            copyKey="home.serviceArea"
             title="Proudly Serving West Haven & Nearby Connecticut Communities"
             subtitle={`Based in West Haven, CT, Tamay Enterprises proudly serves clients in ${SERVICE_AREAS.slice(0, 8).join(", ")}, and surrounding Connecticut communities. Our local presence allows us to provide responsive service while supporting projects throughout the region.`}
           />

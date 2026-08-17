@@ -8,6 +8,8 @@ import {
 import type { PropertyListing } from "@/lib/realEstateListings";
 import { schedulePagePath, type ListingKind } from "@/lib/realEstateScheduling";
 import { SITE } from "@/lib/site";
+import { listingCopyKey } from "@/lib/siteCopy";
+import { SiteText } from "@/components/copy/SiteText";
 
 type PropertyScheduleCalendarProps = {
   listing: PropertyListing;
@@ -21,13 +23,21 @@ export function PropertyScheduleCalendar({ listing, kind, kindLabel }: PropertyS
   return (
     <div className="space-y-8">
       <div className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
-        <p className="text-xs font-bold uppercase tracking-widest text-tamay-accent mb-2">{kindLabel}</p>
-        <h1 className="font-heading text-2xl sm:text-3xl text-tamay-primary font-semibold leading-snug">
+        <p className="text-xs font-bold uppercase tracking-widest text-tamay-accent mb-2">
+          <SiteText k={`realEstate.schedule.kind.${kind}`}>{kindLabel}</SiteText>
+        </p>
+        <SiteText k={listingCopyKey(listing.id, "scheduleCta")} as="h1" className="font-heading text-2xl sm:text-3xl text-tamay-primary font-semibold leading-snug">
           {listing.scheduleCtaLabel}
-        </h1>
-        <p className="text-gray-700 mt-2">{listing.title}</p>
-        <p className="text-gray-600 mt-1">{listing.address}</p>
-        <p className="text-tamay-primary font-bold text-xl sm:text-2xl mt-4">{listing.price}</p>
+        </SiteText>
+        <SiteText k={listingCopyKey(listing.id, "title")} as="p" className="text-gray-700 mt-2">
+          {listing.title}
+        </SiteText>
+        <SiteText k={listingCopyKey(listing.id, "address")} as="p" className="text-gray-600 mt-1">
+          {listing.address}
+        </SiteText>
+        <SiteText k={listingCopyKey(listing.id, "price")} as="p" className="text-tamay-primary font-bold text-xl sm:text-2xl mt-4">
+          {listing.price}
+        </SiteText>
       </div>
 
       <div className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
@@ -39,13 +49,12 @@ export function PropertyScheduleCalendar({ listing, kind, kindLabel }: PropertyS
       </div>
 
       <div id="book" className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8 scroll-mt-24">
-        <h2 className="font-heading text-lg text-tamay-primary font-semibold mb-2">
+        <SiteText k="realEstate.schedule.chooseTitle" as="h2" className="font-heading text-lg text-tamay-primary font-semibold mb-2">
           Choose an available time
-        </h2>
-        <p className="text-gray-600 text-sm leading-relaxed mb-6">
-          Pick a time and confirm your request. Your appointment will be saved to your Bookings
-          dashboard. Booked times are removed automatically for other visitors.
-        </p>
+        </SiteText>
+        <SiteText k="realEstate.schedule.chooseBody" as="p" className="text-gray-600 text-sm leading-relaxed mb-6" multiline>
+          Pick a time and confirm your request. Your appointment will be saved to your Bookings dashboard. Booked times are removed automatically for other visitors.
+        </SiteText>
         <div className="space-y-6">
           <PropertyShowingRequestForm listing={listing} kind={kind} />
           <div className="border-t border-gray-100 pt-6 flex flex-col sm:flex-row gap-3 justify-center">

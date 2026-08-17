@@ -5,6 +5,7 @@ import {
   realEstateOnDarkLinkClass,
 } from "@/components/real-estate/realEstateCtaStyles";
 import { sitePath } from "@/lib/paths";
+import { SiteText } from "@/components/copy/SiteText";
 
 const STAGES = [
   {
@@ -88,22 +89,27 @@ export function RealEstateJourneySection() {
   return (
     <section className="py-16 md:py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold leading-tight max-w-3xl">
+        <SiteText k="realEstate.journey.title" as="h2" className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold leading-tight max-w-3xl">
           Find It. Understand It. Improve It. Maintain It.
-        </h2>
-        <p className="mt-4 text-gray-600 leading-relaxed max-w-3xl">
-          Real estate is only the beginning. Tamay brings together property guidance, construction knowledge,
-          improvement services, and long-term home care so you can make better decisions before and after closing.
-        </p>
+        </SiteText>
+        <SiteText k="realEstate.journey.body" as="p" className="mt-4 text-gray-600 leading-relaxed max-w-3xl" multiline>
+          Real estate is only the beginning. Tamay brings together property guidance, construction knowledge, improvement services, and long-term home care so you can make better decisions before and after closing.
+        </SiteText>
 
         <div className="mt-12 flex flex-col lg:flex-row lg:items-stretch">
           {STAGES.map((stage, index) => (
             <div key={stage.key} className="flex-1 flex flex-col lg:flex-row">
               <article className="flex-1 bg-tamay-primary text-white p-6 sm:p-7">
                 <StageIcon stage={stage.key} />
-                <p className="mt-4 text-tamay-accent text-xs font-bold tracking-[0.18em]">{stage.title}</p>
-                <h3 className="font-heading text-xl font-semibold mt-1">{stage.subtitle}</h3>
-                <p className="mt-3 text-sm text-white/85 leading-relaxed">{stage.copy}</p>
+                <SiteText k={`realEstate.journey.${stage.key.toLowerCase()}.title`} as="p" className="mt-4 text-tamay-accent text-xs font-bold tracking-[0.18em]">
+                  {stage.title}
+                </SiteText>
+                <SiteText k={`realEstate.journey.${stage.key.toLowerCase()}.subtitle`} as="h3" className="font-heading text-xl font-semibold mt-1">
+                  {stage.subtitle}
+                </SiteText>
+                <SiteText k={`realEstate.journey.${stage.key.toLowerCase()}.copy`} as="p" className="mt-3 text-sm text-white/85 leading-relaxed" multiline>
+                  {stage.copy}
+                </SiteText>
                 <div className="mt-6">
                   {stage.cta.chat ? (
                     <OpenLiveChatButton className={realEstateChatButtonClass}>

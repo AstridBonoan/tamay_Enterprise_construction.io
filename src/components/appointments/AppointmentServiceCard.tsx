@@ -5,6 +5,7 @@ import { SitePhoto } from "@/components/images/SitePhoto";
 import { APPOINTMENT_SERVICE_IMAGE_KEYS } from "@/lib/siteImageSlots";
 import type { OnlineAppointmentService } from "@/lib/onlineAppointments";
 import { appointmentScheduleHref } from "@/lib/onlineAppointments";
+import { SiteText } from "@/components/copy/SiteText";
 
 type AppointmentServiceCardProps = {
   service: OnlineAppointmentService;
@@ -31,11 +32,17 @@ export function AppointmentServiceCard({
       </figure>
 
       <div className="flex-1 min-w-0 md:pt-1">
-        <h3 className="font-heading text-xl md:text-2xl font-semibold text-tamay-primary">{service.title}</h3>
+        <SiteText k={`appointments.${service.id}.title`} as="h3" className="font-heading text-xl md:text-2xl font-semibold text-tamay-primary">
+          {service.title}
+        </SiteText>
         <p className="text-gray-600 mt-1">
-          {service.durationLabel} | {service.priceLabel}
+          <SiteText k={`appointments.${service.id}.duration`}>{service.durationLabel}</SiteText>
+          {" | "}
+          <SiteText k={`appointments.${service.id}.price`}>{service.priceLabel}</SiteText>
         </p>
-        <p className="text-gray-600 mt-3 text-sm md:text-base leading-relaxed">{service.description}</p>
+        <SiteText k={`appointments.${service.id}.description`} as="p" className="text-gray-600 mt-3 text-sm md:text-base leading-relaxed" multiline>
+          {service.description}
+        </SiteText>
 
         <div className="mt-5 border-t border-gray-100 pt-5">
           {collapseAvailability ? (

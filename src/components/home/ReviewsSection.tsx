@@ -12,6 +12,7 @@ import {
 } from "@/lib/reviews";
 import { REVIEW_VIDEO_PROJECTS } from "@/lib/reviewVideos";
 import { VideoTestimonialCarousel } from "@/components/home/VideoTestimonialCarousel";
+import { SiteText } from "@/components/copy/SiteText";
 
 function GoogleIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -184,7 +185,7 @@ export function ReviewsSection({ showVideoTestimonials = false }: ReviewsSection
     <section
       id="reviews"
       className="relative py-16 sm:py-20 overflow-hidden"
-      aria-labelledby="reviews-heading"
+      aria-label="Reviews"
     >
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -194,12 +195,13 @@ export function ReviewsSection({ showVideoTestimonials = false }: ReviewsSection
       <div className="absolute inset-0 bg-tamay-primary/80" aria-hidden />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4">
-        <h2
-          id="reviews-heading"
+        <SiteText
+          k="reviews.heading"
+          as="h2"
           className="font-heading text-3xl sm:text-4xl text-white text-center mb-8 sm:mb-10 tracking-wide"
         >
           REVIEWS
-        </h2>
+        </SiteText>
 
         <a
           href={GOOGLE_REVIEWS_URL}
@@ -209,8 +211,12 @@ export function ReviewsSection({ showVideoTestimonials = false }: ReviewsSection
         >
           <GoogleIcon className="w-8 h-8 bg-white rounded-full p-1 shrink-0" />
           <div className="text-center sm:text-left">
-            <p className="font-semibold">{GOOGLE_BUSINESS_NAME}</p>
-            <p className="text-sm text-white/85 mt-1">See our reviews on Google</p>
+            <p className="font-semibold">
+              <SiteText k="reviews.google.name">{GOOGLE_BUSINESS_NAME}</SiteText>
+            </p>
+            <SiteText k="reviews.google.cta" as="p" className="text-sm text-white/85 mt-1">
+              See our reviews on Google
+            </SiteText>
           </div>
         </a>
 

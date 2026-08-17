@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { OpenLiveChatButton } from "@/components/layout/OpenLiveChatButton";
 import { SitePhoto } from "@/components/images/SitePhoto";
+import { SiteText } from "@/components/copy/SiteText";
 import { Button } from "./Button";
 
 type DivisionCardProps = {
@@ -16,6 +17,7 @@ type DivisionCardProps = {
   ctaHref?: string;
   ctaOpensLiveChat?: boolean;
   reverse?: boolean;
+  copyKey?: string;
   /** Each service block fills one viewport height */
   fullScreen?: boolean;
   /** Extra top spacing when directly under the Our Services title */
@@ -35,6 +37,7 @@ export function DivisionCard({
   ctaHref,
   ctaOpensLiveChat = false,
   reverse,
+  copyKey,
   fullScreen = false,
   alignTop = false,
 }: DivisionCardProps) {
@@ -82,37 +85,65 @@ export function DivisionCard({
             )}
           </div>
           <div className={fullScreen ? "md:pt-0" : undefined}>
-            <p className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-tamay-primary mb-2">
-              {eyebrow}
-            </p>
-            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold mb-3 leading-tight">
-              {title}
-            </h2>
+            {copyKey ? (
+              <SiteText k={`${copyKey}.eyebrow`} as="p" className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-tamay-primary mb-2">
+                {eyebrow}
+              </SiteText>
+            ) : (
+              <p className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-tamay-primary mb-2">
+                {eyebrow}
+              </p>
+            )}
+            {copyKey ? (
+              <SiteText k={`${copyKey}.title`} as="h2" className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold mb-3 leading-tight">
+                {title}
+              </SiteText>
+            ) : (
+              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold mb-3 leading-tight">
+                {title}
+              </h2>
+            )}
             <hr className="section-divider mb-4 !mx-0" />
-            <p className="text-sm sm:text-base font-bold text-gray-800 uppercase tracking-wide mb-4">
-              {tagline}
-            </p>
-            <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-6 max-w-xl">
-              {description}
-            </p>
+            {copyKey ? (
+              <SiteText k={`${copyKey}.tagline`} as="p" className="text-sm sm:text-base font-bold text-gray-800 uppercase tracking-wide mb-4">
+                {tagline}
+              </SiteText>
+            ) : (
+              <p className="text-sm sm:text-base font-bold text-gray-800 uppercase tracking-wide mb-4">
+                {tagline}
+              </p>
+            )}
+            {copyKey ? (
+              <SiteText k={`${copyKey}.description`} as="p" className="text-sm sm:text-base text-gray-600 leading-relaxed mb-6 max-w-xl" multiline>
+                {description}
+              </SiteText>
+            ) : (
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-6 max-w-xl">
+                {description}
+              </p>
+            )}
             <ul className="space-y-1.5 text-gray-700 mb-8">
-              {bullets.map((b) => (
-                <li key={b} className="text-sm sm:text-base">
-                  {b}
+              {bullets.map((b, index) => (
+                <li key={`${copyKey ?? "bullet"}-${index}`} className="text-sm sm:text-base">
+                  {copyKey ? (
+                    <SiteText k={`${copyKey}.bullet${index + 1}`}>{b}</SiteText>
+                  ) : (
+                    b
+                  )}
                 </li>
               ))}
             </ul>
             <div className="flex flex-wrap gap-3">
               <Button href={discoverHref} variant="outline">
-                Discover More
+                {copyKey ? <SiteText k={`${copyKey}.discover`}>Discover More</SiteText> : "Discover More"}
               </Button>
               {ctaOpensLiveChat ? (
                 <OpenLiveChatButton className="inline-block font-bold text-sm tracking-wide px-6 py-3 transition-colors text-center bg-tamay-primary hover:bg-tamay-primary-dark text-white">
-                  {ctaLabel}
+                  {copyKey ? <SiteText k={`${copyKey}.cta`}>{ctaLabel}</SiteText> : ctaLabel}
                 </OpenLiveChatButton>
               ) : (
                 <Button href={ctaHref ?? discoverHref} variant="primary">
-                  {ctaLabel}
+                  {copyKey ? <SiteText k={`${copyKey}.cta`}>{ctaLabel}</SiteText> : ctaLabel}
                 </Button>
               )}
             </div>

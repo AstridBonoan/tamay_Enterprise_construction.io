@@ -15,6 +15,8 @@ import {
   type PublicPropertyListing,
 } from "@/lib/realEstateScheduling";
 import { SITE } from "@/lib/site";
+import { SiteText } from "@/components/copy/SiteText";
+import { listingCopyKey } from "@/lib/siteCopy";
 
 type PropertyDetailPageProps = {
   listing: PublicPropertyListing;
@@ -53,26 +55,36 @@ export function PropertyDetailExperience({ listing }: PropertyDetailPageProps) {
           </span>
         </div>
 
-        <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold mt-4 leading-tight">
+        <SiteText k={listingCopyKey(listing.id, "title")} as="h1" className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold mt-4 leading-tight">
           {listing.title}
-        </h1>
-        <p className="mt-2 text-gray-600">{listing.address}</p>
-        <p className="mt-3 text-tamay-primary font-bold text-3xl">{listing.price}</p>
+        </SiteText>
+        <SiteText k={listingCopyKey(listing.id, "address")} as="p" className="mt-2 text-gray-600">
+          {listing.address}
+        </SiteText>
+        <SiteText k={listingCopyKey(listing.id, "price")} as="p" className="mt-3 text-tamay-primary font-bold text-3xl">
+          {listing.price}
+        </SiteText>
         <p className="mt-2 text-gray-500">{specs}</p>
 
         <div className="mt-8 grid sm:grid-cols-2 gap-3">
           <a href={SITE.phoneTel} className={realEstatePrimaryLinkClass}>
-            Speak With Our Real Estate Team
+            <SiteText k="realEstate.property.call">Speak With Our Real Estate Team</SiteText>
           </a>
-          <OpenLiveChatButton className={realEstateChatButtonClass}>Chat With Us</OpenLiveChatButton>
+          <OpenLiveChatButton className={realEstateChatButtonClass}>
+            <SiteText k="realEstate.property.chat">Chat With Us</SiteText>
+          </OpenLiveChatButton>
           <Link href={bookHref} className={`${realEstateOutlineLinkClass} sm:col-span-2`}>
-            Schedule a Showing
+            <SiteText k="realEstate.property.schedule">Schedule a Showing</SiteText>
           </Link>
         </div>
 
         <section className="mt-10 bg-white p-6 sm:p-8">
-          <h2 className="font-heading text-xl text-tamay-primary font-semibold">Property Details</h2>
-          <p className="mt-3 text-gray-600 leading-relaxed">{listing.details}</p>
+          <h2 className="font-heading text-xl text-tamay-primary font-semibold">
+            <SiteText k="realEstate.property.detailsHeading">Property Details</SiteText>
+          </h2>
+          <SiteText k={listingCopyKey(listing.id, "details")} as="p" className="mt-3 text-gray-600 leading-relaxed" multiline>
+            {listing.details}
+          </SiteText>
           <dl className="mt-6 grid sm:grid-cols-2 gap-4 text-sm">
             <div>
               <dt className="font-semibold text-tamay-primary">Address</dt>
@@ -98,7 +110,9 @@ export function PropertyDetailExperience({ listing }: PropertyDetailPageProps) {
         </section>
 
         <section className="mt-6 bg-white p-6 sm:p-8">
-          <h2 className="font-heading text-xl text-tamay-primary font-semibold mb-3">{listing.scheduleLabel}</h2>
+          <SiteText k={listingCopyKey(listing.id, "scheduleLabel")} as="h2" className="font-heading text-xl text-tamay-primary font-semibold mb-3">
+            {listing.scheduleLabel}
+          </SiteText>
           <ScheduleSlotPreview
             serviceKey={listing.id}
             scheduleLabel={listing.scheduleLabel}

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SitePhoto } from "@/components/images/SitePhoto";
+import { SiteText } from "@/components/copy/SiteText";
 import { ESTIMATE, SITE } from "@/lib/site";
 
 type EstimatePromoSectionProps = {
@@ -27,6 +28,7 @@ export function EstimatePromoSection({
 
           <div className="px-6 py-8 md:px-8 md:py-10 text-center md:text-left">
             <SectionHeading
+              copyKey="home.estimate"
               align="left"
               eyebrow="PROJECT ESTIMATOR"
               title={ESTIMATE.title}
@@ -34,7 +36,7 @@ export function EstimatePromoSection({
             />
             <div className="mt-2">
               <Button href={SITE.estimateUrl} variant="primary" external className="w-full md:w-auto">
-                {ESTIMATE.ctaLabel}
+                <SiteText k="home.estimate.cta">{ESTIMATE.ctaLabel}</SiteText>
               </Button>
             </div>
           </div>

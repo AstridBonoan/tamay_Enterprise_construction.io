@@ -2,6 +2,7 @@ import type { CareerRoleGroup } from "@/lib/careerRoles";
 import { careerApplyHref, careerApplyLabel } from "@/lib/careerRoles";
 import { Button } from "@/components/ui/Button";
 import { JoinTeamButton } from "@/components/careers/JoinTeamChoice";
+import { SiteText } from "@/components/copy/SiteText";
 
 type CareerRoleCardProps = {
   group: CareerRoleGroup;
@@ -13,16 +14,20 @@ export function CareerRoleCard({ group }: CareerRoleCardProps) {
 
   return (
     <article className="border border-gray-200 bg-white p-6 md:p-8 shadow-sm flex flex-col h-full">
-      <h3
+      <SiteText
+        k={`careers.role.${group.id}.title`}
+        as="h3"
         className={`font-heading text-lg md:text-xl font-semibold mb-4 ${
           isSubcontractorCard ? "text-tamay-accent" : "text-tamay-primary"
         }`}
       >
         {group.category}
-      </h3>
+      </SiteText>
       <ol className="list-decimal list-inside text-gray-700 space-y-2 text-sm leading-relaxed flex-1 mb-6">
-        {group.items.map((item) => (
-          <li key={item}>{item}</li>
+        {group.items.map((item, index) => (
+          <SiteText k={`careers.role.${group.id}.item${index + 1}`} as="li" key={`${group.id}-${index}`}>
+            {item}
+          </SiteText>
         ))}
       </ol>
       {group.applyHref ? (
@@ -31,7 +36,7 @@ export function CareerRoleCard({ group }: CareerRoleCardProps) {
           variant={isSubcontractorCard ? "accent" : "primary"}
           className="w-full sm:w-auto"
         >
-          {label}
+          <SiteText k={`careers.role.${group.id}.cta`}>{label}</SiteText>
         </Button>
       ) : (
         <JoinTeamButton
@@ -39,7 +44,7 @@ export function CareerRoleCard({ group }: CareerRoleCardProps) {
           variant={isSubcontractorCard ? "accent" : "primary"}
           className="w-full sm:w-auto"
         >
-          {label}
+          <SiteText k={`careers.role.${group.id}.cta`}>{label}</SiteText>
         </JoinTeamButton>
       )}
     </article>

@@ -1,4 +1,5 @@
 import { SITE } from "@/lib/site";
+import { SiteText } from "@/components/copy/SiteText";
 
 export function FinancingBadge() {
   return (
@@ -19,8 +20,12 @@ export function FinancingBadge() {
       </div>
       <div className="-ml-6 flex min-h-[64px] min-w-[168px] items-center rounded-r-full border-[3px] border-l-0 border-white bg-[#f0a732] py-3.5 pl-10 pr-8">
         <p className="w-full text-center font-extrabold uppercase leading-[1.1] tracking-tight text-black">
-          <span className="block text-[15px]">Financing</span>
-          <span className="block text-[15px]">Available</span>
+          <SiteText k="finance.badge.line1" as="span" className="block text-[15px]">
+            Financing
+          </SiteText>
+          <SiteText k="finance.badge.line2" as="span" className="block text-[15px]">
+            Available
+          </SiteText>
         </p>
       </div>
     </div>
@@ -36,22 +41,22 @@ export function FinancingPromoCard() {
         </div>
 
         <div className="px-6 py-8 md:px-10 md:py-10 text-center md:text-left">
-          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-tamay-accent mb-3">
+          <SiteText k="finance.promo.eyebrow" as="p" className="text-xs font-semibold tracking-[0.2em] uppercase text-tamay-accent mb-3">
             Flexible Payment Options
-          </p>
-          <h2 className="font-heading text-xl sm:text-2xl font-bold text-tamay-primary leading-snug mb-4">
+          </SiteText>
+          <SiteText k="finance.promo.title" as="h2" className="font-heading text-xl sm:text-2xl font-bold text-tamay-primary leading-snug mb-4">
             Financing Available Across All Projects
-          </h2>
-          <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-6 max-w-md md:mx-0 mx-auto">
+          </SiteText>
+          <SiteText k="finance.promo.body" as="p" className="text-sm sm:text-base text-gray-600 leading-relaxed mb-6 max-w-md md:mx-0 mx-auto" multiline>
             Build now. Pay over time. Get the work done today with payment plans that fit your budget.
-          </p>
+          </SiteText>
           <a
             href={SITE.financingUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block rounded-full bg-tamay-primary px-10 py-3.5 text-xs font-bold uppercase tracking-[0.22em] text-white transition-colors hover:bg-tamay-primary-dark sm:px-12 sm:text-[13px]"
           >
-            Check Financing Options
+            <SiteText k="finance.promo.cta">Check Financing Options</SiteText>
           </a>
         </div>
       </div>

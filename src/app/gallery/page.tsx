@@ -23,6 +23,7 @@ export default async function GalleryPage() {
       <HeroBanner
         image={media.images.heroHome}
         slotKey="heroHome"
+        copyKey="gallery.hero"
         title="Our Work Across Connecticut"
         subtitle="Every home has a story, and every project we complete becomes part of it."
         cta={{ label: "Find out more", href: "#contact" }}
@@ -41,6 +42,7 @@ export default async function GalleryPage() {
 
       <section className="py-14 max-w-6xl mx-auto px-4 border-t border-gray-200">
         <SectionHeading
+          copyKey="gallery.photos"
           title="Photo Gallery"
           subtitle="Completed projects across renovation, remodeling, and installation work."
         />
@@ -48,7 +50,7 @@ export default async function GalleryPage() {
       </section>
 
       <section id="gallery" className="py-14 max-w-6xl mx-auto px-4 border-t border-gray-200">
-        <SectionHeading title="Video Gallery" />
+        <SectionHeading copyKey="gallery.videos" title="Video Gallery" />
         <div className="-mt-2">
           <TamayVideoGallery
             projects={GALLERY_VIDEO_PROJECTS}

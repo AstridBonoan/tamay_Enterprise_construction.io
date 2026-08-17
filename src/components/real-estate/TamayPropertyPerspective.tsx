@@ -2,6 +2,8 @@
  * Tamay Property Perspective is shown only when Tamay has supplied approved content.
  * Do not infer construction opinions from MLS copy or listing descriptions.
  */
+import { SiteText } from "@/components/copy/SiteText";
+
 export type TamayPropertyPerspectiveContent = {
   layoutExpansion?: string;
   kitchenBathroom?: string;
@@ -34,12 +36,18 @@ export function TamayPropertyPerspective({
 
   return (
     <section className="mt-6 bg-white p-6 sm:p-8">
-      <h2 className="font-heading text-xl text-tamay-primary font-semibold">Tamay Property Perspective</h2>
+      <SiteText k="realEstate.perspective.title" as="h2" className="font-heading text-xl text-tamay-primary font-semibold">
+        Tamay Property Perspective
+      </SiteText>
       <div className="mt-4 space-y-4">
         {items.map((item) => (
           <div key={item.key}>
-            <h3 className="font-semibold text-tamay-primary">{item.label}</h3>
-            <p className="mt-1 text-sm text-gray-600 leading-relaxed">{content?.[item.key]}</p>
+            <SiteText k={`realEstate.perspective.${item.key}.label`} as="h3" className="font-semibold text-tamay-primary">
+              {item.label}
+            </SiteText>
+            <SiteText k={`realEstate.perspective.${item.key}.text`} as="p" className="mt-1 text-sm text-gray-600 leading-relaxed" multiline>
+              {content?.[item.key] ?? ""}
+            </SiteText>
           </div>
         ))}
       </div>

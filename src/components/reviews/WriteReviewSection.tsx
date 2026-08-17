@@ -97,6 +97,7 @@ export function WriteReviewSection() {
     <section id="write-review" className="py-14 bg-gray-50 px-4">
       <div className="max-w-2xl mx-auto">
         <SectionHeading
+          copyKey="reviews.write"
           title="Write A Review"
           subtitle="Share your experience with Tamay Enterprises. Approved reviews appear in our review carousel alongside our Google reviews."
         />

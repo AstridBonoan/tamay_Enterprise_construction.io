@@ -6,6 +6,8 @@ import type { PropertyListing } from "@/lib/realEstateListings";
 import { sitePath } from "@/lib/paths";
 import { listingImageSlotKey } from "@/lib/siteImageSlots";
 import { schedulePagePath } from "@/lib/realEstateScheduling";
+import { listingCopyKey } from "@/lib/siteCopy";
+import { SiteText } from "@/components/copy/SiteText";
 
 type PropertyListingsSectionProps = {
   id: string;
@@ -48,18 +50,22 @@ function PropertyListingCard({
 
       <div className="px-5 sm:px-8 py-6 sm:py-8 space-y-5">
         <div>
-          <h3 className="font-heading text-xl sm:text-2xl text-tamay-primary font-semibold leading-snug">
+          <SiteText k={listingCopyKey(listing.id, "title")} as="h3" className="font-heading text-xl sm:text-2xl text-tamay-primary font-semibold leading-snug">
             {listing.title}
-          </h3>
-          <p className="text-gray-600 mt-2">{listing.address}</p>
-          <p className="text-tamay-primary font-bold text-2xl sm:text-3xl mt-4">{listing.price}</p>
+          </SiteText>
+          <SiteText k={listingCopyKey(listing.id, "address")} as="p" className="text-gray-600 mt-2">
+            {listing.address}
+          </SiteText>
+          <SiteText k={listingCopyKey(listing.id, "price")} as="p" className="text-tamay-primary font-bold text-2xl sm:text-3xl mt-4">
+            {listing.price}
+          </SiteText>
           <p className="text-sm text-gray-500 mt-2">{specs}</p>
         </div>
 
         <div className="border-t border-gray-100 pt-5">
-          <h4 className="text-sm font-semibold tracking-widest uppercase text-tamay-primary mb-3">
+          <SiteText k={listingCopyKey(listing.id, "scheduleLabel")} as="h4" className="text-sm font-semibold tracking-widest uppercase text-tamay-primary mb-3">
             {listing.scheduleLabel}
-          </h4>
+          </SiteText>
           <ScheduleSlotPreview
             serviceKey={listing.id}
             scheduleLabel={listing.scheduleLabel}
@@ -70,7 +76,7 @@ function PropertyListingCard({
 
         <div className="pt-2 text-center sm:text-left">
           <Button href={`${schedulePagePath(listing.id)}#book`} variant="primary">
-            {listing.scheduleCtaLabel}
+            <SiteText k={listingCopyKey(listing.id, "scheduleCta")}>{listing.scheduleCtaLabel}</SiteText>
           </Button>
         </div>
       </div>
@@ -90,7 +96,7 @@ export function PropertyListingsSection({
   return (
     <section id={id} className={`py-14 px-4 scroll-mt-24 ${alternateBackground ? "bg-gray-50" : "bg-white"}`}>
       <div className="max-w-3xl mx-auto">
-        <SectionHeading title={title} subtitle={intro} />
+        <SectionHeading copyKey={`realEstate.listings.${id}`} title={title} subtitle={intro} />
         {listings.length > 0 ? (
           <div className="space-y-12 -mt-2">
             {listings.map((listing) => (
@@ -99,7 +105,9 @@ export function PropertyListingsSection({
           </div>
         ) : (
           <div className="text-center bg-white border border-gray-200 shadow-sm px-6 py-12 -mt-2">
-            <p className="text-gray-600 leading-relaxed mb-6">{emptyMessage}</p>
+            <SiteText k={`realEstate.listings.${id}.empty`} as="p" className="text-gray-600 leading-relaxed mb-6" multiline>
+              {emptyMessage}
+            </SiteText>
             <Button href="#consultation" variant="primary">
               Contact an agent
             </Button>

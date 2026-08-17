@@ -11,6 +11,7 @@ import { EstimatorPromoFloat } from "@/components/layout/EstimatorPromoFloat";
 import { TawkWidget } from "@/components/layout/TawkWidget";
 import { Providers } from "@/components/layout/Providers";
 import { getResolvedSiteMedia } from "@/lib/siteImages";
+import { getResolvedSiteCopy } from "@/lib/siteCopy";
 import { SOCIAL_IMAGE } from "@/lib/socialMetadata";
 
 const cinzel = localFont({
@@ -72,12 +73,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const media = await getResolvedSiteMedia();
+  const [media, copy] = await Promise.all([getResolvedSiteMedia(), getResolvedSiteCopy()]);
 
   return (
     <html lang="en-US" className={`${cinzel.variable} ${sourceSans.variable}`}>
       <body className="min-h-screen flex flex-col antialiased text-base">
-        <Providers media={media}>
+        <Providers media={media} copy={copy}>
           <SiteHeader />
           <main className="flex-1">{children}</main>
           <SiteFooter />

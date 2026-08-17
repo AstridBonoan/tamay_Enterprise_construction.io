@@ -52,6 +52,14 @@ function PhotoIcon() {
   );
 }
 
+function TextIcon() {
+  return (
+    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M4 4h16v2H4V4zm0 4h10v2H4V8zm0 4h16v2H4v-2zm0 4h10v2H4v-2zm0 4h16v2H4v-2z" />
+    </svg>
+  );
+}
+
 export default function AccountPage() {
   const { signOut } = useAuth();
   const { user, loading } = useRequireAuth("/m/account");
@@ -113,6 +121,12 @@ export default function AccountPage() {
                 title="Manage photos"
                 description="Replace homepage, gallery, and page photos without coding."
                 icon={<PhotoIcon />}
+              />
+              <AccountHubCard
+                href="/m/staff/copy"
+                title="Manage text"
+                description="Edit headings and section copy on every public page without coding."
+                icon={<TextIcon />}
               />
             </>
           )}

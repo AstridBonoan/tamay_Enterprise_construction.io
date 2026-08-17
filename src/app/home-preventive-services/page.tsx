@@ -7,6 +7,7 @@ import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppo
 import { SitePhoto } from "@/components/images/SitePhoto";
 import { getResolvedSiteMedia } from "@/lib/siteImages";
 import { buildSocialMetadata } from "@/lib/socialMetadata";
+import { SiteText } from "@/components/copy/SiteText";
 
 const PREVENTIVE_SCHEDULE_HREF = "/online-appointments/schedule?service=prevention-services#book";
 
@@ -179,27 +180,35 @@ function PreventivePhoto({
   );
 }
 
-function ServiceList({ items, notes }: { items: string[]; notes?: string[] }) {
+function ServiceList({
+  items,
+  notes,
+  copyPrefix,
+}: {
+  items: string[];
+  notes?: string[];
+  copyPrefix: string;
+}) {
   return (
     <div className="space-y-8">
       <ul className="text-base text-gray-700 space-y-3 leading-relaxed">
-        {items.map((item) => (
-          <li key={item} className="flex gap-3">
+        {items.map((item, index) => (
+          <li key={`${copyPrefix}.item${index + 1}`} className="flex gap-3">
             <span className="text-tamay-accent font-bold shrink-0">•</span>
-            <span>{item}</span>
+            <SiteText k={`${copyPrefix}.item${index + 1}`}>{item}</SiteText>
           </li>
         ))}
       </ul>
       {notes && notes.length > 0 && (
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-tamay-primary mb-4">
+          <SiteText k={`${copyPrefix}.notesLabel`} as="p" className="text-sm font-semibold uppercase tracking-wide text-tamay-primary mb-4">
             Additional observations
-          </p>
+          </SiteText>
           <ul className="text-sm text-gray-600 space-y-2.5 leading-relaxed pl-1">
-            {notes.map((note) => (
-              <li key={note} className="flex gap-3">
+            {notes.map((note, index) => (
+              <li key={`${copyPrefix}.note${index + 1}`} className="flex gap-3">
                 <span className="text-gray-400 shrink-0">*</span>
-                <span>{note}</span>
+                <SiteText k={`${copyPrefix}.note${index + 1}`}>{note}</SiteText>
               </li>
             ))}
           </ul>
@@ -216,6 +225,7 @@ export default async function HomePreventiveServicesPage() {
       <HeroBanner
         image={images.preventiveServices.hero}
         slotKey="preventiveServices.hero"
+        copyKey="preventive.hero"
         tagline="Seasonal & year-round services"
         title="Home Preventive Services Program"
         subtitle="Designed to keep every home safe, efficient, and well-maintained."
@@ -224,18 +234,15 @@ export default async function HomePreventiveServicesPage() {
       />
 
       <section id="about" className="py-14 max-w-6xl mx-auto px-4">
-        <SectionHeading title="About This Program" />
+        <SectionHeading copyKey="preventive.about" title="About This Program" />
         <div className="grid md:grid-cols-2 gap-10 items-center -mt-2">
           <div className="space-y-4 text-gray-600 leading-relaxed">
-            <p>
-              Tamay Enterprises provides preventive home services that help homeowners stay prepared throughout
-              every season. Our focus is on reducing unexpected issues, identifying early concerns, and supporting
-              the long-term health of essential home systems.
-            </p>
-            <p>
-              This program is ideal for homeowners, real estate professionals, and organizations seeking reliable,
-              preventive maintenance support.
-            </p>
+            <SiteText k="preventive.about.body1" as="p" multiline>
+              Tamay Enterprises provides preventive home services that help homeowners stay prepared throughout every season. Our focus is on reducing unexpected issues, identifying early concerns, and supporting the long-term health of essential home systems.
+            </SiteText>
+            <SiteText k="preventive.about.body2" as="p" multiline>
+              This program is ideal for homeowners, real estate professionals, and organizations seeking reliable, preventive maintenance support.
+            </SiteText>
           </div>
           <PreventivePhoto
             slot="preventiveServices.aboutConsultation"
@@ -247,12 +254,12 @@ export default async function HomePreventiveServicesPage() {
 
       <section id="benefits" className="py-14 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">
-          <SectionHeading title="Benefits of Preventive Home Services" />
+          <SectionHeading copyKey="preventive.benefits" title="Benefits of Preventive Home Services" />
           <ol className="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto -mt-2">
             {benefits.map((b, i) => (
-              <li key={b} className="flex gap-3 text-gray-700 text-sm leading-relaxed">
+              <li key={`preventive.benefits.item${i + 1}`} className="flex gap-3 text-gray-700 text-sm leading-relaxed">
                 <span className="font-bold text-tamay-primary shrink-0">{i + 1}.</span>
-                {b}
+                <SiteText k={`preventive.benefits.item${i + 1}`}>{b}</SiteText>
               </li>
             ))}
           </ol>
@@ -261,40 +268,44 @@ export default async function HomePreventiveServicesPage() {
 
       <section className="py-16 bg-gray-50 px-4">
         <div className="max-w-6xl mx-auto">
-          <SectionHeading title="Our Preventive Services" />
-          <p className="text-gray-600 text-center leading-relaxed mb-12 -mt-2 max-w-3xl mx-auto">
-            Each service is delivered with clear communication, careful observation, and practical guidance for
-            long-term home care.
-          </p>
+          <SectionHeading copyKey="preventive.services" title="Our Preventive Services" />
+          <SiteText k="preventive.services.intro" as="p" className="text-gray-600 text-center leading-relaxed mb-12 -mt-2 max-w-3xl mx-auto" multiline>
+            Each service is delivered with clear communication, careful observation, and practical guidance for long-term home care.
+          </SiteText>
           <div className="grid md:grid-cols-2 gap-8 lg:gap-10 items-start">
-            {preventiveServices.map((service) => (
+            {preventiveServices.map((service, index) => (
               <article
                 key={service.title}
                 className="bg-white p-6 md:p-8 shadow-sm border border-gray-100 border-t-4 border-t-tamay-accent h-full flex flex-col"
               >
-                <h3 className="font-heading text-lg md:text-xl text-tamay-primary font-semibold mb-6 pb-4 border-b border-gray-100">
+                <SiteText k={`preventive.service${index + 1}.title`} as="h3" className="font-heading text-lg md:text-xl text-tamay-primary font-semibold mb-6 pb-4 border-b border-gray-100">
                   {service.title}
-                </h3>
-                <ServiceList items={service.items} notes={service.notes} />
+                </SiteText>
+                <ServiceList items={service.items} notes={service.notes} copyPrefix={`preventive.service${index + 1}`} />
                 {service.areasCovered && (
                   <div className="mt-8 pt-6 border-t border-gray-100">
-                    <p className="text-sm font-semibold tracking-wide uppercase text-tamay-primary mb-3">
+                    <SiteText k={`preventive.service${index + 1}.areasHeading`} as="p" className="text-sm font-semibold tracking-wide uppercase text-tamay-primary mb-3">
                       {service.areasCovered.heading}
-                    </p>
-                    {service.areasCovered.lines.map((line) => (
-                      <p key={line} className="text-base text-gray-600 leading-relaxed">
+                    </SiteText>
+                    {service.areasCovered.lines.map((line, lineIndex) => (
+                      <SiteText
+                        k={`preventive.service${index + 1}.area${lineIndex + 1}`}
+                        as="p"
+                        key={`${index}-area-${lineIndex}`}
+                        className="text-base text-gray-600 leading-relaxed"
+                      >
                         {line}
-                      </p>
+                      </SiteText>
                     ))}
                   </div>
                 )}
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Button href={PREVENTIVE_SCHEDULE_HREF} variant="accent">
-                    Schedule Now
+                    <SiteText k={`preventive.service${index + 1}.schedule`}>Schedule Now</SiteText>
                   </Button>
                   {service.moreInfoHref && (
                     <Button href={service.moreInfoHref} variant="outline">
-                      More info
+                      <SiteText k={`preventive.service${index + 1}.more`}>More info</SiteText>
                     </Button>
                   )}
                 </div>
@@ -307,24 +318,20 @@ export default async function HomePreventiveServicesPage() {
       <section className="py-14 bg-tamay-primary text-white px-4">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <SectionHeading light title="Additional Homeowner Support" />
+            <SectionHeading copyKey="preventive.support" light title="Additional Homeowner Support" />
             <div className="space-y-4 text-gray-200 leading-relaxed -mt-4">
-              <h3 className="font-heading text-lg font-semibold text-white">Technical Written Summary</h3>
-              <p>
-                If, during our preventive services, we observe a condition that may require attention—such as roof
-                wear, plumbing concerns, or early equipment deterioration—we notify the homeowner and provide a{" "}
-                <strong className="text-white">technical written summary</strong> describing what was found.
-              </p>
-              <p>
-                This summary is meant to help the homeowner communicate clearly with their insurance or warranty
-                provider. We do not call or contact providers on behalf of the homeowner. Instead, we offer the
-                correct terminology, explanation, and context so the homeowner can send an accurate and professional
-                message on their own.
-              </p>
-              <p>
-                Our goal is simply to help the homeowner express why timely attention is important and how delaying
-                repairs could increase future costs or risks.
-              </p>
+              <SiteText k="preventive.support.heading" as="h3" className="font-heading text-lg font-semibold text-white">
+                Technical Written Summary
+              </SiteText>
+              <SiteText k="preventive.support.body1" as="p" multiline>
+                If, during our preventive services, we observe a condition that may require attention—such as roof wear, plumbing concerns, or early equipment deterioration—we notify the homeowner and provide a technical written summary describing what was found.
+              </SiteText>
+              <SiteText k="preventive.support.body2" as="p" multiline>
+                This summary is meant to help the homeowner communicate clearly with their insurance or warranty provider. We do not call or contact providers on behalf of the homeowner. Instead, we offer the correct terminology, explanation, and context so the homeowner can send an accurate and professional message on their own.
+              </SiteText>
+              <SiteText k="preventive.support.body3" as="p" multiline>
+                Our goal is simply to help the homeowner express why timely attention is important and how delaying repairs could increase future costs or risks.
+              </SiteText>
             </div>
           </div>
           <PreventivePhoto
@@ -336,18 +343,22 @@ export default async function HomePreventiveServicesPage() {
       </section>
 
       <section className="py-14 max-w-6xl mx-auto px-4">
-        <SectionHeading title="Who We Support" />
+        <SectionHeading copyKey="preventive.who" title="Who We Support" />
         <div className="grid md:grid-cols-3 gap-8 -mt-2">
-          {whoWeSupport.map((group) => (
+          {whoWeSupport.map((group, index) => (
             <div key={group.title} className="bg-gray-50 p-6 text-center border-t-4 border-tamay-primary">
-              <h3 className="font-heading text-tamay-primary font-semibold text-lg mb-3">{group.title}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">{group.text}</p>
+              <SiteText k={`preventive.who.item${index + 1}.title`} as="h3" className="font-heading text-tamay-primary font-semibold text-lg mb-3">
+                {group.title}
+              </SiteText>
+              <SiteText k={`preventive.who.item${index + 1}.text`} as="p" className="text-sm text-gray-600 leading-relaxed" multiline>
+                {group.text}
+              </SiteText>
             </div>
           ))}
         </div>
-        <p className="font-heading text-2xl text-tamay-primary font-semibold text-center mt-12">
+        <SiteText k="preventive.who.cta" as="p" className="font-heading text-2xl text-tamay-primary font-semibold text-center mt-12">
           Join the Home Preventive Services Program today.
-        </p>
+        </SiteText>
       </section>
 
       <ServiceAppointmentSection serviceId="prevention-services" />
