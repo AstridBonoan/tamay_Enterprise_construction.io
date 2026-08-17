@@ -11,6 +11,7 @@ import { sitePath } from "@/lib/paths";
 import { propertyPagePath, schedulePagePath, type PublicPropertyListing } from "@/lib/realEstateScheduling";
 import { SiteText } from "@/components/copy/SiteText";
 import { listingCopyKey } from "@/lib/siteCopy";
+import { listingBasicsLine, listingTypeLine } from "@/lib/mlsListing";
 
 type PropertyPreviewCardProps = {
   listing: PublicPropertyListing;
@@ -19,16 +20,11 @@ type PropertyPreviewCardProps = {
 };
 
 export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPreviewCardProps) {
-  const specs = [
-    `${listing.beds} bed`,
-    `${listing.baths} bath`,
-    listing.sqft ? `${listing.sqft.toLocaleString()} sq ft` : null,
-  ]
-    .filter(Boolean)
-    .join(" · ");
   const bookHref = sitePath(`${schedulePagePath(listing.id)}#book`);
   const detailsHref = propertyPagePath(listing.id);
   const panelId = `property-details-${listing.id}`;
+  const basics = listingBasicsLine(listing);
+  const typeLine = listingTypeLine(listing);
 
   return (
     <article className="bg-white border border-gray-200 overflow-hidden">
@@ -52,7 +48,14 @@ export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPre
         <SiteText k={listingCopyKey(listing.id, "address")} as="p" className="text-sm text-gray-600">
           {listing.address}
         </SiteText>
-        <p className="text-sm text-gray-500">{specs}</p>
+        {typeLine ? <p className="text-xs font-semibold tracking-wide uppercase text-tamay-primary">{typeLine}</p> : null}
+        <p className="text-sm text-gray-700">{basics}</p>
+        {listing.mls?.yearBuilt ? (
+          <p className="text-sm text-gray-500">Year built {listing.mls.yearBuilt}</p>
+        ) : null}
+        <SiteText k={listingCopyKey(listing.id, "overview")} as="p" className="text-sm text-gray-600 leading-relaxed" multiline>
+          {listing.overview}
+        </SiteText>
 
         <button
           type="button"
@@ -67,9 +70,6 @@ export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPre
 
       {expanded ? (
         <div id={panelId} className="px-4 sm:px-5 pb-5 space-y-4 border-t border-gray-100 pt-4">
-          <SiteText k={listingCopyKey(listing.id, "details")} as="p" className="text-sm text-gray-600 leading-relaxed" multiline>
-            {listing.details}
-          </SiteText>
           <div>
             <SiteText k={listingCopyKey(listing.id, "scheduleLabel")} as="h4" className="text-xs font-semibold tracking-widest uppercase text-tamay-primary mb-2">
               {listing.scheduleLabel}

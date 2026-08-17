@@ -8,6 +8,7 @@ import { listingImageSlotKey } from "@/lib/siteImageSlots";
 import { schedulePagePath } from "@/lib/realEstateScheduling";
 import { listingCopyKey } from "@/lib/siteCopy";
 import { SiteText } from "@/components/copy/SiteText";
+import { listingBasicsLine } from "@/lib/mlsListing";
 
 type PropertyListingsSectionProps = {
   id: string;
@@ -27,13 +28,7 @@ function PropertyListingCard({
   badgeLabel: "For Sale" | "For Rent";
 }) {
   const bookHref = sitePath(`${schedulePagePath(listing.id)}#book`);
-  const specs = [
-    `${listing.beds} bed`,
-    `${listing.baths} bath`,
-    listing.sqft ? `${listing.sqft.toLocaleString()} sq ft` : null,
-  ]
-    .filter(Boolean)
-    .join(" · ");
+  const specs = listingBasicsLine(listing);
 
   return (
     <article className="bg-white border border-gray-200 shadow-sm overflow-hidden">

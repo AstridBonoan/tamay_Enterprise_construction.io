@@ -17,19 +17,16 @@ import {
 import { SITE } from "@/lib/site";
 import { SiteText } from "@/components/copy/SiteText";
 import { listingCopyKey } from "@/lib/siteCopy";
+import { listingBasicsLine, listingTypeLine } from "@/lib/mlsListing";
+import { MlsListingSections } from "@/components/real-estate/MlsListingSections";
 
 type PropertyDetailPageProps = {
   listing: PublicPropertyListing;
 };
 
 export function PropertyDetailExperience({ listing }: PropertyDetailPageProps) {
-  const specs = [
-    `${listing.beds} bed`,
-    `${listing.baths} bath`,
-    listing.sqft ? `${listing.sqft.toLocaleString()} sq ft` : null,
-  ]
-    .filter(Boolean)
-    .join(" · ");
+  const basics = listingBasicsLine(listing);
+  const typeLine = listingTypeLine(listing);
   const bookHref = sitePath(`${schedulePagePath(listing.id)}#book`);
 
   return (
@@ -64,7 +61,13 @@ export function PropertyDetailExperience({ listing }: PropertyDetailPageProps) {
         <SiteText k={listingCopyKey(listing.id, "price")} as="p" className="mt-3 text-tamay-primary font-bold text-3xl">
           {listing.price}
         </SiteText>
-        <p className="mt-2 text-gray-500">{specs}</p>
+        {typeLine ? (
+          <p className="mt-2 text-xs font-semibold tracking-wide uppercase text-tamay-primary">{typeLine}</p>
+        ) : null}
+        <p className="mt-2 text-gray-700">{basics}</p>
+        {listing.mls?.yearBuilt ? (
+          <p className="mt-1 text-sm text-gray-500">Year built {listing.mls.yearBuilt}</p>
+        ) : null}
 
         <div className="mt-8 grid sm:grid-cols-2 gap-3">
           <a href={SITE.phoneTel} className={realEstatePrimaryLinkClass}>
@@ -80,34 +83,14 @@ export function PropertyDetailExperience({ listing }: PropertyDetailPageProps) {
 
         <section className="mt-10 bg-white p-6 sm:p-8">
           <h2 className="font-heading text-xl text-tamay-primary font-semibold">
-            <SiteText k="realEstate.property.detailsHeading">Property Details</SiteText>
+            <SiteText k="realEstate.mls.overview">Overview</SiteText>
           </h2>
           <SiteText k={listingCopyKey(listing.id, "details")} as="p" className="mt-3 text-gray-600 leading-relaxed" multiline>
             {listing.details}
           </SiteText>
-          <dl className="mt-6 grid sm:grid-cols-2 gap-4 text-sm">
-            <div>
-              <dt className="font-semibold text-tamay-primary">Address</dt>
-              <dd className="text-gray-600 mt-1">{listing.address}</dd>
-            </div>
-            <div>
-              <dt className="font-semibold text-tamay-primary">Price</dt>
-              <dd className="text-gray-600 mt-1">{listing.price}</dd>
-            </div>
-            <div>
-              <dt className="font-semibold text-tamay-primary">Beds / Baths</dt>
-              <dd className="text-gray-600 mt-1">
-                {listing.beds} bed · {listing.baths} bath
-              </dd>
-            </div>
-            {listing.sqft ? (
-              <div>
-                <dt className="font-semibold text-tamay-primary">Square Feet</dt>
-                <dd className="text-gray-600 mt-1">{listing.sqft.toLocaleString()} sq ft</dd>
-              </div>
-            ) : null}
-          </dl>
         </section>
+
+        <MlsListingSections listing={listing} />
 
         <section className="mt-6 bg-white p-6 sm:p-8">
           <SiteText k={listingCopyKey(listing.id, "scheduleLabel")} as="h2" className="font-heading text-xl text-tamay-primary font-semibold mb-3">
