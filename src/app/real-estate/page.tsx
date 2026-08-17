@@ -1,184 +1,28 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { HeroBanner } from "@/components/ui/HeroBanner";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Button } from "@/components/ui/Button";
-import { PropertyListingsSection } from "@/components/real-estate/PropertyListingsSection";
+import { RealEstateHero } from "@/components/real-estate/RealEstateHero";
+import { TamayDifferenceSection } from "@/components/real-estate/TamayDifferenceSection";
+import { BuildersEyesSection } from "@/components/real-estate/BuildersEyesSection";
+import { PlanForTomorrowSection } from "@/components/real-estate/PlanForTomorrowSection";
+import { AvailablePropertiesSection } from "@/components/real-estate/AvailablePropertiesSection";
+import { RealEstateJourneySection } from "@/components/real-estate/RealEstateJourneySection";
+import { RealEstateServiceAreaSection } from "@/components/real-estate/RealEstateServiceAreaSection";
+import { RealEstateFinalCTA } from "@/components/real-estate/RealEstateFinalCTA";
 import { SellingHelpBanner } from "@/components/real-estate/SellingHelpBanner";
-import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
-import { IMAGES } from "@/lib/images";
-import { RENT_LISTINGS, SALE_LISTINGS } from "@/lib/realEstateListings";
 import { buildSocialMetadata } from "@/lib/socialMetadata";
 
 export const metadata: Metadata = buildSocialMetadata("realEstate");
 
-const audiences = [
-  {
-    title: "Homebuyers",
-    text: "We help homebuyers who may not find everything they want in today's market understand how a property can be improved. Instead of showing dozens of homes that don't quite fit, we guide clients toward opportunities where thoughtful renovation can turn the right purchase into the right home.",
-  },
-  {
-    title: "Real Estate Investors",
-    text: (
-      <>
-        For investors, understanding renovation potential is critical. We support investment-focused clients by
-        evaluating properties through both a <strong>real estate and construction lens</strong>, helping identify
-        opportunities where value can be added strategically and efficiently.
-      </>
-    ),
-  },
-  {
-    title: "Property Managers & Portfolio Owners",
-    text: (
-      <>
-        Property managers and portfolio owners benefit from working with a team that understands both{" "}
-        <strong>asset acquisition and property improvement</strong>. Our approach supports smarter purchasing
-        decisions, long-term planning, and coordinated execution across real estate and construction needs.
-      </>
-    ),
-  },
-];
-
-const guidanceItems = [
-  "Purchase residential or investment properties",
-  "Sell properties with an understanding of value positioning",
-  "Evaluate renovation potential before buying",
-  "Align real estate decisions with future construction plans",
-];
-
 export default function RealEstatePage() {
   return (
     <>
-      <HeroBanner
-        image={IMAGES.realEstate.hero}
-        title="Real Estate Services"
-        height="medium"
-        imagePosition="center center"
-        imageZoom={1.2}
-      />
-
-      <section className="py-14 max-w-4xl mx-auto px-4">
-        <SectionHeading title="Real Estate Services Backed by Construction Expertise" />
-        <div className="space-y-4 text-gray-600 text-center leading-relaxed -mt-4">
-          <p>
-            Dream homes, functional spaces, and long-term value are rarely found exactly as-is — they are built.
-            At Tamay Enterprises, our real estate services in West Haven, CT go beyond simply helping clients buy
-            or sell property. Unlike traditional agents who focus solely on listings, we are licensed contractors
-            and real estate professionals who approach every property with a builder&apos;s mindset — helping
-            clients see what it can become, not just what it is today.
-          </p>
-          <p>
-            Our construction background allows us to evaluate properties based on layout potential, renovation
-            feasibility, and long-term value — not just appearance. We support homebuyers, sellers, real estate
-            investors, and property managers by combining real estate guidance with construction insight. This
-            approach helps clients spot opportunity where others see limitations — whether that means purchasing
-            at a lower price point and improving it, or understanding the true potential and costs before making
-            a decision.
-          </p>
-        </div>
-
-        <figure className="mt-10 relative aspect-[2/1] max-w-3xl mx-auto overflow-hidden rounded-sm">
-          <Image
-            src={IMAGES.realEstate.agent}
-            alt="Real estate and development team reviewing architectural plans in a planning meeting"
-            fill
-            className="object-cover"
-            sizes="768px"
-            unoptimized
-          />
-        </figure>
-      </section>
-
-      <section className="py-14 max-w-4xl mx-auto px-4 text-center">
-        <SectionHeading title="A Different Way to Think About Real Estate" />
-        <p className="text-gray-600 leading-relaxed -mt-4">
-          Real estate decisions don&apos;t end at closing — they shape what a property can become. Beyond the
-          Closing: We help build long-term property value by helping clients see beyond what a property is — and
-          recognize what it can become. Not every dream home is found — many are created. At Tamay Enterprises,
-          we believe the right property combined with the right vision and execution can unlock opportunities
-          others overlook. Our role is not just to facilitate transactions, but to help clients understand what
-          is possible.
-        </p>
-        <figure className="mt-10 relative aspect-[2/1] max-w-3xl mx-auto overflow-hidden rounded-sm">
-          <Image
-            src={IMAGES.realEstate.longTermValue}
-            alt="Model house balanced on wooden planks representing long-term property value"
-            fill
-            className="object-cover"
-            sizes="768px"
-            unoptimized
-          />
-        </figure>
-      </section>
-
-      <section className="py-14 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4">
-          <SectionHeading title="Who We Serve" />
-          <div className="grid md:grid-cols-3 gap-8">
-            {audiences.map((a) => (
-              <div key={a.title} className="bg-white p-6 border-t-4 border-tamay-primary shadow-sm">
-                <h3 className="font-heading text-xl text-tamay-primary font-semibold mb-3">{a.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{a.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <PropertyListingsSection
-        id="houses-for-sale"
-        title="Houses For Sale"
-        intro="Browse homes currently available for purchase in West Haven and nearby Connecticut communities. Contact our team for showings, pricing details, and renovation potential."
-        listings={SALE_LISTINGS}
-        emptyMessage="No homes are listed for sale at the moment. Reach out to our agents for upcoming listings and off-market opportunities."
-        badgeLabel="For Sale"
-        alternateBackground
-      />
-
-      <PropertyListingsSection
-        id="houses-for-rent"
-        title="Houses For Rent"
-        intro="Explore rental properties managed with the same local expertise and responsive communication you expect from Tamay Enterprises."
-        listings={RENT_LISTINGS}
-        emptyMessage="No rental homes are listed right now. Contact us to learn about availability or get notified when new rentals are posted."
-        badgeLabel="For Rent"
-      />
-
-      <section className="py-14 bg-tamay-primary text-white px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <SectionHeading
-            light
-            eyebrow="Serving West Haven & Nearby Connecticut Communities"
-            title="Local Real Estate Services You Can Trust"
-          />
-          <p className="text-gray-200 leading-relaxed -mt-4">
-            Based in West Haven, CT, Tamay Enterprises proudly serves clients throughout Orange, Milford, New
-            Haven, Woodbridge, Bethany, Fairfield, Trumbull, and surrounding Connecticut communities. Our local
-            presence and regional experience allow us to guide clients through market conditions with practical,
-            real-world insight.
-          </p>
-        </div>
-      </section>
-
-      <section className="py-14 max-w-4xl mx-auto px-4">
-        <SectionHeading title="Buying, Selling & Strategic Property Guidance" />
-        <p className="text-gray-600 text-center mb-6 -mt-4">
-          Tamay Enterprises provides real estate services for clients looking to:
-        </p>
-        <ul className="text-gray-700 space-y-2 max-w-xl mx-auto mb-8 list-disc pl-5">
-          {guidanceItems.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        <div className="text-center">
-          <Button href="#consultation" variant="primary">
-            Find out more
-          </Button>
-        </div>
-      </section>
-
-      <ServiceAppointmentSection serviceId="real-estate" id="consultation" />
-
+      <RealEstateHero />
+      <TamayDifferenceSection />
+      <BuildersEyesSection />
+      <PlanForTomorrowSection />
+      <AvailablePropertiesSection />
+      <RealEstateJourneySection />
+      <RealEstateServiceAreaSection />
+      <RealEstateFinalCTA />
       <SellingHelpBanner />
     </>
   );

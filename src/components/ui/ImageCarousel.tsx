@@ -20,6 +20,8 @@ type ImageCarouselProps = {
   autoplayIntervalMs?: number;
   /** Show previous/next arrow buttons on the main slide */
   showNavArrows?: boolean;
+  /** Extra classes for previous/next buttons (e.g. larger mobile tap targets) */
+  navButtonClassName?: string;
 };
 
 export function ImageCarousel({
@@ -29,6 +31,7 @@ export function ImageCarousel({
   showCaption = false,
   autoplayIntervalMs,
   showNavArrows = true,
+  navButtonClassName,
 }: ImageCarouselProps) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -64,6 +67,7 @@ export function ImageCarousel({
   const mainSlide = slides[index];
 
   const navButtonClass =
+    navButtonClassName ??
     "rounded-full bg-white p-2 text-tamay-primary shadow-md border border-gray-200 hover:bg-gray-50 shrink-0";
 
   return (
