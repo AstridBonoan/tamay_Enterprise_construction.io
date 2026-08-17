@@ -48,11 +48,8 @@ export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPre
         <SiteText k={listingCopyKey(listing.id, "address")} as="p" className="text-sm text-gray-600">
           {listing.address}
         </SiteText>
-        {typeLine ? <p className="text-xs font-semibold tracking-wide uppercase text-tamay-primary">{typeLine}</p> : null}
+        {typeLine ? <p className="text-sm text-gray-500">{typeLine}</p> : null}
         <p className="text-sm text-gray-700">{basics}</p>
-        {listing.mls?.yearBuilt ? (
-          <p className="text-sm text-gray-500">Year built {listing.mls.yearBuilt}</p>
-        ) : null}
         <SiteText k={listingCopyKey(listing.id, "overview")} as="p" className="text-sm text-gray-600 leading-relaxed" multiline>
           {listing.overview}
         </SiteText>

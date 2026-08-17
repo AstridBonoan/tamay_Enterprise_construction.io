@@ -17,15 +17,14 @@ import {
 import { SITE } from "@/lib/site";
 import { SiteText } from "@/components/copy/SiteText";
 import { listingCopyKey } from "@/lib/siteCopy";
-import { listingBasicsLine, listingTypeLine } from "@/lib/mlsListing";
-import { MlsListingSections } from "@/components/real-estate/MlsListingSections";
+import { listingTypeLine } from "@/lib/mlsListing";
+import { MlsListingSections, PropertySnapshot } from "@/components/real-estate/MlsListingSections";
 
 type PropertyDetailPageProps = {
   listing: PublicPropertyListing;
 };
 
 export function PropertyDetailExperience({ listing }: PropertyDetailPageProps) {
-  const basics = listingBasicsLine(listing);
   const typeLine = listingTypeLine(listing);
   const bookHref = sitePath(`${schedulePagePath(listing.id)}#book`);
 
@@ -62,12 +61,9 @@ export function PropertyDetailExperience({ listing }: PropertyDetailPageProps) {
           {listing.price}
         </SiteText>
         {typeLine ? (
-          <p className="mt-2 text-xs font-semibold tracking-wide uppercase text-tamay-primary">{typeLine}</p>
+          <p className="mt-2 text-sm text-gray-500">{typeLine}</p>
         ) : null}
-        <p className="mt-2 text-gray-700">{basics}</p>
-        {listing.mls?.yearBuilt ? (
-          <p className="mt-1 text-sm text-gray-500">Year built {listing.mls.yearBuilt}</p>
-        ) : null}
+        <PropertySnapshot listing={listing} />
 
         <div className="mt-8 grid sm:grid-cols-2 gap-3">
           <a href={SITE.phoneTel} className={realEstatePrimaryLinkClass}>
@@ -83,7 +79,7 @@ export function PropertyDetailExperience({ listing }: PropertyDetailPageProps) {
 
         <section className="mt-10 bg-white p-6 sm:p-8">
           <h2 className="font-heading text-xl text-tamay-primary font-semibold">
-            <SiteText k="realEstate.mls.overview">Overview</SiteText>
+            <SiteText k="realEstate.property.about">About this home</SiteText>
           </h2>
           <SiteText k={listingCopyKey(listing.id, "details")} as="p" className="mt-3 text-gray-600 leading-relaxed" multiline>
             {listing.details}
