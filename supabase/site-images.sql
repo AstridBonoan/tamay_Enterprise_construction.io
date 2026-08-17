@@ -1,5 +1,8 @@
 -- Site photo CMS. Run in Supabase → SQL Editor after staff-role.sql (needs is_staff()).
--- Idempotent: safe to re-run.
+-- Required before Replace photo / Add photo will work. Idempotent: safe to re-run.
+--
+-- This creates the public `site-media` storage bucket. Without it, uploads fail with
+-- "Bucket not found".
 
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (

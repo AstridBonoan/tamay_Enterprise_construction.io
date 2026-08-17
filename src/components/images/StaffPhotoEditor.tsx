@@ -68,9 +68,15 @@ type StaffPhotoEditorProps = {
   slot: string;
   children: ReactNode;
   compact?: boolean;
+  onControlHover?: (hovered: boolean) => void;
 };
 
-export function StaffPhotoEditor({ slot, children, compact = false }: StaffPhotoEditorProps) {
+export function StaffPhotoEditor({
+  slot,
+  children,
+  compact = false,
+  onControlHover,
+}: StaffPhotoEditorProps) {
   const { user } = useAuth();
   const { overrides, applyOverride, clearOverride } = useSiteImageEditor();
   const [busy, setBusy] = useState(false);
@@ -128,6 +134,11 @@ export function StaffPhotoEditor({ slot, children, compact = false }: StaffPhoto
         className="absolute top-2 right-2 z-40 flex flex-col items-end gap-1"
         onClick={(event) => event.stopPropagation()}
         onPointerDown={(event) => event.stopPropagation()}
+        onMouseEnter={(event) => {
+          event.stopPropagation();
+          onControlHover?.(true);
+        }}
+        onMouseLeave={() => onControlHover?.(false)}
       >
         <StaffImagePickerButton
           label="Replace photo"

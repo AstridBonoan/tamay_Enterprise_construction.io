@@ -198,6 +198,20 @@ function errorMessage(error: unknown, fallback: string): string {
   return fallback;
 }
 
+function setupError(error: unknown, fallback: string): string {
+  const message = errorMessage(error, fallback);
+  if (/bucket not found|not found/i.test(message) && /bucket/i.test(message)) {
+    return "Photo storage is not set up yet. In Supabase → SQL Editor, run supabase/site-images.sql, then try again.";
+  }
+  if (/site_image_slots|schema cache|does not exist/i.test(message)) {
+    return "Photo storage is not set up yet. In Supabase → SQL Editor, run supabase/site-images.sql, then try again.";
+  }
+  if (/row-level security|violates row-level|permission denied|not allowed/i.test(message)) {
+    return "Upload was blocked. Confirm this account is staff, and that supabase/site-images.sql has been run.";
+  }
+  return message;
+}
+
 async function blobFromCanvas(canvas: HTMLCanvasElement, mime: string, quality: number): Promise<Blob> {
   const blob = await new Promise<Blob | null>((resolve) => {
     canvas.toBlob(resolve, mime, quality);
@@ -281,7 +295,7 @@ export async function replaceSiteImage(
     upsert: false,
   });
   if (uploadError) {
-    throw new Error(errorMessage(uploadError, "Could not upload photo to storage."));
+    throw new Error(setupError(uploadError, "Could not upload photo to storage."));
   }
 
   const { data: publicData } = supabase.storage.from(SITE_MEDIA_BUCKET).getPublicUrl(path);
@@ -298,7 +312,7 @@ export async function replaceSiteImage(
 
   const { data, error } = await supabase.from("site_image_slots").upsert(row).select("*").single();
   if (error) {
-    throw new Error(errorMessage(error, "Photo uploaded, but it could not be saved. Try again."));
+    throw new Error(setupError(error, "Photo uploaded, but it could not be saved. Try again."));
   }
 
   if (previousPath && previousPath !== path) {

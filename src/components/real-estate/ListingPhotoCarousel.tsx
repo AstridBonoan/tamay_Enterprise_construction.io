@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { ImageCarousel } from "@/components/ui/ImageCarousel";
 import { useResolvedSiteMedia } from "@/components/images/SiteImagesProvider";
@@ -14,9 +14,11 @@ import {
 } from "@/lib/siteImageSlots";
 import { mediaSrc, replaceSiteImage } from "@/lib/siteImages";
 import type { PropertyListing } from "@/lib/realEstateListings";
+import { ListingPhotoHoverPreview } from "@/components/real-estate/ListingPhotoHoverPreview";
 
 const PHONE_MEDIA = "(max-width: 767px)";
 const CARD_AUTOPLAY_MS = 4000;
+const PREVIEW_CLOSE_MS = 400;
 
 function useIsPhone() {
   const [isPhone, setIsPhone] = useState(false);
@@ -37,7 +39,7 @@ type ListingPhotoCarouselProps = {
   aspectClassName?: string;
   showThumbnails?: boolean;
   showNavArrows?: boolean;
-  /** Fade to the second photo on hover (property cards). */
+  /** Enlarge listing photos in the center of the screen on hover (property cards). */
   hoverPreview?: boolean;
 };
 
@@ -54,6 +56,8 @@ export function ListingPhotoCarousel({
   const isPhone = useIsPhone();
   const [addBusy, setAddBusy] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const closeTimer = useRef<number | null>(null);
 
   const slides = useMemo(() => {
     const next = [];
@@ -68,8 +72,34 @@ export function ListingPhotoCarousel({
 
   const nextEmptyIndex = slides.length + 1;
   const canAddExtra = Boolean(user?.isStaff) && nextEmptyIndex <= LISTING_PHOTO_COUNT;
-  const hoverSlide = hoverPreview && slides.length > 1 ? slides[1] : null;
   const mainSlide = slides[0];
+
+  const cancelClose = useCallback(() => {
+    if (closeTimer.current != null) {
+      window.clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }, []);
+
+  const openPreview = useCallback(() => {
+    cancelClose();
+    setPreviewOpen(true);
+  }, [cancelClose]);
+
+  const closePreview = useCallback(() => {
+    cancelClose();
+    setPreviewOpen(false);
+  }, [cancelClose]);
+
+  const scheduleClose = useCallback(() => {
+    cancelClose();
+    closeTimer.current = window.setTimeout(() => {
+      setPreviewOpen(false);
+      closeTimer.current = null;
+    }, PREVIEW_CLOSE_MS);
+  }, [cancelClose]);
+
+  useEffect(() => () => cancelClose(), [cancelClose]);
 
   const carousel = (
     <ImageCarousel
@@ -89,9 +119,16 @@ export function ListingPhotoCarousel({
       {hoverPreview && mainSlide ? (
         <>
           <div className="hidden md:block">
-            <div className={`group relative overflow-hidden bg-gray-100 ${aspectClassName}`}>
+            <div
+              className={`relative overflow-hidden bg-gray-100 ${aspectClassName}`}
+              onMouseEnter={openPreview}
+              onMouseLeave={scheduleClose}
+            >
               <div className="absolute inset-0">
-                <StaffPhotoEditor slot={mainSlide.slotKey}>
+                <StaffPhotoEditor
+                  slot={mainSlide.slotKey}
+                  onControlHover={(hovered) => (hovered ? closePreview() : openPreview())}
+                >
                   <Image
                     src={mainSlide.src}
                     alt={mainSlide.alt}
@@ -102,27 +139,24 @@ export function ListingPhotoCarousel({
                   />
                 </StaffPhotoEditor>
               </div>
-              {hoverSlide ? (
-                <div className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100">
-                  <Image
-                    src={hoverSlide.src}
-                    alt={hoverSlide.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    unoptimized
-                  />
-                </div>
-              ) : null}
             </div>
           </div>
           <div className="md:hidden">{carousel}</div>
+          <ListingPhotoHoverPreview
+            slides={slides}
+            open={previewOpen && !isPhone}
+            onStay={openPreview}
+            onLeave={closePreview}
+          />
         </>
       ) : (
         carousel
       )}
       {canAddExtra ? (
-        <div className="absolute top-2 left-2 z-30 flex flex-col items-start gap-1">
+        <div
+          className="absolute top-2 left-2 z-30 flex flex-col items-start gap-1"
+          onMouseEnter={closePreview}
+        >
           <StaffImagePickerButton
             label="Add photo"
             busy={addBusy}
