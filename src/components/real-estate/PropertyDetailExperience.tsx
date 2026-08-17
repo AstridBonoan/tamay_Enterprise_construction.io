@@ -42,14 +42,9 @@ export function PropertyDetailExperience({ listing }: PropertyDetailPageProps) {
           aspectClassName="aspect-[16/10] sm:aspect-[21/9]"
         />
 
-        <div className="mt-6 flex flex-wrap gap-2">
-          <span className="bg-tamay-accent text-white text-[11px] font-bold tracking-wide uppercase px-2.5 py-1">
-            <SiteText k={listingCopyKey(listing.id, "kindLabel")}>{listing.kindLabel}</SiteText>
-          </span>
-          <span className="bg-tamay-primary text-white text-[11px] font-bold tracking-wide uppercase px-2.5 py-1">
-            <SiteText k={listingCopyKey(listing.id, "statusLabel")}>{listing.statusLabel}</SiteText>
-          </span>
-        </div>
+        <span className="mt-6 inline-block bg-tamay-accent text-white text-[11px] font-bold tracking-wide uppercase px-2.5 py-1">
+          <SiteText k={listingCopyKey(listing.id, "kindLabel")}>{listing.kindLabel}</SiteText>
+        </span>
 
         <SiteText k={listingCopyKey(listing.id, "title")} as="h1" className="font-heading text-2xl sm:text-3xl lg:text-4xl text-tamay-primary font-semibold mt-4 leading-tight">
           {listing.title}

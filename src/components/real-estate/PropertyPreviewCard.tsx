@@ -31,14 +31,9 @@ export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPre
       <ListingPhotoCarousel listing={listing} aspectClassName="aspect-[16/10]" hoverPreview />
 
       <div className="px-4 sm:px-5 py-4 space-y-3">
-        <div className="flex flex-wrap gap-2">
-          <span className="bg-tamay-accent text-white text-[11px] font-bold tracking-wide uppercase px-2.5 py-1">
-            <SiteText k={listingCopyKey(listing.id, "kindLabel")}>{listing.kindLabel}</SiteText>
-          </span>
-          <span className="bg-tamay-primary text-white text-[11px] font-bold tracking-wide uppercase px-2.5 py-1">
-            <SiteText k={listingCopyKey(listing.id, "statusLabel")}>{listing.statusLabel}</SiteText>
-          </span>
-        </div>
+        <span className="inline-block bg-tamay-accent text-white text-[11px] font-bold tracking-wide uppercase px-2.5 py-1">
+          <SiteText k={listingCopyKey(listing.id, "kindLabel")}>{listing.kindLabel}</SiteText>
+        </span>
         <SiteText k={listingCopyKey(listing.id, "price")} as="p" className="text-tamay-primary font-bold text-xl">
           {listing.price}
         </SiteText>
