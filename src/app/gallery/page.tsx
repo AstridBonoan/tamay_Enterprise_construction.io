@@ -16,11 +16,13 @@ export default async function GalleryPage() {
   const photos = GALLERY_PHOTO_SLOTS.map((slot) => ({
     title: slot.title,
     src: mediaSrc(media, slot.key),
+    slotKey: slot.key,
   }));
   return (
     <>
       <HeroBanner
         image={media.images.heroHome}
+        slotKey="heroHome"
         title="Our Work Across Connecticut"
         subtitle="Every home has a story, and every project we complete becomes part of it."
         cta={{ label: "Find out more", href: "#contact" }}

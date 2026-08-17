@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { revalidateSiteImages } from "@/app/actions/revalidateSiteImages";
+import { useSiteImageEditor } from "@/components/images/SiteImagesProvider";
 import {
   restoreSiteImageDefault,
   replaceSiteImage,
@@ -15,11 +16,14 @@ type StaffImagesManagerProps = {
 };
 
 export function StaffImagesManager({ userId, initialOverrides }: StaffImagesManagerProps) {
+  const { applyOverride, clearOverride } = useSiteImageEditor();
   const [overrides, setOverrides] = useState(initialOverrides);
   const [busyKey, setBusyKey] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [groupFilter, setGroupFilter] = useState(SITE_IMAGE_SLOT_GROUPS[0] ?? "Homepage");
+  const [groupFilter, setGroupFilter] = useState(
+    SITE_IMAGE_SLOT_GROUPS.includes("Properties") ? "Properties" : (SITE_IMAGE_SLOT_GROUPS[0] ?? "Homepage"),
+  );
 
   const slots = useMemo(
     () => SITE_IMAGE_SLOTS.filter((slot) => slot.group === groupFilter),
@@ -34,6 +38,7 @@ export function StaffImagesManager({ userId, initialOverrides }: StaffImagesMana
       setSuccess(null);
       try {
         const saved = await replaceSiteImage(userId, key, file, overrides[key]?.storage_path);
+        applyOverride(saved);
         await revalidateSiteImages();
         setOverrides((prev) => ({ ...prev, [key]: saved }));
         setSuccess("Photo updated. Public pages will pick up the new image shortly.");
@@ -43,7 +48,7 @@ export function StaffImagesManager({ userId, initialOverrides }: StaffImagesMana
         setBusyKey(null);
       }
     },
-    [overrides, userId],
+    [applyOverride, overrides, userId],
   );
 
   const handleRestore = useCallback(
@@ -53,6 +58,7 @@ export function StaffImagesManager({ userId, initialOverrides }: StaffImagesMana
       setSuccess(null);
       try {
         await restoreSiteImageDefault(key, overrides[key]?.storage_path);
+        clearOverride(key);
         await revalidateSiteImages();
         setOverrides((prev) => {
           const next = { ...prev };
@@ -66,7 +72,7 @@ export function StaffImagesManager({ userId, initialOverrides }: StaffImagesMana
         setBusyKey(null);
       }
     },
-    [overrides],
+    [clearOverride, overrides],
   );
 
   return (
@@ -105,8 +111,14 @@ export function StaffImagesManager({ userId, initialOverrides }: StaffImagesMana
           return (
             <li key={slot.key} className="border border-gray-200 rounded-lg overflow-hidden bg-white">
               <div className="relative aspect-[16/10] bg-gray-100">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                {src ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={src} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center text-sm text-gray-500 px-4 text-center">
+                    No extra photo yet
+                  </div>
+                )}
                 {override && (
                   <span className="absolute left-2 top-2 rounded bg-tamay-primary px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white">
                     Custom

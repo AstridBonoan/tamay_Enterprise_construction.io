@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { ScheduleSlotPreview } from "@/components/scheduling/ScheduleSlotPreview";
-import { useAppointmentServiceImage } from "@/components/images/SiteImagesProvider";
+import { SitePhoto } from "@/components/images/SitePhoto";
+import { APPOINTMENT_SERVICE_IMAGE_KEYS } from "@/lib/siteImageSlots";
 import type { OnlineAppointmentService } from "@/lib/onlineAppointments";
 import { appointmentScheduleHref } from "@/lib/onlineAppointments";
 
@@ -22,19 +22,12 @@ export function AppointmentServiceCard({
   onToggleAvailability,
 }: AppointmentServiceCardProps) {
   const scheduleHref = appointmentScheduleHref(service.id);
-  const imageSrc = useAppointmentServiceImage(service.id, service.image);
+  const imageSlot = APPOINTMENT_SERVICE_IMAGE_KEYS[service.id] ?? "logo";
 
   return (
     <div className="flex flex-col md:flex-row gap-6 md:gap-8">
       <figure className="relative w-full md:w-52 lg:w-60 aspect-[3/2] shrink-0 bg-gray-100 overflow-hidden">
-        <Image
-          src={imageSrc}
-          alt={service.imageAlt}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 240px"
-          unoptimized
-        />
+        <SitePhoto slot={imageSlot} alt={service.imageAlt} sizes="(max-width: 768px) 100vw, 240px" compact />
       </figure>
 
       <div className="flex-1 min-w-0 md:pt-1">

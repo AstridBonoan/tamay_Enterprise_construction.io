@@ -1,16 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { FloatCloseButton } from "@/components/ui/FloatingFloatControls";
 import { useEstimatorPromo } from "@/hooks/useEstimatorPromo";
 import { ESTIMATOR_PROMO } from "@/lib/estimatorPromo";
-import { useSiteImageSrc } from "@/components/images/SiteImagesProvider";
+import { SitePhoto } from "@/components/images/SitePhoto";
 
 /** Small-project estimator promo — HTML card with approved photo header. */
 export function EstimatorPromoFloat() {
   const { visible, dismiss, engage } = useEstimatorPromo();
-  const photo = useSiteImageSrc("estimator.photo");
 
   if (!visible) return null;
 
@@ -23,13 +21,12 @@ export function EstimatorPromoFloat() {
     >
       <div className="relative overflow-hidden rounded-xl bg-[#FAF8F5] text-gray-800 shadow-[0_12px_32px_rgba(26,43,69,0.18)] border border-[#e8e2d8]">
         <div className="relative h-24 sm:h-32 w-full overflow-hidden">
-          <Image
-            src={photo}
+          <SitePhoto
+            slot="estimator.photo"
             alt={ESTIMATOR_PROMO.photoAlt}
-            fill
             className="object-cover object-left"
             sizes="336px"
-            unoptimized
+            compact
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] to-transparent opacity-40 sm:opacity-20" />
           <FloatCloseButton onClick={dismiss} ariaLabel="Dismiss small project estimator" />

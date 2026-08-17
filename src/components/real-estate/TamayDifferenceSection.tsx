@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { useResolvedImages } from "@/components/images/SiteImagesProvider";
+import { SitePhoto } from "@/components/images/SitePhoto";
 
 const AREAS = [
   {
@@ -23,19 +22,15 @@ const AREAS = [
 ];
 
 export function TamayDifferenceSection() {
-  const images = useResolvedImages();
   return (
     <section className="py-16 md:py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <figure className="relative aspect-[4/3] overflow-hidden bg-gray-100">
-            <Image
-              src={images.realEstate.approvedDifference}
+            <SitePhoto
+              slot="realEstate.approvedDifference"
               alt="A family evaluating a property with visual layers for growth, systems, renovation possibilities, and long-term ownership planning"
-              fill
-              className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
-              unoptimized
             />
           </figure>
           <div>

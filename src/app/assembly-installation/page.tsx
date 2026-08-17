@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { Button } from "@/components/ui/Button";
 import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
+import { SitePhoto } from "@/components/images/SitePhoto";
 import {
   ASSEMBLY_CABINET_FEATURE,
   ASSEMBLY_IMPORTANT_NOTE,
@@ -23,16 +23,16 @@ export const metadata: Metadata = buildSocialMetadata("assembly");
 
 type ServiceCardProps = {
   title: string;
-  image: string;
+  slot: string;
   imageAlt: string;
   items: readonly string[];
 };
 
-function ServiceCard({ title, image, imageAlt, items }: ServiceCardProps) {
+function ServiceCard({ title, slot, imageAlt, items }: ServiceCardProps) {
   return (
     <article className="border border-gray-200 bg-white overflow-hidden h-full flex flex-col">
       <figure className="relative aspect-[16/10] w-full bg-gray-100">
-        <Image src={image} alt={imageAlt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" unoptimized />
+        <SitePhoto slot={slot} alt={imageAlt} sizes="(max-width: 768px) 100vw, 50vw" />
       </figure>
       <div className="p-6 flex-1 flex flex-col">
         <h3 className="font-heading text-lg text-tamay-primary font-semibold mb-4">{title}</h3>
@@ -67,6 +67,7 @@ export default async function AssemblyInstallationPage() {
     <>
       <HeroBanner
         image={mediaSrc(media, "assembly.hero")}
+        slotKey="assembly.hero"
         title="Professional Furniture Assembly & Installation"
         subtitle={ASSEMBLY_INTRO.tagline}
         height="medium"
@@ -116,13 +117,10 @@ export default async function AssemblyInstallationPage() {
           subtitle="Our team performs a wide range of furniture assembly and installation services commonly requested by large furniture retailers, logistics providers, and service platforms. Each project is completed with attention to detail, proper alignment, and client-ready results."
         />
         <figure className="relative aspect-[21/9] max-w-5xl mx-auto mt-10 mb-8 overflow-hidden rounded-sm">
-          <Image
-            src={mediaSrc(media, "assembly.cabinetInstall")}
+          <SitePhoto
+            slot="assembly.cabinetInstall"
             alt={ASSEMBLY_CABINET_FEATURE.imageAlt}
-            fill
-            className="object-cover"
             sizes="(max-width: 1024px) 100vw, 1024px"
-            unoptimized
           />
         </figure>
         <p className="text-center text-sm text-gray-600 max-w-2xl mx-auto mb-10">{ASSEMBLY_CABINET_FEATURE.caption}</p>
@@ -131,7 +129,7 @@ export default async function AssemblyInstallationPage() {
             <ServiceCard
               key={group.title}
               title={group.title}
-              image={mediaSrc(media, ASSEMBLY_GROUP_IMAGE_KEYS[index] ?? "assembly.furnitureAssembly")}
+              slot={ASSEMBLY_GROUP_IMAGE_KEYS[index] ?? "assembly.furnitureAssembly"}
               imageAlt={group.imageAlt}
               items={group.items}
             />
@@ -153,13 +151,11 @@ export default async function AssemblyInstallationPage() {
 
       <section className="bg-tamay-primary text-white">
         <figure className="relative w-full aspect-[1024/282]">
-          <Image
-            src={mediaSrc(media, "assembly.builtForScale")}
+          <SitePhoto
+            slot="assembly.builtForScale"
             alt={ASSEMBLY_SCALE.imageAlt}
-            fill
             className="object-cover object-top"
             sizes="100vw"
-            unoptimized
           />
           <div className="absolute inset-0 bg-tamay-primary/35" aria-hidden />
         </figure>
@@ -181,13 +177,11 @@ export default async function AssemblyInstallationPage() {
 
       <section className="py-14 max-w-5xl mx-auto px-4">
         <figure className="relative aspect-[16/9] w-full mb-10 overflow-hidden rounded-sm">
-          <Image
-            src={mediaSrc(media, "assembly.professionalStandards")}
+          <SitePhoto
+            slot="assembly.professionalStandards"
             alt={ASSEMBLY_STANDARDS.imageAlt}
-            fill
             className="object-cover object-center"
             sizes="(max-width: 1024px) 100vw, 1024px"
-            unoptimized
           />
         </figure>
         <SectionHeading

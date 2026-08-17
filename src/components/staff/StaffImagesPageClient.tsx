@@ -29,8 +29,9 @@ export default function StaffImagesPage({
     >
       <AccountPanel>
         <p className="text-sm text-gray-600 leading-relaxed mb-6">
-          Choose a section, then replace a photo. Visitors see the new image on the next page load.
-          Restore original to go back to the built-in photo.
+          Choose a section, then replace a photo. You can also open any public page while signed in as staff
+          and click <strong>Replace photo</strong> on the image itself — including property listings. Extra
+          listing photos can be added from the property card or this page.
         </p>
         <StaffImagesManager userId={user.id} initialOverrides={initialOverrides} />
       </AccountPanel>

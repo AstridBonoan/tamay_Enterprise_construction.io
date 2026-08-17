@@ -1,9 +1,9 @@
 "use client";
 
-import { createContext, useContext, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import { IMAGES } from "@/lib/images";
 import { EXTRA_IMAGE_DEFAULTS, APPOINTMENT_SERVICE_IMAGE_KEYS } from "@/lib/siteImageSlots";
-import { mediaSrc, type ResolvedSiteMedia } from "@/lib/siteImages";
+import { mediaSrc, resolveMediaFromOverrides, type ResolvedSiteMedia, type SiteImageOverride } from "@/lib/siteImages";
 
 const defaultMedia: ResolvedSiteMedia = {
   images: IMAGES,
@@ -11,7 +11,16 @@ const defaultMedia: ResolvedSiteMedia = {
   overrides: {},
 };
 
-const SiteImagesContext = createContext<ResolvedSiteMedia>(defaultMedia);
+type SiteImagesContextValue = ResolvedSiteMedia & {
+  applyOverride: (row: SiteImageOverride) => void;
+  clearOverride: (key: string) => void;
+};
+
+const SiteImagesContext = createContext<SiteImagesContextValue>({
+  ...defaultMedia,
+  applyOverride: () => undefined,
+  clearOverride: () => undefined,
+});
 
 export function SiteImagesProvider({
   media,
@@ -20,11 +29,41 @@ export function SiteImagesProvider({
   media: ResolvedSiteMedia;
   children: ReactNode;
 }) {
-  return <SiteImagesContext.Provider value={media}>{children}</SiteImagesContext.Provider>;
+  const [overrides, setOverrides] = useState(media.overrides);
+
+  const applyOverride = useCallback((row: SiteImageOverride) => {
+    setOverrides((prev) => ({ ...prev, [row.key]: row }));
+  }, []);
+
+  const clearOverride = useCallback((key: string) => {
+    setOverrides((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  }, []);
+
+  const resolved = useMemo(() => resolveMediaFromOverrides(overrides), [overrides]);
+
+  const value = useMemo(
+    () => ({
+      ...resolved,
+      applyOverride,
+      clearOverride,
+    }),
+    [applyOverride, clearOverride, resolved],
+  );
+
+  return <SiteImagesContext.Provider value={value}>{children}</SiteImagesContext.Provider>;
 }
 
 export function useResolvedSiteMedia(): ResolvedSiteMedia {
   return useContext(SiteImagesContext);
+}
+
+export function useSiteImageEditor() {
+  const { applyOverride, clearOverride, overrides } = useContext(SiteImagesContext);
+  return { applyOverride, clearOverride, overrides };
 }
 
 export function useResolvedImages() {

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { Button } from "@/components/ui/Button";
 import { VideoTestimonialCarousel } from "@/components/home/VideoTestimonialCarousel";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
+import { SitePhoto } from "@/components/images/SitePhoto";
 import {
   ADA_RESTROOM_PROJECT_VIDEOS,
   CONSTRUCTION_PROJECT_VIDEOS,
@@ -18,24 +18,24 @@ import { buildSocialMetadata } from "@/lib/socialMetadata";
 
 export const metadata: Metadata = buildSocialMetadata("construction");
 
-function coreServicesFor(images: Awaited<ReturnType<typeof getResolvedSiteMedia>>["images"]) {
+function coreServicesFor() {
   return [
     {
       title: "Full Home Renovations & Remodeling",
       text: "Tamay Enterprises provides full home renovation and remodeling services for homeowners, real estate investors, and property managers in West Haven, CT and nearby Connecticut communities. Our renovation projects focus on improving layout, comfort, and long-term functionality while maintaining high construction standards. From interior updates to whole-home transformations, each project is managed with structured planning, professional coordination, and quality-driven execution.",
-      img: images.construction.renovation,
+      slot: "construction.renovation",
       alt: "Construction team reviewing renovation plans at a job site",
     },
     {
       title: "Home Additions & Expansions",
       text: "We design and build home additions and expansions for homeowners, real estate investors, and property managers seeking to increase usable space and property value. Our services include room additions, bump-outs, and layout expansions for properties in West Haven and surrounding Connecticut areas, all delivered with attention to structural integrity, visual continuity, and long-term durability.",
-      img: images.construction.addition,
+      slot: "construction.addition",
       alt: "Two-story home addition under construction",
     },
     {
       title: "Kitchen & Bathroom Remodeling",
       text: "Tamay Enterprises specializes in kitchen and bathroom remodeling services for homeowners, real estate investors, and property managers throughout West Haven, CT and nearby communities. Our remodeling work balances aesthetics, durability, and everyday usability, delivering kitchens and bathrooms designed to perform reliably in both owner-occupied and managed properties.",
-      img: images.construction.kitchenBath,
+      slot: "construction.kitchenBath",
       alt: "Modern kitchen and bathroom remodeling",
     },
   ] as const;
@@ -76,11 +76,12 @@ const processSteps = [
 
 export default async function ConstructionPage() {
   const { images } = await getResolvedSiteMedia();
-  const coreServices = coreServicesFor(images);
+  const coreServices = coreServicesFor();
   return (
     <>
       <HeroBanner
         image={images.heroConstruction}
+        slotKey="heroConstruction"
         title="Construction & Home Renovation Services"
         subtitle="Your dream space starts here."
         height="medium"
@@ -121,14 +122,7 @@ export default async function ConstructionPage() {
             {coreServices.map((s) => (
               <article key={s.title} className="bg-white shadow-md overflow-hidden">
                 <div className="relative h-52 sm:h-56">
-                  <Image
-                    src={s.img}
-                    alt={s.alt}
-                    fill
-                    className="object-cover"
-                    sizes="400px"
-                    unoptimized
-                  />
+                  <SitePhoto slot={s.slot} alt={s.alt} sizes="400px" />
                 </div>
                 <div className="p-6">
                   <h3 className="font-heading text-lg text-tamay-primary font-semibold mb-3">{s.title}</h3>

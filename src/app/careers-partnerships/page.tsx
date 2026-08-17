@@ -19,6 +19,7 @@ export default async function CareersPage() {
     <>
       <HeroBanner
         image={mediaSrc(media, "careers.hero")}
+        slotKey="careers.hero"
         title="Careers & Partnerships"
         subtitle="Construction Jobs available"
         height="medium"
@@ -44,6 +45,7 @@ export default async function CareersPage() {
           <article className="mt-10 border border-gray-200 bg-white shadow-sm overflow-hidden">
             <CareersAboutPhoto
               src={mediaSrc(media, "careers.mission")}
+              slotKey="careers.mission"
               alt={CAREERS_ABOUT_IMAGES.mission.alt}
               className="aspect-[21/9] max-h-[280px] w-full"
             />
@@ -60,6 +62,7 @@ export default async function CareersPage() {
           <article className="mt-10 grid md:grid-cols-2 gap-0 border border-gray-200 bg-white shadow-sm overflow-hidden">
             <CareersAboutPhoto
               src={mediaSrc(media, "careers.whyWork")}
+              slotKey="careers.whyWork"
               alt={CAREERS_ABOUT_IMAGES.whyWork.alt}
               className="aspect-[4/3] md:aspect-auto md:min-h-full"
             />
@@ -105,6 +108,7 @@ export default async function CareersPage() {
             <div className="order-1 md:order-2">
               <CareersAboutPhoto
                 src={mediaSrc(media, "careers.whoThrives")}
+                slotKey="careers.whoThrives"
                 alt={CAREERS_ABOUT_IMAGES.whoThrives.alt}
                 className="aspect-[4/3] md:aspect-auto md:min-h-full h-full"
               />

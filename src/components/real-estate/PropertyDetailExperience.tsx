@@ -2,16 +2,15 @@ import Link from "next/link";
 import { OpenLiveChatButton } from "@/components/layout/OpenLiveChatButton";
 import { PropertyInformationRequest } from "@/components/real-estate/PropertyInformationRequest";
 import { TamayPropertyPerspective } from "@/components/real-estate/TamayPropertyPerspective";
+import { ListingPhotoCarousel } from "@/components/real-estate/ListingPhotoCarousel";
 import {
   realEstateChatButtonClass,
   realEstateOutlineLinkClass,
   realEstatePrimaryLinkClass,
 } from "@/components/real-estate/realEstateCtaStyles";
-import { ImageCarousel } from "@/components/ui/ImageCarousel";
 import { ScheduleSlotPreview } from "@/components/scheduling/ScheduleSlotPreview";
 import { sitePath } from "@/lib/paths";
 import {
-  listingPreviewSlides,
   schedulePagePath,
   type PublicPropertyListing,
 } from "@/lib/realEstateScheduling";
@@ -22,7 +21,6 @@ type PropertyDetailPageProps = {
 };
 
 export function PropertyDetailExperience({ listing }: PropertyDetailPageProps) {
-  const slides = listingPreviewSlides(listing);
   const specs = [
     `${listing.beds} bed`,
     `${listing.baths} bath`,
@@ -41,12 +39,9 @@ export function PropertyDetailExperience({ listing }: PropertyDetailPageProps) {
           </Link>
         </p>
 
-        <ImageCarousel
-          slides={slides}
+        <ListingPhotoCarousel
+          listing={listing}
           aspectClassName="aspect-[16/10] sm:aspect-[21/9]"
-          showThumbnails={slides.length > 1}
-          showNavArrows={slides.length > 1}
-          navButtonClassName="rounded-full bg-white min-w-11 min-h-11 p-2.5 text-tamay-primary shadow-md border border-gray-200 hover:bg-gray-50 shrink-0"
         />
 
         <div className="mt-6 flex flex-wrap gap-2">

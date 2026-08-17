@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { Button } from "@/components/ui/Button";
 import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
+import { SitePhoto } from "@/components/images/SitePhoto";
 import { getResolvedSiteMedia } from "@/lib/siteImages";
 import { buildSocialMetadata } from "@/lib/socialMetadata";
 
@@ -18,24 +18,24 @@ const deliveryServices = [
   "Project-based logistics coordination",
 ];
 
-function whyChooseFor(images: Awaited<ReturnType<typeof getResolvedSiteMedia>>["images"]) {
+function whyChooseFor() {
   return [
     {
       title: "Professional appearance",
       text: "Professional appearance and courteous drivers",
-      image: images.logistics.whyChoose.professional,
+      slot: "logistics.whyChoose.professional",
       alt: "Tamay logistics team member reviewing operations on a tablet in a warehouse",
     },
     {
       title: "On-time, communication-first operations",
       text: "Same-day or next-day transport for urgent materials and equipment.",
-      image: images.logistics.whyChoose.delivery,
+      slot: "logistics.whyChoose.delivery",
       alt: "Package delivery tracking with order delivery confirmation",
     },
     {
       title: "Problem-solving mindset",
       text: "Problem-solving mindset for tight windows and tricky sites",
-      image: images.logistics.whyChoose.problemSolving,
+      slot: "logistics.whyChoose.problemSolving",
       alt: "Strategic problem-solving approach from problem to solution",
     },
   ];
@@ -48,28 +48,29 @@ const supportAudience = [
 ];
 
 function LogisticsPhoto({
-  src,
+  slot,
   alt,
   className = "aspect-[2/1]",
 }: {
-  src: string;
+  slot: string;
   alt: string;
   className?: string;
 }) {
   return (
     <figure className={`relative ${className} max-w-5xl mx-auto overflow-hidden rounded-sm`}>
-      <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 1280px" unoptimized />
+      <SitePhoto slot={slot} alt={alt} sizes="(max-width: 768px) 100vw, 1280px" />
     </figure>
   );
 }
 
 export default async function LogisticsPage() {
   const { images } = await getResolvedSiteMedia();
-  const whyChoose = whyChooseFor(images);
+  const whyChoose = whyChooseFor();
   return (
     <>
       <HeroBanner
         image={images.logistics.hero}
+        slotKey="logistics.hero"
         title="Logistics & Delivery Services"
         height="medium"
       />
@@ -96,7 +97,7 @@ export default async function LogisticsPage() {
       <section className="py-14 bg-gray-50 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <LogisticsPhoto
-            src={images.logistics.warehouseFleet}
+            slot="logistics.warehouseFleet"
             alt="Tamay Enterprises delivery vans at a warehouse loading dock"
             className="aspect-[16/10] mb-10"
           />
@@ -148,7 +149,7 @@ export default async function LogisticsPage() {
             {whyChoose.map((w) => (
               <div key={w.title} className="bg-white p-6 border-t-4 border-tamay-primary shadow-sm text-center">
                 <div className="relative w-40 h-40 mx-auto mb-5 rounded-full overflow-hidden">
-                  <Image src={w.image} alt={w.alt} fill className="object-cover" sizes="160px" unoptimized />
+                  <SitePhoto slot={w.slot} alt={w.alt} sizes="160px" compact />
                 </div>
                 <h3 className="font-heading text-tamay-primary font-semibold mb-3">{w.title}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{w.text}</p>
@@ -172,7 +173,7 @@ export default async function LogisticsPage() {
       </section>
 
       <section className="px-4 pb-10 max-w-5xl mx-auto">
-        <LogisticsPhoto src={images.logistics.routeMap} alt="Regional logistics route map" />
+        <LogisticsPhoto slot="logistics.routeMap" alt="Regional logistics route map" />
       </section>
 
       <section className="py-14 bg-tamay-primary text-white px-4">

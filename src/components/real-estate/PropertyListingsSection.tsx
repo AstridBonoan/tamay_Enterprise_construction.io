@@ -1,9 +1,10 @@
-import Image from "next/image";
+import { SitePhoto } from "@/components/images/SitePhoto";
 import { Button } from "@/components/ui/Button";
 import { ScheduleSlotPreview } from "@/components/scheduling/ScheduleSlotPreview";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { PropertyListing } from "@/lib/realEstateListings";
 import { sitePath } from "@/lib/paths";
+import { listingImageSlotKey } from "@/lib/siteImageSlots";
 import { schedulePagePath } from "@/lib/realEstateScheduling";
 
 type PropertyListingsSectionProps = {
@@ -35,13 +36,10 @@ function PropertyListingCard({
   return (
     <article className="bg-white border border-gray-200 shadow-sm overflow-hidden">
       <div className="relative aspect-[16/10] sm:aspect-[2/1] bg-gray-100">
-        <Image
-          src={listing.image}
+        <SitePhoto
+          slot={listingImageSlotKey(listing.id)}
           alt={listing.imageAlt}
-          fill
-          className="object-cover"
           sizes="(max-width: 768px) 100vw, 768px"
-          unoptimized
         />
         <span className="absolute top-4 left-4 bg-tamay-accent text-white text-xs font-bold tracking-wide uppercase px-3 py-1.5">
           {badgeLabel}

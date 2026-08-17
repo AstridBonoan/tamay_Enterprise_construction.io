@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { Button } from "@/components/ui/Button";
 import { ServiceAppointmentSection } from "@/components/appointments/ServiceAppointmentSection";
+import { SitePhoto } from "@/components/images/SitePhoto";
 import { getResolvedSiteMedia } from "@/lib/siteImages";
 import { buildSocialMetadata } from "@/lib/socialMetadata";
 
@@ -164,17 +164,17 @@ const whoWeSupport = [
 ];
 
 function PreventivePhoto({
-  src,
+  slot,
   alt,
   className = "aspect-[16/10]",
 }: {
-  src: string;
+  slot: string;
   alt: string;
   className?: string;
 }) {
   return (
     <figure className={`relative ${className} overflow-hidden rounded-sm`}>
-      <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 600px" unoptimized />
+      <SitePhoto slot={slot} alt={alt} sizes="(max-width: 768px) 100vw, 600px" />
     </figure>
   );
 }
@@ -215,6 +215,7 @@ export default async function HomePreventiveServicesPage() {
     <>
       <HeroBanner
         image={images.preventiveServices.hero}
+        slotKey="preventiveServices.hero"
         tagline="Seasonal & year-round services"
         title="Home Preventive Services Program"
         subtitle="Designed to keep every home safe, efficient, and well-maintained."
@@ -237,7 +238,7 @@ export default async function HomePreventiveServicesPage() {
             </p>
           </div>
           <PreventivePhoto
-            src={images.preventiveServices.aboutConsultation}
+            slot="preventiveServices.aboutConsultation"
             alt="Tamay technician reviewing preventive maintenance with a homeowner in the kitchen"
             className="aspect-[4/3]"
           />
@@ -327,7 +328,7 @@ export default async function HomePreventiveServicesPage() {
             </div>
           </div>
           <PreventivePhoto
-            src={images.preventiveServices.homeownerSupport}
+            slot="preventiveServices.homeownerSupport"
             alt="Professional reviewing a technical summary document with a client"
             className="aspect-[4/3]"
           />

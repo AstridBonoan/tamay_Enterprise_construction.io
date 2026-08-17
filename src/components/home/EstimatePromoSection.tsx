@@ -1,34 +1,27 @@
 "use client";
 
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { useResolvedImages } from "@/components/images/SiteImagesProvider";
+import { SitePhoto } from "@/components/images/SitePhoto";
 import { ESTIMATE, SITE } from "@/lib/site";
 
 type EstimatePromoSectionProps = {
-  image?: string;
   imageAlt?: string;
 };
 
 export function EstimatePromoSection({
-  image,
   imageAlt = "Construction and home renovation services",
 }: EstimatePromoSectionProps) {
-  const images = useResolvedImages();
-  const src = image ?? images.construction.estimateFloatBanner;
   return (
     <section id="project-estimate" className="py-16 bg-gray-50">
       <div className="max-w-5xl mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-8 md:gap-10 items-center bg-white shadow-md overflow-hidden rounded-sm">
           <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[280px] bg-gray-200">
-            <Image
-              src={src}
+            <SitePhoto
+              slot="construction.estimateFloatBanner"
               alt={imageAlt}
-              fill
               className="object-cover object-center"
               sizes="(max-width: 768px) 100vw, 50vw"
-              unoptimized
             />
           </div>
 

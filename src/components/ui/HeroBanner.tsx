@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SitePhoto } from "@/components/images/SitePhoto";
 
 type HeroBannerProps = {
   image: string;
+  slotKey?: string;
   title: string;
   subtitle?: string;
   tagline?: string;
@@ -25,6 +27,7 @@ type HeroBannerProps = {
 
 export function HeroBanner({
   image,
+  slotKey,
   title,
   subtitle,
   tagline,
@@ -83,18 +86,29 @@ export function HeroBanner({
                 : { inset: 0 }
         }
       >
-        <Image
-          src={image}
-          alt=""
-          fill
-          className={fitClass}
-          style={{ objectPosition: imagePosition }}
-          priority
-          sizes="100vw"
-          unoptimized
-        />
+        {slotKey ? (
+          <SitePhoto
+            slot={slotKey}
+            alt=""
+            className={fitClass}
+            style={{ objectPosition: imagePosition }}
+            sizes="100vw"
+            priority
+          />
+        ) : (
+          <Image
+            src={image}
+            alt=""
+            fill
+            className={fitClass}
+            style={{ objectPosition: imagePosition }}
+            priority
+            sizes="100vw"
+            unoptimized
+          />
+        )}
+        {effectiveOverlay && <div className={`pointer-events-none absolute inset-0 z-[1] ${overlayClassName}`} />}
       </div>
-      {effectiveOverlay && <div className={`absolute inset-0 ${overlayClassName}`} />}
       {imageOnly ? (
         <h1 className="sr-only">{title}</h1>
       ) : (

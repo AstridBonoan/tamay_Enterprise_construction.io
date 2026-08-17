@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { OpenLiveChatButton } from "@/components/layout/OpenLiveChatButton";
 import { realEstateChatButtonClass } from "@/components/real-estate/realEstateCtaStyles";
-import { useResolvedImages } from "@/components/images/SiteImagesProvider";
+import { SitePhoto } from "@/components/images/SitePhoto";
 
 const AREAS = [
   {
@@ -39,7 +38,6 @@ const AREAS = [
 ];
 
 export function BuildersEyesSection() {
-  const images = useResolvedImages();
   return (
     <section className="py-16 md:py-20 bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -55,13 +53,10 @@ export function BuildersEyesSection() {
         </div>
 
         <figure className="relative mt-10 aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-gray-100">
-          <Image
-            src={images.realEstate.approvedBuildersEyes}
+          <SitePhoto
+            slot="realEstate.approvedBuildersEyes"
             alt="Builder-informed view of a property with callouts for layout, kitchen and bath, systems, basement, exterior, and future costs"
-            fill
-            className="object-cover"
             sizes="100vw"
-            unoptimized
           />
         </figure>
 

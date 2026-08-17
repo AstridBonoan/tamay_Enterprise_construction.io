@@ -16,6 +16,7 @@ export default async function FinancePage() {
     <>
       <HeroBanner
         image={images.financeHero}
+        slotKey="financeHero"
         title={FINANCE.title}
         subtitle="Build now. Pay over time."
         height="medium"

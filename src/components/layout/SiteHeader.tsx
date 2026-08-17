@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useState } from "react";
 import { NAV_MORE, NAV_PRIMARY } from "@/lib/site";
 import { useResolvedImages } from "@/components/images/SiteImagesProvider";
+import { StaffPhotoEditor } from "@/components/images/StaffPhotoEditor";
 import { AccountMenu } from "./AccountMenu";
 import { MobileSidebar } from "./MobileSidebar";
 
@@ -69,16 +70,18 @@ export function SiteHeader() {
             </svg>
           </button>
 
-          <Link href="/" className="flex items-center justify-center min-h-[44px]">
-            <Image
-              src={images.logo}
-              alt="Tamay Enterprises"
-              width={180}
-              height={64}
-              className="h-10 sm:h-11 w-auto object-contain max-w-[160px]"
-              priority
-              unoptimized
-            />
+          <Link href="/" className="relative flex items-center justify-center min-h-[44px]">
+            <StaffPhotoEditor slot="logo" compact>
+              <Image
+                src={images.logo}
+                alt="Tamay Enterprises"
+                width={180}
+                height={64}
+                className="h-10 sm:h-11 w-auto object-contain max-w-[160px]"
+                priority
+                unoptimized
+              />
+            </StaffPhotoEditor>
           </Link>
 
           <HeaderToolbar
@@ -92,16 +95,18 @@ export function SiteHeader() {
         {/* Desktop xl+: logo, compact nav, phone */}
         <div className="hidden xl:block max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between gap-6 py-3">
-            <Link href="/" className="shrink-0">
-              <Image
-                src={images.logo}
-                alt="Tamay Enterprises"
-                width={260}
-                height={90}
-                className="h-14 w-auto object-contain"
-                priority
-                unoptimized
-              />
+            <Link href="/" className="relative shrink-0">
+              <StaffPhotoEditor slot="logo" compact>
+                <Image
+                  src={images.logo}
+                  alt="Tamay Enterprises"
+                  width={260}
+                  height={90}
+                  className="h-14 w-auto object-contain"
+                  priority
+                  unoptimized
+                />
+              </StaffPhotoEditor>
             </Link>
 
             <nav className="flex-1 flex items-center justify-center gap-0.5 min-w-0">

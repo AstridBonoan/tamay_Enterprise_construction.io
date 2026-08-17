@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
+import { StaffPhotoEditor } from "@/components/images/StaffPhotoEditor";
 import { useCarouselAutoplay } from "@/hooks/useCarouselAutoplay";
 
 export type ImageCarouselSlide = {
   src: string;
   alt: string;
+  slotKey?: string;
 };
 
 type ImageCarouselProps = {
@@ -73,15 +75,29 @@ export function ImageCarousel({
   return (
     <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div className={`relative overflow-hidden rounded-sm bg-gray-100 ${aspectClassName}`}>
-        <Image
-          src={mainSlide.src}
-          alt={mainSlide.alt}
-          fill
-          className="object-cover transition-opacity duration-500"
-          sizes="100vw"
-          unoptimized
-          priority={index === 0}
-        />
+        {mainSlide.slotKey ? (
+          <StaffPhotoEditor slot={mainSlide.slotKey}>
+            <Image
+              src={mainSlide.src}
+              alt={mainSlide.alt}
+              fill
+              className="object-cover transition-opacity duration-500"
+              sizes="100vw"
+              unoptimized
+              priority={index === 0}
+            />
+          </StaffPhotoEditor>
+        ) : (
+          <Image
+            src={mainSlide.src}
+            alt={mainSlide.alt}
+            fill
+            className="object-cover transition-opacity duration-500"
+            sizes="100vw"
+            unoptimized
+            priority={index === 0}
+          />
+        )}
         <div className="absolute inset-x-0 bottom-0 flex justify-between items-center p-3 sm:p-4 bg-gradient-to-t from-black/60 to-transparent">
           {showNavArrows ? (
             <button type="button" onClick={prev} className={navButtonClass} aria-label="Previous image">
@@ -111,7 +127,7 @@ export function ImageCarousel({
         <div className="flex gap-3 overflow-x-auto px-4 py-4 justify-start scrollbar-hide scroll-px-4">
           {slides.map((slide, i) => (
             <button
-              key={slide.src}
+              key={slide.slotKey ?? `${slide.src}-${i}`}
               type="button"
               ref={(el) => {
                 thumbRefs.current[i] = el;

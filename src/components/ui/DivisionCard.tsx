@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { OpenLiveChatButton } from "@/components/layout/OpenLiveChatButton";
+import { SitePhoto } from "@/components/images/SitePhoto";
 import { Button } from "./Button";
 
 type DivisionCardProps = {
   image: string;
+  slotKey?: string;
   eyebrow: string;
   title: string;
   tagline: string;
@@ -22,6 +24,7 @@ type DivisionCardProps = {
 
 export function DivisionCard({
   image,
+  slotKey,
   eyebrow,
   title,
   tagline,
@@ -60,14 +63,23 @@ export function DivisionCard({
                 : "aspect-[4/3]"
             }`}
           >
-            <Image
-              src={image}
-              alt={title}
-              fill
-              className="object-cover object-center"
-              sizes="(max-width:768px) 100vw, 50vw"
-              unoptimized
-            />
+            {slotKey ? (
+              <SitePhoto
+                slot={slotKey}
+                alt={title}
+                className="object-cover object-center"
+                sizes="(max-width:768px) 100vw, 50vw"
+              />
+            ) : (
+              <Image
+                src={image}
+                alt={title}
+                fill
+                className="object-cover object-center"
+                sizes="(max-width:768px) 100vw, 50vw"
+                unoptimized
+              />
+            )}
           </div>
           <div className={fullScreen ? "md:pt-0" : undefined}>
             <p className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-tamay-primary mb-2">

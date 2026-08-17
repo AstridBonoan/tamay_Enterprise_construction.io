@@ -3,6 +3,7 @@ import { assetUrl } from "./assetUrl";
 import { CAREERS_ABOUT_IMAGES, CAREERS_HERO_BANNER } from "./careerImages";
 import { ESTIMATOR_PROMO } from "./estimatorPromo";
 import { IMAGES } from "./images";
+import { RENT_LISTINGS, SALE_LISTINGS } from "./realEstateListings";
 
 export type SiteImageSlot = {
   key: string;
@@ -32,6 +33,7 @@ const GROUP_FROM_PREFIX: Record<string, string> = {
   assembly: "Assembly",
   estimator: "Homepage",
   gallery: "Gallery",
+  listings: "Properties",
 };
 
 const KEY_LABELS: Record<string, string> = {
@@ -129,6 +131,23 @@ function groupFor(key: string): string {
 const IMAGE_DEFAULTS: Record<string, string> = {};
 flattenStringLeaves(IMAGES, "", IMAGE_DEFAULTS);
 
+export const LISTING_PHOTO_COUNT = 4;
+
+export function listingImageSlotKey(listingId: string, photoIndex = 1) {
+  return photoIndex <= 1 ? `listings.${listingId}` : `listings.${listingId}.${photoIndex}`;
+}
+
+const LISTING_IMAGE_DEFAULTS: Record<string, string> = {};
+for (const listing of [...SALE_LISTINGS, ...RENT_LISTINGS]) {
+  const kind = SALE_LISTINGS.some((item) => item.id === listing.id) ? "For sale" : "For rent";
+  for (let index = 1; index <= LISTING_PHOTO_COUNT; index += 1) {
+    const key = listingImageSlotKey(listing.id, index);
+    LISTING_IMAGE_DEFAULTS[key] = index === 1 ? listing.image : "";
+    KEY_LABELS[key] =
+      index === 1 ? `${listing.title} (${kind})` : `${listing.title} — extra photo ${index}`;
+  }
+}
+
 export const EXTRA_IMAGE_DEFAULTS: Record<string, string> = {
   "careers.hero": CAREERS_HERO_BANNER,
   "careers.mission": CAREERS_ABOUT_IMAGES.mission.src,
@@ -158,6 +177,7 @@ export const EXTRA_IMAGE_DEFAULTS: Record<string, string> = {
   "gallery.photo10": assetUrl("/gallery/photos/photo-10.png"),
   "gallery.photo11": assetUrl("/gallery/photos/photo-11.png"),
   "gallery.photo12": assetUrl("/gallery/photos/photo-12.png"),
+  ...LISTING_IMAGE_DEFAULTS,
 };
 
 const GALLERY_PHOTO_TITLES = [
@@ -193,7 +213,26 @@ export const SITE_IMAGE_SLOTS: SiteImageSlot[] = Object.entries(SITE_IMAGE_DEFAU
   }),
 );
 
-export const SITE_IMAGE_SLOT_GROUPS = [...new Set(SITE_IMAGE_SLOTS.map((slot) => slot.group))];
+const GROUP_ORDER = [
+  "Properties",
+  "Homepage",
+  "Real Estate",
+  "Gallery",
+  "Construction",
+  "Preventive Services",
+  "Logistics",
+  "Assembly",
+  "Careers",
+  "Finance",
+  "Reviews",
+  "Brand",
+];
+
+const discoveredGroups = [...new Set(SITE_IMAGE_SLOTS.map((slot) => slot.group))];
+export const SITE_IMAGE_SLOT_GROUPS = [
+  ...GROUP_ORDER.filter((group) => discoveredGroups.includes(group)),
+  ...discoveredGroups.filter((group) => !GROUP_ORDER.includes(group)),
+];
 
 export const IMAGE_PATH_KEYS = new Set(Object.keys(IMAGE_DEFAULTS));
 

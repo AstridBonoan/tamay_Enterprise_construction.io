@@ -32,6 +32,7 @@ export default async function HomePage() {
         fullScreen
         alignTop
         image={images.divisions.construction}
+        slotKey="divisions.construction"
         eyebrow="RELIABLE. EXPERIENCED. FULLY INSURED"
         title="Construction & Home Renovation"
         tagline="We Design, Supply, Build & Maintain"
@@ -49,6 +50,7 @@ export default async function HomePage() {
       <DivisionCard
         fullScreen
         image={images.divisions.realEstate}
+        slotKey="divisions.realEstate"
         eyebrow="YOUR TRUSTED PARTNER IN REAL ESTATE"
         title="Real Estate Services & Property Solutions"
         tagline="Experience. Network. Results."
@@ -63,6 +65,7 @@ export default async function HomePage() {
       <DivisionCard
         fullScreen
         image={images.divisions.logistics}
+        slotKey="divisions.logistics"
         eyebrow="DELIVERING MORE THAN MILES -- WE DELIVER TRUST."
         title="Local & Regional Logistics Services"
         tagline="Proudly serving Connecticut and nearby regions."

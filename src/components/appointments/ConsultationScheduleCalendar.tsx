@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { ServiceAppointmentForm } from "@/components/appointments/ServiceAppointmentForm";
 import { Button } from "@/components/ui/Button";
+import { SitePhoto } from "@/components/images/SitePhoto";
 import {
   appointmentSchedulePath,
   ONLINE_APPOINTMENT_SERVICES,
@@ -12,7 +12,7 @@ import {
 } from "@/lib/onlineAppointments";
 import { sitePath } from "@/lib/paths";
 import { SITE } from "@/lib/site";
-import { useAppointmentServiceImage } from "@/components/images/SiteImagesProvider";
+import { APPOINTMENT_SERVICE_IMAGE_KEYS } from "@/lib/siteImageSlots";
 
 type ConsultationScheduleCalendarProps = {
   initialServiceId: string | null;
@@ -23,18 +23,11 @@ const serviceSelectClass =
   "w-full border border-gray-300 rounded-md px-4 py-3 text-base text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-tamay-primary/40 focus:border-tamay-primary";
 
 function SelectedServicePreview({ service }: { service: OnlineAppointmentService }) {
-  const imageSrc = useAppointmentServiceImage(service.id, service.image);
+  const imageSlot = APPOINTMENT_SERVICE_IMAGE_KEYS[service.id] ?? "logo";
   return (
     <div className="flex gap-4 p-4 border border-tamay-primary bg-tamay-primary/5 ring-1 ring-tamay-primary/30">
       <figure className="relative w-24 sm:w-28 aspect-[3/2] shrink-0 bg-gray-100 overflow-hidden">
-        <Image
-          src={imageSrc}
-          alt=""
-          fill
-          className="object-cover"
-          sizes="112px"
-          unoptimized
-        />
+        <SitePhoto slot={imageSlot} alt="" sizes="112px" compact />
       </figure>
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-3">
@@ -68,21 +61,14 @@ export function ConsultationScheduleCalendar({
   }, []);
 
   const service = selectedServiceId ? getAppointmentServiceById(selectedServiceId) : undefined;
-  const serviceImage = useAppointmentServiceImage(service?.id ?? "construction", service?.image ?? "");
+  const serviceSlot = APPOINTMENT_SERVICE_IMAGE_KEYS[service?.id ?? ""] ?? "logo";
 
   return (
     <div className="space-y-8">
       <div className="bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
         {service && !serviceLocked ? (
           <figure className="relative w-full max-w-md aspect-[3/2] bg-gray-100 overflow-hidden mb-5">
-            <Image
-              src={serviceImage}
-              alt={service.imageAlt}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 448px"
-              unoptimized
-            />
+            <SitePhoto slot={serviceSlot} alt={service.imageAlt} sizes="(max-width: 768px) 100vw, 448px" />
           </figure>
         ) : null}
         <p className="text-xs font-bold uppercase tracking-widest text-tamay-accent mb-2">Free consultation</p>

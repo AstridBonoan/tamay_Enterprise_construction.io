@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { OpenLiveChatButton } from "@/components/layout/OpenLiveChatButton";
 import { realEstateChatButtonClass } from "@/components/real-estate/realEstateCtaStyles";
-import { useResolvedImages } from "@/components/images/SiteImagesProvider";
+import { SitePhoto } from "@/components/images/SitePhoto";
 
 const SCENARIOS = [
   {
@@ -54,7 +53,6 @@ const SCENARIOS = [
 ];
 
 export function PlanForTomorrowSection() {
-  const images = useResolvedImages();
   return (
     <section className="py-16 md:py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -70,13 +68,10 @@ export function PlanForTomorrowSection() {
             </p>
           </div>
           <figure className="relative aspect-[4/3] overflow-hidden bg-gray-100">
-            <Image
-              src={images.realEstate.approvedPlanTomorrow}
+            <SitePhoto
+              slot="realEstate.approvedPlanTomorrow"
               alt="Today to tomorrow storytelling for first-time buyers, growing families, and investors"
-              fill
-              className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
-              unoptimized
             />
           </figure>
         </div>

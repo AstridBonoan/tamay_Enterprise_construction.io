@@ -1,28 +1,24 @@
 "use client";
 
-import Image from "next/image";
 import { OpenLiveChatButton } from "@/components/layout/OpenLiveChatButton";
 import {
   realEstateChatButtonClass,
   realEstateOnDarkLinkClass,
 } from "@/components/real-estate/realEstateCtaStyles";
-import { useResolvedImages } from "@/components/images/SiteImagesProvider";
+import { SitePhoto } from "@/components/images/SitePhoto";
 
 export function RealEstateHero() {
-  const images = useResolvedImages();
   return (
     <section className="relative min-h-[70svh] md:min-h-[78svh] flex items-end md:items-center overflow-hidden bg-tamay-primary">
-      <Image
-        src={images.realEstate.approvedHero}
+      <SitePhoto
+        slot="realEstate.approvedHero"
         alt="Residential property with Tamay callouts for kitchen potential, basement opportunity, layout flexibility, exterior improvements, and future expansion"
-        fill
-        priority
         className="object-cover object-center"
         sizes="100vw"
-        unoptimized
+        priority
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-tamay-primary/88 via-tamay-primary/35 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-tamay-primary/70 via-transparent to-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-tamay-primary/88 via-tamay-primary/35 to-transparent pointer-events-none z-[1]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-tamay-primary/70 via-transparent to-black/10 pointer-events-none z-[1]" />
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-16">
         <p className="text-tamay-accent font-heading font-bold tracking-[0.18em] uppercase text-xs mb-3">
           Real Estate

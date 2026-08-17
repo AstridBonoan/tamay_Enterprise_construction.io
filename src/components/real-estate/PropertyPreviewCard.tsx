@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ImageCarousel } from "@/components/ui/ImageCarousel";
+import { ListingPhotoCarousel } from "@/components/real-estate/ListingPhotoCarousel";
 import { ScheduleSlotPreview } from "@/components/scheduling/ScheduleSlotPreview";
 import {
   realEstateOutlineLinkClass,
@@ -9,7 +9,6 @@ import {
 } from "@/components/real-estate/realEstateCtaStyles";
 import { sitePath } from "@/lib/paths";
 import {
-  listingPreviewSlides,
   propertyPagePath,
   schedulePagePath,
   type PublicPropertyListing,
@@ -22,7 +21,6 @@ type PropertyPreviewCardProps = {
 };
 
 export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPreviewCardProps) {
-  const slides = listingPreviewSlides(listing);
   const specs = [
     `${listing.beds} bed`,
     `${listing.baths} bath`,
@@ -36,14 +34,7 @@ export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPre
 
   return (
     <article className="bg-white border border-gray-200 overflow-hidden">
-      <ImageCarousel
-        slides={slides}
-        aspectClassName="aspect-[16/10]"
-        showThumbnails={false}
-        showCaption={false}
-        showNavArrows={slides.length > 1}
-        navButtonClassName="rounded-full bg-white min-w-11 min-h-11 p-2.5 text-tamay-primary shadow-md border border-gray-200 hover:bg-gray-50 shrink-0"
-      />
+      <ListingPhotoCarousel listing={listing} aspectClassName="aspect-[16/10]" />
 
       <div className="px-4 sm:px-5 py-4 space-y-3">
         <div className="flex flex-wrap gap-2">
