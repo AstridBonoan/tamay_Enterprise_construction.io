@@ -26,6 +26,14 @@ function fetchSiteImageApi(input: RequestInfo | URL, init?: RequestInit) {
 
 const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
+const MIME_BY_EXT: Record<string, string> = {
+  jpg: "image/jpeg",
+  jpeg: "image/jpeg",
+  jfif: "image/jpeg",
+  png: "image/png",
+  webp: "image/webp",
+  gif: "image/gif",
+};
 
 export type SiteImageOverride = {
   key: string;
@@ -159,14 +167,102 @@ export function mediaSrc(media: Pick<ResolvedSiteMedia, "images" | "extras">, ke
   return media.extras[key] ?? SITE_IMAGE_DEFAULTS[key] ?? "";
 }
 
-function extensionForFile(file: File): string {
-  const fromName = file.name.split(".").pop()?.toLowerCase();
-  if (fromName === "jpeg") return "jpg";
-  if (fromName && ["jpg", "png", "webp", "gif"].includes(fromName)) return fromName;
-  if (file.type === "image/png") return "png";
-  if (file.type === "image/webp") return "webp";
-  if (file.type === "image/gif") return "gif";
+function extensionForMime(mime: string): string {
+  if (mime === "image/png") return "png";
+  if (mime === "image/webp") return "webp";
+  if (mime === "image/gif") return "gif";
   return "jpg";
+}
+
+function fileExtension(file: File): string {
+  return file.name.split(".").pop()?.toLowerCase() ?? "";
+}
+
+function resolvedImageMime(file: File): string {
+  if (ALLOWED_TYPES.has(file.type)) return file.type;
+  if (file.type === "image/jpg" || file.type === "image/pjpeg") return "image/jpeg";
+  return MIME_BY_EXT[fileExtension(file)] ?? "";
+}
+
+function isHeic(file: File): boolean {
+  const ext = fileExtension(file);
+  return file.type === "image/heic" || file.type === "image/heif" || ext === "heic" || ext === "heif";
+}
+
+function errorMessage(error: unknown, fallback: string): string {
+  if (error instanceof Error && error.message) return error.message;
+  if (error && typeof error === "object" && "message" in error) {
+    const message = String((error as { message: unknown }).message ?? "");
+    if (message) return message;
+  }
+  return fallback;
+}
+
+async function blobFromCanvas(canvas: HTMLCanvasElement, mime: string, quality: number): Promise<Blob> {
+  const blob = await new Promise<Blob | null>((resolve) => {
+    canvas.toBlob(resolve, mime, quality);
+  });
+  if (!blob) throw new Error("Could not process this photo. Try a JPG or PNG instead.");
+  return blob;
+}
+
+async function compressImageFile(file: File, mime: string): Promise<File> {
+  const bitmap = await createImageBitmap(file);
+  const maxEdge = 1920;
+  const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
+  const width = Math.max(1, Math.round(bitmap.width * scale));
+  const height = Math.max(1, Math.round(bitmap.height * scale));
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    bitmap.close();
+    throw new Error("Could not process this photo. Try a JPG or PNG under 5 MB.");
+  }
+  ctx.drawImage(bitmap, 0, 0, width, height);
+  bitmap.close();
+
+  const outputType = mime === "image/png" ? "image/png" : "image/jpeg";
+  let quality = 0.86;
+  let blob = await blobFromCanvas(canvas, outputType, quality);
+  while (blob.size > MAX_UPLOAD_BYTES && quality > 0.4) {
+    quality -= 0.12;
+    blob = await blobFromCanvas(canvas, outputType, quality);
+  }
+  if (blob.size > MAX_UPLOAD_BYTES) {
+    throw new Error("This photo is too large. Try a smaller JPG or PNG.");
+  }
+
+  const baseName = file.name.replace(/\.[^.]+$/, "") || "photo";
+  return new File([blob], `${baseName}.${extensionForMime(outputType)}`, { type: outputType });
+}
+
+async function prepareSiteImageFile(file: File): Promise<File> {
+  if (isHeic(file)) {
+    throw new Error("HEIC photos aren’t supported. Save the photo as JPG or PNG, then try again.");
+  }
+
+  const mime = resolvedImageMime(file);
+  if (!mime) {
+    throw new Error("Please upload a JPG, PNG, WEBP, or GIF image.");
+  }
+
+  const typed = file.type === mime ? file : new File([file], file.name, { type: mime });
+  if (typed.type === "image/gif") {
+    if (typed.size > MAX_UPLOAD_BYTES) {
+      throw new Error("GIF images must be 5 MB or smaller.");
+    }
+    return typed;
+  }
+  if (typed.size <= MAX_UPLOAD_BYTES) return typed;
+
+  try {
+    return await compressImageFile(typed, mime);
+  } catch (error) {
+    if (error instanceof Error && error.message.startsWith("This photo")) throw error;
+    throw new Error("This photo is too large. Try a smaller JPG or PNG under 5 MB.");
+  }
 }
 
 export async function replaceSiteImage(
@@ -175,21 +271,18 @@ export async function replaceSiteImage(
   file: File,
   previousPath?: string | null,
 ): Promise<SiteImageOverride> {
-  if (!ALLOWED_TYPES.has(file.type)) {
-    throw new Error("Please upload a JPG, PNG, WEBP, or GIF image.");
-  }
-  if (file.size > MAX_UPLOAD_BYTES) {
-    throw new Error("Images must be 5 MB or smaller.");
-  }
+  const prepared = await prepareSiteImageFile(file);
 
   const supabase = createBrowserClient();
-  const path = `${key.replace(/\./g, "/")}/${crypto.randomUUID()}.${extensionForFile(file)}`;
+  const path = `${key.replace(/\./g, "/")}/${crypto.randomUUID()}.${extensionForMime(prepared.type)}`;
 
-  const { error: uploadError } = await supabase.storage.from(SITE_MEDIA_BUCKET).upload(path, file, {
-    contentType: file.type,
+  const { error: uploadError } = await supabase.storage.from(SITE_MEDIA_BUCKET).upload(path, prepared, {
+    contentType: prepared.type,
     upsert: false,
   });
-  if (uploadError) throw uploadError;
+  if (uploadError) {
+    throw new Error(errorMessage(uploadError, "Could not upload photo to storage."));
+  }
 
   const { data: publicData } = supabase.storage.from(SITE_MEDIA_BUCKET).getPublicUrl(path);
   const publicUrl = `${publicData.publicUrl}?v=${Date.now()}`;
@@ -204,7 +297,9 @@ export async function replaceSiteImage(
   };
 
   const { data, error } = await supabase.from("site_image_slots").upsert(row).select("*").single();
-  if (error) throw error;
+  if (error) {
+    throw new Error(errorMessage(error, "Photo uploaded, but it could not be saved. Try again."));
+  }
 
   if (previousPath && previousPath !== path) {
     await supabase.storage.from(SITE_MEDIA_BUCKET).remove([previousPath]);

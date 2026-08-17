@@ -70,19 +70,21 @@ export function SiteHeader() {
             </svg>
           </button>
 
-          <Link href="/" className="relative flex items-center justify-center min-h-[44px]">
+          <div className="relative flex items-center justify-center min-h-[44px]">
             <StaffPhotoEditor slot="logo" compact>
-              <Image
-                src={images.logo}
-                alt="Tamay Enterprises"
-                width={180}
-                height={64}
-                className="h-10 sm:h-11 w-auto object-contain max-w-[160px]"
-                priority
-                unoptimized
-              />
+              <Link href="/" className="flex items-center justify-center min-h-[44px]">
+                <Image
+                  src={images.logo}
+                  alt="Tamay Enterprises"
+                  width={180}
+                  height={64}
+                  className="h-10 sm:h-11 w-auto object-contain max-w-[160px]"
+                  priority
+                  unoptimized
+                />
+              </Link>
             </StaffPhotoEditor>
-          </Link>
+          </div>
 
           <HeaderToolbar
             compact
@@ -95,19 +97,21 @@ export function SiteHeader() {
         {/* Desktop xl+: logo, compact nav, phone */}
         <div className="hidden xl:block max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between gap-6 py-3">
-            <Link href="/" className="relative shrink-0">
+            <div className="relative shrink-0">
               <StaffPhotoEditor slot="logo" compact>
-                <Image
-                  src={images.logo}
-                  alt="Tamay Enterprises"
-                  width={260}
-                  height={90}
-                  className="h-14 w-auto object-contain"
-                  priority
-                  unoptimized
-                />
+                <Link href="/" className="block">
+                  <Image
+                    src={images.logo}
+                    alt="Tamay Enterprises"
+                    width={260}
+                    height={90}
+                    className="h-14 w-auto object-contain"
+                    priority
+                    unoptimized
+                  />
+                </Link>
               </StaffPhotoEditor>
-            </Link>
+            </div>
 
             <nav className="flex-1 flex items-center justify-center gap-0.5 min-w-0">
               {NAV_PRIMARY.map((link) => (

@@ -20,6 +20,8 @@ type ImageCarouselProps = {
   /** Show active slide title below thumbnails */
   showCaption?: boolean;
   autoplayIntervalMs?: number;
+  /** Pause autoplay (e.g. when this carousel is hidden off-breakpoint) */
+  paused?: boolean;
   /** Show previous/next arrow buttons on the main slide */
   showNavArrows?: boolean;
   /** Extra classes for previous/next buttons (e.g. larger mobile tap targets) */
@@ -32,11 +34,12 @@ export function ImageCarousel({
   showThumbnails = true,
   showCaption = false,
   autoplayIntervalMs,
+  paused = false,
   showNavArrows = true,
   navButtonClassName,
 }: ImageCarouselProps) {
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const [hoverPaused, setHoverPaused] = useState(false);
   const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const prev = useCallback(
@@ -52,7 +55,7 @@ export function ImageCarousel({
     itemCount: slides.length,
     onAdvance: next,
     intervalMs: autoplayIntervalMs,
-    paused,
+    paused: paused || hoverPaused,
   });
 
   const goTo = useCallback((i: number) => {
@@ -73,7 +76,7 @@ export function ImageCarousel({
     "rounded-full bg-white p-2 text-tamay-primary shadow-md border border-gray-200 hover:bg-gray-50 shrink-0";
 
   return (
-    <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+    <div onMouseEnter={() => setHoverPaused(true)} onMouseLeave={() => setHoverPaused(false)}>
       <div className={`relative overflow-hidden rounded-sm bg-gray-100 ${aspectClassName}`}>
         {mainSlide.slotKey ? (
           <StaffPhotoEditor slot={mainSlide.slotKey}>

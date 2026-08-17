@@ -1,10 +1,68 @@
 "use client";
 
-import { useCallback, useState, type ChangeEvent, type ReactNode } from "react";
+import { useCallback, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { revalidateSiteImages } from "@/app/actions/revalidateSiteImages";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useSiteImageEditor } from "@/components/images/SiteImagesProvider";
 import { replaceSiteImage, restoreSiteImageDefault } from "@/lib/siteImages";
+
+const IMAGE_FILE_ACCEPT = "image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.jfif,.png,.webp,.gif,image/*";
+
+function isolateControl(event: MouseEvent) {
+  event.preventDefault();
+  event.stopPropagation();
+}
+
+type StaffImagePickerButtonProps = {
+  label: string;
+  busyLabel?: string;
+  busy?: boolean;
+  disabled?: boolean;
+  className: string;
+  onFile: (file: File) => void;
+};
+
+export function StaffImagePickerButton({
+  label,
+  busyLabel = "Saving...",
+  busy,
+  disabled,
+  className,
+  onFile,
+}: StaffImagePickerButtonProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <>
+      <button
+        type="button"
+        className={className}
+        disabled={busy || disabled}
+        onClick={(event) => {
+          isolateControl(event);
+          inputRef.current?.click();
+        }}
+        onPointerDown={(event) => event.stopPropagation()}
+      >
+        {busy ? busyLabel : label}
+      </button>
+      <input
+        ref={inputRef}
+        type="file"
+        accept={IMAGE_FILE_ACCEPT}
+        className="sr-only"
+        tabIndex={-1}
+        disabled={busy || disabled}
+        onClick={(event) => event.stopPropagation()}
+        onChange={(event) => {
+          const file = event.target.files?.[0];
+          event.target.value = "";
+          if (file) onFile(file);
+        }}
+      />
+    </>
+  );
+}
 
 type StaffPhotoEditorProps = {
   slot: string;
@@ -21,16 +79,18 @@ export function StaffPhotoEditor({ slot, children, compact = false }: StaffPhoto
   const hasOverride = Boolean(overrides[slot]);
 
   const handleReplace = useCallback(
-    async (event: ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files?.[0];
-      event.target.value = "";
-      if (!file || !user?.isStaff) return;
+    async (file: File) => {
+      if (!user?.isStaff) return;
       setBusy(true);
       setError(null);
       try {
         const saved = await replaceSiteImage(user.id, slot, file, overrides[slot]?.storage_path);
         applyOverride(saved);
-        await revalidateSiteImages();
+        try {
+          await revalidateSiteImages();
+        } catch (revalidateError) {
+          console.warn("Photo saved, but page cache was not refreshed:", revalidateError);
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : "Could not upload photo.");
       } finally {
@@ -47,7 +107,11 @@ export function StaffPhotoEditor({ slot, children, compact = false }: StaffPhoto
     try {
       await restoreSiteImageDefault(slot, overrides[slot]?.storage_path);
       clearOverride(slot);
-      await revalidateSiteImages();
+      try {
+        await revalidateSiteImages();
+      } catch (revalidateError) {
+        console.warn("Original photo restored, but page cache was not refreshed:", revalidateError);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not restore the original photo.");
     } finally {
@@ -60,35 +124,37 @@ export function StaffPhotoEditor({ slot, children, compact = false }: StaffPhoto
   return (
     <>
       {children}
-      <div className="pointer-events-none absolute top-2 right-2 z-40 flex flex-col items-end gap-1">
-        <label
-          className={`pointer-events-auto inline-flex cursor-pointer items-center justify-center rounded-md bg-tamay-primary font-semibold text-white shadow-md hover:bg-tamay-primary-dark z-30 ${
+      <div
+        className="absolute top-2 right-2 z-40 flex flex-col items-end gap-1"
+        onClick={(event) => event.stopPropagation()}
+        onPointerDown={(event) => event.stopPropagation()}
+      >
+        <StaffImagePickerButton
+          label="Replace photo"
+          busy={busy}
+          className={`inline-flex cursor-pointer items-center justify-center rounded-md bg-tamay-primary font-semibold text-white shadow-md hover:bg-tamay-primary-dark ${
             compact ? "min-h-9 px-2.5 text-[11px]" : "min-h-10 px-3 text-xs"
           } ${busy ? "opacity-70" : ""}`}
-        >
-          {busy ? "Saving..." : "Replace photo"}
-          <input
-            type="file"
-            accept="image/jpeg,image/png,image/webp,image/gif"
-            className="sr-only"
-            disabled={busy}
-            onChange={(event) => void handleReplace(event)}
-          />
-        </label>
+          onFile={(file) => void handleReplace(file)}
+        />
         {hasOverride ? (
           <button
             type="button"
-            className={`pointer-events-auto rounded-md border border-gray-200 bg-white font-semibold text-gray-800 shadow-sm hover:bg-gray-50 ${
+            className={`rounded-md border border-gray-200 bg-white font-semibold text-gray-800 shadow-sm hover:bg-gray-50 ${
               compact ? "min-h-8 px-2.5 text-[11px]" : "min-h-9 px-3 text-xs"
             }`}
             disabled={busy}
-            onClick={() => void handleRestore()}
+            onClick={(event) => {
+              isolateControl(event);
+              void handleRestore();
+            }}
+            onPointerDown={(event) => event.stopPropagation()}
           >
             Original
           </button>
         ) : null}
         {error ? (
-          <p className="pointer-events-auto max-w-[12rem] rounded bg-white/95 px-2 py-1 text-[11px] text-red-600 shadow">
+          <p className="max-w-[14rem] rounded bg-white/95 px-2 py-1 text-[11px] text-red-600 shadow" role="alert">
             {error}
           </p>
         ) : null}

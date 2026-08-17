@@ -28,7 +28,7 @@ export function PropertyPreviewCard({ listing, expanded, onToggle }: PropertyPre
 
   return (
     <article className="bg-white border border-gray-200 overflow-hidden">
-      <ListingPhotoCarousel listing={listing} aspectClassName="aspect-[16/10]" />
+      <ListingPhotoCarousel listing={listing} aspectClassName="aspect-[16/10]" hoverPreview />
 
       <div className="px-4 sm:px-5 py-4 space-y-3">
         <div className="flex flex-wrap gap-2">

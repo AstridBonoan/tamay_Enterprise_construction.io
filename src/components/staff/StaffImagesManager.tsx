@@ -3,6 +3,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { revalidateSiteImages } from "@/app/actions/revalidateSiteImages";
 import { useSiteImageEditor } from "@/components/images/SiteImagesProvider";
+import { StaffImagePickerButton } from "@/components/images/StaffPhotoEditor";
 import {
   restoreSiteImageDefault,
   replaceSiteImage,
@@ -39,7 +40,11 @@ export function StaffImagesManager({ userId, initialOverrides }: StaffImagesMana
       try {
         const saved = await replaceSiteImage(userId, key, file, overrides[key]?.storage_path);
         applyOverride(saved);
-        await revalidateSiteImages();
+        try {
+          await revalidateSiteImages();
+        } catch (revalidateError) {
+          console.warn("Photo saved, but page cache was not refreshed:", revalidateError);
+        }
         setOverrides((prev) => ({ ...prev, [key]: saved }));
         setSuccess("Photo updated. Public pages will pick up the new image shortly.");
       } catch (err) {
@@ -59,7 +64,11 @@ export function StaffImagesManager({ userId, initialOverrides }: StaffImagesMana
       try {
         await restoreSiteImageDefault(key, overrides[key]?.storage_path);
         clearOverride(key);
-        await revalidateSiteImages();
+        try {
+          await revalidateSiteImages();
+        } catch (revalidateError) {
+          console.warn("Original photo restored, but page cache was not refreshed:", revalidateError);
+        }
         setOverrides((prev) => {
           const next = { ...prev };
           delete next[key];
@@ -131,20 +140,13 @@ export function StaffImagesManager({ userId, initialOverrides }: StaffImagesMana
                   <p className="text-xs text-gray-500 mt-0.5">{slot.key}</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <label className="inline-flex items-center justify-center rounded-md bg-tamay-primary px-4 py-2 text-sm font-semibold text-white hover:bg-tamay-primary-dark cursor-pointer disabled:opacity-60">
-                    {busy ? "Saving..." : "Replace"}
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp,image/gif"
-                      className="sr-only"
-                      disabled={busy}
-                      onChange={(event) => {
-                        const file = event.target.files?.[0];
-                        event.target.value = "";
-                        void handleReplace(slot.key, file);
-                      }}
-                    />
-                  </label>
+                  <StaffImagePickerButton
+                    label="Replace"
+                    busyLabel="Saving..."
+                    busy={busy}
+                    className="inline-flex items-center justify-center rounded-md bg-tamay-primary px-4 py-2 text-sm font-semibold text-white hover:bg-tamay-primary-dark disabled:opacity-60"
+                    onFile={(file) => void handleReplace(slot.key, file)}
+                  />
                   {override && (
                     <button
                       type="button"
