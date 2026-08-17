@@ -1,0 +1,34 @@
+-- Supabase Auth setup (Dashboard — reference only)
+--
+-- REQUIRED: Disable email confirmation so users sign in immediately after sign-up.
+--   Authentication → Providers → Email → turn OFF "Confirm email"
+--
+-- After sign-up or sign-in, the site sends users to the homepage (unless ?r= is set,
+-- e.g. when booking a showing).
+--
+-- =============================================================================
+-- LEGACY USERS (signed up while confirmation was ON)
+-- =============================================================================
+-- They remain unconfirmed until you unlock them once:
+--
+-- Option A: Authentication → Users → select user → ⋮ → Confirm user
+--
+-- Option B (SQL Editor):
+--   update auth.users
+--   set
+--     email_confirmed_at = timezone('utc', now()),
+--     confirmed_at = timezone('utc', now())
+--   where email = 'ctamay323@gmail.com';
+--
+-- =============================================================================
+-- URL Configuration (still used for password reset)
+-- =============================================================================
+-- Set these in Supabase → Authentication → URL Configuration for your Vercel URL.
+--
+-- Site URL (production example):
+--   https://your-project.vercel.app
+--   or https://tamayenterprises.com when using a custom domain
+--
+-- Redirect URLs (add each environment you use):
+--   https://your-project.vercel.app/m/login/**
+--   https://tamayenterprises.com/m/login/**

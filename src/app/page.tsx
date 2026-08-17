@@ -1,0 +1,111 @@
+import type { Metadata } from "next";
+import { HeroVideoBanner } from "@/components/ui/HeroVideoBanner";
+import { AboutUsSection } from "@/components/about/AboutUsSection";
+import { ServicesSectionTitle } from "@/components/home/ServicesSectionTitle";
+import { EstimatePromoSection } from "@/components/home/EstimatePromoSection";
+import { FinancingBanner } from "@/components/home/FinancingBanner";
+import { HomeImageShowcase } from "@/components/home/HomeImageShowcase";
+import { HomeLocationMap } from "@/components/home/HomeLocationMap";
+import { ReviewsSection } from "@/components/home/ReviewsSection";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SiteContactSection } from "@/components/ui/SiteContactSection";
+import { DivisionCard } from "@/components/ui/DivisionCard";
+import { SERVICE_AREAS, SITE } from "@/lib/site";
+import { getResolvedSiteMedia } from "@/lib/siteImages";
+import { buildSocialMetadata } from "@/lib/socialMetadata";
+
+export const metadata: Metadata = buildSocialMetadata("home");
+
+export default async function HomePage() {
+  const { images } = await getResolvedSiteMedia();
+  return (
+    <>
+      <HeroVideoBanner withMessage tagline={SITE.tagline} />
+
+      <AboutUsSection />
+
+      <FinancingBanner />
+
+      <ServicesSectionTitle />
+
+      <DivisionCard
+        fullScreen
+        alignTop
+        image={images.divisions.construction}
+        eyebrow="RELIABLE. EXPERIENCED. FULLY INSURED"
+        title="Construction & Home Renovation"
+        tagline="We Design, Supply, Build & Maintain"
+        description="Our construction division delivers high-quality home renovations, remodeling, additions, and long-term property improvement services for homeowners and property owners in West Haven and surrounding Connecticut towns."
+        bullets={[
+          "* Flexible Financing Options",
+          "* 7-Year Warranty on eligible renovations",
+          "* Complimentary Kitchen + Bathroom Tune-Up (with qualifying projects)",
+        ]}
+        discoverHref="/construction"
+        ctaLabel="Talk to a Project Advisor"
+        ctaOpensLiveChat
+      />
+
+      <DivisionCard
+        fullScreen
+        image={images.divisions.realEstate}
+        eyebrow="YOUR TRUSTED PARTNER IN REAL ESTATE"
+        title="Real Estate Services & Property Solutions"
+        tagline="Experience. Network. Results."
+        description="Our real estate services are designed to support buyers, sellers, and property owners with clarity and confidence. We focus on practical guidance, smooth coordination, and informed decision-making to help clients protect and grow their real estate investments throughout West Haven and nearby Connecticut markets."
+        bullets={["Helping first-time homeowners and investors buy, sell, and grow with confidence"]}
+        discoverHref="/real-estate"
+        ctaLabel="Talk to a Real Estate Advisor"
+        ctaOpensLiveChat
+        reverse
+      />
+
+      <DivisionCard
+        fullScreen
+        image={images.divisions.logistics}
+        eyebrow="DELIVERING MORE THAN MILES -- WE DELIVER TRUST."
+        title="Local & Regional Logistics Services"
+        tagline="Proudly serving Connecticut and nearby regions."
+        description="Our logistics division provides reliable local and regional delivery services for businesses and individuals. Based in West Haven, CT, we focus on efficiency, communication, and dependable execution to support day-to-day operations and time-sensitive needs across surrounding communities."
+        bullets={["Fleet of ProMaster vans and a hands-on team ready to serve you"]}
+        discoverHref="/logistics"
+        ctaLabel="Talk to Dispatch"
+        ctaOpensLiveChat
+      />
+
+      <section className="py-16 bg-tamay-primary text-white">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <SectionHeading
+            eyebrow="WHY CHOOSE US?"
+            title="One Enterprise. Multiple Solutions."
+            subtitle="Tamay Enterprises was built to simplify services for our clients. Instead of coordinating multiple vendors, our customers benefit from one organized team with experience across construction, real estate, and logistics."
+            light
+          />
+          <h3 className="font-heading text-xl font-semibold mb-4">WHY TAMAY ENTERPRISES</h3>
+          <p className="text-gray-200 leading-relaxed max-w-2xl mx-auto">
+            This integrated approach helps projects move more efficiently while maintaining accountability, quality, and clear communication.
+          </p>
+        </div>
+      </section>
+
+      <EstimatePromoSection />
+
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <SectionHeading
+            title="Proudly Serving West Haven & Nearby Connecticut Communities"
+            subtitle={`Based in West Haven, CT, Tamay Enterprises proudly serves clients in ${SERVICE_AREAS.slice(0, 8).join(", ")}, and surrounding Connecticut communities. Our local presence allows us to provide responsive service while supporting projects throughout the region.`}
+          />
+        </div>
+      </section>
+
+      <HomeImageShowcase />
+
+      <ReviewsSection showVideoTestimonials />
+
+      <SiteContactSection />
+
+      <HomeLocationMap />
+    </>
+  );
+}

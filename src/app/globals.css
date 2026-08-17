@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+:root {
+  --tamay-primary: #35558f;
+  --tamay-primary-dark: #2a446f;
+  --tamay-accent: #c9a227;
+  --tamay-accent-hover: #b8921f;
+  --background: #ffffff;
+  --foreground: #333333;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-tamay-primary: var(--tamay-primary);
+  --color-tamay-primary-dark: var(--tamay-primary-dark);
+  --color-tamay-accent: var(--tamay-accent);
+  --color-tamay-accent-hover: var(--tamay-accent-hover);
+  --font-heading: var(--font-cinzel);
+  --font-body: var(--font-source-sans);
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-source-sans), "Source Sans Pro", Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.font-heading {
+  font-family: var(--font-cinzel), "Cinzel", Georgia, serif;
+}
+
+/* GoDaddy-style section dividers */
+.section-divider {
+  border: 0;
+  border-top: 1px solid #e5e5e5;
+  margin: 0 auto;
+  max-width: 120px;
+}
+
+/* Bottom float row — chat, promos, collapsed pills; lifts above cookie banner */
+.float-row-bottom {
+  bottom: calc(0.75rem + var(--cookie-banner-offset, 0px) + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 640px) {
+  .float-row-bottom {
+    bottom: calc(1.5rem + var(--cookie-banner-offset, 0px));
+  }
+}
+
+/* Tawk.to default bubble — hidden; site uses Tamay logo launcher instead */
+#tawk-bubble-container,
+.tawk-min-container {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+body.cookie-banner-visible #tawk-bubble-container,
+body.cookie-banner-visible .tawk-min-container {
+  z-index: 9998 !important;
+}
