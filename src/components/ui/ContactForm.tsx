@@ -146,7 +146,9 @@ export function ContactForm({
               name={field.name}
               rows={4}
               required={field.required}
+              autoComplete="off"
               defaultValue={defaultValues?.[field.name]}
+              suppressHydrationWarning
               className="w-full border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tamay-primary"
             />
           ) : field.type === "select" && field.options ? (
@@ -156,6 +158,7 @@ export function ContactForm({
               required={field.required}
               value={values[field.name] ?? defaultValues?.[field.name] ?? ""}
               onChange={(event) => updateValue(field.name, event.target.value)}
+              suppressHydrationWarning
               className="w-full border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tamay-primary bg-white"
             >
               <option value="">Select...</option>
@@ -171,7 +174,9 @@ export function ContactForm({
               name={field.name}
               type={field.type ?? "text"}
               required={field.required}
+              autoComplete={field.type === "email" ? "email" : field.type === "tel" ? "tel" : "on"}
               defaultValue={defaultValues?.[field.name]}
+              suppressHydrationWarning
               className="w-full border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tamay-primary"
             />
           )}

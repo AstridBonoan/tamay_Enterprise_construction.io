@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Suspense } from "react";
 import localFont from "next/font/local";
 import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
@@ -76,17 +75,15 @@ export default async function RootLayout({
   const [media, copy] = await Promise.all([getResolvedSiteMedia(), getResolvedSiteCopy()]);
 
   return (
-    <html lang="en-US" className={`${cinzel.variable} ${sourceSans.variable}`}>
-      <body className="min-h-screen flex flex-col antialiased text-base">
+    <html lang="en-US" className={`${cinzel.variable} ${sourceSans.variable}`} suppressHydrationWarning>
+      <body className="min-h-screen flex flex-col antialiased text-base" suppressHydrationWarning>
         <Providers media={media} copy={copy}>
           <SiteHeader />
           <main className="flex-1">{children}</main>
           <SiteFooter />
           <CookieBanner />
-          <Suspense fallback={null}>
-            <PageContactFloat />
-            <EstimatorPromoFloat />
-          </Suspense>
+          <PageContactFloat />
+          <EstimatorPromoFloat />
           <TawkWidget />
         </Providers>
       </body>

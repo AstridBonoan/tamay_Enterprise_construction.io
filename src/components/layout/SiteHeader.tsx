@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useState } from "react";
+import { normalizeSitePath } from "@/lib/paths";
 import { NAV_MORE, NAV_PRIMARY } from "@/lib/site";
 import { useResolvedImages } from "@/components/images/SiteImagesProvider";
 import { StaffPhotoEditor } from "@/components/images/StaffPhotoEditor";
@@ -34,7 +35,7 @@ function HeaderToolbar({
 }
 
 export function SiteHeader() {
-  const pathname = usePathname();
+  const pathname = normalizeSitePath(usePathname());
   const images = useResolvedImages();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
