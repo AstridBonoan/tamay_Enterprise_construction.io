@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useResolvedImages } from "@/components/images/SiteImagesProvider";
 import { assetUrl } from "@/lib/assetUrl";
 import { HERO_VIDEO, SITE } from "@/lib/site";
 import { SiteText } from "@/components/copy/SiteText";
@@ -37,13 +39,19 @@ export function HeroVideoBanner({
   cta,
 }: HeroVideoBannerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoMounted, setVideoMounted] = useState(false);
   const videoSrc = assetUrl("/homepage/HomePageVideo.mp4");
+  const posterSrc = useResolvedImages().homepage.image1;
   const phone = useSiteCopy("site.phone", SITE.phone);
   const phoneHref = `tel:${phone.replace(/\D/g, "") || "2032206678"}`;
 
   useEffect(() => {
+    setVideoMounted(true);
+  }, []);
+
+  useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!videoMounted || !video) return;
 
     const play = () => {
       void tryPlay(video);
@@ -79,7 +87,7 @@ export function HeroVideoBanner({
       window.removeEventListener("scroll", onFirstGesture);
       retryTimers.forEach((id) => window.clearTimeout(id));
     };
-  }, [videoSrc]);
+  }, [videoMounted, videoSrc]);
 
   return (
     <section
@@ -87,16 +95,29 @@ export function HeroVideoBanner({
         withMessage ? "items-start pt-14 sm:items-center sm:pt-0" : "items-center"
       }`}
     >
-      <video
-        ref={videoRef}
-        src={videoSrc}
-        className="absolute inset-0 h-full w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
+      <Image
+        src={posterSrc}
+        alt=""
+        fill
+        priority
+        unoptimized
+        className="object-cover"
+        sizes="100vw"
+        aria-hidden
       />
+      {videoMounted ? (
+        <video
+          ref={videoRef}
+          src={videoSrc}
+          poster={posterSrc}
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
+      ) : null}
 
       <div
         className={`absolute inset-0 ${

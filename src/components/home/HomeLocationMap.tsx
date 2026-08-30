@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { SITE } from "@/lib/site";
 
 function DirectionsIcon() {
@@ -9,17 +12,25 @@ function DirectionsIcon() {
 }
 
 export function HomeLocationMap() {
+  const [mapMounted, setMapMounted] = useState(false);
+
+  useEffect(() => {
+    setMapMounted(true);
+  }, []);
+
   return (
     <section id="location" className="w-full">
       <div className="relative w-full h-[380px] sm:h-[420px] md:h-[460px] bg-gray-200">
-        <iframe
-          title={`Map showing ${SITE.address}`}
-          src={SITE.maps.embedUrl}
-          className="absolute inset-0 h-full w-full border-0"
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          allowFullScreen
-        />
+        {mapMounted ? (
+          <iframe
+            title={`Map showing ${SITE.address}`}
+            src={SITE.maps.embedUrl}
+            className="absolute inset-0 h-full w-full border-0"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+          />
+        ) : null}
         <a
           href={SITE.maps.directionsUrl}
           target="_blank"
