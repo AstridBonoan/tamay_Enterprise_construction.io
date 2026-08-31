@@ -40,6 +40,16 @@ export const IMAGES = {
     estimateBanner: assetUrl("/images/construction/estimate-float-banner.png"),
     /** Service collage — used only on the cost estimator float, not the page hero */
     estimateFloatBanner: `${BASE}/blob-8582a7d.png/:/cr=t:19.7%25,l:0%25,w:100%25,h:60.61%25/rs=w:1200,h:600,cg:true`,
+    /** Approved Construction redesign visuals — place files at these public paths */
+    approvedHero: assetUrl("/construction/construction-hero.png"),
+    approvedPlanning: assetUrl("/construction/what-are-you-planning.png"),
+    approvedKitchen: assetUrl("/construction/kitchen-renovations.png"),
+    approvedBathroom: assetUrl("/construction/bathroom-renovations.png"),
+    approvedAdditions: assetUrl("/construction/home-additions.png"),
+    approvedMoreWays: assetUrl("/construction/more-ways-improve-homes.png"),
+    approvedCoordinatedTeam: assetUrl("/construction/one-project-one-team.png"),
+    approvedWarranty: assetUrl("/construction/warranty-trust.png"),
+    approvedProcess: assetUrl("/construction/construction-process.png"),
   },
   divisions: {
     construction: home("HomePageImage2.webp"),

@@ -51,11 +51,12 @@ export function BuildersEyesSection() {
           </SiteText>
         </div>
 
-        <figure className="relative mt-10 aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-gray-100">
+        <figure className="relative mt-10 w-full aspect-[1672/941] bg-[#f4f1ea]">
           <SitePhoto
             slot="realEstate.approvedBuildersEyes"
             alt="Builder-informed view of a property with callouts for layout, kitchen and bath, systems, basement, exterior, and future costs"
-            sizes="100vw"
+            className="object-contain"
+            sizes="(max-width: 1152px) 100vw, 1152px"
           />
         </figure>
 
