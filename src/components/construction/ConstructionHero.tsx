@@ -41,7 +41,7 @@ function HeroCopy() {
 export function ConstructionHero() {
   return (
     <section className="relative overflow-hidden bg-white">
-      <div className="relative flex flex-col md:aspect-[1672/941] md:max-h-[580px] md:min-h-[460px]">
+      <div className="relative flex flex-col md:aspect-[1200/630] md:max-h-[580px] md:min-h-[460px]">
         <div className="relative z-10 w-full px-4 sm:px-6 py-10 md:absolute md:inset-0 md:flex md:items-center">
           <div className="w-full max-w-6xl mx-auto">
             <div className="max-w-xl">
@@ -50,7 +50,7 @@ export function ConstructionHero() {
           </div>
         </div>
 
-        <div className="relative w-full aspect-[1672/941] max-h-[min(58vw,360px)] shrink-0 md:absolute md:inset-0 md:max-h-none md:aspect-auto">
+        <div className="relative w-full aspect-[1200/630] max-h-[min(58vw,360px)] shrink-0 md:absolute md:inset-0 md:max-h-none md:aspect-auto">
           <SitePhoto
             slot="construction.approvedHero"
             alt={HERO_IMAGE_ALT}
