@@ -97,6 +97,31 @@ function HouseIcon({ className = "h-6 w-6" }: { className?: string }) {
   );
 }
 
+function WarrantyShieldBadge({ className = "h-20 w-20" }: { className?: string }) {
+  return (
+    <div className={`relative shrink-0 ${className}`} aria-hidden>
+      <svg viewBox="0 0 72 80" fill="none" className="h-full w-full drop-shadow-[0_2px_8px_rgba(201,162,39,0.15)]" role="presentation">
+        <defs>
+          <linearGradient id="kitchenWarrantyShieldFill" x1="36" y1="4" x2="36" y2="76" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#c9a227" stopOpacity="0.2" />
+            <stop offset="1" stopColor="#c9a227" stopOpacity="0.04" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M36 3.5 66.5 15v24.8c0 16.8-12.2 31.6-30.5 36.7C17.7 70.4 5.5 55.6 5.5 39.8V15L36 3.5Z"
+          fill="url(#kitchenWarrantyShieldFill)"
+          stroke="currentColor"
+          strokeWidth="1.35"
+          className="text-tamay-accent"
+        />
+      </svg>
+      <span className="absolute inset-0 flex items-center justify-center pt-[14%] font-heading text-[1.7rem] sm:text-[1.95rem] font-semibold leading-none tracking-tight text-tamay-accent">
+        7
+      </span>
+    </div>
+  );
+}
+
 function KitchenImage({ className = "" }: { className?: string }) {
   return (
     <figure className={`relative w-full ${className}`}>
@@ -167,12 +192,7 @@ export function KitchenRenovationSection() {
           <div className="px-5 sm:px-8 py-7 sm:py-9">
             <div className="flex flex-col lg:flex-row lg:items-stretch gap-8 lg:gap-0">
               <div className="flex items-start gap-5 sm:gap-6 lg:pr-8 lg:border-r lg:border-white/15 min-w-0 flex-1">
-                <div className="relative shrink-0" aria-hidden>
-                  <span className="inline-flex h-[4.5rem] w-[4.5rem] sm:h-20 sm:w-20 items-center justify-center rounded-full border border-tamay-accent/50" />
-                  <span className="absolute inset-2 inline-flex items-center justify-center rounded-full border border-tamay-accent font-heading text-3xl sm:text-4xl font-semibold text-tamay-accent">
-                    7
-                  </span>
-                </div>
+                <WarrantyShieldBadge className="h-[4.5rem] w-[4.5rem] sm:h-20 sm:w-20" />
                 <div className="min-w-0 pt-1">
                   <p className="font-heading text-tamay-accent text-sm sm:text-base font-semibold tracking-[0.12em] uppercase leading-tight">
                     7-Year Workmanship Warranty
