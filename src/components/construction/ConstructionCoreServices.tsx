@@ -4,8 +4,8 @@ import { constructionOutlineLinkClass } from "@/components/construction/construc
 import { sitePath } from "@/lib/paths";
 
 /**
- * Kitchen / Bathroom / Additions / More Ways approved assets are full section compositions.
- * Display each graphic full-width (uncropped) and keep real Gallery CTAs for routing.
+ * Bathroom / Additions / More Ways approved assets are full section compositions.
+ * Kitchen has its own dedicated section component.
  */
 export function ConstructionCoreServices() {
   return (
@@ -22,21 +22,6 @@ export function ConstructionCoreServices() {
         </div>
 
         <div className="mt-10 space-y-12 md:space-y-14">
-          <article>
-            <h3 className="sr-only">Kitchens Built for How You Live</h3>
-            <ConstructionApprovedImage
-              slot="construction.approvedKitchen"
-              alt="Kitchen renovations — custom layouts, cabinetry, plumbing, electrical, flooring, and finishes with Tamay crew"
-              width={1536}
-              height={1024}
-            />
-            <div className="mt-6">
-              <Link href={sitePath("/gallery")} className={constructionOutlineLinkClass}>
-                Explore Kitchen Projects
-              </Link>
-            </div>
-          </article>
-
           <article>
             <h3 className="sr-only">Bathroom Renovations</h3>
             <ConstructionApprovedImage
