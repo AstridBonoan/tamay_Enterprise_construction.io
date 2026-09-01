@@ -162,8 +162,8 @@ export function KitchenRenovationSection() {
           <KitchenImage className="hidden lg:block" />
         </div>
 
-        {/* Premium warranty band */}
-        <div className="mt-10 md:mt-12 bg-tamay-primary text-white overflow-hidden">
+        {/* Premium warranty band — deep navy per approved mockup */}
+        <div className="mt-10 md:mt-12 bg-[#141c2b] text-white overflow-hidden">
           <div className="px-5 sm:px-8 py-7 sm:py-9">
             <div className="flex flex-col lg:flex-row lg:items-stretch gap-8 lg:gap-0">
               <div className="flex items-start gap-5 sm:gap-6 lg:pr-8 lg:border-r lg:border-white/15 min-w-0 flex-1">
