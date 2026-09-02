@@ -5,7 +5,7 @@ import { sitePath } from "@/lib/paths";
 
 /**
  * Bathroom / Additions / More Ways approved assets are full section compositions.
- * Kitchen has its own dedicated section component.
+ * Kitchen and Bathroom have dedicated section components.
  */
 export function ConstructionCoreServices() {
   return (
@@ -22,21 +22,6 @@ export function ConstructionCoreServices() {
         </div>
 
         <div className="mt-10 space-y-12 md:space-y-14">
-          <article>
-            <h3 className="sr-only">Bathroom Renovations</h3>
-            <ConstructionApprovedImage
-              slot="construction.approvedBathroom"
-              alt="Bathroom renovations from demolition through completed finishes, with 7-year workmanship warranty on new bathrooms"
-              width={1536}
-              height={1024}
-            />
-            <div className="mt-6">
-              <Link href={sitePath("/gallery")} className={constructionOutlineLinkClass}>
-                Explore Bathroom Projects
-              </Link>
-            </div>
-          </article>
-
           <article>
             <h3 className="sr-only">Home Additions Built to Grow With You</h3>
             <ConstructionApprovedImage

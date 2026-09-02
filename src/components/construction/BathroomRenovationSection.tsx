@@ -8,33 +8,25 @@ import { appointmentScheduleHref } from "@/lib/onlineAppointments";
 import { sitePath } from "@/lib/paths";
 
 const SERVICE_FEATURES = [
-  { label: "Layout & Cabinetry", icon: LayoutIcon },
-  { label: "Countertops & Backsplashes", icon: CountertopIcon },
-  { label: "Lighting & Electrical", icon: LightingIcon },
+  { label: "Tile & Waterproofing", icon: TileIcon },
+  { label: "Vanities & Storage", icon: VanityIcon },
   { label: "Plumbing & Fixtures", icon: PlumbingIcon },
+  { label: "Lighting & Electrical", icon: LightingIcon },
   { label: "Flooring & Finishes", icon: FlooringIcon },
 ] as const;
 
-function LayoutIcon({ className = "h-5 w-5" }: { className?: string }) {
+function TileIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg className={`text-tamay-accent shrink-0 ${className}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 19V9l4-4h8l4 4v10M9 19v-6h6v6" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4h8v8H4V4zm12 0h4v4h-4V4zM4 16h4v4H4v-4zm8 0h8v8h-8v-8z" />
     </svg>
   );
 }
 
-function CountertopIcon({ className = "h-5 w-5" }: { className?: string }) {
+function VanityIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg className={`text-tamay-accent shrink-0 ${className}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7h18v4H3V7zm2 4v8h14v-8" />
-    </svg>
-  );
-}
-
-function LightingIcon({ className = "h-5 w-5" }: { className?: string }) {
-  return (
-    <svg className={`text-tamay-accent shrink-0 ${className}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 18h6M10 22h4M12 3a5 5 0 0 0-2 9.5V15h4v-2.5A5 5 0 0 0 12 3z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 19h16M6 15h12M8 11h8M10 7h4" />
     </svg>
   );
 }
@@ -47,6 +39,14 @@ function PlumbingIcon({ className = "h-5 w-5" }: { className?: string }) {
   );
 }
 
+function LightingIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg className={`text-tamay-accent shrink-0 ${className}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 18h6M10 22h4M12 3a5 5 0 0 0-2 9.5V15h4v-2.5A5 5 0 0 0 12 3z" />
+    </svg>
+  );
+}
+
 function FlooringIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg className={`text-tamay-accent shrink-0 ${className}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
@@ -55,14 +55,14 @@ function FlooringIcon({ className = "h-5 w-5" }: { className?: string }) {
   );
 }
 
-function KitchenImage({ className = "" }: { className?: string }) {
+function BathroomImage({ className = "" }: { className?: string }) {
   return (
     <figure className={`relative w-full ${className}`}>
       <div className="relative w-full overflow-hidden rounded-xl sm:rounded-2xl bg-[#f0ebe3] shadow-sm ring-1 ring-black/5">
         <div className="relative aspect-[16/10] sm:aspect-[16/9] lg:aspect-[4/3] w-full">
           <SitePhoto
-            slot="construction.approvedKitchen"
-            alt="Premium renovated kitchen with coordinated cabinetry, island, countertops, lighting, and finishes"
+            slot="construction.approvedBathroom"
+            alt="Premium renovated bathroom with coordinated tile, vanity, fixtures, lighting, and finishes"
             className="object-contain object-center"
             sizes="(max-width: 1024px) 100vw, 50vw"
           />
@@ -72,27 +72,25 @@ function KitchenImage({ className = "" }: { className?: string }) {
   );
 }
 
-export function KitchenRenovationSection() {
+export function BathroomRenovationSection() {
   return (
     <section className="py-14 md:py-16 lg:py-20 bg-[#faf8f5] border-b border-gray-200/60">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="lg:grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-10 xl:gap-14 lg:items-center">
-          <KitchenImage className="hidden lg:block" />
-
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-10 xl:gap-14 lg:items-center">
           <div className="min-w-0 lg:py-2">
             <p className="text-tamay-accent font-heading font-bold tracking-[0.16em] uppercase text-[11px] sm:text-xs">
-              Kitchen Renovations
+              Bathroom Renovations
             </p>
             <div className="mt-2 h-px w-10 bg-tamay-accent/70" aria-hidden />
             <h2 className="mt-4 font-heading text-2xl sm:text-3xl lg:text-[2.15rem] xl:text-[2.35rem] text-tamay-primary font-semibold leading-[1.15] text-balance">
-              Designed to Perform. Built to Last.
+              Built for Comfort. Finished to Last.
             </h2>
             <p className="mt-4 text-gray-600 text-sm sm:text-[15px] leading-relaxed max-w-md">
-              Thoughtfully planned kitchens with coordinated cabinetry, countertops, lighting, plumbing, flooring,
-              and finishes — backed by our 7-Year Workmanship Warranty on New Kitchens.
+              Thoughtfully coordinated bathrooms with tile, waterproofing, plumbing, lighting, fixtures, and finishes —
+              built for comfort, durability, and long-term value.
             </p>
 
-            <KitchenImage className="mt-7 lg:hidden" />
+            <BathroomImage className="mt-7 lg:hidden" />
 
             <ul className="mt-7 lg:mt-8 divide-y divide-gray-200/80 border-y border-gray-200/80">
               {SERVICE_FEATURES.map((feature) => {
@@ -108,7 +106,7 @@ export function KitchenRenovationSection() {
 
             <div className="mt-7 flex flex-col sm:flex-row gap-2.5 sm:gap-3">
               <Link href={sitePath("/gallery")} className={`${constructionChatButtonClass} w-full sm:w-auto text-xs sm:text-sm`}>
-                Explore Kitchen Projects
+                Explore Bathroom Projects
               </Link>
               <Link
                 href={appointmentScheduleHref("construction")}
@@ -118,6 +116,8 @@ export function KitchenRenovationSection() {
               </Link>
             </div>
           </div>
+
+          <BathroomImage className="hidden lg:block" />
         </div>
       </div>
     </section>

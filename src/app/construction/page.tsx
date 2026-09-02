@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { ConstructionHero } from "@/components/construction/ConstructionHero";
 import { ConstructionPlanningSection } from "@/components/construction/ConstructionPlanningSection";
 import { KitchenRenovationSection } from "@/components/construction/KitchenRenovationSection";
+import { ConstructionWarrantyBanner } from "@/components/construction/ConstructionWarrantyBanner";
+import { BathroomRenovationSection } from "@/components/construction/BathroomRenovationSection";
 import { ConstructionCoreServices } from "@/components/construction/ConstructionCoreServices";
 import { CoordinatedTeamSection } from "@/components/construction/CoordinatedTeamSection";
 import { DesignSupplyBuildMaintainSection } from "@/components/construction/DesignSupplyBuildMaintainSection";
@@ -22,6 +24,8 @@ export default function ConstructionPage() {
       <ConstructionHero />
       <ConstructionPlanningSection />
       <KitchenRenovationSection />
+      <ConstructionWarrantyBanner />
+      <BathroomRenovationSection />
       <ConstructionCoreServices />
       <CoordinatedTeamSection />
       <DesignSupplyBuildMaintainSection />

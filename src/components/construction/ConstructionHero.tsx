@@ -73,7 +73,7 @@ const TRUST_ITEMS = [
  */
 export function ConstructionHero() {
   return (
-    <section className="relative overflow-hidden bg-black">
+    <section className="relative overflow-hidden bg-[#141c2b]">
       <div className="relative w-full min-h-[min(100vw,470px)] max-h-[500px] sm:aspect-[16/9] sm:min-h-[440px] sm:max-h-[min(56.25vw,700px)] md:min-h-[500px]">
         <SitePhoto
           slot="construction.approvedHero"
@@ -83,19 +83,19 @@ export function ConstructionHero() {
           sizes="100vw"
         />
 
-        {/* Desktop: narrow black left scrim — photo stays dominant */}
+        {/* Desktop: narrow dark-navy left scrim — photo stays dominant */}
         <div
-          className="absolute inset-0 pointer-events-none z-[1] hidden sm:block bg-gradient-to-r from-black/82 from-0% via-black/48 via-[18%] via-black/15 via-[30%] to-transparent"
+          className="absolute inset-0 pointer-events-none z-[1] hidden sm:block bg-gradient-to-r from-[#141c2b]/82 from-0% via-[#141c2b]/48 via-[18%] via-[#141c2b]/15 via-[30%] to-transparent"
           aria-hidden
         />
 
-        {/* Mobile: darken only the lower-left band where copy sits */}
+        {/* Mobile: navy scrim on the lower-left band where copy sits */}
         <div
-          className="absolute inset-0 pointer-events-none z-[1] sm:hidden bg-gradient-to-t from-black/95 from-0% via-black/70 via-[24%] to-transparent to-[50%]"
+          className="absolute inset-0 pointer-events-none z-[1] sm:hidden bg-gradient-to-t from-[#141c2b]/95 from-0% via-[#141c2b]/70 via-[24%] to-transparent to-[50%]"
           aria-hidden
         />
         <div
-          className="absolute inset-0 pointer-events-none z-[1] sm:hidden bg-gradient-to-r from-black/80 from-0% via-black/35 via-[42%] to-transparent"
+          className="absolute inset-0 pointer-events-none z-[1] sm:hidden bg-gradient-to-r from-[#141c2b]/80 from-0% via-[#141c2b]/35 via-[42%] to-transparent"
           aria-hidden
         />
 
