@@ -31,9 +31,9 @@ export default function ConstructionPage() {
       <BathroomRenovationSection />
       <HomeAdditionsSection />
       <MoreWaysImproveHomesSection />
+      <ConstructionProjectsSection />
       <CoordinatedTeamSection />
       <DesignSupplyBuildMaintainSection />
-      <ConstructionProjectsSection />
       <WarrantyTrustSection />
       <ConstructionProcessSection />
       <ConstructionReviewsSection />

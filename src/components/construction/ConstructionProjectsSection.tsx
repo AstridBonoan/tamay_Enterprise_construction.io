@@ -37,8 +37,16 @@ const COMMERCIAL_VIDEOS: WorkVideo[] = [
   { youtubeId: COMMERCIAL_IDS[2]!, title: "Finished Work", category: "Commercial" },
 ];
 
-function thumbSrc(id: string) {
-  return `https://i.ytimg.com/vi/${id}/hq720.jpg`;
+/** Same fallback chain as TamayVideoGallery — some videos lack hq720/maxres. */
+function thumbCandidates(id: string) {
+  return [
+    `https://i.ytimg.com/vi/${id}/hq720.jpg`,
+    `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
+    `https://i.ytimg.com/vi/${id}/sddefault.jpg`,
+    `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+    `https://i.ytimg.com/vi/${id}/mqdefault.jpg`,
+    `https://i.ytimg.com/vi/${id}/default.jpg`,
+  ];
 }
 
 function PlayIcon({ className = "h-5 w-5" }: { className?: string }) {
@@ -49,6 +57,34 @@ function PlayIcon({ className = "h-5 w-5" }: { className?: string }) {
     >
       <span className="ml-0.5 border-y-[6px] border-y-transparent border-l-[10px] border-l-[#141c2b]" />
     </span>
+  );
+}
+
+function VideoThumb({ youtubeId }: { youtubeId: string }) {
+  const [index, setIndex] = useState(0);
+  const candidates = thumbCandidates(youtubeId);
+  const src = candidates[Math.min(index, candidates.length - 1)]!;
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt=""
+      className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+      loading="lazy"
+      decoding="async"
+      referrerPolicy="no-referrer"
+      onError={() => {
+        setIndex((i) => (i + 1 < candidates.length ? i + 1 : i));
+      }}
+      onLoad={(e) => {
+        const img = e.currentTarget;
+        // YouTube placeholder frames are tiny (~120px); advance like initTamayGallery
+        if (img.naturalWidth > 0 && img.naturalWidth <= 140 && index + 1 < candidates.length) {
+          setIndex((i) => i + 1);
+        }
+      }}
+    />
   );
 }
 
@@ -70,15 +106,7 @@ function VideoTile({
       }`}
       aria-label={`Play ${video.title}`}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={thumbSrc(video.youtubeId)}
-        alt=""
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-        loading="lazy"
-        decoding="async"
-        referrerPolicy="no-referrer"
-      />
+      <VideoThumb youtubeId={video.youtubeId} />
       <span className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent" aria-hidden />
       <span className="absolute left-3 top-3 inline-flex rounded-full border border-white/25 bg-black/35 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white backdrop-blur-sm">
         {video.category}
