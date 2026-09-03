@@ -47,6 +47,7 @@ export const IMAGES = {
     approvedBathroom: assetUrl("/construction/bathroom-renovations.png"),
     approvedAdditions: assetUrl("/construction/home-additions.png"),
     approvedMoreWays: assetUrl("/construction/more-ways-improve-homes.png"),
+    approvedEstimator: assetUrl("/construction/project-cost-estimator.png"),
     approvedCoordinatedTeam: assetUrl("/construction/one-project-one-team.png"),
     approvedWarranty: assetUrl("/construction/warranty-trust.png"),
     approvedProcess: assetUrl("/construction/construction-process.png"),

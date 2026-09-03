@@ -72,6 +72,7 @@ const KEY_LABELS: Record<string, string> = {
   "construction.approvedBathroom": "Bathroom renovations",
   "construction.approvedAdditions": "Home additions",
   "construction.approvedMoreWays": "More ways we improve homes",
+  "construction.approvedEstimator": "Project cost estimator assemblies",
   "construction.approvedCoordinatedTeam": "One project one team",
   "construction.approvedWarranty": "Warranty and trust",
   "construction.approvedProcess": "Construction process",
