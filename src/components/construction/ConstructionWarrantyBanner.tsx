@@ -75,10 +75,10 @@ function WarrantyShieldBadge({ className = "h-20 w-20" }: { className?: string }
 export function ConstructionWarrantyBanner() {
   return (
     <section className="bg-[#141c2b] text-white overflow-hidden" aria-labelledby="construction-warranty-heading">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        <div className="flex flex-col lg:flex-row lg:items-stretch gap-6 lg:gap-0">
-          <div className="flex items-start gap-4 sm:gap-5 lg:pr-8 lg:border-r lg:border-white/15 min-w-0 flex-1">
-            <WarrantyShieldBadge className="h-[4rem] w-[4rem] sm:h-[4.5rem] sm:w-[4.5rem]" />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 sm:py-6">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-0">
+          <div className="flex items-center gap-4 sm:gap-5 lg:pr-8 lg:border-r lg:border-white/15 min-w-0 flex-1">
+            <WarrantyShieldBadge className="h-[3.5rem] w-[3.5rem] sm:h-16 sm:w-16" />
             <div className="min-w-0 pt-0.5">
               <p
                 id="construction-warranty-heading"
@@ -86,10 +86,10 @@ export function ConstructionWarrantyBanner() {
               >
                 7-Year Workmanship Warranty
               </p>
-              <p className="mt-1.5 font-heading text-tamay-accent/90 text-sm sm:text-base italic">
+              <p className="mt-1 font-heading text-tamay-accent/90 text-sm italic">
                 On New Kitchens &amp; New Bathrooms
               </p>
-              <p className="mt-2.5 text-white/85 text-sm leading-relaxed max-w-md">
+              <p className="mt-2 text-white/85 text-[13px] sm:text-sm leading-snug max-w-md">
                 We stand behind our workmanship so you can enjoy beautiful, functional spaces with confidence for years
                 to come.
               </p>
@@ -106,7 +106,7 @@ export function ConstructionWarrantyBanner() {
                     index > 0 ? "lg:border-l lg:border-white/15" : ""
                   }`}
                 >
-                  <Icon className="h-6 w-6 sm:h-7 sm:w-7" />
+                  <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
                   <span className="text-[10px] sm:text-[11px] text-white/85 leading-snug max-w-[9rem]">
                     {point.label}
                   </span>
