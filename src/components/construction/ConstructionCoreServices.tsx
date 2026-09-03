@@ -4,8 +4,9 @@ import { constructionOutlineLinkClass } from "@/components/construction/construc
 import { sitePath } from "@/lib/paths";
 
 /**
- * Bathroom / Additions / More Ways approved assets are full section compositions.
- * Kitchen and Bathroom have dedicated section components.
+ * Remaining core-service blocks after Kitchen / Bathroom / Home Additions
+ * were extracted into dedicated section components.
+ * Currently hosts More Ways We Improve Homes.
  */
 export function ConstructionCoreServices() {
   return (
@@ -22,21 +23,6 @@ export function ConstructionCoreServices() {
         </div>
 
         <div className="mt-10 space-y-12 md:space-y-14">
-          <article>
-            <h3 className="sr-only">Home Additions Built to Grow With You</h3>
-            <ConstructionApprovedImage
-              slot="construction.approvedAdditions"
-              alt="Home additions and expansions — planning, framing, and completed living space by the Tamay team"
-              width={1672}
-              height={941}
-            />
-            <div className="mt-6">
-              <Link href={sitePath("/gallery")} className={constructionOutlineLinkClass}>
-                Explore Addition Projects
-              </Link>
-            </div>
-          </article>
-
           <article>
             <h3 className="sr-only">More Ways We Improve Homes</h3>
             <ConstructionApprovedImage

@@ -5,6 +5,7 @@ import { ConstructionServicesIntro } from "@/components/construction/Constructio
 import { KitchenRenovationSection } from "@/components/construction/KitchenRenovationSection";
 import { ConstructionWarrantyBanner } from "@/components/construction/ConstructionWarrantyBanner";
 import { BathroomRenovationSection } from "@/components/construction/BathroomRenovationSection";
+import { HomeAdditionsSection } from "@/components/construction/HomeAdditionsSection";
 import { ConstructionCoreServices } from "@/components/construction/ConstructionCoreServices";
 import { CoordinatedTeamSection } from "@/components/construction/CoordinatedTeamSection";
 import { DesignSupplyBuildMaintainSection } from "@/components/construction/DesignSupplyBuildMaintainSection";
@@ -28,6 +29,7 @@ export default function ConstructionPage() {
       <KitchenRenovationSection />
       <ConstructionWarrantyBanner />
       <BathroomRenovationSection />
+      <HomeAdditionsSection />
       <ConstructionCoreServices />
       <CoordinatedTeamSection />
       <DesignSupplyBuildMaintainSection />
