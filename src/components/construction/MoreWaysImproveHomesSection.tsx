@@ -133,16 +133,28 @@ function SplitPhoto({
   objectPosition,
   className = "",
   sizes = "(max-width: 1024px) 100vw, 58vw",
+  edge = "soft",
 }: {
   slot: string;
   alt: string;
   objectPosition: string;
   className?: string;
   sizes?: string;
+  /** Mockup edge language: sweeping curve where image meets copy */
+  edge?: "soft" | "moreWays" | "estimator";
 }) {
+  const edgeClass =
+    edge === "moreWays"
+      ? "rounded-tl-[4.5rem] sm:rounded-tl-[6.5rem] lg:rounded-tl-[8.5rem] rounded-br-[1.5rem] sm:rounded-br-[2rem] rounded-tr-none rounded-bl-none"
+      : edge === "estimator"
+        ? "rounded-tr-[4.5rem] sm:rounded-tr-[6.5rem] lg:rounded-tr-[8.5rem] rounded-bl-[1.5rem] sm:rounded-bl-[2rem] rounded-tl-none rounded-br-none"
+        : "rounded-xl sm:rounded-2xl";
+
   return (
     <figure className={`relative w-full h-full min-h-0 ${className}`}>
-      <div className="relative w-full overflow-hidden rounded-xl sm:rounded-2xl shadow-sm ring-1 ring-black/5 aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[360px]">
+      <div
+        className={`relative w-full overflow-hidden shadow-sm ring-1 ring-black/5 aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[400px] ${edgeClass}`}
+      >
         <SitePhoto slot={slot} alt={alt} className={`object-cover ${objectPosition}`} sizes={sizes} />
       </div>
     </figure>
@@ -178,7 +190,7 @@ export function MoreWaysImproveHomesSection() {
       {/* More Ways — desktop 3-zone; mobile stacked */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 md:pt-14 lg:pt-16 pb-6 md:pb-7 lg:pb-8">
         {/* Desktop: left content | center image | right services */}
-        <div className="hidden lg:grid lg:grid-cols-[minmax(0,0.3fr)_minmax(0,0.4fr)_minmax(0,0.3fr)] lg:gap-6 xl:gap-8 lg:items-stretch">
+        <div className="hidden lg:grid lg:grid-cols-[minmax(0,0.24fr)_minmax(0,0.52fr)_minmax(0,0.24fr)] lg:gap-5 xl:gap-6 lg:items-stretch">
           <div className="min-w-0 flex flex-col justify-center">
             <p className="text-tamay-accent font-heading font-bold tracking-[0.16em] uppercase text-[11px] sm:text-xs">
               Tamay Enterprises Construction
@@ -200,10 +212,11 @@ export function MoreWaysImproveHomesSection() {
           </div>
 
           <SplitPhoto
+            edge="moreWays"
             slot="construction.approvedMoreWays"
             alt="Premium home exterior upgrades including siding, trim, windows, doors, and outdoor living details"
             objectPosition="object-[42%_58%]"
-            sizes="(max-width: 1024px) 100vw, 40vw"
+            sizes="(max-width: 1024px) 100vw, 52vw"
           />
 
           <div className="min-w-0 flex flex-col justify-center">
@@ -226,6 +239,7 @@ export function MoreWaysImproveHomesSection() {
           </p>
 
           <SplitPhoto
+            edge="moreWays"
             className="mt-5"
             slot="construction.approvedMoreWays"
             alt="Premium home exterior upgrades including siding, trim, windows, doors, and outdoor living details"
@@ -248,6 +262,7 @@ export function MoreWaysImproveHomesSection() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-7 md:pt-8 lg:pt-9">
           <div className="lg:grid lg:grid-cols-[minmax(0,0.58fr)_minmax(0,0.42fr)] lg:gap-8 xl:gap-10 lg:items-stretch">
             <SplitPhoto
+              edge="estimator"
               className="order-2 lg:order-1 mt-6 lg:mt-0"
               slot="construction.approvedEstimator"
               alt="Tamay Enterprises technician assembling furniture for a small home installation project"
