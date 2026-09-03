@@ -186,7 +186,7 @@ export function MoreWaysImproveHomesSection() {
           />
         </div>
 
-        <div id="more-ways-categories" className="mt-8 md:mt-10 scroll-mt-24">
+        <div id="more-ways-categories" className="mt-8 md:mt-10 pb-2 scroll-mt-24">
           <div className="rounded-xl sm:rounded-2xl bg-white ring-1 ring-black/5 px-5 sm:px-7 py-6 sm:py-7">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 lg:gap-4">
               {MORE_WAY_CATEGORIES.map((item) => {
@@ -209,24 +209,12 @@ export function MoreWaysImproveHomesSection() {
               <p className="text-[13px] text-gray-600">Quality upgrades designed around the way you live.</p>
             </div>
           </div>
-
-          <div className="mt-7 mb-4 text-center max-w-xl mx-auto">
-            <p className="font-heading text-tamay-primary text-base sm:text-lg font-semibold">
-              Trusted Craftsmanship. Lasting Results.
-            </p>
-            <p className="mt-1.5 text-sm text-gray-600 leading-snug">
-              Our team treats every home like our own — with care, precision, and pride.
-            </p>
-            <p className="mt-3 text-sm text-tamay-primary font-medium">
-              Ready to get started? Let’s bring your vision to life.
-            </p>
-          </div>
         </div>
       </div>
 
       {/* Estimator — image left / copy right for alternating rhythm */}
-      <div className="border-t border-gray-200/70 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 md:pt-14 lg:pt-16">
+      <div className="bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 md:pt-10 lg:pt-12">
           <div className="lg:grid lg:grid-cols-[minmax(0,0.58fr)_minmax(0,0.42fr)] lg:gap-8 xl:gap-10 lg:items-stretch">
             <SplitPhoto
               className="order-2 lg:order-1 mt-6 lg:mt-0"
@@ -278,39 +266,53 @@ export function MoreWaysImproveHomesSection() {
               </div>
             </div>
           </div>
+        </div>
 
-          <div className="mt-8 md:mt-10 pb-12 md:pb-14 lg:pb-16">
-            <div className="rounded-xl sm:rounded-2xl bg-[#faf8f5] ring-1 ring-black/5 px-5 sm:px-7 py-6 sm:py-7">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                <div>
-                  <p className="font-heading text-tamay-primary text-sm font-semibold tracking-wide uppercase">
-                    Small Projects. Big Difference.
-                  </p>
-                  <p className="mt-2 text-[13px] text-gray-600 leading-snug">
-                    Professional assemblies and installations that save you time and stress.
-                  </p>
-                </div>
-                <div className="md:border-x md:border-gray-200/80 md:px-6">
-                  <p className="font-heading text-tamay-primary text-sm font-semibold tracking-wide uppercase">
-                    Popular Projects
-                  </p>
-                  <ul className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-[13px] text-gray-600">
-                    {POPULAR_PROJECTS.map((project) => (
-                      <li key={project} className="flex items-start gap-1.5">
-                        <span className="mt-[7px] h-1 w-1 rounded-full bg-tamay-accent shrink-0" aria-hidden />
-                        {project}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <p className="font-heading text-tamay-primary text-sm font-semibold tracking-wide uppercase">
-                    Built Better. Built to Last.
-                  </p>
-                  <p className="mt-2 text-[13px] text-gray-600 leading-snug">
-                    Expert workmanship and attention to every detail.
-                  </p>
-                </div>
+        {/* Dark navy small-projects support row */}
+        <div className="mt-8 md:mt-10 bg-[#141c2b] text-white">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-7">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-0">
+              <div className="md:pr-6">
+                <p className="font-heading text-tamay-accent text-sm font-semibold tracking-wide uppercase">
+                  Small Projects. Big Difference.
+                </p>
+                <p className="mt-2 text-[13px] text-white/80 leading-snug">
+                  Professional assemblies and installations that save you time and stress.
+                </p>
+              </div>
+              <div className="md:px-6 md:border-x md:border-white/15">
+                <p className="font-heading text-tamay-accent text-sm font-semibold tracking-wide uppercase">
+                  Popular Projects
+                </p>
+                <ul className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1.5 text-[13px] text-white/90">
+                  {POPULAR_PROJECTS.map((project) => (
+                    <li key={project} className="flex items-start gap-1.5">
+                      <svg
+                        className="mt-0.5 h-3.5 w-3.5 shrink-0 text-tamay-accent"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        aria-hidden
+                      >
+                        <path
+                          d="M3.5 8.2 6.4 11l6.1-6.5"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      {project}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="md:pl-6">
+                <p className="font-heading text-tamay-accent text-sm font-semibold tracking-wide uppercase">
+                  Built Better. Built to Last.
+                </p>
+                <p className="mt-2 text-[13px] text-white/80 leading-snug">
+                  Expert workmanship and attention to every detail.
+                </p>
               </div>
             </div>
           </div>
