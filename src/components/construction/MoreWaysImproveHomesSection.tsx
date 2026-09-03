@@ -132,89 +132,120 @@ function SplitPhoto({
   alt,
   objectPosition,
   className = "",
+  sizes = "(max-width: 1024px) 100vw, 58vw",
 }: {
   slot: string;
   alt: string;
   objectPosition: string;
   className?: string;
+  sizes?: string;
 }) {
   return (
     <figure className={`relative w-full h-full min-h-0 ${className}`}>
       <div className="relative w-full overflow-hidden rounded-xl sm:rounded-2xl shadow-sm ring-1 ring-black/5 aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[360px]">
-        <SitePhoto slot={slot} alt={alt} className={`object-cover ${objectPosition}`} sizes="(max-width: 1024px) 100vw, 58vw" />
+        <SitePhoto slot={slot} alt={alt} className={`object-cover ${objectPosition}`} sizes={sizes} />
       </div>
     </figure>
   );
 }
 
+function ServiceList({ className = "" }: { className?: string }) {
+  return (
+    <ul id="more-ways-categories" className={`divide-y divide-gray-200/80 border-y border-gray-200/80 scroll-mt-24 ${className}`}>
+      {MORE_WAY_CATEGORIES.map((item) => {
+        const Icon = item.icon;
+        return (
+          <li key={item.title} className="flex items-start gap-2.5 py-2.5 sm:py-3">
+            <Icon />
+            <span className="min-w-0">
+              <span className="block font-heading text-tamay-primary text-sm font-semibold leading-snug">{item.title}</span>
+              <span className="mt-0.5 block text-[12px] sm:text-[13px] text-gray-600 leading-snug">{item.body}</span>
+            </span>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
 /**
  * Combined “More Ways We Improve Homes” + Assemblies/Installations estimator area.
- * Replaces the leftover Core Services / More Ways graphic block.
+ * Desktop More Ways: content left / house image center / services right.
  */
 export function MoreWaysImproveHomesSection() {
   return (
     <section id="construction-services" className="bg-[#faf8f5] border-b border-gray-200/60 scroll-mt-24">
-      {/* More Ways — text left / image right */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 md:pt-14 lg:pt-16">
-        <div className="lg:grid lg:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)] lg:gap-8 xl:gap-10 lg:items-stretch">
-          <div className="min-w-0 flex flex-col justify-center lg:pr-2">
+      {/* More Ways — desktop 3-zone; mobile stacked */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 md:pt-14 lg:pt-16 pb-6 md:pb-7 lg:pb-8">
+        {/* Desktop: left content | center image | right services */}
+        <div className="hidden lg:grid lg:grid-cols-[minmax(0,0.3fr)_minmax(0,0.4fr)_minmax(0,0.3fr)] lg:gap-6 xl:gap-8 lg:items-stretch">
+          <div className="min-w-0 flex flex-col justify-center">
             <p className="text-tamay-accent font-heading font-bold tracking-[0.16em] uppercase text-[11px] sm:text-xs">
               Tamay Enterprises Construction
             </p>
             <div className="mt-2 h-px w-10 bg-tamay-accent/70" aria-hidden />
-            <h2 className="mt-3 font-heading text-[1.65rem] sm:text-[1.85rem] lg:text-[1.95rem] xl:text-[2.15rem] text-tamay-primary font-semibold leading-[1.12] text-balance">
+            <h2 className="mt-3 font-heading text-[1.65rem] xl:text-[1.9rem] text-tamay-primary font-semibold leading-[1.12] text-balance">
               More Ways We Improve Homes
             </h2>
-            <p className="mt-3 text-gray-600 text-sm leading-snug max-w-md">
+            <p className="mt-3 text-gray-600 text-sm leading-snug">
               Thoughtful improvements that elevate comfort, enhance durability, and bring lasting beauty to every part of
               your home.
             </p>
-
-            <div className="mt-5 flex flex-col sm:flex-row gap-2 sm:gap-2.5">
-              <a href="#more-ways-categories" className={`${primaryCtaClass} w-full sm:w-auto`}>
+            <div className="mt-5 flex flex-col gap-2">
+              <a href="#more-ways-categories" className={`${primaryCtaClass} w-full`}>
                 Explore Our Services
               </a>
-              <OpenLiveChatButton className={`${outlineCtaClass} w-full sm:w-auto`}>Talk to Our Team</OpenLiveChatButton>
+              <OpenLiveChatButton className={`${outlineCtaClass} w-full`}>Talk to Our Team</OpenLiveChatButton>
             </div>
           </div>
 
           <SplitPhoto
-            className="mt-6 lg:mt-0"
+            slot="construction.approvedMoreWays"
+            alt="Premium home exterior upgrades including siding, trim, windows, doors, and outdoor living details"
+            objectPosition="object-[42%_58%]"
+            sizes="(max-width: 1024px) 100vw, 40vw"
+          />
+
+          <div className="min-w-0 flex flex-col justify-center">
+            <ServiceList />
+          </div>
+        </div>
+
+        {/* Mobile / tablet stack */}
+        <div className="lg:hidden">
+          <p className="text-tamay-accent font-heading font-bold tracking-[0.16em] uppercase text-[11px] sm:text-xs">
+            Tamay Enterprises Construction
+          </p>
+          <div className="mt-2 h-px w-10 bg-tamay-accent/70" aria-hidden />
+          <h2 className="mt-3 font-heading text-[1.65rem] sm:text-[1.85rem] text-tamay-primary font-semibold leading-[1.12] text-balance">
+            More Ways We Improve Homes
+          </h2>
+          <p className="mt-3 text-gray-600 text-sm leading-snug max-w-md">
+            Thoughtful improvements that elevate comfort, enhance durability, and bring lasting beauty to every part of
+            your home.
+          </p>
+
+          <SplitPhoto
+            className="mt-5"
             slot="construction.approvedMoreWays"
             alt="Premium home exterior upgrades including siding, trim, windows, doors, and outdoor living details"
             objectPosition="object-[42%_58%]"
           />
-        </div>
 
-        <div id="more-ways-categories" className="mt-8 md:mt-10 pb-2 scroll-mt-24">
-          <div className="rounded-xl sm:rounded-2xl bg-white ring-1 ring-black/5 px-5 sm:px-7 py-6 sm:py-7">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 lg:gap-4">
-              {MORE_WAY_CATEGORIES.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <article key={item.title} className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <Icon />
-                      <h3 className="font-heading text-tamay-primary text-sm font-semibold leading-snug">{item.title}</h3>
-                    </div>
-                    <p className="mt-2 text-[12px] sm:text-[13px] text-gray-600 leading-snug">{item.body}</p>
-                  </article>
-                );
-              })}
-            </div>
-            <div className="mt-6 pt-5 border-t border-gray-200/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <p className="font-heading text-tamay-primary text-sm font-semibold tracking-wide uppercase">
-                Built Better. Built to Last.
-              </p>
-              <p className="text-[13px] text-gray-600">Quality upgrades designed around the way you live.</p>
-            </div>
+          <ServiceList className="mt-6" />
+
+          <div className="mt-5 flex flex-col sm:flex-row gap-2 sm:gap-2.5">
+            <a href="#more-ways-categories" className={`${primaryCtaClass} w-full sm:w-auto`}>
+              Explore Our Services
+            </a>
+            <OpenLiveChatButton className={`${outlineCtaClass} w-full sm:w-auto`}>Talk to Our Team</OpenLiveChatButton>
           </div>
         </div>
       </div>
 
       {/* Estimator — image left / copy right for alternating rhythm */}
       <div className="bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 md:pt-10 lg:pt-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-7 md:pt-8 lg:pt-9">
           <div className="lg:grid lg:grid-cols-[minmax(0,0.58fr)_minmax(0,0.42fr)] lg:gap-8 xl:gap-10 lg:items-stretch">
             <SplitPhoto
               className="order-2 lg:order-1 mt-6 lg:mt-0"
