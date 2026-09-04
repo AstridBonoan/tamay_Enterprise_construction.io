@@ -32,8 +32,8 @@ export default function ConstructionPage() {
       <MoreWaysImproveHomesSection />
       <ConstructionProjectsSection />
       <HowWeBringItTogetherSection />
-      <WarrantyTrustSection />
       <ConstructionProcessSection />
+      <WarrantyTrustSection />
       <ConstructionReviewsSection />
       <ConstructionFinancingSection />
       <ConstructionServiceAreaSection />
