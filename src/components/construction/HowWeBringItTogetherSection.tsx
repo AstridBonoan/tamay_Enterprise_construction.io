@@ -316,19 +316,19 @@ export function HowWeBringItTogetherSection() {
         <div className="mt-10 md:mt-12 rounded-xl overflow-hidden ring-1 ring-black/[0.05] shadow-[0_8px_24px_rgba(20,28,43,0.06)] bg-white">
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,2.05fr)]">
             <div
-              className="px-5 sm:px-6 py-6 sm:py-7 flex flex-col sm:flex-row lg:flex-col items-start gap-4"
+              className="px-5 sm:px-6 py-6 sm:py-7 flex flex-row items-center gap-4"
               style={{ backgroundColor: NAVY }}
             >
-              <div className="relative h-12 w-12 shrink-0">
+              <div className="relative h-14 w-14 sm:h-16 sm:w-16 shrink-0">
                 <Image
-                  src="/branding/tamay-symbol-only.png"
+                  src="/branding/tamay-symbol-on-navy.png"
                   alt="Tamay Enterprises"
                   fill
                   className="object-contain"
-                  sizes="48px"
+                  sizes="64px"
                 />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="font-heading text-lg sm:text-xl text-white font-semibold leading-snug">
                   The Tamay Advantage
                 </p>
