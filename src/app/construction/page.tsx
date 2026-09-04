@@ -7,9 +7,8 @@ import { ConstructionWarrantyBanner } from "@/components/construction/Constructi
 import { BathroomRenovationSection } from "@/components/construction/BathroomRenovationSection";
 import { HomeAdditionsSection } from "@/components/construction/HomeAdditionsSection";
 import { MoreWaysImproveHomesSection } from "@/components/construction/MoreWaysImproveHomesSection";
-import { CoordinatedTeamSection } from "@/components/construction/CoordinatedTeamSection";
-import { DesignSupplyBuildMaintainSection } from "@/components/construction/DesignSupplyBuildMaintainSection";
 import { ConstructionProjectsSection } from "@/components/construction/ConstructionProjectsSection";
+import { HowWeBringItTogetherSection } from "@/components/construction/HowWeBringItTogetherSection";
 import { WarrantyTrustSection } from "@/components/construction/WarrantyTrustSection";
 import { ConstructionProcessSection } from "@/components/construction/ConstructionProcessSection";
 import { ConstructionReviewsSection } from "@/components/construction/ConstructionReviewsSection";
@@ -32,8 +31,7 @@ export default function ConstructionPage() {
       <HomeAdditionsSection />
       <MoreWaysImproveHomesSection />
       <ConstructionProjectsSection />
-      <CoordinatedTeamSection />
-      <DesignSupplyBuildMaintainSection />
+      <HowWeBringItTogetherSection />
       <WarrantyTrustSection />
       <ConstructionProcessSection />
       <ConstructionReviewsSection />
