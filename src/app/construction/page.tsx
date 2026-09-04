@@ -9,7 +9,6 @@ import { HomeAdditionsSection } from "@/components/construction/HomeAdditionsSec
 import { MoreWaysImproveHomesSection } from "@/components/construction/MoreWaysImproveHomesSection";
 import { ConstructionProjectsSection } from "@/components/construction/ConstructionProjectsSection";
 import { HowWeBringItTogetherSection } from "@/components/construction/HowWeBringItTogetherSection";
-import { WarrantyTrustSection } from "@/components/construction/WarrantyTrustSection";
 import { ConstructionProcessSection } from "@/components/construction/ConstructionProcessSection";
 import { ConstructionReviewsSection } from "@/components/construction/ConstructionReviewsSection";
 import { ConstructionFinancingSection } from "@/components/construction/ConstructionFinancingSection";
@@ -33,7 +32,6 @@ export default function ConstructionPage() {
       <ConstructionProjectsSection />
       <HowWeBringItTogetherSection />
       <ConstructionProcessSection />
-      <WarrantyTrustSection />
       <ConstructionReviewsSection />
       <ConstructionFinancingSection />
       <ConstructionServiceAreaSection />
