@@ -238,9 +238,9 @@ export function HowWeBringItTogetherSection() {
     <section className="relative overflow-hidden bg-[#f7f4ef]">
       {/* Navy cinematic header */}
       <div className="relative isolate overflow-hidden" style={{ backgroundColor: NAVY }}>
-        {/* Blueprint → finished kitchen background (upper right) */}
+        {/* Blueprint → finished kitchen background — desktop only (looks premium there) */}
         <div
-          className="pointer-events-none absolute inset-y-0 right-0 w-full sm:w-[72%] lg:w-[58%] xl:w-[54%]"
+          className="pointer-events-none absolute inset-y-0 right-0 hidden lg:block w-[58%] xl:w-[54%]"
           aria-hidden
         >
           <div className="absolute inset-0">
@@ -248,8 +248,8 @@ export function HowWeBringItTogetherSection() {
               src="/construction/one-team-blueprint-transition.png"
               alt=""
               fill
-              className="object-cover object-[62%_center] sm:object-[55%_center] lg:object-right"
-              sizes="(max-width: 640px) 100vw, 60vw"
+              className="object-cover object-right"
+              sizes="55vw"
               priority={false}
             />
           </div>
@@ -259,13 +259,6 @@ export function HowWeBringItTogetherSection() {
             style={{
               background:
                 "linear-gradient(90deg, #141c2b 0%, #141c2b 18%, rgba(20,28,43,0.88) 34%, rgba(20,28,43,0.45) 55%, rgba(20,28,43,0.12) 78%, transparent 100%)",
-            }}
-          />
-          <div
-            className="absolute inset-0 sm:hidden"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(20,28,43,0.55) 0%, rgba(20,28,43,0.82) 55%, #141c2b 100%)",
             }}
           />
           <div
@@ -289,17 +282,6 @@ export function HowWeBringItTogetherSection() {
               From the first conversation to the final details, Tamay coordinates the people, materials,
               scheduling, and work needed to keep your project moving forward.
             </p>
-          </div>
-
-          {/* Mobile: show blueprint transition under copy as integrated visual */}
-          <div className="mt-8 sm:hidden relative aspect-[16/10] overflow-hidden rounded-xl ring-1 ring-white/10">
-            <Image
-              src="/construction/one-team-blueprint-transition.png"
-              alt="Blueprint-to-finished kitchen visual showing Tamay design becoming a completed space"
-              fill
-              className="object-cover object-center"
-              sizes="100vw"
-            />
           </div>
         </div>
       </div>
