@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import { GalleryHero } from "@/components/gallery/GalleryHero";
 import { GalleryPhotoCarousel } from "@/components/gallery/GalleryPhotoCarousel";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
-import { HeroBanner } from "@/components/ui/HeroBanner";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SiteContactSection } from "@/components/ui/SiteContactSection";
 import { GALLERY_PROMOTION_VIDEO, GALLERY_VIDEO_PROJECTS } from "@/lib/galleryVideos";
@@ -20,15 +20,7 @@ export default async function GalleryPage() {
   }));
   return (
     <>
-      <HeroBanner
-        image={media.images.heroHome}
-        slotKey="heroHome"
-        copyKey="gallery.hero"
-        title="Our Work Across Connecticut"
-        subtitle="Every home has a story, and every project we complete becomes part of it."
-        cta={{ label: "Find out more", href: "#contact" }}
-        height="medium"
-      />
+      <GalleryHero />
 
       <section className="py-14 bg-gray-50 px-4">
         <div className="max-w-3xl mx-auto tamay-gallery-promo">
@@ -40,7 +32,10 @@ export default async function GalleryPage() {
         </div>
       </section>
 
-      <section className="py-14 max-w-6xl mx-auto px-4 border-t border-gray-200">
+      <section
+        id="featured-projects"
+        className="py-14 max-w-6xl mx-auto px-4 border-t border-gray-200 scroll-mt-24"
+      >
         <SectionHeading
           copyKey="gallery.photos"
           title="Photo Gallery"
