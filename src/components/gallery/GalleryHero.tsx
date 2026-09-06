@@ -37,6 +37,7 @@ const HERO_IMAGES = [
   },
 ] as const;
 
+/** Approved desktop image card — do not alter styling (desktop lock). */
 function HeroImageCard({
   src,
   alt,
@@ -69,12 +70,46 @@ function HeroImageCard({
   );
 }
 
+/** Mobile/tablet-only collage tile — category label only, no subtitles/cards feel. */
+function MobileCollageTile({
+  src,
+  alt,
+  label,
+  className = "",
+}: {
+  src: string;
+  alt: string;
+  label: string;
+  className?: string;
+}) {
+  return (
+    <figure
+      className={`relative overflow-hidden rounded-lg bg-[#0f1520] ring-1 ring-white/10 ${className}`}
+    >
+      <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
+      <span
+        className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-black/60 via-black/15 to-transparent pointer-events-none"
+        aria-hidden
+      />
+      <figcaption className="absolute inset-x-0 bottom-0 p-2.5 flex items-center gap-2">
+        <span className="h-px w-3 shrink-0 bg-tamay-accent/80" aria-hidden />
+        <p className="font-heading text-[9px] sm:text-[10px] font-bold tracking-[0.16em] uppercase text-white drop-shadow-sm">
+          {label}
+        </p>
+      </figcaption>
+    </figure>
+  );
+}
+
 /**
  * Gallery page hero — darker premium showcase (Hero only).
- * Global header logo remains the official brand mark on the white sticky header above.
+ * Desktop (lg+) remains the approved composition; mobile/tablet use an editorial collage.
  */
 export function GalleryHero() {
   const kitchen = HERO_IMAGES[0]!;
+  const bathroom = HERO_IMAGES[1]!;
+  const interior = HERO_IMAGES[2]!;
+  const exterior = HERO_IMAGES[3]!;
   const supporting = HERO_IMAGES.slice(1);
 
   return (
@@ -99,50 +134,55 @@ export function GalleryHero() {
         }}
       />
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-14 lg:pt-16 pb-12 sm:pb-14 lg:pb-18">
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.4fr)_minmax(0,0.6fr)] gap-9 lg:gap-10 xl:gap-12 lg:items-center">
+      {/*
+        Spacing: compact under lg; lg:/xl: values match the approved desktop Hero exactly.
+      */}
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-8 sm:pt-10 lg:pt-16 pb-9 sm:pb-11 lg:pb-18">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.4fr)_minmax(0,0.6fr)] gap-5 sm:gap-6 lg:gap-10 xl:gap-12 lg:items-center">
           {/* Left — concise conversion copy */}
           <div className="min-w-0 max-w-lg lg:max-w-none">
-            <p className="font-heading text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-tamay-accent">
+            <p className="font-heading text-[10px] sm:text-[11px] lg:text-xs font-bold tracking-[0.2em] uppercase text-tamay-accent">
               Project Gallery
             </p>
-            <div className="mt-2.5 h-px w-10 bg-tamay-accent/75" aria-hidden />
+            <div className="mt-2 lg:mt-2.5 h-px w-10 bg-tamay-accent/75" aria-hidden />
 
-            <h1 className="mt-4 font-heading text-[1.9rem] sm:text-3xl lg:text-[2.4rem] font-semibold leading-[1.12] text-balance">
+            <h1 className="mt-3 lg:mt-4 font-heading text-[1.65rem] leading-[1.15] sm:text-[1.85rem] lg:text-[2.4rem] lg:leading-[1.12] font-semibold text-balance">
               <span className="text-white">See the Work.</span>
               <br />
               <span className="text-tamay-accent">Feel the Standard.</span>
             </h1>
 
-            <p className="mt-4 text-sm sm:text-[15px] text-white/75 leading-relaxed max-w-md">
+            <p className="mt-3 lg:mt-4 text-[13px] leading-snug sm:text-sm lg:text-[15px] lg:leading-relaxed text-white/75 max-w-md">
               Explore kitchens, bathrooms, additions, and transformations completed with the care, coordination, and
               craftsmanship that define Tamay Enterprises.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row gap-2.5 sm:gap-3">
+            <div className="mt-5 lg:mt-8 flex flex-col sm:flex-row gap-2 sm:gap-2.5 lg:gap-3">
               <a
                 href="#featured-projects"
-                className="inline-flex items-center justify-center gap-2 min-h-11 font-bold text-sm tracking-wide px-6 py-3 transition-colors text-center bg-tamay-accent hover:bg-tamay-accent-hover text-[#141c2b] w-full sm:w-auto"
+                className="inline-flex items-center justify-center gap-2 min-h-10 lg:min-h-11 font-bold text-sm tracking-wide px-5 lg:px-6 py-2.5 lg:py-3 transition-colors text-center bg-tamay-accent hover:bg-tamay-accent-hover text-[#141c2b] w-full sm:w-auto"
               >
                 Explore Projects
                 <span aria-hidden>→</span>
               </a>
               <Link
                 href={appointmentScheduleHref("construction")}
-                className="inline-flex items-center justify-center gap-2 min-h-11 font-bold text-sm tracking-wide px-6 py-3 transition-colors text-center border-2 border-white/80 text-white hover:bg-white/10 w-full sm:w-auto"
+                className="inline-flex items-center justify-center gap-2 min-h-10 lg:min-h-11 font-bold text-sm tracking-wide px-5 lg:px-6 py-2.5 lg:py-3 transition-colors text-center border-2 border-white/80 text-white hover:bg-white/10 w-full sm:w-auto"
               >
                 Book a Consultation
                 <span aria-hidden>→</span>
               </Link>
             </div>
 
-            <p className="mt-8 hidden sm:block font-heading text-[10px] font-bold tracking-[0.18em] uppercase text-tamay-accent/85">
+            {/* Desktop brand line only — keeps collage higher on mobile/tablet */}
+            <p className="mt-8 hidden lg:block font-heading text-[10px] font-bold tracking-[0.18em] uppercase text-tamay-accent/85">
               More Than Building Spaces — Building Better Lives
             </p>
           </div>
 
           {/* Right — curated image showcase */}
           <div className="min-w-0">
+            {/* DESKTOP LOCKED — approved kitchen + 3 supporting (unchanged) */}
             <div className="hidden lg:grid gap-3.5">
               <HeroImageCard
                 src={kitchen.src}
@@ -165,53 +205,37 @@ export function GalleryHero() {
               </div>
             </div>
 
-            <div className="hidden sm:grid lg:hidden gap-3.5">
-              <HeroImageCard
+            {/* MOBILE + TABLET — one integrated editorial collage */}
+            <div className="lg:hidden grid gap-1.5 sm:gap-2" aria-label="Project gallery showcase">
+              <MobileCollageTile
                 src={kitchen.src}
                 alt={kitchen.alt}
                 label={kitchen.label}
-                sublabel={kitchen.sublabel}
-                className="aspect-[16/10]"
+                className="aspect-[2/1] sm:aspect-[16/7]"
               />
-              <div className="grid grid-cols-2 gap-3.5">
-                {supporting.slice(0, 2).map((img) => (
-                  <HeroImageCard
-                    key={img.key}
-                    src={img.src}
-                    alt={img.alt}
-                    label={img.label}
-                    sublabel={img.sublabel}
-                    className="aspect-[4/3]"
-                  />
-                ))}
-              </div>
-              <HeroImageCard
-                src={supporting[2]!.src}
-                alt={supporting[2]!.alt}
-                label={supporting[2]!.label}
-                sublabel={supporting[2]!.sublabel}
-                className="aspect-[16/9]"
-              />
-            </div>
-
-            <div className="sm:hidden space-y-3.5">
-              {HERO_IMAGES.map((img) => (
-                <HeroImageCard
-                  key={img.key}
-                  src={img.src}
-                  alt={img.alt}
-                  label={img.label}
-                  sublabel={img.sublabel}
-                  className={img.featured ? "aspect-[16/10]" : "aspect-[16/11]"}
+              <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
+                <MobileCollageTile
+                  src={bathroom.src}
+                  alt={bathroom.alt}
+                  label={bathroom.label}
+                  className="aspect-[5/4] sm:aspect-[4/3]"
                 />
-              ))}
+                <MobileCollageTile
+                  src={interior.src}
+                  alt={interior.alt}
+                  label={interior.label}
+                  className="aspect-[5/4] sm:aspect-[4/3]"
+                />
+              </div>
+              <MobileCollageTile
+                src={exterior.src}
+                alt={exterior.alt}
+                label={exterior.label}
+                className="aspect-[2/1] sm:aspect-[16/7]"
+              />
             </div>
           </div>
         </div>
-
-        <p className="mt-9 sm:hidden font-heading text-[10px] font-bold tracking-[0.16em] uppercase text-tamay-accent/85 text-center">
-          More Than Building Spaces — Building Better Lives
-        </p>
       </div>
     </section>
   );
