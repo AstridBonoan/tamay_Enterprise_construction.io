@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { GalleryHero } from "@/components/gallery/GalleryHero";
+import { GalleryPromotionSection } from "@/components/gallery/GalleryPromotionSection";
 import { GalleryPhotoCarousel } from "@/components/gallery/GalleryPhotoCarousel";
 import { TamayVideoGallery } from "@/components/reviews/TamayVideoGallery";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SiteContactSection } from "@/components/ui/SiteContactSection";
-import { GALLERY_PROMOTION_VIDEO, GALLERY_VIDEO_PROJECTS } from "@/lib/galleryVideos";
+import { GALLERY_VIDEO_PROJECTS } from "@/lib/galleryVideos";
 import { GALLERY_PHOTO_SLOTS } from "@/lib/siteImageSlots";
 import { getResolvedSiteMedia, mediaSrc } from "@/lib/siteImages";
 import { buildSocialMetadata } from "@/lib/socialMetadata";
@@ -22,15 +23,7 @@ export default async function GalleryPage() {
     <>
       <GalleryHero />
 
-      <section className="py-14 bg-gray-50 px-4">
-        <div className="max-w-3xl mx-auto tamay-gallery-promo">
-          <TamayVideoGallery
-            projects={[GALLERY_PROMOTION_VIDEO]}
-            instanceId="gallery-promo"
-            showTitle
-          />
-        </div>
-      </section>
+      <GalleryPromotionSection />
 
       <section
         id="featured-projects"
